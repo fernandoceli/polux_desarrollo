@@ -187,7 +187,7 @@ class Formulario {
 				$atributos ['valor'] = '';
 			}
 			$atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
-			$atributos ['deshabilitado'] = false;
+			$atributos ['deshabilitado'] = true;
 			$atributos ['tamanno'] = 25;
 			$atributos ['maximoTamanno'] = '';
 			$tab ++;
@@ -269,11 +269,11 @@ class Formulario {
 			$atributos ['marco'] = true;
 			$atributos ['columnas'] = 1;
 			$atributos ['dobleLinea'] = false;
-			$atributos ['obligatorio'] = false;
-			$atributos ['etiquetaObligatorio'] = false;
+			$atributos ['obligatorio'] = true;
+			$atributos ['etiquetaObligatorio'] = true;
 			$atributos ['tabIndex'] = $tab;
 			$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-			$atributos ['validar'] = 'maxSize[100]';
+			$atributos ['validar'] = 'required, maxSize[100]';
 			
 			if (isset ( $_REQUEST [$esteCampo] )) {
 				$atributos ['valor'] = $_REQUEST [$esteCampo];
@@ -474,7 +474,7 @@ class Formulario {
 				// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 				
 				// -----------------CONTROL: Botón ----------------------------------------------------------------
-				$esteCampo = 'botonCancelar2';
+				$esteCampo = 'botonCancelar';
 				$atributos ["id"] = $esteCampo;
 				$atributos ["tabIndex"] = $tab;
 				$atributos ["tipo"] = 'boton';
@@ -484,7 +484,7 @@ class Formulario {
 				$atributos ["estiloBoton"] = '';
 				// verificar: true para verificar el formulario antes de pasarlo al servidor.
 				$atributos ["verificar"] = '';
-				$atributos ["tipoSubmit"] = ''; // Dejar vacio para un submit normal, en este caso se ejecuta la funciÃ³n submit declarada en ready.js
+				$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la funciÃ³n submit declarada en ready.js
 				$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
 				$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
 				$tab ++;
@@ -514,6 +514,7 @@ class Formulario {
 		// En este formulario se utiliza el mecanismo (b) para pasar las siguientes variables:
 		
 		// Paso 1: crear el listado de variables
+		
 		$valorCodificado = "action=" . $esteBloque ["nombre"]; //Ir pagina Funcionalidad
 		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );//Frontera mostrar formulario
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];

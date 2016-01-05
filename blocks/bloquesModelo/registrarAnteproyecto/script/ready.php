@@ -1,4 +1,4 @@
-$("#registrarAnteproyecto").validationEngine({
+$("#registrarAnteproyecto4").validationEngine({
 	promptPosition : "centerRight",
 	scroll: false,
 	autoHidePrompt: true,

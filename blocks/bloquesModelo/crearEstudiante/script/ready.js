@@ -33,3 +33,9 @@ $(function() {
 		event.preventDefault();
 	});
 });
+
+//$(function() {
+//	$("seleccionarTipoDocumento").button().click(function(event) {
+//		event.preventDefault();
+//	});
+//});

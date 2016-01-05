@@ -8,20 +8,18 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
 }
 class Redireccionador {
 	public static function redireccionar($opcion, $valor = "") {
-		
-	    $miConfigurador = \Configurador::singleton ();
+		$miConfigurador = \Configurador::singleton ();
 		
 		switch ($opcion) {
 			
 			case "opcion1" :
 				
 				$variable = 'pagina=segundaPagina';
-				$variable .= '&variable' . $valor;				
+				$variable .= '&variable' . $valor;
 				break;
-				
-			default:
-			    $variable='';
 			
+			default :
+				$variable = '';
 		}
 		foreach ( $_REQUEST as $clave => $valor ) {
 			unset ( $_REQUEST [$clave] );

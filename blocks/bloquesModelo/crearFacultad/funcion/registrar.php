@@ -10,14 +10,12 @@ class Registrar {
 	var $miFormulario;
 	var $miSql;
 	var $conexion;
-	var $miFuncion;
 	
-	function __construct($lenguaje, $sql, $funcion) {
+	function __construct($lenguaje, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		$this->miConfigurador->fabricaConexiones->setRecursoDB ( 'principal' );
 		$this->lenguaje = $lenguaje;
 		$this->miSql = $sql;
-		$this->miFuncion = $funcion;
 	}
 	
 	function procesarFormulario() {
@@ -50,7 +48,7 @@ class Registrar {
 	}
 }
 
-$miProcesador = new Registrar ( $this->lenguaje, $this->sql, $this->funcion );
+$miProcesador = new Registrar ( $this->lenguaje, $this->sql );
 
 $resultado = $miProcesador->procesarFormulario ();
 

@@ -17,6 +17,18 @@
                     },
                     "alertText": "* Field must equal test"
                 },
+                "minNumberChars": {
+                	"regex":  /^(?=.*\d{2})/,
+                	"alertText": "* Requiere al menos dos números"
+                },
+                "minLowerAlphaChars": {
+                	"regex": /^(.*[a-zA-Z].*){2}/,
+                	"alertText": "* Requiere al menos dos caracteres alfabéticos"
+                },
+                "passwordEquals": {
+                	"regex":"none",
+                	"alertText":"* Las contraseñas no coinciden"
+                },
                 "minSize": {
                     "regex": "none",
                     "alertText": "* Mínimo de ",

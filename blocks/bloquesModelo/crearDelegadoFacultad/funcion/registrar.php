@@ -26,16 +26,16 @@ class Registrar {
 		$resultado=null;
 		if($_REQUEST ['password']==$_REQUEST ['passConfirmado']){
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarUsuario', $_REQUEST );
-			var_dump ( $cadenaSql );
+// 			var_dump ( $cadenaSql );
 			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertarUs" );
 		}
 		
 		$cadenaSql2 = $this->miSql->getCadenaSql ( 'registrarPersona', $_REQUEST );
-		var_dump ( $cadenaSql2 );
+// 		var_dump ( $cadenaSql2 );
 		$resultado2 = $esteRecursoDB->ejecutarAcceso ( $cadenaSql2, "insertarPers" );
 		
 		$cadenaSql3 = $this->miSql->getCadenaSql ( 'registrarDelegado', $_REQUEST );
-		var_dump ( $cadenaSql3 );
+// 		var_dump ( $cadenaSql3 );
 		$resultado3 = $esteRecursoDB->ejecutarAcceso ( $cadenaSql3, "insertarDel" );
 		
 		if ($resultado) {

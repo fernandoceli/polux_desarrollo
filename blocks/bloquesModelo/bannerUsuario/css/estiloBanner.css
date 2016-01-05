@@ -1,0 +1,36 @@
+/*-------------------------Banner----------------------------------*/
+#banner {
+	position: static;
+	text-align: left;
+}
+
+#bannerDatos {
+	border-left: 1px dotted #ababab;
+	padding: 0 0 0 10px;
+	margin: 20px 0 0 0;
+	text-align:right;
+	float:right;
+	padding: 0px 3px 0px 5px;
+	color: #C20000;
+	/*font-family: poorRich;
+	font-size: 100%;
+	color: #2680FF;
+	font-weight: bold;
+	position: static;
+	text-align: left;*/
+}
+
+#bannerFecha {
+	padding: 0 0 0 10px;
+	margin: 0 16px 0 0;
+	text-align:right;
+	float:right;
+	padding: 0px 3px 0px 5px;
+	color: #C20000;
+	/*font-family: poorRich;
+	font-size: 100%;
+	color: #2680FF;
+	font-weight: bold;
+	position: static;
+	text-align: left;*/
+}

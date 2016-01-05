@@ -1,0 +1,45 @@
+#divPanelCentral {
+	position: relative;
+	top: 20px;
+	width: 99%;
+	height: 180px;
+	padding: 8px;
+	font-size: 12px;
+	font-family: "Arial", Verdana, Trebuchet MS, Helvetica, sans-serif;
+	z-index: 21;
+	float: left;
+}
+
+div.iconoPanelCentral {
+	height: 150px;
+	background: url(../imagen/escudo_ud.png) no-repeat center top;
+	z-index: 10;
+}
+
+div.tituloPanelCentral {
+	font-size: 70px;
+	font-family: 'Pacifico';
+	text-align: center;
+	border-color: #AAAAAA;
+	color: #C20000;
+	z-index: 20;
+}
+
+div.cuerpoPanelCentral {
+	font-family: Verdana;
+	text-align: center;
+	color: #555555;
+	font-size: 13px;
+}
+
+.retraso-1 {
+	-webkit-animation-delay: 1s;
+	-moz-animation-delay: 1s;
+	animation-delay: 1s;
+}
+
+.retraso-2 {
+	-webkit-animation-delay: 2s;
+	-moz-animation-delay: 2s;
+	animation-delay: 2s;
+}

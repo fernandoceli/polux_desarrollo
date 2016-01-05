@@ -257,11 +257,11 @@ class Formulario {
 		$atributos ['marco'] = true;
 		$atributos ['columnas'] = 1;
 		$atributos ['dobleLinea'] = false;
-		$atributos ['obligatorio'] = false;
-		$atributos ['etiquetaObligatorio'] = false;
+		$atributos ['obligatorio'] = true;
+		$atributos ['etiquetaObligatorio'] = true;
 		$atributos ['tabIndex'] = $tab;
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-		$atributos ['validar'] = '';
+		$atributos ['validar'] = 'required';
 		
 		if (isset ( $_REQUEST [$esteCampo] )) {
 			$atributos ['valor'] = $_REQUEST [$esteCampo];

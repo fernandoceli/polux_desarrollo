@@ -14,7 +14,7 @@ class redireccion {
 		switch ($opcion) {
 			
 			case "inserto" :
-				var_dump($opcion);
+// 				var_dump($opcion);
 				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=confirma";
@@ -22,7 +22,7 @@ class redireccion {
 				break;
 			
 			case "noInserto" :
-				var_dump($opcion);
+// 				var_dump($opcion);
 				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=error";

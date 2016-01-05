@@ -1,0 +1,255 @@
+body { /*font: 62.5% "Arial", sans-serif*/
+	font: 12px arial, helvetica, sans-serif;
+	margin: 1% 4%;
+	width: 100%;
+	color: #000;
+	min-width: 1000px;
+	overflow: auto;
+}
+
+h1 { /* font: 24px Georgia,"Times New Roman",Times,serif; */
+	font: 22px arial, helvetica, sans-serif;
+	font-weight: bold;
+	margin: 5px 10px 5px 10px;
+	padding-bottom: 5px;
+	/* 	border-bottom: 1px solid #5E5E5E; */
+}
+
+h2 {
+	font: 18px Georgia, "Times New Roman", Times, serif;
+	margin: 15px 20px 15px 25px;
+	padding-bottom: 5px;
+	border-bottom: 1px dotted #ccc;
+	color: #C20000;
+}
+
+h3 {
+	font: 14px arial, helvetica, sans-serif;
+	color: #18174D /*#C20000*/;
+	border-bottom: 1px dotted #aaa;
+	margin: 5px 10px;
+	padding: 2px 0;
+}
+
+.border-1px-gris {
+	border: 1px solid #ababab;
+}
+
+.resaltado {
+	color: #C20000;
+}
+
+.destacado {
+	padding: 6px;
+	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)
+		inset;
+	color: #000;
+}
+
+.margen-interna {
+	padding: 10px 10px;
+}
+
+.margen-externa {
+	margin: 10px 10px;
+}
+
+.corner {
+	border-radius: 5px;
+	/*-moz-border-radius: 5; for Firefox */
+}
+
+.semicorner {
+	border-radius: 5px 5px 0 0;
+	/*-moz-border-radius: 5 5 0 0; for Firefox */
+}
+
+.texto-normal {
+	color: #444;
+}
+
+b {
+	color: #000;
+}
+
+.separador {
+	height: 10px;
+}
+
+.shadow {
+	-webkit-box-shadow: 0px 0px 20px #000;
+	-moz-box-shadow: 0px 0px 20px #000;
+	box-shadow: 0px 0px 20px #333;
+}
+
+.clearboth {
+	height: 0px;
+	clear: both;
+}
+
+.table {
+	display: table;
+	width: 85%;
+	font: 12px arial, helvetica, sans-serif;
+	border: solid 1px #ababab;
+	border-collapse: collapse;
+	text-align: left;
+	background: #fff;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)
+		inset;
+	position: relative;
+	left: 25px;
+}
+
+.table-tittle {
+	background: #18174D /*#C20000*/;
+	color: #f3f3f3;
+	text-align: center;
+	border-collapse: collapse;
+	padding: 10px;
+}
+
+.table-tittle-gray {
+	background: #aaa;
+	color: #000;
+	text-align: center;
+	border-collapse: collapse;
+	padding: 10px;
+}
+
+.table-tittle-gray-light {
+	background: #ddd;
+	color: #000;
+	text-align: center;
+	border-collapse: collapse;
+	padding: 10px;
+}
+
+.table-tr-par .table-tr-impar {
+	border: none;
+	margin: 0 0 1px;
+}
+
+.table-tr-par {
+	background: rgb(233, 233, 233);
+}
+
+.table-tr-impar {
+	background: white;
+}
+
+.table td {
+	border-right: 1px solid #ababab;
+	padding: 6px 10px;
+}
+
+tr.table-fila-body:hover {
+	cursor: pointer;
+	background: #b5b8cf;
+}
+
+.bg-canvas {
+	margin: 10px 0;
+	/* box-shadow:0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) inset; */
+	/* border: 1px solid #ababab; */
+}
+
+.canvas {
+	margin: 10px 0;
+	padding: 0;
+	/* background: #f9f9f9 url(images/background/gris-degradado-1x300.png) 0 100% repeat-x; */
+}
+
+.canvas-titulo {
+	border-bottom: #777 solid 1px;
+	margin: 0 0 10px 0;
+}
+
+.canvas-contenido {
+	overflow: hidden;
+}
+
+.area-msg {
+	border: 1px solid #ababab;
+	position: relative;
+	left: 25px;
+	width: 83%;
+	background: #d4d4d4 url(images/background/gris-degradado-1x100.png) 0 0%
+		repeat-x;
+	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)
+		inset;
+	margin: 10px 0;
+}
+
+.icono-msg {
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	padding-left: 2px;
+}
+
+.icono-msg.error {
+	background: url(images/mensajes/cancel.png) 0 0 no-repeat;
+}
+
+.icono-msg.info {
+	background: url(images/mensajes/alert.png) 0 0 no-repeat;
+}
+
+.icono-msg.ok {
+	background: url(images/mensajes/ok.png) 0 0 no-repeat;
+}
+
+.icono-msg.default {
+	background: url(images/mensajes/alert.png) 0 0 no-repeat;
+}
+
+.content-msg {
+	margin: 5px 5px 5px 60px;
+	border: 1px solid #ccc;
+	padding: 10px 10px;
+	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)
+		inset;
+}
+
+.content-msg.error {
+	background: #F1F1F1;
+	color: #18174D /*#C20000*/;
+}
+
+.content-msg.info {
+	background: #FAFFBD 0 0 repeat-x;
+	color: #444;
+}
+
+.content-msg.ok {
+	background: #F1F1F1;
+	color: #45881D;
+}
+
+.content-msg.default {
+	background: #F1F1F1;
+	color: #444444;
+}
+
+.title-msg.error {
+	font: 16px arial, helvetica, sans-serif;
+	border-bottom: 1px dotted #777;
+}
+
+.title-msg.info {
+	font: 16px arial, helvetica, sans-serif;
+	border-bottom: 1px dotted #777;
+}
+
+.title-msg.ok {
+	font: 16px arial, helvetica, sans-serif;
+	border-bottom: 1px dotted #777;
+}
+
+.title-msg.default {
+	font: 16px arial, helvetica, sans-serif;
+	color: #000;
+	font-weight: bold;
+	border-bottom: 1px dotted #777;
+}

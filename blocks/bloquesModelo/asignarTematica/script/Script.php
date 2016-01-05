@@ -10,7 +10,7 @@ $funcion[$indice++]="jquery.validationEngine-es.js";
 $funcion[$indice++]="jquery.dataTables.js";
 $funcion[$indice++]="jquery.dataTables.min.js";
 $funcion[$indice++]="dataTables.jqueryui.min.js";
-
+$funcion [$indice ++] = "select2.js";
 
 $rutaBloque=$this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque.=$this->miConfigurador->getVariableConfiguracion("site");
