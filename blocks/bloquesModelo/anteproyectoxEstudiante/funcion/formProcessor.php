@@ -2,7 +2,7 @@
 
 namespace bloquesModelo\anteproyectoxEstudiante\funcion;
 
-include_once ('Redireccionador.php');
+include_once ('redireccionar.php');
 class FormProcessor {
 	var $miConfigurador;
 	var $lenguaje;
@@ -21,7 +21,7 @@ class FormProcessor {
 		
 		// Al final se ejecuta la redirección la cual pasará el control a otra página
 		$variable = 'cualquierDato';
-		Redireccionador::redireccionar ( 'opcion1', $variable );
+		redireccionar::redireccionar ( 'opcion1', $variable );
 	}
 	function resetForm() {
 		foreach ( $_REQUEST as $clave => $valor ) {

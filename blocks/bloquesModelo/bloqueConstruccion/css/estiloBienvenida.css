@@ -1,0 +1,16 @@
+
+.bg-home {
+    background: #fff url("rompecabezas.jpg") no-repeat scroll 100% 50%;
+    height: 350px;
+    width: 100%;
+}
+.info-home {
+    background: #fff none repeat scroll 0 0;
+    color: #555;
+    font: 26px Georgia,"Times New Roman",Times,serif;
+    margin: 20px 330px 0 5px;
+    text-align: left;
+}
+.info-home.resaltado {
+    color: #c20000;
+}

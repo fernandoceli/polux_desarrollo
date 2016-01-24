@@ -71,7 +71,7 @@ class Formulario {
 		
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
-		$atributos ['mensaje'] = 'Mis Pedientes';
+		$atributos ['mensaje'] = 'Mis Pendientes';
 		$atributos ['tamanno'] = 'Enorme';
 		$atributos ['linea'] = 'true';
 		echo $this->miFormulario->campoMensaje ( $atributos );

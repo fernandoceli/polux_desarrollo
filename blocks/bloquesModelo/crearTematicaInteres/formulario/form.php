@@ -214,6 +214,7 @@ class Formulario {
 		
 		$valorCodificado = "action=" . $esteBloque ["nombre"]; //Ir pagina Funcionalidad
 		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );//Frontera mostrar formulario
+		$valorCodificado .= "&usuario=" . $usuario;
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&opcion=registrar";

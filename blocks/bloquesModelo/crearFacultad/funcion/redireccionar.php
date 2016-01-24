@@ -18,6 +18,7 @@ class redireccion {
 				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=confirma";
+				$variable .= '&usuario=' . $_REQUEST ["usuario"];
 				//$variable .= "&facultad=" . $valor;
 				break;
 			
@@ -25,6 +26,7 @@ class redireccion {
 				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=error";
+				$variable .= '&usuario=' . $_REQUEST ["usuario"];
 				break;
 			
 			default :
@@ -41,9 +43,9 @@ class redireccion {
 		$variable = $miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
 		$_REQUEST [$enlace] = $enlace . '=' . $variable;
 		$redireccion = $url . $_REQUEST [$enlace];
-		
+
+		echo "<script>console.log(" . $redireccion . ")</script>";
 		echo "<script>location.replace('" . $redireccion . "')</script>";
-		
 		
 		return true;
 	}

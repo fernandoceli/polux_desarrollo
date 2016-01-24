@@ -10,7 +10,7 @@ class redireccion {
 	public static function redireccionar($opcion, $valor = "") {
 		$miConfigurador = \Configurador::singleton ();
 		$miPaginaActual = $miConfigurador->getVariableConfiguracion ( "pagina" );
-		
+		var_dump($_REQUEST);
 		switch ($opcion) {
 			
 			case "opcion1" :
@@ -22,6 +22,7 @@ class redireccion {
 			case "sel" :
 				$variable = "pagina=anteproyectoxEstudiante";
 				$variable .= '&variable=' . $_REQUEST["autor"];
+				$variable .= '&usuario=' . $_REQUEST ["usuario"];
 				// $variable .= "&opcion=mensaje";
 				// $variable .= "&mensaje=confirma";
 				break;

@@ -2,6 +2,7 @@
 $indice = 0;
 $estilo [$indice ++] = "estiloBloque.css";
 $estilo [$indice ++] = "validationEngine.jquery.css";
+$estilo [$indice ++] = "select2.css";
 
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion ( "host" );
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion ( "site" );

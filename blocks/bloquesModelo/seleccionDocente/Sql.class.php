@@ -125,15 +125,17 @@ class Sql extends \Sql {
 			
 			case 'buscarDocentes' :
 				$cadenaSql = "SELECT ";
-				$cadenaSql .= "d.prof_prof, ";
-				$cadenaSql .= "(p.pern_nomb || ' ' ||p.pern_papell || ' ' ||p.pern_sapell) AS  Nombre, ";
-				$cadenaSql .= "d.prof_pern ";
+				$cadenaSql .= "prof_prof, ";
+				$cadenaSql .= "nombre || ' ' || apellido AS Nombre ";
 				$cadenaSql .= "FROM ";
-				$cadenaSql .= "trabajosdegrado.ge_tprof d, ";
-				$cadenaSql .= "trabajosdegrado.ge_tpern p ";
+				$cadenaSql .= "polux_usuario ";
+				$cadenaSql .= "JOIN trabajosdegrado.ge_tprof ";
+				$cadenaSql .= "ON id_usuario = prof_us ";
 				$cadenaSql .= "WHERE ";
-				$cadenaSql .= "d.prof_tpvinc='Planta'";
-				$cadenaSql .= "and (d.prof_pern=p.pern_pern)";
+				$cadenaSql .= "prof_tpvinc='Planta' ";
+				$cadenaSql .= "OR ";
+				$cadenaSql .= "prof_tpvinc='Tco'";
+				// echo $cadenaSql;
 				break;
 		}
 		

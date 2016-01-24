@@ -10,7 +10,7 @@ if (!isset($GLOBALS["autorizado"])) {
     $directorio = $this->miConfigurador->getVariableConfiguracion("host");
     $directorio.= $this->miConfigurador->getVariableConfiguracion("site") . "/index.php?";
     $directorio.=$this->miConfigurador->getVariableConfiguracion("enlace");
-    $miSesion = Sesion::singleton();
+    //$miSesion = Sesion::singleton();
     $nombreFormulario = $esteBloque["nombre"];
     include_once("core/crypto/Encriptador.class.php");
     $cripto = Encriptador::singleton();
@@ -145,6 +145,7 @@ if (!isset($GLOBALS["autorizado"])) {
     $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );//Frontera mostrar formulario
     $valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
     $valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+    $valorCodificado .= "&usuario=" . $_REQUEST['usuario'];
     $valorCodificado .= "&opcion=continuar";
     
     $valorCodificado .= "&campoSeguro=" . $_REQUEST['tiempo'];

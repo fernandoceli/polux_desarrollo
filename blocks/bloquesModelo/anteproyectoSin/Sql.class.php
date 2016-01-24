@@ -32,8 +32,6 @@ class Sql extends \Sql {
 			 * Clausulas específicas
 			 */
 			case 'registrar' :
-				// $fechaNueva = date ( 'Y-m-d' );
-				// $descripcion = "descripcion";
 				
 				$cadenaSql = "INSERT INTO trabajosdegrado.ant_trev";
 				$cadenaSql .= "(";
@@ -51,41 +49,23 @@ class Sql extends \Sql {
 				// var_dump ( $cadenaSql );
 				break;
 			
-			case 'buscarRegistro' :
-				
-				$cadenaSql = 'SELECT ';
-				$cadenaSql .= 'id_pagina as PAGINA, ';
-				$cadenaSql .= 'nombre as NOMBRE, ';
-				$cadenaSql .= 'descripcion as DESCRIPCION,';
-				$cadenaSql .= 'modulo as MODULO,';
-				$cadenaSql .= 'nivel as NIVEL,';
-				$cadenaSql .= 'parametro as PARAMETRO ';
-				$cadenaSql .= 'FROM ';
-				$cadenaSql .= $prefijo . 'pagina ';
-				$cadenaSql .= 'WHERE ';
-				$cadenaSql .= 'nombre=\'' . $_REQUEST ['nombrePagina'] . '\' ';
-				break;
-			
 			case 'buscarAnteproyectos' :
-				
 				$cadenaSql = 'SELECT ';
-				$cadenaSql .= 'antp_fradi as FECHA, ';
-				$cadenaSql .= 'antp_antp as ANTEPROYECTO, ';
-				$cadenaSql .= 'moda_nombre as MODALIDAD, ';
-				$cadenaSql .= 'antp_titu as TITULO, ';
-				$cadenaSql .= 'antp_eantp as ESTADO ';
+				$cadenaSql .= 'a.antp_fradi as FECHA, ';
+				$cadenaSql .= 'a.antp_antp as ANTEPROYECTO, ';
+				$cadenaSql .= 'm.moda_nombre as MODALIDAD, ';
+				$cadenaSql .= 'a.antp_titu as TITULO, ';
+				$cadenaSql .= 'a.antp_eantp as ESTADO ';
 				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado.ant_testantp ';
-				$cadenaSql .= 'JOIN trabajosdegrado.ge_testd ';
-				$cadenaSql .= 'ON estantp_estd = estd_estd ';
-				$cadenaSql .= 'JOIN trabajosdegrado.ant_tantp ';
-				$cadenaSql .= 'ON estantp_antp = antp_antp ';
-				$cadenaSql .= 'JOIN trabajosdegrado.ge_tmoda ';
-				$cadenaSql .= 'ON antp_moda = moda_moda ';
+				$cadenaSql .= 'trabajosdegrado.ant_tantp a, ';
+				$cadenaSql .= 'trabajosdegrado.ge_tmoda m ';
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= "antp_eantp='RADICADO'";
-				//echo $cadenaSql;
+				$cadenaSql .= "and a.antp_moda=m.moda_moda";
+				// echo $cadenaSql;
 				break;
+				
+				
 			
 			case 'buscarAnteproyecto' :
 				
@@ -144,9 +124,7 @@ class Sql extends \Sql {
 			
 			case 'buscarNombresTematicas' :
 				$cadenaSql = "SELECT ";
-				$cadenaSql .= "acono_acono, ";
-				$cadenaSql .= "acono_nom AS  Nombre ";
-				
+				$cadenaSql .= "acono_nom AS Nombre ";
 				$cadenaSql .= "FROM ";
 				$cadenaSql .= "trabajosdegrado.ge_tacono ";
 				$cadenaSql .= "WHERE ";
@@ -157,15 +135,15 @@ class Sql extends \Sql {
 			case 'buscarNombresAutores' :
 				$cadenaSql = "SELECT ";
 				$cadenaSql .= "e.estd_estd, ";
-				$cadenaSql .= "(p.pern_nomb || ' ' ||p.pern_papell || ' ' ||p.pern_sapell) AS  Nombre, ";
-				$cadenaSql .= "e.estd_pern ";
+				$cadenaSql .= "(u.nombre || ' ' ||u.apellido) AS  Nombre, ";
+				$cadenaSql .= "e.estd_us ";
 				
 				$cadenaSql .= "FROM ";
 				$cadenaSql .= "trabajosdegrado.ge_testd e, ";
-				$cadenaSql .= "trabajosdegrado.ge_tpern p ";
+				$cadenaSql .= "public.polux_usuario u ";
 				$cadenaSql .= "WHERE ";
 				$cadenaSql .= "e.estd_estd='" . $variable . "'";
-				$cadenaSql .= "and e.estd_pern=p.pern_pern";
+				$cadenaSql .= " and e.estd_us =u.id_usuario";
 				// echo $cadenaSql;
 				break;
 			
@@ -173,38 +151,40 @@ class Sql extends \Sql {
 				
 				$cadenaSql = "SELECT ";
 				$cadenaSql .= "d.prof_prof, ";
-				$cadenaSql .= "(p.pern_nomb || ' ' ||p.pern_papell || ' ' ||p.pern_sapell) AS  Nombre, ";
-				$cadenaSql .= "d.prof_pern ";
-				
+				$cadenaSql .= "(u.nombre || ' ' ||u.apellido) AS  Nombre, ";
+				$cadenaSql .= "d.prof_us ";
 				$cadenaSql .= "FROM ";
-				$cadenaSql .= "trabajosdegrado.ge_tprof d, ";
-				$cadenaSql .= "trabajosdegrado.ge_tpern p ";
+				$cadenaSql .= "public.polux_usuario u, ";
+				$cadenaSql .= "trabajosdegrado.ge_tprof d ";
 				$cadenaSql .= "WHERE ";
 				$cadenaSql .= "d.prof_prof='" . $variable . "'";
-				$cadenaSql .= "and (d.prof_pern=p.pern_pern)";
+				$cadenaSql .= "and (d.prof_us=u.id_usuario";
+				$cadenaSql .= ")";
+				// echo $cadenaSql;
 				break;
 			
 			case 'buscarDocentes' :
 				
 				$cadenaSql = "SELECT ";
 				$cadenaSql .= "d.prof_prof, ";
-				$cadenaSql .= "(p.pern_nomb || ' ' ||p.pern_papell || ' ' ||p.pern_sapell) AS  Nombre, ";
-				$cadenaSql .= "d.prof_pern ";
-				
+				$cadenaSql .= "(u.nombre || ' ' ||u.apellido) AS  Nombre, ";
+				$cadenaSql .= "d.prof_us ";
 				$cadenaSql .= "FROM ";
-				$cadenaSql .= "trabajosdegrado.ge_tprof d, ";
-				$cadenaSql .= "trabajosdegrado.ge_tpern p ";
+				$cadenaSql .= "public.polux_usuario u, ";
+				$cadenaSql .= "trabajosdegrado.ge_tprof d ";
 				$cadenaSql .= "WHERE ";
-				$cadenaSql .= "d.prof_tpvinc='Planta'";
-				$cadenaSql .= "and (d.prof_pern=p.pern_pern)";
+				$cadenaSql .= "d.prof_tpvinc='Planta' ";
+				$cadenaSql .= "and (d.prof_us=u.id_usuario)";
+				//para que no salga el docente director
+				$cadenaSql .= "and (d.prof_prof <> (SELECT a.antp_dir_int FROM trabajosdegrado.ant_tantp a WHERE antp_antp='" . $_REQUEST ['id'] . "')) ";
+				//echo $cadenaSql;
 				break;
-			
 			
 			case "actualizarEstado" :
 				$cadenaSql = " UPDATE trabajosdegrado.ant_tantp ";
 				$cadenaSql .= " SET antp_eantp= 'REVISORES ASIGNADOS'";
 				$cadenaSql .= " WHERE antp_antp='" . $_REQUEST ['anteproyecto'] . "' ";
-				//echo $cadenaSql;
+				// echo $cadenaSql;
 				break;
 		}
 		

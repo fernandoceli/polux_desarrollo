@@ -10,8 +10,9 @@ class Formulario {
 	var $miConfigurador;
 	var $lenguaje;
 	var $miFormulario;
-	
-	function __construct($lenguaje, $formulario) {
+	var $miSql;
+	var $miSesion;
+	function __construct($lenguaje, $formulario, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		
 		$this->miConfigurador->fabricaConexiones->setRecursoDB ( 'principal' );
@@ -19,6 +20,10 @@ class Formulario {
 		$this->lenguaje = $lenguaje;
 		
 		$this->miFormulario = $formulario;
+		
+		$this->miSql = $sql;
+		
+		$this->miSesion = \Sesion::singleton ();
 	}
 	function formulario() {
 		
@@ -65,6 +70,13 @@ class Formulario {
 		$atributos ['marco'] = true;
 		$tab = 1;
 		// ---------------- FIN SECCION: de Parámetros Generales del Formulario ----------------------------
+
+		$usuario = $this->miSesion->getSesionUsuarioId ();
+		if (! isset ( $_REQUEST ['usuario'] )) {
+			if ($usuario) {
+				$_REQUEST ['usuario'] = $usuario;
+			}
+		}
 		
 		// ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
 		$atributos ['tipoEtiqueta'] = 'inicio';
@@ -312,6 +324,7 @@ class Formulario {
 		
 		$valorCodificado = "action=" . $esteBloque ["nombre"]; //Ir pagina Funcionalidad
 		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );//Frontera mostrar formulario
+		$valorCodificado .= "&usuario=" . $usuario;
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&opcion=registrar";
@@ -379,7 +392,7 @@ class Formulario {
 	}
 }
 
-$miFormulario = new Formulario ( $this->lenguaje, $this->miFormulario );
+$miFormulario = new Formulario ( $this->lenguaje, $this->miFormulario, $this->sql);
 
 $miFormulario->formulario ();
 $miFormulario->mensaje ();

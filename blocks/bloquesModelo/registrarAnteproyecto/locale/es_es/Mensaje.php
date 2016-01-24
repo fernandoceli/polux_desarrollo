@@ -28,6 +28,7 @@ $this->idioma["observacionesTitulo"]="Observaciones del anteproyecto";
 $this->idioma["botonIngresar"]="Ingresar";
 $this->idioma["botonAceptar"]="Aceptar";
 $this->idioma["botonCancelar"]="Cancelar";
+
 $this->idioma["noDefinido"]="No definido";
 $this->idioma["botonIngresar"]="Ingresar";
 $this->idioma["botonAgregar"]="Agregar";

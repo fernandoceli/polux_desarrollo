@@ -21,6 +21,7 @@ if($esteBloque["grupo"]==""){
 	$rutaBloque.="/blocks/".$esteBloque["grupo"]."/".$esteBloque["nombre"];
 }
 
+$_REQUEST['tiempo']=time();
 
 foreach ($funcion as $clave=>$nombre){
 	if(!isset($embebido[$clave])){

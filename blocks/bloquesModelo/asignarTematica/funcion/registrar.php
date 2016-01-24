@@ -23,12 +23,72 @@ class Registrar {
 		$conexion = "estructura";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'asignarTematica', $_REQUEST );
-		var_dump ( $cadenaSql );
-		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "asignar" );
+		$codTematicas = array ();
+		$tematicas = $_REQUEST ['nombresTematicas'];
+		
+		$porciones = explode ( ";", $tematicas );
+		
+		for($i = 0; $i < $_REQUEST ['numTematicas']; $i ++) {
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarCodigosTematicas", $porciones [$i] );
+			$matrizItems2 = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+			
+			array_push ( $codTematicas, $matrizItems2 [0] [0] );
+		}
+		
+		var_dump ( $codTematicas );
+		var_dump ( $_REQUEST );
+		
+		$elim = array ();
+		
+		$cadenaSql0 = $this->miSql->getCadenaSql ( 'buscarActuales', $_REQUEST ['docente'] );
+		$resultadoItems = $esteRecursoDB->ejecutarAcceso ( $cadenaSql0, "busqueda" );
+		
+		foreach ( $resultadoItems as $clave => $valor ) {
+			// echo "clave $clave y valor $valor[0]";
+			if (in_array ( $valor [0], $codTematicas )) {
+				$pos = array_search ( $valor [0], $codTematicas );
+				unset ( $codTematicas [$pos] );
+			} else {
+				array_push ( $elim, $valor [0] );
+			}
+		}
+		
+		var_dump ( $elim );
+		
+		
+		if ($elim) {
+			$_REQUEST ['numTematicasElim'] = count ( $elim );
+			$cadenaSql = $this->miSql->getCadenaSql ( "quitarTematica", $elim );
+			echo $cadenaSql;
+			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "eliminar" );
+		}
+		
+		
+		$cods = array ();
+		$num = 0;
+		for($i = 0; $i < $_REQUEST ['numTematicas']; $i ++) {
+			if (isset ( $codTematicas [$i] )) {
+				array_push ( $cods, $codTematicas [$i] );
+				$num ++;
+			}
+		}
+		$_REQUEST ['numTematicas'] = $num;
+		
+		var_dump ( $codTematicas );
+		var_dump ( $cods );
+		var_dump ( $resultado );
+		var_dump ( $_REQUEST );
+// 		exit ();
+		
+		if ($cods) {
+			$cadenaSql = $this->miSql->getCadenaSql ( "asignarTematica", $cods );
+			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "asignar" );
+		} else {
+			$resultado = true;
+		}
 		
 		if ($resultado) {
-			redireccion::redireccionar ( 'inserto', $_REQUEST ['docente'] . $_REQUEST ['areas'] );
+			redireccion::redireccionar ( 'inserto', $_REQUEST ['docente'] . $_REQUEST ['nombresTematicas'] );
 			exit ();
 		} else {
 			redireccion::redireccionar ( 'noInserto' );

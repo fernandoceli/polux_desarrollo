@@ -67,7 +67,7 @@ class Funcion {
             $this->procesarAjax ();
         } 
         else if (isset ( $_REQUEST ["opcion"] )) {
-        
+        	
         	switch ($_REQUEST ["opcion"]) {
         
         		case 'registrar' :

@@ -16,40 +16,90 @@ class Registrar {
 		$this->miSql = $sql;
 	}
 	function procesarFormulario() {
-		
-		// Aquí va la lógica de procesamiento
-		
-		// Al final se ejecuta la redirección la cual pasará el control a otra página
+		// ///////////////////////////////////
 		$conexion = "estructura";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
-		$resultado=null;
-		if($_REQUEST ['password']==$_REQUEST ['passConfirmado']){
-			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarUsuario', $_REQUEST );
-			var_dump ( $cadenaSql );
-			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertarUs" );
+		$caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+		$num = '1234567890';
+		$caracter = '=_#$-';
+		$numerodeletras = 5;
+		$pass = "";
+		$keycar = $keyNum = "";
+		for($i = 0; $i < $numerodeletras; $i ++) {
+			$pass .= substr ( $caracteres, rand ( 0, strlen ( $caracteres ) ), 1 );
 		}
 		
-		$cadenaSql2 = $this->miSql->getCadenaSql ( 'registrarPersona', $_REQUEST );
-		var_dump ( $cadenaSql2 );
-		$resultado2 = $esteRecursoDB->ejecutarAcceso ( $cadenaSql2, "insertarPers" );
+		$maxCar = strlen ( $caracter ) - 1;
+		$maxNum = strlen ( $num ) - 1;
 		
-		$cadenaSql3 = $this->miSql->getCadenaSql ( 'registrarDelegado', $_REQUEST );
-		var_dump ( $cadenaSql3 );
-		$resultado3 = $esteRecursoDB->ejecutarAcceso ( $cadenaSql3, "insertarDel" );
+		for($j = 0; $j < 1; $j ++) {
+			$keycar .= $caracter {mt_rand ( 0, $maxCar )};
+		}
+		for($k = 0; $k < 2; $k ++) {
+			$keyNum .= $num {mt_rand ( 0, $maxNum )};
+		}
+		$pass = $pass . $keycar . $keyNum;
+		$password = $this->miConfigurador->fabricaConexiones->crypto->codificarClave ( $pass );
+		$hoy = date ( "Y-m-d" );
+		$arregloDatos = array (
+				'id_usuario' => $_REQUEST ['seleccionarTipoDocumento'] . $_REQUEST ['numeroDocIdentidad'],
+				'nombres' => $_REQUEST ['nombreDelegado'],
+				'apellidos' => $_REQUEST ['apellidos'],
+				'correo' => $_REQUEST ['emailDelegado'],
+				'telefono' => $_REQUEST ['telefono'],
+				'subsistema' => $_REQUEST ['subsistema'],
+				'perfil' => $_REQUEST ['perfil'],
+				'password' => $password,
+				'pass' => $pass,
+				'fechaIni' => $hoy,
+				'fechaFin' => $_REQUEST ['fechaFin'],
+				'identificacion' => $_REQUEST ['numeroDocIdentidad'],
+				'tipo_identificacion' => $_REQUEST ['seleccionarTipoDocumento'],
+				//delegado facultad
+				'secretaria' => $_REQUEST ['secretaria'],
+				'codigo' => $_REQUEST ['codigoDelegado']
+		);
 		
-		if ($resultado) {
-			if ($resultado2) {
-				redireccion::redireccionar ( 'inserto' );
+		$this->cadena_sql = $this->miSql->getCadenaSql ( "consultarUsuarios", $arregloDatos );
+		$resultadoUsuario = $esteRecursoDB->ejecutarAcceso ( $this->cadena_sql, "busqueda" );
+		if (! $resultadoUsuario) {
+			$this->cadena_sql = $this->miSql->getCadenaSql ( "insertarUsuario", $arregloDatos );
+			$resultadoEstado = $esteRecursoDB->ejecutarAcceso ( $this->cadena_sql, "acceso" );
+			if ($resultadoEstado) {
+				$this->cadena_sql = $this->miSql->getCadenaSql ( "insertarPerfilUsuario", $arregloDatos );
+				$resultadoPerfil = $esteRecursoDB->ejecutarAcceso ( $this->cadena_sql, "acceso" );
+		
+				// insertar los datos del delegado
+				$this->cadena_sql = $this->miSql->getCadenaSql ( "registrarDelegado", $arregloDatos );
+				$resultadoPerfil = $esteRecursoDB->ejecutarAcceso ( $this->cadena_sql, "acceso" );
+		
+				$parametro ['id_usuario'] = $arregloDatos ['id_usuario'];
+				$cadena_sql = $this->miSql->getCadenaSql ( "consultarPerfilUsuario", $parametro );
+				$resultadoPerfil = $esteRecursoDB->ejecutarAcceso ( $cadena_sql, "busqueda" );
+		
+				$log = array (
+						'accion' => "REGISTRO",
+						'id_registro' => $_REQUEST ['seleccionarTipoDocumento'] . $_REQUEST ['numeroDocIdentidad'],
+						'tipo_registro' => "GESTION USUARIO",
+						'nombre_registro' => "id_usuario=>" . $_REQUEST ['seleccionarTipoDocumento'] . $_REQUEST ['numeroDocIdentidad'] . "|identificacion=>" . $_REQUEST ['numeroDocIdentidad'] . "|tipo_identificacion=>" . $_REQUEST ['seleccionarTipoDocumento'] . "|nombres=>" . $_REQUEST ['nombreDelegado'] . "|apellidos=>" . $_REQUEST ['apellidos'] . "|correo=>" . $_REQUEST ['emailDelegado'] . "|telefono=>" . $_REQUEST ['telefono'] . "|subsistema=>" . $_REQUEST ['subsistema'] . "|perfil=>" . $_REQUEST ['perfil'] . "|fechaIni=>" . $hoy . "|fechaFin=>" . $_REQUEST ['fechaFin'],
+						'descripcion' => "Registro de nuevo Usuario " . $_REQUEST ['seleccionarTipoDocumento'] . $_REQUEST ['numeroDocIdentidad'] . " con perfil " . $resultadoPerfil [0] ['rol_alias']
+				);
+				// no funiona
+				// $this->miLogger->log_usuario ( $log );
+				$arregloDatos ['perfilUs'] = $resultadoPerfil [0] ['rol_alias'];
+				redireccion::redireccionar ( 'inserto', $arregloDatos );
 				exit ();
 			} else {
-				redireccion::redireccionar ( 'noInserto' );
+				redireccion::redireccionar ( 'noInserto', $arregloDatos );
 				exit ();
 			}
 		} else {
-			redireccion::redireccionar ( 'noInserto' );
+			redireccion::redireccionar ( 'existe', $arregloDatos );
 			exit ();
 		}
+		
+		// ////////////////////////////////////
 	}
 	function resetForm() {
 		foreach ( $_REQUEST as $clave => $valor ) {

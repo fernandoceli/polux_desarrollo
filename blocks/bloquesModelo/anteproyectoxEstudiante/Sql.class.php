@@ -89,24 +89,24 @@ class Sql extends \Sql {
 			case 'buscarEstudiante' :
 				
 				$cadenaSql = 'SELECT ';
-				$cadenaSql .= 'pern_nomb || \' \' || pern_papell || \' \' || pern_sapell AS  Nombre ';
+				$cadenaSql .= 'nombre || \' \' || apellido AS  Nombre ';
 				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado.ge_testd ';
-				$cadenaSql .= 'JOIN trabajosdegrado.ge_tpern ';
-				$cadenaSql .= 'ON estd_pern = pern_pern ';
+				$cadenaSql .= 'polux_usuario ';
+				$cadenaSql .= 'JOIN trabajosdegrado.ge_testd ';
+				$cadenaSql .= 'ON id_usuario = estd_us ';
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'estd_estd=\'' . $variable . '\' ';
-// 				echo $cadenaSql;
+				// echo $cadenaSql;
 				break;
 			
-			case 'buscarAnteproyecto' :
+			case 'buscarAnteproyectos' :
 				
 				$cadenaSql = 'SELECT ';
-				$cadenaSql .= 'antp_fradi, ';
-				$cadenaSql .= 'antp_antp, ';
-				$cadenaSql .= 'moda_nombre, ';
-				$cadenaSql .= 'antp_titu, ';
-				$cadenaSql .= 'antp_eantp ';
+				$cadenaSql .= 'antp_fradi as FECHA, ';
+				$cadenaSql .= 'antp_antp as ANTEPROYECTO, ';
+				$cadenaSql .= 'moda_nombre as MODALIDAD, ';
+				$cadenaSql .= 'antp_titu as TITULO, ';
+				$cadenaSql .= 'antp_eantp as ESTADO ';
 				$cadenaSql .= 'FROM ';
 				$cadenaSql .= 'trabajosdegrado.ant_testantp ';
 				$cadenaSql .= 'JOIN trabajosdegrado.ge_testd ';
@@ -116,7 +116,31 @@ class Sql extends \Sql {
 				$cadenaSql .= 'JOIN trabajosdegrado.ge_tmoda ';
 				$cadenaSql .= 'ON antp_moda = moda_moda ';
 				$cadenaSql .= 'WHERE ';
-				$cadenaSql .= 'estd_usua=\'' . $variable . '\' ';
+				$cadenaSql .= 'estd_estd=\'' . $variable . '\' ';
+				// $cadenaSql .= 'WHERE '; $cadenaSql .= ''
+				// $cadenaSql .= 'estado=\'RADICADO\' OR estado=\'ASIGNADO REVISORES\'';
+				// $cadenaSql .= 'nombre=\'' . $_REQUEST ['nombrePagina'] . '\' ';
+				// echo $cadenaSql;
+				break;
+			
+			case 'buscarAnteproyecto' :
+				
+				$cadenaSql = 'SELECT ';
+				$cadenaSql .= 'antp_fradi as FECHA, ';
+				$cadenaSql .= 'antp_antp as ANTEPROYECTO, ';
+				$cadenaSql .= 'moda_nombre as MODALIDAD, ';
+				$cadenaSql .= 'antp_titu as TITULO, ';
+				$cadenaSql .= 'antp_eantp as ESTADO ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.ant_testantp ';
+				$cadenaSql .= 'JOIN trabajosdegrado.ge_testd ';
+				$cadenaSql .= 'ON estantp_estd = estd_estd ';
+				$cadenaSql .= 'JOIN trabajosdegrado.ant_tantp ';
+				$cadenaSql .= 'ON estantp_antp = antp_antp ';
+				$cadenaSql .= 'JOIN trabajosdegrado.ge_tmoda ';
+				$cadenaSql .= 'ON antp_moda = moda_moda ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'antp_antp=\'' . $variable . '\' ';
 				// $cadenaSql .= 'WHERE '; $cadenaSql .= ''
 				// $cadenaSql .= 'estado=\'RADICADO\' OR estado=\'ASIGNADO REVISORES\'';
 				// $cadenaSql .= 'nombre=\'' . $_REQUEST ['nombrePagina'] . '\' ';
@@ -141,6 +165,20 @@ class Sql extends \Sql {
 				$cadenaSql .= $_REQUEST ['nivelPagina'] . ', ';
 				$cadenaSql .= '\'' . $_REQUEST ['parametroPagina'] . '\'';
 				$cadenaSql .= ') ';
+				break;
+			
+			case 'consultarRol' :
+				$cadenaSql = 'SELECT rol_nombre ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'polux_usuario u ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'polux_usuario_subsistema us ';
+				$cadenaSql .= 'ON u.id_usuario::varchar = us.id_usuario ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'polux_rol r ';
+				$cadenaSql .= 'ON us.rol_id = r.rol_id ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'u.id_usuario=\'' . $variable . '\' ';
 				break;
 		}
 		

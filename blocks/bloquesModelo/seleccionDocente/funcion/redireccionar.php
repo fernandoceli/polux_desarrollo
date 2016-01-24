@@ -22,6 +22,7 @@ class redireccion {
 			case "dirigidos" :
 				$variable = "pagina=anteDirigidos";
 				$variable .= '&variable=' . $_REQUEST ["docente"];
+				$variable .= '&usuario=' . $_REQUEST ["usuario"];
 				// $variable .= "&opcion=mensaje";
 				// $variable .= "&mensaje=confirma";
 				break;
@@ -29,6 +30,15 @@ class redireccion {
 			case "revision" :
 				$variable = "pagina=anteproyectoAsignadoRevision";
 				$variable .= '&variable=' . $_REQUEST ["docente"];
+				$variable .= '&usuario=' . $_REQUEST ["usuario"];
+				// $variable .= "&opcion=mensaje";
+				// $variable .= "&mensaje=confirma";
+				break;
+			
+			case "sols" :
+				$variable = "pagina=solRevAnteproyecto";
+				$variable .= '&variable=' . $_REQUEST ["docente"];
+				$variable .= '&usuario=' . $_REQUEST ["usuario"];
 				// $variable .= "&opcion=mensaje";
 				// $variable .= "&mensaje=confirma";
 				break;
@@ -44,7 +54,7 @@ class redireccion {
 		
 		$enlace = $miConfigurador->configuracion ['enlace'];
 		var_dump ( $variable );
-		var_dump($_REQUEST);
+		var_dump ( $_REQUEST );
 		$variable = $miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
 		$_REQUEST [$enlace] = $enlace . '=' . $variable;
 		$redireccion = $url . $_REQUEST [$enlace];

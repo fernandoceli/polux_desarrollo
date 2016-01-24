@@ -30,92 +30,23 @@ class Sql extends \Sql {
 			/**
 			 * Clausulas específicas
 			 */
-			case 'registrarPersona' :
-				$cadenaSql = 'INSERT INTO trabajosdegrado.ge_tpern';
-				$cadenaSql .= '(';
-				$cadenaSql .= 'pern_nomb,';
-				$cadenaSql .= 'pern_papell,';
-				$cadenaSql .= 'pern_sapell,';
-				$cadenaSql .= 'pern_tdoc,';
-				$cadenaSql .= 'pern_doc';
-				$cadenaSql .= ') ';
-				$cadenaSql .= 'VALUES ';
-				$cadenaSql .= '(';
-				$cadenaSql .= '\'' . $_REQUEST ['nombreEstudiante'] . '\', ';
-				$cadenaSql .= '\'' . $_REQUEST ['primerApellido'] . '\', ';
-				$cadenaSql .= '\'' . $_REQUEST ['segundoApellido'] . '\', ';
-				$cadenaSql .= $_REQUEST ['seleccionarTipoDocumento'] . ', ';
-				$cadenaSql .= $_REQUEST ['numeroDocIdentidad'] . ' ';
-				$cadenaSql .= ') ';
-				echo $cadenaSql;
-				var_dump($cadenaSql);
-				break;
-
-			case 'registrarUsuario' :
-				$cadenaSql = 'INSERT INTO trabajosdegrado.aut_tusua';
-				$cadenaSql .= '(';
-				$cadenaSql .= 'usua_usua,';
-				$cadenaSql .= 'usua_clave,';
-				$cadenaSql .= 'usua_mail';
-				$cadenaSql .= ') ';
-				$cadenaSql .= 'VALUES ';
-				$cadenaSql .= '(';
-				$cadenaSql .= '\'' . $_REQUEST ['codigoEstudiante'] . '\', ';
-				$cadenaSql .= '\'' . $_REQUEST ['password'] . '\', ';
-				$cadenaSql .= '\'' . $_REQUEST ['emailEstudiante'] . '\' ';
-				$cadenaSql .= ') ';
-				$cadenaSql .= " RETURNING usua_usua";
-				break;
 			
 			case 'registrarEstudiante' :
 				$cadenaSql = 'INSERT INTO trabajosdegrado.ge_testd';
 				$cadenaSql .= '(';
 				$cadenaSql .= 'estd_estd,';
-				$cadenaSql .= 'estd_pern,';
+				$cadenaSql .= 'estd_us,';
 				$cadenaSql .= 'estd_pcur,';
-				$cadenaSql .= 'estd_sem,';
-				$cadenaSql .= 'estd_usua';
+				$cadenaSql .= 'estd_sem';
 				$cadenaSql .= ') ';
 				$cadenaSql .= 'VALUES ';
 				$cadenaSql .= '(';
-				
-				$cadenaSql .= $_REQUEST ['codigoEstudiante'] . ', ';
-				$cadenaSql .= '(SELECT ';
-				$cadenaSql .= 'pern_pern ';
-				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado.ge_tpern ';
-				$cadenaSql .= 'WHERE ';
-				$cadenaSql .= 'pern_doc=\'' . $_REQUEST ['numeroDocIdentidad'] . '\'), ';
-				$cadenaSql .= $_REQUEST ['seleccionarProgramaCurricular'] . ', ';
-				$cadenaSql .= $_REQUEST ['semestre']. ', ';
-				
-				$cadenaSql .= '(SELECT ';
-				$cadenaSql .= 'usua_usua ';
-				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado.aut_tusua ';
-				$cadenaSql .= 'WHERE ';
-				$cadenaSql .= 'usua_usua=\'' . $_REQUEST ['codigoEstudiante'] . '\') ';
+				$cadenaSql .= $variable ['codigo'] . ', ';
+				$cadenaSql .= " '" . $variable ['id_usuario'] . "', ";
+				$cadenaSql .= $variable ['programaCurricular'] . ', ';
+				$cadenaSql .= $variable ['semestre'] . ' ';
 				$cadenaSql .= ')';
-				break;
-			
-			case 'actualizarRegistro' :
-				$cadenaSql = 'INSERT INTO ';
-				$cadenaSql .= $prefijo . 'pagina ';
-				$cadenaSql .= '( ';
-				$cadenaSql .= 'nombre,';
-				$cadenaSql .= 'descripcion,';
-				$cadenaSql .= 'modulo,';
-				$cadenaSql .= 'nivel,';
-				$cadenaSql .= 'parametro';
-				$cadenaSql .= ') ';
-				$cadenaSql .= 'VALUES ';
-				$cadenaSql .= '( ';
-				$cadenaSql .= '\'' . $_REQUEST ['nombrePagina'] . '\', ';
-				$cadenaSql .= '\'' . $_REQUEST ['descripcionPagina'] . '\', ';
-				$cadenaSql .= '\'' . $_REQUEST ['moduloPagina'] . '\', ';
-				$cadenaSql .= $_REQUEST ['nivelPagina'] . ', ';
-				$cadenaSql .= '\'' . $_REQUEST ['parametroPagina'] . '\'';
-				$cadenaSql .= ') ';
+				//var_dump($cadenaSql);
 				break;
 			
 			case 'buscarProgramasCurriculares' :
@@ -127,51 +58,177 @@ class Sql extends \Sql {
 				$cadenaSql .= 'trabajosdegrado.ge_tpcur';
 				break;
 			
-			case 'buscarTipoDocumento' :
-				
-				$cadenaSql = 'SELECT ';
-				$cadenaSql .= 'tdoc_tdoc as CODIGO, ';
-				$cadenaSql .= 'tdoc_doc as TIPO ';
-				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado.ge_ttdoc';
+			case "subsistema" :
+				$tam = count ( $variable );
+				$aux = 1;
+				$cadenaSql = "SELECT  id_subsistema, etiketa ";
+				$cadenaSql .= "FROM " . $prefijo . "subsistema ";
+				$cadenaSql .= "WHERE  ";
+				$cadenaSql .= " id_subsistema ";
+				if ($tam > 1) {
+					$cadenaSql .= " IN ( ";
+					foreach ( $variable as $value ) {
+						$cadenaSql .= $value;
+						$aux < $tam ? $cadenaSql .= ',' : '';
+						$aux ++;
+					}
+					$cadenaSql .= " ) ";
+				} elseif ($tam == 1 && $variable [0] == 1) {
+					$cadenaSql .= " > 0 ";
+				} else {
+					$cadenaSql .= " = " . $variable [0];
+				}
+				$cadenaSql .= " ORDER BY  etiketa ";
 				break;
 			
-			case 'borrarRegistro' :
-				$cadenaSql = 'INSERT INTO ';
-				$cadenaSql .= $prefijo . 'pagina ';
-				$cadenaSql .= '( ';
-				$cadenaSql .= 'nombre,';
-				$cadenaSql .= 'descripcion,';
-				$cadenaSql .= 'modulo,';
-				$cadenaSql .= 'nivel,';
-				$cadenaSql .= 'parametro';
-				$cadenaSql .= ') ';
-				$cadenaSql .= 'VALUES ';
-				$cadenaSql .= '( ';
-				$cadenaSql .= '\'' . $_REQUEST ['nombrePagina'] . '\', ';
-				$cadenaSql .= '\'' . $_REQUEST ['descripcionPagina'] . '\', ';
-				$cadenaSql .= '\'' . $_REQUEST ['moduloPagina'] . '\', ';
-				$cadenaSql .= $_REQUEST ['nivelPagina'] . ', ';
-				$cadenaSql .= '\'' . $_REQUEST ['parametroPagina'] . '\'';
-				$cadenaSql .= ') ';
+			case "consultarUsuarios" :
+				
+				$cadenaSql = "SELECT DISTINCT ";
+				$cadenaSql .= " usu.id_usuario, ";
+				$cadenaSql .= "usu.nombre, ";
+				$cadenaSql .= "usu.apellido, ";
+				$cadenaSql .= " usu.correo, ";
+				$cadenaSql .= " usu.telefono, ";
+				$cadenaSql .= " usu.tipo ,";
+				$cadenaSql .= " (CASE WHEN usu.tipo='0' THEN 'Anonimo' ELSE 'Conocido' END) nivel, ";
+				$cadenaSql .= " est.estado_registro_alias estado, ";
+				$cadenaSql .= " usu.identificacion, ";
+				$cadenaSql .= " usu.tipo_identificacion, ";
+				$cadenaSql .= " tiden.tipo_nombre, ";
+				$cadenaSql .= " usu.fecha_registro  ";
+				$cadenaSql .= "FROM " . $prefijo . "usuario usu ";
+				$cadenaSql .= "INNER JOIN " . $prefijo . "estado_registro est ";
+				$cadenaSql .= "ON est.estado_registro_id=usu.estado ";
+				$cadenaSql .= "INNER JOIN " . $prefijo . "tipo_identificacion tiden ";
+				$cadenaSql .= "ON tiden.tipo_identificacion=usu.tipo_identificacion ";
+				
+				if (isset ( $variable ['tipoAdm'] ) && $variable ['tipoAdm'] == 'subsistema') {
+					$cadenaSql .= "INNER JOIN " . $prefijo . "usuario_subsistema mod ON mod.id_usuario=usu.id_usuario ";
+					$cadenaSql .= " AND mod.rol_id NOT IN (0) ";
+				}
+				if (isset ( $variable ['identificacion'] ) && $variable ['identificacion'] > 0) {
+					$cadenaSql .= " WHERE ";
+					$cadenaSql .= " usu.identificacion='" . $variable ['identificacion'] . "'";
+					$cadenaSql .= " AND usu.tipo_identificacion='" . $variable ['tipo_identificacion'] . "'";
+				} elseif (isset ( $variable ['id_usuario'] ) && $variable ['id_usuario'] != '') {
+					$cadenaSql .= " WHERE ";
+					$cadenaSql .= " usu.id_usuario='" . $variable ['id_usuario'] . "'";
+				}
+				$cadenaSql .= " ORDER BY id_usuario";
 				break;
 			
-			case 'buscarUsuario' :
-				
-				$cadenaSql = 'SELECT ';
-				$cadenaSql .= 'id_usuario as CC, ';
-				$cadenaSql .= 'nombre as NOMBRE, ';
-				$cadenaSql .= 'telefono as TELEFONO, ';
-				$cadenaSql .= 'email as EMAIL, ';
-				$cadenaSql .= 'genero as GENERO, ';
-				$cadenaSql .= 'fecha_registro as FECHA ';
-				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'udlearn.usuario ';
-				$cadenaSql .= 'WHERE ';
-				$cadenaSql .= 'id_usuario=\'' . $_REQUEST ['user'] . '\' ';
-				$cadenaSql .= 'and clave=\'' . $_REQUEST ['pass'] . '\' ';
-				// echo $cadenaSql;
+			case "consultaPerfiles" :
+				$cadenaSql = " SELECT DISTINCT rol.\"rol_id\", ";
+				$cadenaSql .= " rol.\"rol_alias\" ";
+				$cadenaSql .= "  FROM " . $prefijo . "rol rol ";
+				$cadenaSql .= "INNER JOIN  " . $prefijo . "rol_subsistema sub  ";
+				$cadenaSql .= "ON rol.\"rol_id\"=sub.\"rol_id\"  ";
+				$cadenaSql .= "AND rol.estado_registro_id='1' ";
+				if (isset ( $variable ['subsistema'] ) && $variable ['subsistema'] > 0) {
+					$cadenaSql .= " WHERE ";
+					$cadenaSql .= " sub.id_subsistema='" . $variable ['subsistema'] . "' ";
+					if (isset ( $variable ['roles'] )) {
+						$cadenaSql .= " AND rol.rol_id NOT IN (" . $variable ['roles'] . ")";
+					}
+				}
+// 				echo $cadenaSql;
 				break;
+			
+			case "insertarUsuario" :
+				
+				$cadenaSql = "INSERT INTO " . $prefijo . "usuario(id_usuario, nombre, apellido, correo, telefono, imagen, clave, tipo, estilo, idioma, estado, fecha_registro, identificacion,tipo_identificacion) ";
+				$cadenaSql .= " VALUES ( ";
+				$cadenaSql .= " '" . $variable ['id_usuario'] . "', ";
+				$cadenaSql .= " '" . $variable ['nombres'] . "', ";
+				$cadenaSql .= " '" . $variable ['apellidos'] . "', ";
+				$cadenaSql .= " '" . $variable ['correo'] . "', ";
+				$cadenaSql .= " '" . $variable ['telefono'] . "', ";
+				$cadenaSql .= " 'N/A', ";
+				$cadenaSql .= " '" . $variable ['password'] . "', ";
+				$cadenaSql .= " '1', ";
+				$cadenaSql .= " 'basico', ";
+				$cadenaSql .= " 'es_es', ";
+				$cadenaSql .= " 2, ";
+				$cadenaSql .= " '" . $variable ['fechaIni'] . "', ";
+				$cadenaSql .= " " . $variable ['identificacion'] . ", ";
+				$cadenaSql .= " '" . $variable ['tipo_identificacion'] . "' ";
+				$cadenaSql .= " )";
+			//	var_dump($cadenaSql);
+				break;
+			
+			case "insertarPerfilUsuario" :
+				
+				$cadenaSql = "INSERT INTO " . $prefijo . "usuario_subsistema(id_usuario, id_subsistema, rol_id, fecha_registro, fecha_caduca, estado) ";
+				$cadenaSql .= " VALUES ( ";
+				$cadenaSql .= " '" . $variable ['id_usuario'] . "', ";
+				$cadenaSql .= " '" . $variable ['subsistema'] . "', ";
+				$cadenaSql .= " '" . $variable ['perfil'] . "', ";
+				$cadenaSql .= " '" . $variable ['fechaIni'] . "', ";
+				$cadenaSql .= " '" . $variable ['fechaFin'] . "', ";
+				$cadenaSql .= " '1'";
+				$cadenaSql .= " )";
+				
+				break;
+			
+			case "consultarPerfilUsuario" :
+				
+				$cadenaSql = "SELECT DISTINCT ";
+				$cadenaSql .= " sist.id_usuario,  ";
+				if (! isset ( $variable ['tipo'] )) {
+					$cadenaSql .= "sist.id_subsistema, ";
+					$cadenaSql .= "mod.etiketa subsistema, ";
+					$cadenaSql .= "sist.fecha_registro,  ";
+					$cadenaSql .= "sist.fecha_caduca,  ";
+				}
+				// $cadenaSql .= "sist.id_subsistema, ";
+				// $cadenaSql .= "mod.etiketa subsistema, ";
+				$cadenaSql .= "sist.rol_id, ";
+				$cadenaSql .= "rol.rol_alias , ";
+				// $cadenaSql .= "sist.fecha_registro, ";
+				// $cadenaSql .= "sist.fecha_caduca, ";
+				$cadenaSql .= "est.estado_registro_alias estado  ";
+				$cadenaSql .= "FROM " . $prefijo . "usuario_subsistema sist ";
+				$cadenaSql .= "INNER JOIN " . $prefijo . "subsistema mod ON mod.id_subsistema=sist.id_subsistema ";
+				$cadenaSql .= "INNER JOIN " . $prefijo . "rol rol ON rol.rol_id=sist.rol_id ";
+				$cadenaSql .= "INNER JOIN " . $prefijo . "estado_registro est ";
+				$cadenaSql .= "ON est.estado_registro_id=sist.estado ";
+				$cadenaSql .= "WHERE sist.id_usuario='" . $variable ['id_usuario'] . "'";
+				if (isset ( $variable ['subsistema'] ) && $variable ['subsistema'] > 0) {
+					$cadenaSql .= " AND ";
+					$cadenaSql .= " sist.id_subsistema='" . $variable ['subsistema'] . "' ";
+				}
+				if (isset ( $variable ['rol_id'] )) {
+					$cadenaSql .= " AND rol.rol_id ='" . $variable ['rol_id'] . "'";
+				}
+				if (isset ( $variable ['tipo'] ) && $variable ['tipo'] == 'unico') {
+					$cadenaSql .= " AND sist.estado=1 ";
+				}
+				$cadenaSql .= " ORDER BY rol.rol_alias";
+				break;
+			
+			case "consultaPerfiles" :
+				$cadenaSql = " SELECT DISTINCT rol.\"rol_id\", ";
+				$cadenaSql .= " rol.\"rol_alias\" ";
+				$cadenaSql .= "  FROM " . $prefijo . "rol rol ";
+				$cadenaSql .= "INNER JOIN  " . $prefijo . "rol_subsistema sub  ";
+				$cadenaSql .= "ON rol.\"rol_id\"=sub.\"rol_id\"  ";
+				$cadenaSql .= "AND rol.estado_registro_id='1' ";
+				if (isset ( $variable ['subsistema'] ) && $variable ['subsistema'] > 0) {
+					$cadenaSql .= " WHERE ";
+					$cadenaSql .= " sub.id_subsistema='" . $variable ['subsistema'] . "' ";
+					if (isset ( $variable ['roles'] )) {
+						$cadenaSql .= " AND rol.rol_id NOT IN (" . $variable ['roles'] . ")";
+					}
+				}
+				break;
+			
+			case "tipoIdentificacion" :
+				$cadenaSql = "SELECT   tipo_identificacion,  tipo_nombre ";
+				$cadenaSql .= "FROM " . $prefijo . "tipo_identificacion ";
+				$cadenaSql .= " WHERE  tipo_estado = 1";
+				$cadenaSql .= " ORDER BY tipo_nombre ASC";
+				break;
+			
 		}
 		
 		return $cadenaSql;

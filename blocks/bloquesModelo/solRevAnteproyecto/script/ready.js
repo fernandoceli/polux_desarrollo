@@ -34,3 +34,10 @@ $(function() {
 		event.preventDefault();
 	});
 });
+
+$(document).ready(function(){
+	//numero de solicitudes
+	var dato = $('#<?php echo $this->campoSeguro("antpSolicitudes")?>').val();
+	
+	
+});

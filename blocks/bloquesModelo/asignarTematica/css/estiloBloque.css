@@ -4,6 +4,14 @@ form {
 	width: 80%;
 }
 
+.tem {
+	border-style: hidden;
+	background-color: white;
+	color: blue;
+	margin: auto;
+	text-align: right;
+}
+
 div.campoBoton {
 	display: inline-block;
 }

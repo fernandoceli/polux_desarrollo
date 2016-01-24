@@ -10,6 +10,7 @@ class Formulario {
 	var $miConfigurador;
 	var $lenguaje;
 	var $miFormulario;
+	var $miSesion;
 	function __construct($lenguaje, $formulario, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		
@@ -20,6 +21,8 @@ class Formulario {
 		$this->miFormulario = $formulario;
 		
 		$this->miSql = $sql;
+		
+		$this->miSesion = \Sesion::singleton ();
 	}
 	function formulario() {
 		
@@ -47,6 +50,8 @@ class Formulario {
 		$conexion = 'estructura';
 		$esteRecurso = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
+		$usuario = $this->miSesion->getSesionUsuarioId ();
+		
 		// -------------------------------------------------------------------------------------------------
 		
 		// ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
@@ -71,18 +76,53 @@ class Formulario {
 		// ---------------- FIN SECCION: de Parámetros Generales del Formulario ----------------------------
 		
 		// ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
-		// $atributos ['tipoEtiqueta'] = 'inicio';
-		// echo $this->miFormulario->formulario ( $atributos );
+		$atributos ['tipoEtiqueta'] = 'inicio';
+		echo $this->miFormulario->formulario ( $atributos );
 		
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
-		if (isset ( $_REQUEST ["variable"] )) {
-			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", $_REQUEST ["variable"] );
-		} else {
-			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", "0" );
-		}
+		$esteCampo = 'ante';
+		$atributos ["id"] = $esteCampo;
+		$atributos ["tipo"] = "hidden";
+		$atributos ['estilo'] = '';
+		$atributos ['validar'] = '';
+		$atributos ["obligatorio"] = true;
+		$atributos ['marco'] = true;
+		$atributos ["etiqueta"] = "";
+		
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		unset ( $atributos );
+		
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $usuario );
 		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
+		// var_dump($matrizItems);
+		// var_dump($matrizItems[0]);
+		
+		$rol = $matrizItems [0] [0];
+		$acceso = false;
+		$mostrar = true;
+		// echo $rol;
+		// var_dump($_REQUEST);
+		
+		if ($rol == "Estudiante") {
+			$acceso = true;
+			$_REQUEST ["variable"] = $_REQUEST ['usuario'];
+		}
+		
+	if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
+			// $_REQUEST ["variable"] = '321456789';
+			$acceso = true;
+		}
+		
+		if (isset ( $_REQUEST ["variable"] )) {
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyectos", $_REQUEST ["variable"] );
+		} else {
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyectos", "0" );
+		}
+		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		// var_dump($_REQUEST);
 		?>
 
 <h2>Anteproyectos por estudiante <?php
@@ -90,91 +130,102 @@ class Formulario {
 			echo " (" . $_REQUEST ["variable"];
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarEstudiante", $_REQUEST ["variable"] );
 			$nombre = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-			echo " - " . $nombre[0][0] . ")";
+			echo " - " . $nombre [0] [0] . ")";
 		}
 		?></h2>
 <br>
 
 <?php
-		if (($matrizItems [0] [0]) != "") {
-			echo $this->miFormulario->tablaReporte ( $matrizItems );
+		if ($matrizItems && $acceso) {
+			// echo $this->miFormulario->tablaReporte ( $matrizItems );
+			?>
+
+<table id="tAnteproyectosEstudiante">
+	<thead>
+		<tr>
+			<th>Fecha Radicaci&oacute;n</th>
+			<th>No. Anteproyecto</th>
+			<th>Modalidad de Grado</th>
+			<th>T&iacute;tulo</th>
+			<th>Estado</th>
+		</tr>
+	</thead>
+	<tbody>
+<?php
+			foreach ( $matrizItems as $fila ) {
+				echo "<tr>";
+				for($i = 0; $i < 5; $i ++) {
+					echo "<td>" . $fila [$i] . "</td>";
+				}
+				echo "</tr>";
+			}
+			?>
+	</tbody>
+</table>
+<div class=' '>
+
+<?php
 		} else {
+			$mostrar = false;
 			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
 			?>
 <div class="canvas-contenido">
-	<div class="area-msg corner margen-interna ">
-		<div class="icono-msg info"></div>
-		<div class="content-msg info corner">
-			<div class="title-msg info">Informacion</div>
-			<div style="padding: 5px 0px;">
-				<div>
-					<contenido> No hay ningun anteproyecto registrado para el estudiante <?php if(isset($_REQUEST["variable"])) { echo $_REQUEST["variable"];}?>.
-					<div style="text-align: right" onclick="window.location = 'index.php?data=<?php echo $pag?>';">
+		<div class="area-msg corner margen-interna ">
+			<div class="icono-msg info"></div>
+			<div class="content-msg info corner">
+				<div class="title-msg info">Informacion</div>
+				<div style="padding: 5px 0px;">
+					<div>
+						<contenido> No hay ningun anteproyecto registrado para el estudiante <?php if(isset($_REQUEST["variable"])) { echo $_REQUEST["variable"];}?>.
+					<div style="text-align: right"
+							onclick="window.location = 'index.php?data=<?php echo $pag?>';">
 							<input
 								class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
 								type="submit" tabindex="1" value="Ir al inicio" role="button"
 								aria-disabled="false">
+						</div>
+						</contenido>
 					</div>
-					</contenido>
 				</div>
 			</div>
+			<div class="clearboth"></div>
 		</div>
-		<div class="clearboth"></div>
 	</div>
-</div>
+	
 <?php
 		}
 		
-		// // ------------------Division para los botones-------------------------
-		// $atributos ["id"] = "botones";
-		// $atributos ["estilo"] = "marcoBotones";
-		// echo $this->miFormulario->division ( "inicio", $atributos );
-		
-		// // -----------------CONTROL: Botón ----------------------------------------------------------------
-		// $esteCampo = 'botonAceptar';
-		// $atributos ["id"] = $esteCampo;
-		// $atributos ["tabIndex"] = $tab;
-		// $atributos ["tipo"] = 'boton';
-		// // submit: no se coloca si se desea un tipo button genérico
-		// $atributos ['submit'] = true;
-		// $atributos ["estiloMarco"] = '';
-		// $atributos ["estiloBoton"] = 'jqueryui';
-		// // verificar: true para verificar el formulario antes de pasarlo al servidor.
-		// $atributos ["verificar"] = '';
-		// $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-		// $atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-		// $atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-		// $tab ++;
-		
-		// // Aplica atributos globales al control
-		// $atributos = array_merge ( $atributos, $atributosGlobales );
-		// echo $this->miFormulario->campoBoton ( $atributos );
-		// // -----------------FIN CONTROL: Botón -----------------------------------------------------------
-		
-		// // -----------------CONTROL: Botón ----------------------------------------------------------------
-		// $esteCampo = 'botonCancelar';
-		// $atributos ["id"] = $esteCampo;
-		// $atributos ["tabIndex"] = $tab;
-		// $atributos ["tipo"] = 'boton';
-		// // submit: no se coloca si se desea un tipo button genérico
-		// $atributos ['submit'] = true;
-		// $atributos ["estiloMarco"] = '';
-		// $atributos ["estiloBoton"] = 'jqueryui';
-		// // verificar: true para verificar el formulario antes de pasarlo al servidor.
-		// $atributos ["verificar"] = '';
-		// $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-		// $atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-		// $atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-		// $tab ++;
-		
-		// // Aplica atributos globales al control
-		// $atributos = array_merge ( $atributos, $atributosGlobales );
-		// echo $this->miFormulario->campoBoton ( $atributos );
-		// // -----------------FIN CONTROL: Botón -----------------------------------------------------------
-		
-		// // ------------------Fin Division para los botones-------------------------
-		// echo $this->miFormulario->division ( "fin" );
-		
+		if ($mostrar) {
+			// ------------------Division para los botones-------------------------
+			$atributos ["id"] = "botones";
+			$atributos ["estilo"] = "marcoBotones";
+			$atributos ["titulo"] = "Enviar Información";
+			echo $this->miFormulario->division ( "inicio", $atributos );
+			
+			// -----------------CONTROL: Bot�n ----------------------------------------------------------------
+			$esteCampo = 'botonCrear';
+			$atributos ["id"] = $esteCampo;
+			$atributos ["tabIndex"] = $tab;
+			$atributos ["tipo"] = 'boton';
+			// submit: no se coloca si se desea un tipo button genérico
+			$atributos ['submit'] = true;
+			$atributos ["estiloMarco"] = '';
+			$atributos ["estiloBoton"] = '';
+			// verificar: true para verificar el formulario antes de pasarlo al servidor.
+			$atributos ["verificar"] = '';
+			$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+			$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+			$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+			$tab ++;
+			
+			// Aplica atributos globales al control
+			$atributos = array_merge ( $atributos, $atributosGlobales );
+			echo $this->miFormulario->campoBoton ( $atributos );
+			// -----------------FIN CONTROL: Botón -----------------------------------------------------------
+			
+			// ------------------Fin Division para los botones-------------------------
+			echo $this->miFormulario->division ( "fin" );
+		}
 		// ------------------- SECCION: Paso de variables ------------------------------------------------
 		
 		/**
@@ -194,9 +245,10 @@ class Formulario {
 		
 		$valorCodificado = "action=" . $esteBloque ["nombre"];
 		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
+		$valorCodificado .= "&usuario=" . $usuario;
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
-		$valorCodificado .= "&opcion=registrarBloque";
+		$valorCodificado .= "&opcion=ver";
 		/**
 		 * SARA permite que los nombres de los campos sean dinámicos.
 		 * Para ello utiliza la hora en que es creado el formulario para

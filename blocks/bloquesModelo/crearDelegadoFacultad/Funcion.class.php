@@ -39,11 +39,12 @@ class Funcion {
 	function procesarAjax() {
 		include_once ($this->ruta . "funcion/procesarAjax.php");
 	}
-	
 	function registrar() {
 		include_once ($this->ruta . "/funcion/registrar.php");
 	}
-	
+	function resumen(){
+		include_once($this->ruta."/funcion/resumenUsuario.php");
+	}
 	function action() {
 		$resultado = true;
 		
@@ -63,6 +64,10 @@ class Funcion {
 				case 'registrar' :
 					$this->registrar ();
 					break;
+				
+				case "resumen" :
+					$this->resumen ();
+					break;
 			}
 		} else {
 			$resultado = $this->procesarFormulario ();
@@ -70,7 +75,6 @@ class Funcion {
 		
 		return $resultado;
 	}
-	
 	function __construct() {
 		$this->miConfigurador = \Configurador::singleton ();
 		

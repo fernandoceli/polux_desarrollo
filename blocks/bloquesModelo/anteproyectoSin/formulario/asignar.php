@@ -232,7 +232,6 @@ class Formulario {
 		
 		// --------------- FIN CONTROL : Cuadro Lista --------------------------------------------------
 		
-		
 		// ------------------Division para los botones-------------------------
 		$atributos ["id"] = "botones";
 		$atributos ["estilo"] = "marcoBotones";
@@ -306,6 +305,7 @@ class Formulario {
 		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' ); // Frontera mostrar formulario
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+		$valorCodificado.= "&usuario=" . $_REQUEST['usuario'];
 		$valorCodificado .= "&opcion=asignar";
 		/**
 		 * SARA permite que los nombres de los campos sean dinámicos.

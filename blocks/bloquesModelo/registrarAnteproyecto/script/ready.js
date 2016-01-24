@@ -24,7 +24,7 @@ $(function() {
 			at : "right center"
 		}
 	},
-	{ hide: { duration: 800 } }
+	{ hide: { duration: 80 } }
 	);
 });
 
@@ -33,3 +33,4 @@ $(function() {
 		event.preventDefault();
 	});
 });
+

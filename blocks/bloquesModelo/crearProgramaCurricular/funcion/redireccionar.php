@@ -19,6 +19,7 @@ class redireccion {
 				$variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=confirma";
 				$variable .= "&programaCurricular=" . $valor;
+				$variable .= '&usuario=' . $_REQUEST ["usuario"];
 				break;
 			
 			case "noInserto" :
@@ -26,6 +27,7 @@ class redireccion {
 				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=error";
+				$variable .= '&usuario=' . $_REQUEST ["usuario"];
 				break;
 			
 			default :

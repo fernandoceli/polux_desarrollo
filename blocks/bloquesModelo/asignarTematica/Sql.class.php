@@ -65,7 +65,7 @@ class Sql extends \Sql {
 				$cadenaSql .= '\'' . $_REQUEST ['email'] . '\' ';
 				$cadenaSql .= ') ';
 				break;
-				
+			
 			case 'registrarDelegado' :
 				$cadenaSql = 'INSERT INTO trabajosdegrado.ge_tpdfa';
 				$cadenaSql .= '(';
@@ -117,40 +117,58 @@ class Sql extends \Sql {
 				break;
 			
 			case 'buscarDocentes' :
-				
 				$cadenaSql = "SELECT ";
-				$cadenaSql .= "d.prof_prof, ";
-				$cadenaSql .= "(p.pern_nomb || ' ' ||p.pern_papell || ' ' ||p.pern_sapell) AS  Nombre, ";
-				$cadenaSql .= "d.prof_pern ";
+				$cadenaSql .= "prof_prof, ";
+				$cadenaSql .= "nombre || ' ' || apellido AS Nombre ";
 				$cadenaSql .= "FROM ";
-				$cadenaSql .= "trabajosdegrado.ge_tprof d, ";
-				$cadenaSql .= "trabajosdegrado.ge_tpern p ";
+				$cadenaSql .= "polux_usuario ";
+				$cadenaSql .= "JOIN trabajosdegrado.ge_tprof ";
+				$cadenaSql .= "ON id_usuario = prof_us ";
 				$cadenaSql .= "WHERE ";
-				$cadenaSql .= "d.prof_tpvinc='Planta' ";
-				$cadenaSql .= "and (d.prof_pern=p.pern_pern";
-				$cadenaSql .= ")";
-// 				echo $cadenaSql;
+				$cadenaSql .= "prof_tpvinc='Planta' ";
+				$cadenaSql .= "OR ";
+				$cadenaSql .= "prof_tpvinc='Tco'";
+				// echo $cadenaSql;
 				break;
 			
 			case 'buscarTematicas' :
 				
-				$cadenaSql = 'SELECT ';
-				$cadenaSql .= 'acono_acono, ';
-				$cadenaSql .= 'acono_nom ';
-				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado.ge_tacono';
-// 				echo $cadenaSql;
+				$cadenaSql = "SELECT ";
+				$cadenaSql .= "acono_acono, ";
+				$cadenaSql .= "acono_nom ";
+				$cadenaSql .= "FROM ";
+				$cadenaSql .= "trabajosdegrado.ge_tacono ";
+				// echo $cadenaSql;
 				break;
-				
-			case 'asignarTematica':
-				$cadenaSql = 'INSERT INTO trabajosdegrado.ge_tacpro (';
-				$cadenaSql .= 'acpro_acono, ';
-				$cadenaSql .= 'acpro_prof) ';
-				$cadenaSql .= 'VALUES (';
-				$cadenaSql .= '\'' . $_REQUEST ['areas'] . '\', ';
-				$cadenaSql .= '\'' . $_REQUEST ['docente'] . '\'';
-				$cadenaSql .= ')';
-// 				echo $cadenaSql;
+			
+			case 'asignarTematica' :
+				if (! isset ( $cadenaSql )) {
+					$cadenaSql = "";
+				}
+				for($i = 0; $i < $_REQUEST ['numTematicas']; $i ++) {
+					$cadenaSql .= 'INSERT INTO trabajosdegrado.ge_tacpro (';
+					$cadenaSql .= 'acpro_acono, ';
+					$cadenaSql .= 'acpro_prof) ';
+					$cadenaSql .= 'VALUES (';
+					$cadenaSql .= '\'' . $variable [$i] . '\', ';
+					$cadenaSql .= '\'' . $_REQUEST ['docente'] . '\'';
+					$cadenaSql .= '); ';
+				}
+				// echo $cadenaSql;
+				break;
+			
+			case 'quitarTematica' :
+				if (! isset ( $cadenaSql )) {
+					$cadenaSql = "";
+				}
+				for($i = 0; $i < $_REQUEST ['numTematicasElim']; $i ++) {
+					$cadenaSql .= 'DELETE FROM trabajosdegrado.ge_tacpro ';
+					$cadenaSql .= 'WHERE ';
+					$cadenaSql .= 'acpro_acono=\'' . $variable [$i] . '\' ';
+					$cadenaSql .= 'AND ';
+					$cadenaSql .= 'acpro_prof=\'' . $_REQUEST ['docente'] . '\'; ';
+				}
+				// echo $cadenaSql;
 				break;
 			
 			case 'borrarRegistro' :
@@ -188,6 +206,31 @@ class Sql extends \Sql {
 				$cadenaSql .= 'id_usuario=\'' . $_REQUEST ['user'] . '\' ';
 				$cadenaSql .= 'and clave=\'' . $_REQUEST ['pass'] . '\' ';
 				// echo $cadenaSql;
+				break;
+			
+			case 'buscarActuales' :
+				$cadenaSql = 'SELECT ';
+				$cadenaSql .= 'acpro_acono, ';
+				$cadenaSql .= 'acono_nom ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.ge_tacpro ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'trabajosdegrado.ge_tacono ';
+				$cadenaSql .= 'ON acpro_acono = acono_acono ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'acpro_prof=\'' . $variable . '\' ';
+				// echo $cadenaSql;
+				break;
+			
+			case 'buscarCodigosTematicas' :
+				
+				$cadenaSql = 'SELECT ';
+				$cadenaSql .= 'acono_acono ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.ge_tacono ';
+				$cadenaSql .= "WHERE ";
+				$cadenaSql .= "acono_nom='" . $variable . "' ";
+				// var_dump ( $cadenaSql );
 				break;
 		}
 		

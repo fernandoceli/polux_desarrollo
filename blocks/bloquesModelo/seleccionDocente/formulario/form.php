@@ -18,7 +18,7 @@ class Formulario {
 		$this->lenguaje = $lenguaje;
 		
 		$this->miFormulario = $formulario;
-
+		
 		$this->miSql = $sql;
 	}
 	function formulario() {
@@ -43,7 +43,7 @@ class Formulario {
 		 */
 		$atributosGlobales ['campoSeguro'] = 'true';
 		$_REQUEST ['tiempo'] = time ();
-
+		
 		$conexion = 'estructura';
 		$esteRecurso = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		// -------------------------------------------------------------------------------------------------
@@ -93,38 +93,38 @@ class Formulario {
 		$atributos ['limitar'] = true;
 		$atributos ['tamanno'] = 1;
 		$atributos ['columnas'] = 1;
-			
+		
 		$atributos ['estilo'] = 'jqueryui';
 		$atributos ['validar'] = 'required';
-			
+		
 		$atributos ["etiquetaObligatorio"] = true;
 		$atributos ['anchoEtiqueta'] = 170;
 		$atributos ['anchoCaja'] = 60;
-			
+		
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarDocentes" );
 		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-			
+		
 		$atributos ['matrizItems'] = $matrizItems;
-			
-		// 			echo $matrizItems[0][0]."-1-2-".$matrizItems[0][1]. "-3-".$matrizItems[0][2];
-			
+		
+		// echo $matrizItems[0][0]."-1-2-".$matrizItems[0][1]. "-3-".$matrizItems[0][2];
+		
 		if (isset ( $_REQUEST [$esteCampo] )) {
 			$atributos ['seleccion'] = $_REQUEST [$esteCampo];
 		} else {
 			$atributos ['seleccion'] = - 1;
 		}
-			
+		
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoCuadroLista ( $atributos );
-			
+		
 		// --------------- FIN CONTROL : Cuadro Lista --------------------------------------------------
 		
 		// ------------------Division para los botones-------------------------
 		$atributos ["id"] = "botones";
 		$atributos ["estilo"] = "marcoBotones";
 		echo $this->miFormulario->division ( "inicio", $atributos );
-			
+		
 		// -----------------CONTROL: Botón ----------------------------------------------------------------
 		$esteCampo = 'botonSeleccionar';
 		$atributos ["id"] = $esteCampo;
@@ -140,12 +140,12 @@ class Formulario {
 		$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
 		$tab ++;
-			
+		
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoBoton ( $atributos );
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
-				
+		
 		// ------------------Fin Division para los botones-------------------------
 		echo $this->miFormulario->division ( "fin" );
 		
@@ -166,8 +166,9 @@ class Formulario {
 		
 		// Paso 1: crear el listado de variables
 		
-	    $valorCodificado = "action=" . $esteBloque ["nombre"];
+		$valorCodificado = "action=" . $esteBloque ["nombre"];
 		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
+		$valorCodificado .= "&usuario=" . $_REQUEST ['usuario'];
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&opcion=seleccion";

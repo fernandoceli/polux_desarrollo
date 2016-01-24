@@ -97,7 +97,7 @@ class Formulario {
 			$atributos ['seleccion'] = - 1;
 			$atributos ['evento'] = '';
 			$atributos ['deshabilitado'] = false;
-			$atributos ['limitar'] = true;
+			$atributos ['limitar'] = false;
 			$atributos ['tamanno'] = 1;
 			$atributos ['columnas'] = 1;
 			
@@ -395,6 +395,7 @@ class Formulario {
 		
 		$valorCodificado = "action=" . $esteBloque ["nombre"];
 		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
+		$valorCodificado .= "&usuario=" . $usuario;
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&opcion=registrar";

@@ -99,19 +99,27 @@ class Sql extends \Sql {
 				$cadenaSql .= 'JOIN trabajosdegrado.ge_tmoda ';
 				$cadenaSql .= 'ON antp_moda = moda_moda ';
 				$cadenaSql .= 'WHERE ';
-				$cadenaSql .= 'antp_dir_int=\'' . $variable . '\' ';
+				$aux = substr ( $variable, 2 );
+				if (! is_numeric ( $aux )) {
+					$cadenaSql .= 'antp_dir_int=\'' . substr ( $variable, 2 + strlen ( $variable ) ) . '\' ';
+				} else {
+					$cadenaSql .= 'antp_dir_int=\'' . $variable . '\' ';
+				}
+				
 // 				echo $cadenaSql;
 				break;
 			
 			case 'buscarDocente' :
 				
 				$cadenaSql = 'SELECT ';
-				$cadenaSql .= 'pern_nomb || \' \' || pern_papell || \' \' || pern_sapell AS  Nombre ';
+				$cadenaSql .= "nombre || ' ' || apellido AS Nombre ";
 				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado.ge_tprof ';
-				$cadenaSql .= 'JOIN trabajosdegrado.ge_tpern ';
-				$cadenaSql .= 'ON prof_pern = pern_pern ';
+				$cadenaSql .= 'polux_usuario ';
+				$cadenaSql .= 'JOIN trabajosdegrado.ge_tprof ';
+				$cadenaSql .= 'ON id_usuario = prof_us ';
 				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'prof_us=\'' . $variable . '\' ';
+				$cadenaSql .= 'OR ';
 				$cadenaSql .= 'prof_prof=\'' . $variable . '\' ';
 				// echo $cadenaSql;
 				break;
@@ -134,6 +142,20 @@ class Sql extends \Sql {
 				$cadenaSql .= $_REQUEST ['nivelPagina'] . ', ';
 				$cadenaSql .= '\'' . $_REQUEST ['parametroPagina'] . '\'';
 				$cadenaSql .= ') ';
+				break;
+			
+			case 'consultarRol' :
+				$cadenaSql = 'SELECT rol_nombre ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'polux_usuario u ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'polux_usuario_subsistema us ';
+				$cadenaSql .= 'ON u.id_usuario::varchar = us.id_usuario ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'polux_rol r ';
+				$cadenaSql .= 'ON us.rol_id = r.rol_id ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'u.id_usuario=\'' . $variable . '\' ';
 				break;
 		}
 		

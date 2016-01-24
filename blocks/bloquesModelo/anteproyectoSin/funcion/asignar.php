@@ -41,8 +41,6 @@ class Registrar {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrar', $_REQUEST );
 			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, 'insertar' );
 
-			var_dump($cadenaSql);
-			var_dump($resultado);
 			if ($resultado) {
 				//modificar el estado del Anteproyecto
 				$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarEstado', $_REQUEST );
@@ -53,9 +51,6 @@ class Registrar {
 				redireccion::redireccionar ( 'noInserto' );
 				exit ();
 			}
-			var_dump($_REQUEST);
-			var_dump($cadenaSql);
-			var_dump($resultado);
 			exit();
 			
 		}

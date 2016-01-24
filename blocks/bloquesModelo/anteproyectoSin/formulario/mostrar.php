@@ -96,7 +96,6 @@ class Formulario {
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", $_REQUEST['id'] );
 		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		$id=$_REQUEST['id'];
-		//var_dump($matrizItems);
 		$director = $matrizItems[0][8];
 		$modalidad = $matrizItems[0][1];
 		
@@ -108,17 +107,29 @@ class Formulario {
 		//Buscar tem�ticas asociadas
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarTematicas", $_REQUEST['id'] );
 		$matriz = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-		$tematica=$matriz[0][0];
 		
-		//Buscar nombre de las tem�ticas
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarNombresTematicas", $tematica );
-		$matriz2 = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-		$nomtematica=$matriz2[0][1];
+		$codTematicas = array();
+		for($i=0; $i<count($matriz); $i++){
+			array_push($codTematicas, $matriz[$i][0]);
+		}
+		
+		//Buscar nombres de las tem�ticas
+		$nomTematicas = array();
+		for($i = 0; $i < count($codTematicas); $i++){
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarNombresTematicas", $codTematicas[$i]);
+			$matriz2 = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+			array_push($nomTematicas, $matriz2[0][0]);
+			
+		}
 		
 		//Buscar estudiantes asociados
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAutores", $_REQUEST['id'] );
 		$matrizItems2 = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-		$cod=$matrizItems2[0][0];
+		
+		$cod = array();
+		for($i=0; $i<count($matrizItems2); $i++){
+			array_push($cod, $matrizItems2[$i][0]);
+		}
 		
 		//Buscar nombre de director
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarNombresDirector", $director );
@@ -126,12 +137,13 @@ class Formulario {
 		$director=$matrizItems3[0][1];
 		
 		//Buscar nombres de los estudiantes
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarNombresAutores", $cod );
-		$matrizItems4 = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-		$autores=$matrizItems4[0][1];
-		//var_dump($nombre);
-		
-		?>
+		$autores = array();
+		for($i = 0; $i < count($cod); $i++){
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarNombresAutores", $cod[$i] );
+			$matrizItems4 = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+			array_push($autores, $matrizItems4[0][1]);	
+		}
+	?>
 	<div class="canvas-contenido">
 	
 		<h1>Anteproyecto No. <?php echo $id?></h1>
@@ -139,30 +151,34 @@ class Formulario {
 		<h3>Información General</h3>
 		
 		<table id="documento" class="table">
-		  <tr>
+		  <tr >
 		  	<td id="col" rowspan="7">
 		  		<div class="corner bg-imagen-documento">
 		  			<div id="documento" class="icon-max-pdf"></div>
 		  			<div class="codigo-documento">Versión No.1</div>
 		  		</div>
 		  	</td>
-		  	<td class="table-tittle">Titulo</td>
-		    <td><p><?php echo $matrizItems[0][3]?></p></td>
+		  	<td class="table-tittle estilo_tr">Titulo</td>
+		    <td class="estilo_tr"><p><?php echo $matrizItems[0][3]?></p></td>
 		  </tr>
 		  
 		  <tr >
-		      <td class="table-tittle">Modalidad de Grado</td>
-		      <td><p><?php echo $modalidadNom?></p></td>
+		      <td class="table-tittle estilo_tr">Modalidad de Grado</td>
+		      <td class="estilo_tr"><p><?php echo $modalidadNom?></p></td>
 		  </tr>
 		  
 		  <tr>
-		      <td class="table-tittle">Temáticas de Interés</td>
-		      <td><p><?php echo $nomtematica?></p></td>
+		      <td class="table-tittle estilo_tr">Temáticas de Interés</td>
+		      <td class="estilo_tr"><p><?php
+		      for($i = 0; $i < count($nomTematicas); $i++){
+		      	echo $nomTematicas[$i]?><br></br> <?php ;
+		      		    		}	
+		      ?></p></td>
 		  </tr>
 		  
 		  <tr>
-		      <td class="table-tittle">Estado</td>
-		      <td><p><?php echo $matrizItems[0][7]?></p></td>
+		      <td class="table-tittle estilo_tr">Estado</td>
+		      <td class="estilo_tr"><p><?php echo $matrizItems[0][7]?></p></td>
 		  </tr>
 		  
 		</table>
@@ -173,13 +189,17 @@ class Formulario {
 		
 		<table class="table">
 		  <tr>
-		    <td class="table-tittle">Autores</td>
-		    <td><p><?php echo $autores;?></p></td>
+		    <td class="table-tittle estilo_tr">Autores</td>
+		    <td class="estilo_tr"><p><?php 
+		    		for($i = 0; $i < count($autores); $i++){
+		    			echo $autores[$i]?><br></br> <?php ;
+		    		}	
+		    	   ?></p></td>
 		  </tr>
 		  
 		  <tr>
-			<td class="table-tittle">Directores Internos</td>
-		    <td><p><?php echo $director?></p></td>
+			<td class="table-tittle estilo_tr">Directores Internos</td>
+		    <td class="estilo_tr"><p><?php echo $director?></p></td>
 		  </tr>
 		  
 		</table>
@@ -243,6 +263,7 @@ class Formulario {
 		$valorCodificado = "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' ); // Frontera mostrar formulario
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+		$valorCodificado.= "&usuario=" . $_REQUEST['usuario'];
 		$valorCodificado .= "&opcion=asignar";
 		/**
 		 * SARA permite que los nombres de los campos sean dinámicos.
@@ -276,8 +297,6 @@ class Formulario {
 		return true;
 	
 	}
-	
-	
 	
 	function mensaje() {
 		

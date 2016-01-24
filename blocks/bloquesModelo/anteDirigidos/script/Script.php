@@ -6,6 +6,7 @@
 $indice = 0;
 $funcion [$indice ++] = "jquery.validationEngine.js";
 $funcion [$indice ++] = "jquery.validationEngine-es.js";
+$funcion [$indice ++] = "select2.js";
 
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion ( "host" );
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion ( "site" );
@@ -15,6 +16,8 @@ if ($esteBloque ["grupo"] == "") {
 } else {
 	$rutaBloque .= "/blocks/" . $esteBloque ["grupo"] . "/" . $esteBloque ["nombre"];
 }
+
+$_REQUEST['tiempo']=time();
 
 foreach ( $funcion as $clave => $nombre ) {
 	if (! isset ( $embebido [$clave] )) {
@@ -26,4 +29,5 @@ foreach ( $funcion as $clave => $nombre ) {
 	}
 }
 
+// include ("ajax.php");
 ?>

@@ -124,13 +124,13 @@ class Sql extends \Sql {
 				break;
 			
 			case 'buscarEstudiantes' :
-				
 				$cadenaSql = "SELECT ";
-				$cadenaSql .= "estd_usua, ";
 				$cadenaSql .= "estd_estd, ";
-				$cadenaSql .= "estd_pern ";
+				$cadenaSql .= "estd_estd ";
 				$cadenaSql .= "FROM ";
-				$cadenaSql .= "trabajosdegrado.ge_testd ";
+				$cadenaSql .= "polux_usuario ";
+				$cadenaSql .= "JOIN trabajosdegrado.ge_testd ";
+				$cadenaSql .= "ON id_usuario = estd_us ";
 				break;
 		}
 		

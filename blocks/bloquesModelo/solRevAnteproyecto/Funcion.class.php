@@ -31,6 +31,11 @@ class Funcion {
 		
 		return $resultado;
 	}
+	
+	function evaluar() {
+		include_once ($this->ruta . "/funcion/evaluar.php");
+	}
+	
 	function procesarAjax() {
 		include_once ($this->ruta . "funcion/procesarAjax.php");
 	}
@@ -46,7 +51,17 @@ class Funcion {
 		
 		if (isset ( $_REQUEST ['procesarAjax'] )) {
 			$this->procesarAjax ();
-		} else {
+		} 
+		
+		else if (isset ( $_REQUEST ["opcion"] )) {
+			switch ($_REQUEST ["opcion"]) {
+				case 'evaluar' :
+					$this->evaluar ();
+					break;
+			}
+		}
+		
+		else {
 			
 			$resultado = $this->procesarFormulario ();
 		}

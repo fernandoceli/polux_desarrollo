@@ -9,24 +9,20 @@ $this->idioma["seleccionarProgramaCurricularTitulo"]="Ingrese el programa curric
 
 $this->idioma["seleccionarTipoDocumento"]="Tipo de Documento:";
 $this->idioma["seleccionarTipoDocumentoTitulo"]="Seleccione el tipo de documento";
-$this->idioma["numeroDocIdentidad"]="No. de Doc de Identidad:";
+$this->idioma["numeroDocIdentidad"]="Identificación:";
 $this->idioma["numeroDocIdentidadTitulo"]="Ingrese el número de documento de identidad del estudiante";
 $this->idioma["nombreEstudiante"]="Nombre:";
 $this->idioma["nombreEstudianteTitulo"]="Ingrese el nombre del estudiante";
-$this->idioma["primerApellido"]="Primer apellido:";
-$this->idioma["primerApellidoTitulo"]="Ingrese el primer apellido del estudiante";
-$this->idioma["segundoApellido"]="Segundo apellido:";
-$this->idioma["segundoApellidoTitulo"]="Ingrese el segundo apellido del estudiante";
+$this->idioma["apellidos"]="Apellidos:";
+$this->idioma["apellidosTitulo"]="Ingrese los apellidos del estudiante";
 $this->idioma["codigoEstudiante"]="Código del estudiante:";
 $this->idioma["codigoEstudianteTitulo"]="Ingrese el código del estudiante";
 $this->idioma["semestre"]="Semestre";
 $this->idioma["semestreTitulo"]="Ingrese el semestre del estudiante";
 $this->idioma["emailEstudiante"]="Email:";
 $this->idioma["emailEstudianteTitulo"]="Ingrese el email";
-$this->idioma["password"]="Password:";
-$this->idioma["passwordTitulo"]="Ingrese password";
-$this->idioma["passConfirmado"]="Confirmar password:";
-$this->idioma["passConfirmadoTitulo"]="Ingrese password";
+$this->idioma["telefono"]="Teléfono: ";
+$this->idioma["telefonoTitulo"]="Digite el teléfono del estudiante";
 
 $this->idioma["botonIngresar"]="Ingresar";
 $this->idioma["botonAceptar"]="Aceptar";
@@ -40,4 +36,9 @@ $this->idioma["mensajeError"]="Error al registrar el Estudiante ";
 $this->idioma["continuar"]="Continuar";
 
 $this->idioma["marcoDatos"]="Datos del estudiante";
+$this->idioma["subsistema"]="Módulo";
+$this->idioma["subsistemaTitulo"]="Seleccione el Módulo ";
+$this->idioma["perfil"]="Rol de Usuario";
+$this->idioma["fechaFin"]="Fecha Caducidad";
+$this->idioma["fechaFinTitulo"]="Seleccione la Fecha de Caducidad del perfil";
 ?>

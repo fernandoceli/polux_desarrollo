@@ -1,0 +1,5 @@
+administrador pass:1234
+
+	Codigo estudiante :87851
+
+Carrera 20 asignatura 33102101 grupo 1 Ano 2004 Periodo 3 Profesor 1281

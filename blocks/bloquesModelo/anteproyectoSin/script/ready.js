@@ -37,7 +37,7 @@ $(document).ready(function() {
 		$fila = table.row(this).data()
 		cod = $fila[1];
 		
-		$('#<?php echo $this->campoSeguro('id')?>').val(cod);
+		$('#<?php echo $this->campoSeguro("id")?>').val(cod);
 		
 		if ($(this).hasClass('selected')) {
 			// $(this).removeClass('selected');

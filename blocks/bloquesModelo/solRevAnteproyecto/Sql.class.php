@@ -86,19 +86,82 @@ class Sql extends \Sql {
 				$cadenaSql .= 'nombre=\'' . $_REQUEST ['nombrePagina'] . '\' ';
 				break;
 			
-			case 'buscarAnteproyecto' :
+			case 'buscarAnteproyectos' :
 				
 				$cadenaSql = 'SELECT ';
-				$cadenaSql .= 'fecha_rad, ';
-				$cadenaSql .= 'id_anteproyecto, ';
-				$cadenaSql .= 'modalidad,';
-				$cadenaSql .= 'titulo,';
-				$cadenaSql .= 'estado ';
+				$cadenaSql .= 'p.prof_prof, ';
+				$cadenaSql .= 'p.prof_us, ';
+				$cadenaSql .= 'a.antp_antp, ';
+				$cadenaSql .= 'a.antp_fradi, ';
+				$cadenaSql .= 'a.antp_eantp, ';
+				$cadenaSql .= 'r.rev_antp, ';
+				$cadenaSql .= 'r.rev_prof, ';
+				$cadenaSql .= 'r.rev_fasig ';
 				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado.anteproyecto ';
+				$cadenaSql .= 'trabajosdegrado.ant_tantp a, ';
+				$cadenaSql .= 'trabajosdegrado.ant_trev r, ';
+				$cadenaSql .= 'trabajosdegrado.ge_tprof p ';
 				$cadenaSql .= 'WHERE ';
-				$cadenaSql .= 'estado=\'RADICADO\' OR estado=\'ASIGNADO REVISORES\'';
-				// $cadenaSql .= 'nombre=\'' . $_REQUEST ['nombrePagina'] . '\' ';
+				$cadenaSql .= "r.rev_antp = a.antp_antp ";
+				$cadenaSql .= "and p.prof_prof=r.rev_prof ";
+				$aux = substr ( $variable, 2 );
+				if (! is_numeric ( $aux )) {
+					$cadenaSql .= "and p.prof_us = '" .  substr ( $variable, 2 + strlen ( $variable ) )  . "' ";
+				} else {
+					$cadenaSql .= "and p.prof_prof = '" . $variable . "' ";
+				}
+				$cadenaSql .= "and a.antp_eantp = 'REVISORES ASIGNADOS' ";
+// 				echo $cadenaSql;
+				break;
+			
+			case 'buscarAnteproyecto' :
+				
+				$cadenaSql = 'SELECT * ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.ant_tantp ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= "antp_antp = " . $variable . " ";
+				break;
+			
+			case 'buscarDocentes' :
+				
+				$cadenaSql = "SELECT ";
+				$cadenaSql .= "d.prof_prof, ";
+				$cadenaSql .= "(p.pern_nomb || ' ' ||p.pern_papell || ' ' ||p.pern_sapell) AS  Nombre, ";
+				$cadenaSql .= "d.prof_pern ";
+				
+				$cadenaSql .= "FROM ";
+				$cadenaSql .= "trabajosdegrado.ge_tprof d, ";
+				$cadenaSql .= "trabajosdegrado.ge_tpern p ";
+				$cadenaSql .= "WHERE ";
+				$cadenaSql .= "d.prof_tpvinc='Planta'";
+				$cadenaSql .= "and (d.prof_pern=p.pern_pern)";
+				break;
+			
+			case 'buscarAutores' :
+				
+				$cadenaSql = 'SELECT ';
+				$cadenaSql .= 'estantp_estd as ESTUDIANTE,';
+				$cadenaSql .= 'estantp_antp as ANTEPROYECTO ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.ant_testantp ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'estantp_antp =' . $_REQUEST ['anteproyecto'];
+				// echo $cadenaSql;
+				break;
+			
+			case 'buscarNombresAutores' :
+				$cadenaSql = "SELECT ";
+				$cadenaSql .= "e.estd_estd, ";
+				$cadenaSql .= "(u.nombre || ' ' ||u.apellido) AS  Nombre, ";
+				$cadenaSql .= "e.estd_us ";
+				
+				$cadenaSql .= "FROM ";
+				$cadenaSql .= "trabajosdegrado.ge_testd e, ";
+				$cadenaSql .= "public.polux_usuario u ";
+				$cadenaSql .= "WHERE ";
+				$cadenaSql .= "e.estd_estd='" . $variable . "'";
+				$cadenaSql .= " and e.estd_us =u.id_usuario";
 				// echo $cadenaSql;
 				break;
 			
@@ -120,6 +183,20 @@ class Sql extends \Sql {
 				$cadenaSql .= $_REQUEST ['nivelPagina'] . ', ';
 				$cadenaSql .= '\'' . $_REQUEST ['parametroPagina'] . '\'';
 				$cadenaSql .= ') ';
+				break;
+			
+			case 'consultarRol' :
+				$cadenaSql = 'SELECT rol_nombre ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'polux_usuario u ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'polux_usuario_subsistema us ';
+				$cadenaSql .= 'ON u.id_usuario::varchar = us.id_usuario ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'polux_rol r ';
+				$cadenaSql .= 'ON us.rol_id = r.rol_id ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'u.id_usuario=\'' . $variable . '\' ';
 				break;
 		}
 		

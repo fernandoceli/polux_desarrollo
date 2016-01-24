@@ -26,6 +26,7 @@ class Sql extends \Sql {
 		$prefijo = $this->miConfigurador->getVariableConfiguracion ( "prefijo" );
 		$idSesion = $this->miConfigurador->getVariableConfiguracion ( "id_sesion" );
 		
+		
 		switch ($tipo) {
 			
 			/**
@@ -52,30 +53,37 @@ class Sql extends \Sql {
 				$cadenaSql .= "(";
 				
 				$cadenaSql .= $_REQUEST ['modalidadGrado'] . ", ";
-				// proyecto curricular
-				//$cadenaSql .= 20 . ", ";
 				$cadenaSql .= $_REQUEST ['seleccionarProgramaCurricular'] . ", ";
 				$cadenaSql .= "'" . $_REQUEST ['titulo'] . "', ";
-				$cadenaSql .= "'" . $fechaNueva . "', ";
+				$cadenaSql .= "'" . $_REQUEST ['fecha'] . "', ";
 				$cadenaSql .= "'" . $descripcion . "', ";
 				$cadenaSql .= "'" . $_REQUEST ['observaciones'] . "', ";
 				$cadenaSql .= "'" . $_REQUEST ['estado'] . "', ";
 				$cadenaSql .= "'" . $_REQUEST ['seleccionarDirectorInterno'] . "' ";
 				$cadenaSql .= ") ";
 				$cadenaSql .= " RETURNING antp_antp;";
-				var_dump ( $cadenaSql );
+				// var_dump ( $cadenaSql );
 				break;
 			
 			case 'registrarEstudiantes' :
-				$cadenaSql = " INSERT INTO trabajosdegrado.ant_testantp ( ";
-				$cadenaSql .= "estantp_estd, estantp_antp) ";
-				$cadenaSql .= " VALUES (" . $variable ['autores'] . ", ";
-				// anteproyecto: buscar valor de la secuencia actual
-				$cadenaSql .= '(SELECT ';
-				$cadenaSql .= 'last_value ';
-				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado."ANT_SANTP") )';
-				var_dump ( $cadenaSql );
+				// obtener codigos por separado
+				$cadenaSql = "";
+				$codigos = $_REQUEST ['autoresArreglo'];
+				$porciones = explode ( ";", $codigos );
+				
+				for($i = 0; $i < $_REQUEST ['numEstudiantes']; $i++) {
+					$cadena = " INSERT INTO trabajosdegrado.ant_testantp ( ";
+					$cadena .= "estantp_estd, estantp_antp) ";
+					$cadena .= " VALUES (" . $porciones [$i] . ", ";
+					// anteproyecto: buscar valor de la secuencia actual
+					$cadena .= '(SELECT ';
+					$cadena .= 'last_value ';
+					$cadena .= 'FROM ';
+					$cadena .= 'trabajosdegrado."ANT_SANTP") ); ';
+					$cadenaSql = $cadenaSql . $cadena;
+					var_dump ( $cadenaSql );
+				}
+				
 				break;
 			
 			case "registroDocumento" :
@@ -88,9 +96,8 @@ class Sql extends \Sql {
 				$cadenaSql .= " VALUES (1,";
 				$cadenaSql .= " '" . $_REQUEST ['observaciones'] . "', ";
 				$cadenaSql .= " '" . $_REQUEST ['fecha'] . "', ";
-				// buscar el usuario del estudiante=Código
-				$cadenaSql .= " '" . $_REQUEST ['autores'] . "', ";
-				
+				// Usuario que ha iniciado sesión
+				$cadenaSql .= " '" . $_REQUEST ['usuario'] . "', ";
 				// anteproyecto: buscar valor de la secuencia actual
 				$cadenaSql .= '(SELECT ';
 				$cadenaSql .= 'last_value ';
@@ -104,19 +111,46 @@ class Sql extends \Sql {
 				$cadenaSql .= " '" . $variable ['tipo'] . "' ";
 				$cadenaSql .= ")";
 				$cadenaSql .= " RETURNING dantp_dantp;";
-				var_dump ( $cadenaSql );
+				// var_dump ( $cadenaSql );
 				break;
 			
 			case 'registrarTematicas' :
-				$cadenaSql = " INSERT INTO trabajosdegrado.ant_tacantp ( ";
-				$cadenaSql .= "acantp_acono, acantp_antp) ";
-				$cadenaSql .= " VALUES (" . $variable ['seleccionarTematica'] . ", ";
+				$cadenaSql = "";
+				
+				for($i = 0; $i < $_REQUEST ['numTematicas']; $i ++) {
+					
+					$cadena = " INSERT INTO trabajosdegrado.ant_tacantp ( ";
+					$cadena .= "acantp_acono, acantp_antp) ";
+					$cadena .= " VALUES (" . $variable [$i] . ", ";
+					// anteproyecto: buscar valor de la secuencia actual
+					$cadena .= '(SELECT ';
+					$cadena .= 'last_value ';
+					$cadena .= 'FROM ';
+					$cadena .= 'trabajosdegrado."ANT_SANTP") ); ';
+					$cadenaSql = $cadenaSql . $cadena;
+				}
+				// var_dump ( $cadenaSql );
+				break;
+			
+			case 'registrarHistorial' :
+				
+				$cadenaSql = " INSERT INTO trabajosdegrado.ant_thantp ( ";
+				$cadenaSql .= "hantp_antp, hantp_eantp, hantp_fasig, ";
+				$cadenaSql .= "hantp_obser, hantp_usua) ";
+				$cadenaSql .= " VALUES (";
 				// anteproyecto: buscar valor de la secuencia actual
 				$cadenaSql .= '(SELECT ';
 				$cadenaSql .= 'last_value ';
 				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado."ANT_SANTP") )';
-				var_dump ( $cadenaSql );
+				$cadenaSql .= 'trabajosdegrado."ANT_SANTP"), ';
+				
+				$cadenaSql .= "'" . $_REQUEST ['estado'] . "', ";
+				$cadenaSql .= "'" . $_REQUEST ['fecha'] . "', ";
+				$cadenaSql .= "'" . $_REQUEST ['observaciones'] . "', ";
+				// Usuario que ha iniciado sesión
+				$cadenaSql .= " '" . $_REQUEST ['usuario'] . "' ";
+				$cadenaSql .= ") ";
+				//var_dump ( $cadenaSql );
 				break;
 			
 			case 'buscarTematicas' :
@@ -132,24 +166,23 @@ class Sql extends \Sql {
 				
 				$cadenaSql = "SELECT ";
 				$cadenaSql .= "d.prof_prof, ";
-				$cadenaSql .= "(p.pern_nomb || ' ' ||p.pern_papell || ' ' ||p.pern_sapell) AS  Nombre, ";
-				$cadenaSql .= "d.prof_pern ";
-				
+				$cadenaSql .= "(u.nombre || ' ' ||u.apellido) AS  Nombre, ";
+				$cadenaSql .= "d.prof_us ";
 				$cadenaSql .= "FROM ";
-				$cadenaSql .= "trabajosdegrado.ge_tprof d, ";
-				$cadenaSql .= "trabajosdegrado.ge_tpern p ";
+				$cadenaSql .= "public.polux_usuario u, ";
+				$cadenaSql .= "trabajosdegrado.ge_tprof d ";
 				$cadenaSql .= "WHERE ";
-				$cadenaSql .= "d.prof_tpvinc='Planta'";
-				$cadenaSql .= "and (d.prof_pern=p.pern_pern)";
+				$cadenaSql .= "d.prof_tpvinc='Planta' ";
+				$cadenaSql .= "and (d.prof_us=u.id_usuario";
+				$cadenaSql .= ")";
+				// echo $cadenaSql;
 				break;
 			
 			case 'buscarEstudiantes' :
 				
 				$cadenaSql = "SELECT ";
-				$cadenaSql .= "estd_usua, ";
-				$cadenaSql .= "estd_estd, ";
-				$cadenaSql .= "estd_pern ";
-				
+				$cadenaSql .= "estd_us, ";
+				$cadenaSql .= "estd_estd ";
 				$cadenaSql .= "FROM ";
 				$cadenaSql .= "trabajosdegrado.ge_testd ";
 				break;
@@ -167,6 +200,7 @@ class Sql extends \Sql {
 				
 				$cadenaSql = 'SELECT ';
 				$cadenaSql .= 'eantp_eantp, ';
+				$cadenaSql .= 'eantp_eantp, ';
 				$cadenaSql .= 'eantp_descri ';
 				$cadenaSql .= 'FROM ';
 				$cadenaSql .= 'trabajosdegrado.ant_teantp';
@@ -179,6 +213,17 @@ class Sql extends \Sql {
 				$cadenaSql .= 'pcur_nom as NOMBRE ';
 				$cadenaSql .= 'FROM ';
 				$cadenaSql .= 'trabajosdegrado.ge_tpcur';
+				break;
+			
+			case 'buscarCodigosTematicas' :
+				
+				$cadenaSql = 'SELECT ';
+				$cadenaSql .= 'acono_acono ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.ge_tacono ';
+				$cadenaSql .= "WHERE ";
+				$cadenaSql .= "acono_nom='" . $variable . "' ";
+				// var_dump ( $cadenaSql );
 				break;
 		}
 		

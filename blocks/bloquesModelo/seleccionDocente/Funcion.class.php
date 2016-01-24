@@ -51,17 +51,16 @@ class Funcion {
 		// en la carpeta funcion
 		
 		// Importante: Es adecuado que sea una variable llamada opcion o action la que guie el procesamiento:
-
+		
 		if (isset ( $_REQUEST ['procesarAjax'] )) {
 			$this->procesarAjax ();
 		} else if (isset ( $_REQUEST ["opcion"] )) {
-		
+			
 			switch ($_REQUEST ["opcion"]) {
-		
+				
 				case 'seleccion' :
-					$this->seleccion();
+					$this->seleccion ();
 					break;
-		
 			}
 		} else {
 			$resultado = $this->procesarFormulario ();

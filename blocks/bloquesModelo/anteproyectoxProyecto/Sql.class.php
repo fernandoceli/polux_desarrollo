@@ -86,7 +86,7 @@ class Sql extends \Sql {
 				$cadenaSql .= 'nombre=\'' . $_REQUEST ['nombrePagina'] . '\' ';
 				break;
 			
-			case 'buscarAnteproyecto' :
+			case 'buscarAnteproyectos' :
 				
 				$cadenaSql = 'SELECT ';
 				$cadenaSql .= 'antp_fradi, ';
@@ -98,9 +98,8 @@ class Sql extends \Sql {
 				$cadenaSql .= 'trabajosdegrado.ant_tantp ';
 				$cadenaSql .= 'JOIN trabajosdegrado.ge_tmoda ';
 				$cadenaSql .= 'ON antp_moda = moda_moda ';
-// 				$cadenaSql .= 'WHERE ';
-// 				$cadenaSql .= 'estado=\'RADICADO\' OR estado=\'ASIGNADO REVISORES\'';
-				// $cadenaSql .= 'nombre=\'' . $_REQUEST ['nombrePagina'] . '\' ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'antp_pcur=\'' . $variable . '\' ';
 // 				echo $cadenaSql;
 				break;
 			
@@ -122,6 +121,40 @@ class Sql extends \Sql {
 				$cadenaSql .= $_REQUEST ['nivelPagina'] . ', ';
 				$cadenaSql .= '\'' . $_REQUEST ['parametroPagina'] . '\'';
 				$cadenaSql .= ') ';
+				break;
+			
+			case 'buscarNombrePrograma' :
+				$cadenaSql = 'SELECT pcur_nom ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.ge_tpcur ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'pcur_pcur=\'' . $variable . '\' ';
+				break;
+			
+			case 'buscarProgramaDocente' :
+				$cadenaSql = 'SELECT pcur_pcur ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.ge_tprof ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'trabajosdegrado.ge_tpcur ';
+				$cadenaSql .= 'ON prof_pcur = pcur_pcur ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'prof_us=\'' . $variable . '\' ';
+// 				echo $cadenaSql;
+				break;
+			
+			case 'consultarRol' :
+				$cadenaSql = 'SELECT rol_nombre ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'polux_usuario u ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'polux_usuario_subsistema us ';
+				$cadenaSql .= 'ON u.id_usuario::varchar = us.id_usuario ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'polux_rol r ';
+				$cadenaSql .= 'ON us.rol_id = r.rol_id ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'u.id_usuario=\'' . $variable . '\' ';
 				break;
 		}
 		

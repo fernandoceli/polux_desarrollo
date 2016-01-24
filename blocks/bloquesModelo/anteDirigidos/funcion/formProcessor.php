@@ -2,7 +2,7 @@
 
 namespace bloquesModelo\anteDirigidos\funcion;
 
-include_once ('Redireccionador.php');
+include_once ('redireccionar.php');
 class FormProcessor {
 	var $miConfigurador;
 	var $lenguaje;

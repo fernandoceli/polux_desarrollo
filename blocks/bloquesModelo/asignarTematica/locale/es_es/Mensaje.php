@@ -26,8 +26,8 @@ $this->idioma["passConfirmado"]="Confirmar password:";
 $this->idioma["passConfirmadoTitulo"]="Ingrese password";
 $this->idioma["docente"]="Docente:";
 $this->idioma["docenteTitulo"]="Ingrese el nombre del docente";
-$this->idioma["areas"]="Areas de conocimiento:";
-$this->idioma["areasTitulo"]="Seleccione un area de conocimiento:";
+$this->idioma["seleccionarTematica"]="Temáticas de interés:";
+$this->idioma["seleccionarTematicaTitulo"]="Seleccione las Temáticas de interés del anteproyecto";
 
 $this->idioma["botonIngresar"]="Ingresar";
 $this->idioma["botonAceptar"]="Aceptar";

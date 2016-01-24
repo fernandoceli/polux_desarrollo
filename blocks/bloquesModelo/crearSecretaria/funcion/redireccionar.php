@@ -18,6 +18,7 @@ class redireccion {
 				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=confirma";
+				$variable .= '&usuario=' . $_REQUEST ["usuario"];
 				//$variable .= "&programaCurricular=" . $valor;
 				break;
 			
@@ -26,6 +27,7 @@ class redireccion {
 				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=error";
+				$variable .= '&usuario=' . $_REQUEST ["usuario"];
 				break;
 			
 			default :
