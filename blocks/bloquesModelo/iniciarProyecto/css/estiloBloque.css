@@ -1,0 +1,38 @@
+#tInfo {
+	display: table;
+	width: 50%;
+	font: 14px arial, helvetica, sans-serif;
+	position: relative;
+	left: 7%;
+}
+
+#mensaje {
+	text-align: justify;
+	margin: 0px 15% 20px 20%;
+}
+
+#contenido {
+	text-align: justify;
+	font: 14px arial, helvetica, sans-serif;
+	border-radius: 5px;
+	border: 2px solid #424242;
+	-webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+	box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.75);
+}
+
+h2 {
+	font: 16px arial, helvetica, sans-serif;
+	font-weight: bold;
+	color: #000000 /*#C20000*/;
+	margin: 5px 10px;
+	padding: 2px 0;
+}
+
+h3 {
+	font: 14px arial, helvetica, sans-serif;
+	color: #18174D /*#C20000*/;
+	border-bottom: 1px dotted #aaa;
+	margin: 5px 10px;
+	padding: 2px 0;
+}

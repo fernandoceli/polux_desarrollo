@@ -41,6 +41,10 @@ class Funcion {
         include_once ($this->ruta . "funcion/procesarAjax.php");
     }
     
+    function guardar() {
+    	include_once ($this->ruta . "/funcion/guardar.php");
+    }
+    
     function action() {
         
         $resultado = true;
@@ -54,7 +58,15 @@ class Funcion {
         
         if (isset ( $_REQUEST ['procesarAjax'] )) {
             $this->procesarAjax ();
-        } else{
+        } else if (isset ( $_REQUEST ["opcion"] )) {
+			
+			switch ($_REQUEST ["opcion"]) {
+				
+				case 'guardar' :
+					$this->guardar();
+					break;
+			}
+		} else{
             
             $resultado = $this->procesarFormulario ();
         }
