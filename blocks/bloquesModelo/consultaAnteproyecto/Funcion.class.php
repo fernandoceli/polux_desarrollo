@@ -42,12 +42,14 @@ class Funcion {
 	function registrar() {
 		include_once ($this->ruta . "/funcion/registrar.php");
 	}
-	
 	function mostrar() {
 		include_once ($this->ruta . "/funcion/ver.php");
 	}
 	function asignar() {
 		include_once ($this->ruta . "funcion/asignar.php");
+	}
+	function iniciar_proyecto() {
+		include_once ($this->ruta . "funcion/iniciar.php");
 	}
 	function action() {
 		$resultado = true;
@@ -61,9 +63,9 @@ class Funcion {
 		
 		if (isset ( $_REQUEST ['procesarAjax'] )) {
 			$this->procesarAjax ();
-		} 
-
-		else if (isset ( $_REQUEST ["opcion"] )) {
+		} else if (isset ( $_REQUEST ['botonIni'] ) && ($_REQUEST ['botonIni'] == true)) {
+			$this->iniciar_proyecto();
+		} else if (isset ( $_REQUEST ["opcion"] )) {
 			
 			switch ($_REQUEST ["opcion"]) {
 				

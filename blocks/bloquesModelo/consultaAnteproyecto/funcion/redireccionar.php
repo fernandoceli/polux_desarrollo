@@ -28,6 +28,12 @@ class redireccion {
 				$variable .= "&usuario=" . $_REQUEST['usuario'];
 				break;
 			
+			case "iniciar":
+				$variable = "pagina=iniciarProyecto";
+				$variable .= "&usuario=" . $_REQUEST['usuario'];
+				$variable .= "&anteproyecto=" . $_REQUEST['id'];
+				break;
+			
 			default :
 				$variable = '';
 		}
@@ -42,7 +48,6 @@ class redireccion {
 		$variable = $miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
 		$_REQUEST [$enlace] = $enlace . '=' . $variable;
 		$redireccion = $url . $_REQUEST [$enlace];
-		
 		echo "<script>location.replace('" . $redireccion . "')</script>";
 		
 		

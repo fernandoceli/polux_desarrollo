@@ -7,8 +7,10 @@ $this->idioma["claveTitulo"]="Clave de Acceso";
 
 $this->idioma["botonIngresar"]="Ingresar";
 $this->idioma["botonAceptar"]="Aceptar";
+$this->idioma["botonIni"]="Iniciar proyecto";
 $this->idioma["botonCancelar"]="Cancelar";
 $this->idioma["botonCancelar2"]="Cancelar";
+$this->idioma["botonCancelarIni"]="Cancelar";
 $this->idioma["noDefinido"]="No definido";
 $this->idioma["botonIngresar"]="Ingresar";
 $this->idioma["botonCrear"]="Aceptar";

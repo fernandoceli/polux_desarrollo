@@ -1,4 +1,5 @@
 div.campoBoton {
+	padding: -1px 30px;
 	display: inline-block;
 }
 
@@ -12,7 +13,7 @@ div.formulario{
 	border: 2px solid #424242;
 	-webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
 	-moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
-	box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+	box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.75);
 	width: 48%;
 	margin-top: .5em;
 }
@@ -26,7 +27,7 @@ div.formulario{
 	border: 2px solid #424242;
 	-webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
 	-moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
-	box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+	box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.75);
 	margin-top: .5em;
 	margin-bottom: .5em;
 	margin-left: 1em;
@@ -48,11 +49,18 @@ div.formulario{
 .estilo_tr {
 	border-style: solid;
 	border-color: white;
+	text-align: center;
 }
 
 .tit {
 	text-align: center;
 	color: red;
+}
+
+.res {
+	border-radius: 2px;
+	border: 1px solid gray;
+	box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.75);
 }
 
 table.dataTable tbody tr {
@@ -126,6 +134,25 @@ body { /*font: 62.5% "Arial", sans-serif*/
 	cursor: pointer;
 }
 
+titulo { /* font: 24px Georgia,"Times New Roman",Times,serif; */
+	font: 22px arial, helvetica, sans-serif;
+	font-weight: bold;
+	margin: 5px 10px 5px 10px;
+	padding-bottom: 5px;
+	text-align: center;
+	/* 	border-bottom: 1px solid #5E5E5E; */
+}
+
+.pregunta {
+	text-align: center;
+	font: 14px arial, helvetica, sans-serif;
+	border-radius: 5px;
+	border: 2px solid #ffffff;
+	-webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+	box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.75);
+}
+
 h1 { /* font: 24px Georgia,"Times New Roman",Times,serif; */
 	font: 22px arial, helvetica, sans-serif;
 	font-weight: bold;
@@ -146,6 +173,14 @@ h3 {
 	font: 14px arial, helvetica, sans-serif;
 	color: #18174D /*#C20000*/;
 	border-bottom: 1px dotted #aaa;
+	margin: 5px 10px;
+	padding: 2px 0;
+}
+
+h4 {
+	font: 14px arial, helvetica, sans-serif;
+	font-weight: bold;
+	color: #000000 /*#C20000*/;
 	margin: 5px 10px;
 	padding: 2px 0;
 }
@@ -218,6 +253,19 @@ b {
 		inset;
 	position: relative;
 	left: 7%;
+}
+
+.table2 {
+	display: table;
+	width: 85%;
+	font: 14px arial, helvetica, sans-serif;
+	text-align: left;
+	background: #ffffff;
+	margin: 10px 10px 10px 30px;
+}
+
+.izq {
+	text-align: right;
 }
 
 .idnt {

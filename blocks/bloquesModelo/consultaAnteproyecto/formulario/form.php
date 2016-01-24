@@ -212,7 +212,7 @@ class Formulario {
 
 			<tr>
 				<td class="table-tittle estilo_tr">Estado</td>
-				<td class="estilo_tr"><p><?php echo $matrizAnteproyectos[0][7]?></p></td>
+				<td class="estilo_tr"><p class="res"><?php echo $matrizAnteproyectos[0][7]?></p></td>
 			</tr>
 
 		</table>
@@ -257,13 +257,19 @@ class Formulario {
 		
 		<?php
 		
-		if ($matrizAnteproyectos [0] [7] == 'PROYECTO') {
-			
-			// ------------------Division para los botones-------------------------
-			$atributos ["id"] = "botones";
-			$atributos ["estilo"] = "marcoBotones";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			
+		$viab = true;
+		for($i = 0; $i < count($matrizRespuesta); $i++) {
+			if ($matrizRespuesta [$i] [2] != "VIABLE") {
+				$viab = false;	
+			}
+		}
+		
+		// ------------------Division para los botones-------------------------
+		$atributos ["id"] = "botones";
+		$atributos ["estilo"] = "marcoBotones";
+		echo $this->miFormulario->division ( "inicio", $atributos );
+		
+		if ($viab) {
 			// -----------------CONTROL: Bot贸n ----------------------------------------------------------------
 			$esteCampo = 'botonIniciar';
 			$atributos ["id"] = $esteCampo;
@@ -273,6 +279,7 @@ class Formulario {
 			$atributos ['submit'] = true;
 			$atributos ["estiloMarco"] = '';
 			$atributos ["estiloBoton"] = 'jqueryui';
+			$atributos ['columnas'] = 2;
 			// verificar: true para verificar el formulario antes de pasarlo al servidor.
 			$atributos ["verificar"] = '';
 			$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la funci贸n submit declarada en ready.js
@@ -284,31 +291,32 @@ class Formulario {
 			$atributos = array_merge ( $atributos, $atributosGlobales );
 			echo $this->miFormulario->campoBoton ( $atributos );
 			// -----------------FIN CONTROL: Bot贸n -----------------------------------------------------------
-			
-			// -----------------CONTROL: Bot贸n ----------------------------------------------------------------
-			$esteCampo = 'botonHistorico';
-			$atributos ["id"] = $esteCampo;
-			$atributos ["tabIndex"] = $tab;
-			$atributos ["tipo"] = 'boton';
-			// submit: no se coloca si se desea un tipo button gen茅rico
-			$atributos ['submit'] = true;
-			$atributos ["estiloMarco"] = '';
-			$atributos ["estiloBoton"] = 'jqueryui';
-			// verificar: true para verificar el formulario antes de pasarlo al servidor.
-			$atributos ["verificar"] = '';
-			$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la funci贸n submit declarada en ready.js
-			$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-			$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-			$tab ++;
-			
-			// Aplica atributos globales al control
-			$atributos = array_merge ( $atributos, $atributosGlobales );
-			echo $this->miFormulario->campoBoton ( $atributos );
-			// -----------------FIN CONTROL: Bot贸n -----------------------------------------------------------
-			
-			// ------------------Fin Division para los botones-------------------------
-			echo $this->miFormulario->division ( "fin" );
 		}
+		
+		// -----------------CONTROL: Bot髇 ----------------------------------------------------------------
+		$esteCampo = 'botonH';
+		$atributos ["id"] = $esteCampo;
+		$atributos ["tabIndex"] = $tab;
+		$atributos ["tipo"] = 'boton';
+		// submit: no se coloca si se desea un tipo button gen閞ico
+		$atributos ['submit'] = true;
+		$atributos ["estiloMarco"] = '';
+		$atributos ["estiloBoton"] = 'jqueryui';
+		// verificar: true para verificar el formulario antes de pasarlo al servidor.
+		$atributos ["verificar"] = '';
+		$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la funci髇 submit declarada en ready.js
+		$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+		$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+		$tab ++;
+		
+		// Aplica atributos globales al control
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoBoton ( $atributos );
+		// -----------------FIN CONTROL: Bot髇 -----------------------------------------------------------
+
+		// ------------------Fin Division para los botones-------------------------
+		echo $this->miFormulario->division ( "fin" );
+		
 		?>
 <!-- 		<button type="button" id="btn3">Iniciar proyecto</button> -->
 		<!-- 		<button type="button" id="btn4">Historico anteproyecto</button> -->
@@ -316,7 +324,7 @@ class Formulario {
 
 	<div id="der">
 		<div id="versiones">
-			<h3>Versiones del Documento</h3>
+			<h4>Versiones del Documento</h4>
 			<p class="idnt">A continucion encontraras las ultimas versiones del
 				documento que se hayan cargado al sistema. Para cargar el documento
 				por favor seleccione la version que desea descargar.</p>
@@ -386,7 +394,7 @@ class Formulario {
 		if ($matrizRevisor) {
 			?>
 			<div id="revisores">
-			<h3>Solicitudes de Asignacion de Revisor</h3>
+			<h4>Solicitudes de Asignacion de Revisor</h4>
 			<p class="idnt">A continucion encontrara un resumen de las
 				solicitudes creadas.</p>
 			<table id="vers" class="table">
@@ -430,7 +438,7 @@ class Formulario {
 		} else {
 			?>
 		<div id="revisores">
-			<h3>Solicitudes de Asignacion de Revisor</h3>
+			<h4>Solicitudes de Asignacion de Revisor</h4>
 			<p class="idnt2">
 				Aun no exiten solicitudes de asignacion de revision indicadas por el
 				programa curricular. <br> <strong>NOTA: </strong> Una vez el
@@ -455,12 +463,13 @@ class Formulario {
 		if ($matrizRespuesta) {
 			?>
 			<div id="proceso">
-			<h3>Proceso de revision (<?php echo count ( $matrizRespuesta );?>/3)</h3>
-			<p class="idnt">
-				Responsable: <strong>Revisores</strong>
-					Dias restantes <?php echo  ($fecini - $fecact['mday']) + 20;?>/20
-				
-			</p>
+			<h4>Proceso de revision (<?php echo count ( $matrizRespuesta );?>/3)</h4>
+			<table class="table2">
+				<tr>
+					<td>Responsable: <strong>Revisores</strong></td>
+					<td class="izq">Dias restantes <?php echo  ($fecini - $fecact['mday']) + 20;?>/20</td>
+				</tr>
+			</table>
 			<table id="proc" class="table">
 				<tr>
 					<td class="estilo_tr tit" colspan="5">Solicitudes de asignacion de
@@ -508,7 +517,7 @@ class Formulario {
 		} else {
 			?>
 		<div id="proceso">
-			<h3>Proceso de revision</h3>
+			<h4>Proceso de revision</h4>
 			<p class="idnt2">
 				Aun no exiten procesos de evaluacion iniciados. Para iniciar un
 				proceso de evalucacion es indispensable que solicite revision de la
@@ -517,7 +526,7 @@ class Formulario {
 				tendran un plazo maximo de 10 dias calendario para dar respuesta a
 				la solicitud
 			</p>
-		
+
 		</div>
 			
 		<?php
@@ -541,7 +550,7 @@ class Formulario {
 			?>
 		
 		<div id="modif">
-			<h3>Solicitud de modificacion</h3>
+			<h4>Solicitud de modificacion</h4>
 			<p class="idnt2">
 				No existen procesos de moficiacion pendientes. Es indispensable que
 				todos procesos de revision finalizen para determinar si es necesario
@@ -557,13 +566,13 @@ class Formulario {
 		} else {
 			?>
 		<div id="modif">
-			<h3>Solicitud de modificacion</h3>
+			<h4>Solicitud de modificacion</h4>
 			<p class="idnt">A continuacion se observa la modificacion requerida
 				por el revisor:</p>
 			<table id="proc" class="table">
 				<tr>
-					<td class="estilo_tr tit" colspan="5">Solicitudes de modificacion de
-						revision</td>
+					<td class="estilo_tr tit" colspan="5">Solicitudes de modificacion
+						de revision</td>
 				</tr>
 				<tr>
 					<td class="table-tittle estilo_tr" colspan="2">Revisor</td>
@@ -574,8 +583,8 @@ class Formulario {
 				<?php
 			// var_dump($matrizRespuesta);
 			for($i = 0; $i < count ( $matrizRespuesta ); $i ++) {
-				if ($matrizRespuesta[$i][2] == "MODIFICABLE") {
-				?>
+				if ($matrizRespuesta [$i] [2] == "MODIFICABLE") {
+					?>
 				<tr>
 					<td class="estilo_tr">
 						<div class="corner bg-imagen-documento">
@@ -641,27 +650,6 @@ class Formulario {
 			echo $this->miFormulario->campoBoton ( $atributos );
 			// -----------------FIN CONTROL: Bot髇 -----------------------------------------------------------
 		}
-		// -----------------CONTROL: Bot髇 ----------------------------------------------------------------
-		$esteCampo = 'botonH';
-		$atributos ["id"] = $esteCampo;
-		$atributos ["tabIndex"] = $tab;
-		$atributos ["tipo"] = 'boton';
-		// submit: no se coloca si se desea un tipo button gen閞ico
-		$atributos ['submit'] = true;
-		$atributos ["estiloMarco"] = '';
-		$atributos ["estiloBoton"] = 'jqueryui';
-		// verificar: true para verificar el formulario antes de pasarlo al servidor.
-		$atributos ["verificar"] = '';
-		$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la funci髇 submit declarada en ready.js
-		$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-		$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-		$tab ++;
-		
-		// Aplica atributos globales al control
-		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoBoton ( $atributos );
-		// -----------------FIN CONTROL: Bot髇 -----------------------------------------------------------
-		
 		// ------------------Fin Division para los botones-------------------------
 		echo $this->miFormulario->division ( "fin" );
 		
@@ -682,7 +670,7 @@ class Formulario {
 		
 		// Paso 1: crear el listado de variables
 		
-		// $valorCodificado = "action=" . $esteBloque ["nombre"]; // Ir pagina Funcionalidad
+		$valorCodificado = "action=" . $esteBloque ["nombre"]; // Ir pagina Funcionalidad
 		$valorCodificado = "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' ); // Frontera mostrar formulario
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
