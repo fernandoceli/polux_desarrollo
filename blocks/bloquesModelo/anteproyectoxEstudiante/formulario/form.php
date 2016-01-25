@@ -111,7 +111,7 @@ class Formulario {
 			$_REQUEST ["variable"] = $_REQUEST ['usuario'];
 		}
 		
-	if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
+		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
 			// $_REQUEST ["variable"] = '321456789';
 			$acceso = true;
 		}
@@ -246,6 +246,9 @@ class Formulario {
 		$valorCodificado = "action=" . $esteBloque ["nombre"];
 		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
 		$valorCodificado .= "&usuario=" . $usuario;
+		if (isset ( $_REQUEST ['variable'] )) {
+			$valorCodificado .= "&estudiante=" . $_REQUEST ['variable'];
+		}
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&opcion=ver";

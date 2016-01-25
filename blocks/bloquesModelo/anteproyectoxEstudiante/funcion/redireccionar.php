@@ -24,6 +24,7 @@ class redireccion {
 				$variable = 'pagina=verAnteproyecto';
 				$variable .= '&usuario=' . $valor['usuario'];
 				$variable .= '&ante=' . $valor['ante'];
+				$variable .= '&estudiante=' . $valor['estudiante'];
 				break;
 			
 			default :
