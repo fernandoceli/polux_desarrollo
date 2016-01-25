@@ -18,20 +18,22 @@ class redireccion {
 				$variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=confirma";
 				$variable .= "&programaCurricular=" . $valor;
-				$variable .= "&usuario=" . $_REQUEST['usuario'];
+				$variable .= "&usuario=" . $_REQUEST ['usuario'];
 				break;
 			
 			case "noInserto" :
 				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=error";
-				$variable .= "&usuario=" . $_REQUEST['usuario'];
+				$variable .= "&usuario=" . $_REQUEST ['usuario'];
 				break;
 			
-			case "iniciar":
+			case "iniciar" :
 				$variable = "pagina=iniciarProyecto";
-				$variable .= "&usuario=" . $_REQUEST['usuario'];
-				$variable .= "&anteproyecto=" . $_REQUEST['id'];
+				$variable .= "&usuario=" . $_REQUEST ['usuario'];
+				$variable .= "&anteproyecto=" . $_REQUEST ['id'];
+				$variable .= "&estudiante=" . $_REQUEST ['estudiante'];
+				$variable .= "&rol=" . $_REQUEST ['rol'];
 				break;
 			
 			default :
@@ -44,12 +46,11 @@ class redireccion {
 		$url = $miConfigurador->configuracion ["host"] . $miConfigurador->configuracion ["site"] . "/index.php?";
 		
 		$enlace = $miConfigurador->configuracion ['enlace'];
-		//var_dump($variable);
+		// var_dump($variable);
 		$variable = $miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
 		$_REQUEST [$enlace] = $enlace . '=' . $variable;
 		$redireccion = $url . $_REQUEST [$enlace];
 		echo "<script>location.replace('" . $redireccion . "')</script>";
-		
 		
 		return true;
 	}

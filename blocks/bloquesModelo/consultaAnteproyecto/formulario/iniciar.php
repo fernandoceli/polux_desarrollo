@@ -153,6 +153,8 @@ class Formulario {
 		$valorCodificado = "action=" . $esteBloque ["nombre"];
 		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
 		$valorCodificado .= "&usuario=" . $_REQUEST ['usuario'];
+		$valorCodificado .= "&estudiante=" . $_REQUEST ['estudiante'];
+		$valorCodificado .= "&rol=" . $_REQUEST ['rol'];
 		$valorCodificado .= "&id=" . $_REQUEST ['id'];
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];

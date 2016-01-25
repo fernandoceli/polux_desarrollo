@@ -10,6 +10,7 @@ class Formulario {
 	var $miConfigurador;
 	var $lenguaje;
 	var $miFormulario;
+	var $miSesion;
 	function __construct($lenguaje, $formulario, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		
@@ -20,6 +21,8 @@ class Formulario {
 		$this->miFormulario = $formulario;
 		
 		$this->miSql = $sql;
+		
+		$this->miSesion = \Sesion::singleton ();
 	}
 	function formulario() {
 		
@@ -56,17 +59,29 @@ class Formulario {
 		$conexion = 'estructura';
 		$esteRecurso = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
+		$usuario = $this->miSesion->getSesionUsuarioId ();
+		
 		// saber si es coordinador
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $_REQUEST ['usuario'] );
-		$matrizAnteproyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		$matrizRol = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		// var_dump($matrizItems);
-		$coordinador = false;
-		for($i = 0; $i < count ( $matrizAnteproyectos ); $i ++) {
-			// or $matrizItems[$i][0]='Desarrollo y Pruebas'
-			// var_dump($matrizItems[$i][0]);
-			if ($matrizAnteproyectos [$i] [0] == 'Coordinador') {
-				$coordinador = true;
-			}
+		
+		$rol = $matrizRol [0] [0];
+		$acceso = false;
+		$mostrar = false;
+		// echo $rol;
+		// var_dump($_REQUEST);
+		
+		if ($rol == "Estudiante") {
+			$acceso = true;
+			$mostrar = true;
+			$_REQUEST ["variable"] = $_REQUEST ['usuario'];
+		}
+		
+		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
+			// $_REQUEST ["variable"] = '321456789';
+			$acceso = true;
+			$mostrar = true;
 		}
 		
 		// -------------------------------------------------------------------------------------------------
@@ -269,7 +284,7 @@ class Formulario {
 		$atributos ["estilo"] = "marcoBotones";
 		echo $this->miFormulario->division ( "inicio", $atributos );
 		
-		if ($viab) {
+		if ($viab && $mostrar && $matrizAnteproyectos[0][7] != "PROYECTO") {
 			// -----------------CONTROL: Botón ----------------------------------------------------------------
 			$esteCampo = 'botonIniciar';
 			$atributos ["id"] = $esteCampo;
@@ -675,6 +690,8 @@ class Formulario {
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&usuario=" . $_REQUEST ['usuario'];
+		$valorCodificado .= "&estudiante=" . $_REQUEST ['estudiante'];
+		$valorCodificado .= "&rol=" . $rol;
 		$valorCodificado .= "&opcion=asignar";
 		/**
 		 * SARA permite que los nombres de los campos sean dinámicos.
