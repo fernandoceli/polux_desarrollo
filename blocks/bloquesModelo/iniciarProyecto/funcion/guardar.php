@@ -19,9 +19,7 @@ class Registrar {
 		$this->miSql = $sql;
 		// $this->miFuncion = $funcion;
 	}
-	
 	function procesarFormulario() {
-		
 		if (isset ( $_REQUEST ['botonIniciar'] ) && $_REQUEST ['botonIniciar'] == "true") {
 			$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
 			
@@ -35,131 +33,167 @@ class Registrar {
 			// Al final se ejecuta la redirección la cual pasará el control a otra página
 			$conexion = "estructura";
 			$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-
-			var_dump($_REQUEST);
-			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", $_REQUEST['anteproyecto']);
+			
+			var_dump ( $_REQUEST );
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", $_REQUEST ['anteproyecto'] );
 			$matrizAnteproyecto = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 			
-// 			echo $atributos['cadena_sql'];
-			var_dump($matrizAnteproyecto);
-// 			exit();
+			// echo $atributos['cadena_sql'];
+			var_dump ( $matrizAnteproyecto );
+			// exit();
 			
-			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "actualizarAnteproyecto", $_REQUEST['anteproyecto']);
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "actualizarAnteproyecto", $_REQUEST ['anteproyecto'] );
 			$matrizActualizar = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "actualizar" );
-// 			echo $atributos['cadena_sql'];
+			// echo $atributos['cadena_sql'];
 			
-			date_default_timezone_set('America/Bogota');
+			date_default_timezone_set ( 'America/Bogota' );
 			
-			$proyecto = array(
-					"ante" => $_REQUEST['anteproyecto'],
-					"modalidad" => $matrizAnteproyecto[0]['antp_moda'],
-					"programa" => $matrizAnteproyecto[0]['antp_pcur'],
-					"titulo" => $_REQUEST['titulo'],
-					"proy_fcrea" => date("Y-m-d"),
-					"descripcion" => $_REQUEST['descripcion'],
-					"comentario" => $_REQUEST['comentario'],
+			$fecha = date ( "Y-m-d" );
+			
+			$proyecto = array (
+					"ante" => $_REQUEST ['anteproyecto'],
+					"modalidad" => $matrizAnteproyecto [0] ['antp_moda'],
+					"programa" => $matrizAnteproyecto [0] ['antp_pcur'],
+					"titulo" => $_REQUEST ['titulo'],
+					"proy_fcrea" => $fecha,
+					"descripcion" => $_REQUEST ['descripcion'],
+					"comentario" => $_REQUEST ['comentario'],
 					"estado" => "EN DESARROLLO",
-					"duracion" => "6"
+					"duracion" => "6" 
 			);
 			
 			// registro de proyecto
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( 'guardarProyecto', $proyecto );
-			$resultado = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], 'insertar' );
-// 			echo $atributos['cadena_sql'];
-			exit();
+			$resultadoProyecto = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], 'insertar' );
 			
-			if ($resultado) {
-				//var_dump ( $_FILES );
-				//$fechaActual = date ( 'Y-m-d' );
+			var_dump($resultadoProyecto);
+			
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( 'obtenerID', $proyecto );
+			$IDproyecto = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], 'busqueda' );
+			
+			var_dump($IDproyecto);
+			
+			$_REQUEST['proyecto'] = $IDproyecto[0][0];
+			// echo $atributos['cadena_sql'];
+			
+			echo $resultadoProyecto;
+			
+			if ($resultadoProyecto) {
+				// var_dump ( $_FILES );
+				// $fechaActual = date ( 'Y-m-d' );
 				
-				//registro de historial
-				$cadenaSql33 = $this->miSql->getCadenaSql ( 'registrarHistorial', $_REQUEST );
-				$resultado33 = $esteRecursoDB->ejecutarAcceso ( $cadenaSql33, 'insertar' );
+				$historial = array (
+						"estado" => "EN DESARROLLO",
+						"fecha" => $fecha,
+						"observaciones" => $_REQUEST ['comentario'],
+						"usuario" => $_REQUEST ['usuario'] 
+				);
 				
-				$i = 0;
-				foreach ( $_FILES as $key => $values ) {
+				// registro de historial
+				$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( 'registrarHistorial', $historial );
+				$resultadoHistorial = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], 'insertar' );
+				// echo $atributos ['cadena_sql'];
+				// exit();
+				echo $resultadoHistorial;
+				
+				if ($resultadoHistorial) {
 					
-					$archivo [$i] = $_FILES [$key];
-					$i ++;
-				}
-				
-				$archivo = $archivo [0];
-				
-				if (isset ( $archivo )) {
-					// obtenemos los datos del archivo
-					$tamano = $archivo ['size'];
-					$tipo = $archivo ['type'];
-					$archivo1 = $archivo ['name'];
-					$prefijo = substr ( md5 ( uniqid ( rand () ) ), 0, 6 );
+					$i = 0;
+					foreach ( $_FILES as $key => $values ) {
+						
+						$archivo [$i] = $_FILES [$key];
+						$i ++;
+					}
 					
-					if ($archivo1 != "") {
-						// guardamos el archivo a la carpeta files
-						$destino1 = $rutaBloque . "/documento/" . $prefijo . "_" . $archivo1;
-						//var_dump($destino1);
-						if (copy ( $archivo ['tmp_name'], $destino1 )) {
-							$status = "Archivo subido: <b>" . $archivo1 . "</b>";
-							$destino1 = $host . "/documento/" . $prefijo . "_" . $archivo1;
-							
-							
-							//var_dump($destino1);
-							$arreglo = array (
-									'fecha' => $_REQUEST ['fecha'],
-									'destino' => $destino1,
-									'nombre' => $archivo1,
-									'tamano' => $tamano,
-									'tipo' => $tipo,
-									'estado' => 1 
-							);
-							
-							
-							$cadenaSql2 = $this->miSql->getCadenaSql ( "registroDocumento", $arreglo );
-							$idAprobacion = $esteRecursoDB->ejecutarAcceso ( $cadenaSql2, 'registroDocumento', $arreglo, "registroDocumento" );	
-							//var_dump ( $idAprobacion );
-							
-							if ($idAprobacion == false) {
-								redireccion::redireccionar ( 'noInserto' );
-								exit ();
-							} else {
-								//arreglo para los cods temáticas
-								$codTematicas = array ();
+					$archivo = $archivo [0];
+					
+					echo isset ( $archivo );
+					
+					if (isset ( $archivo )) {
+						// obtenemos los datos del archivo
+						$tamano = $archivo ['size'];
+						$tipo = $archivo ['type'];
+						$archivo1 = $archivo ['name'];
+						$prefijo = substr ( md5 ( uniqid ( rand () ) ), 0, 6 );
+						
+						echo $archivo1;
+						
+						if ($archivo1 != "") {
+							// guardamos el archivo a la carpeta files
+							$destino1 = $rutaBloque . "/documento/" . $prefijo . "_" . $archivo1;
+							// var_dump($destino1);
+							if (copy ( $archivo ['tmp_name'], $destino1 )) {
+								$status = "Archivo subido: <b>" . $archivo1 . "</b>";
+								$destino1 = $host . "/documento/" . $prefijo . "_" . $archivo1;
 								
-								$cadenaSql3 = $this->miSql->getCadenaSql ( "registrarEstudiantes", $_REQUEST );
-								$resul = $esteRecursoDB->ejecutarAcceso ( $cadenaSql3, 'registrarEstudiantes');
+								// var_dump($destino1);
+								$aDoc = array (
+										'fecha' => $fecha,
+										'destino' => $destino1,
+										'nombre' => $archivo1,
+										'tamano' => $tamano,
+										'tipo' => $tipo,
+										'estado' => 1,
+										"usuario" => $_REQUEST ['usuario'] 
+								);
 								
+								$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "registroDocumento", $aDoc );
+								$resultadoDocumento = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], 'registroDocumento', $aDoc, "registroDocumento" );
+								// var_dump ( $idAprobacion );
+								// exit ();
+								echo $resultadoDocumento;
 								
-								$tematicas=$_REQUEST ['nombresTematicas'];
-								$porciones = explode(";", $tematicas);
-								//var_dump($porciones);
-							
-								for($i = 0; $i < $_REQUEST ['numTematicas']; $i++){
-									$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarCodigosTematicas", $porciones[$i] );
-									$matrizItems2 = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-									//var_dump($matrizItems2);
+								if ($resultadoDocumento == false) {
+									exit ();
+									redireccion::redireccionar ( 'noInserto' );
+									exit ();
+								} else {
 									
-									array_push($codTematicas, $matrizItems2[0][0]);
+									$autores = array ();
+									
+									for($i = 0; $i < count ( $matrizAnteproyecto ); $i ++) {
+										if (! in_array ( $matrizAnteproyecto [$i] ['estantp_estd'] , $autores)) {
+											array_push ( $autores, $matrizAnteproyecto [$i] ['estantp_estd'] );
+										}
+									}
+									
+									$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "registrarEstudiantes", $autores );
+									$resultadoEstudiantes = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], 'registrarEstudiantes' );
+									
+									var_dump ( $resultadoEstudiantes );
+// 									exit();
+									
+									$tematicas = array ();
+										
+									for($i = 0; $i < count ( $matrizAnteproyecto ); $i ++) {
+										if (! in_array ( $matrizAnteproyecto [$i] ['acantp_acono'] , $tematicas)) {
+											array_push ( $tematicas, $matrizAnteproyecto [$i] ['acantp_acono'] );
+										}
+									}
+									
+									$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "registrarTematicas", $tematicas );
+									$resultadoTematicas = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], 'registrarTematicas', $tematicas, "registrarAutores" );
+									
+									redireccion::redireccionar ( 'inserto' );
+									exit ();
 								}
-								
-								//var_dump($codTematicas);
-									
-								$cadenaSql5 = $this->miSql->getCadenaSql ( "registrarTematicas", $codTematicas );
-								$resul3 = $esteRecursoDB->ejecutarAcceso ( $cadenaSql5, 'registrarTematicas', $codTematicas, "registrarAutores" );
-								
-								redireccion::redireccionar ( 'inserto' );
+							} else {
+								$status = "Error al subir el archivo";
+								redireccion::redireccionar ( 'noInserto' );
 								exit ();
 							}
 						} else {
-							$status = "Error al subir el archivo";
+							$status = "Error al subir archivo";
 							redireccion::redireccionar ( 'noInserto' );
 							exit ();
 						}
-					} else {
-						$status = "Error al subir archivo";
-						redireccion::redireccionar ( 'noInserto');
-						exit ();
 					}
+					redireccion::redireccionar ( 'inserto' );
+					exit ();
+				} else {
+					redireccion::redireccionar ( 'noInserto' );
+					exit ();
 				}
-				redireccion::redireccionar ( 'inserto' );
-				exit ();
 			} else {
 				redireccion::redireccionar ( 'noInserto' );
 				exit ();

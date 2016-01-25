@@ -19,6 +19,8 @@ class redireccion {
 				$variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=confirma";
 				$variable .= "&usuario=" . $_REQUEST ['usuario'];
+				$variable .= "&anteproyecto=" . $_REQUEST ['anteproyecto'];
+				$variable .= "&proyecto=" . $_REQUEST ['proyecto'];
 				break;
 			
 			case "noInserto" :
@@ -26,8 +28,13 @@ class redireccion {
 				$variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=error";
 				$variable .= "&usuario=" . $_REQUEST ['usuario'];
+				$variable .= "&anteproyecto=" . $_REQUEST ['anteproyecto'];
 				break;
 			
+			case 'bienvenida':
+				$variable = "pagina=indexPolux";
+				$variable .= "&usuario=" . $_REQUEST ['usuario'];
+				break;
 			
 			default :
 				$variable = 'pagina=bienvenida';
@@ -45,8 +52,6 @@ class redireccion {
 		$variable = $miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
 		$_REQUEST [$enlace] = $enlace . '=' . $variable;
 		$redireccion = $url . $_REQUEST [$enlace];
-		
-		// var_dump($_REQUEST);
 		
 		echo "<script>location.replace('" . $redireccion . "')</script>";
 		return true;

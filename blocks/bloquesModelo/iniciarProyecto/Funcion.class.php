@@ -45,6 +45,10 @@ class Funcion {
     	include_once ($this->ruta . "/funcion/guardar.php");
     }
     
+    function continuar() {
+    	include_once ($this->ruta . "/funcion/continuar.php");
+    }
+    
     function action() {
         
         $resultado = true;
@@ -65,6 +69,10 @@ class Funcion {
 				
 				case 'guardar' :
 					$this->guardar();
+					break;
+					
+				case 'continuar':
+					$this->continuar();
 					break;
 			}
 		} else{
