@@ -55,14 +55,12 @@ class Registrar {
 		
 		var_dump ( $elim );
 		
-		
 		if ($elim) {
 			$_REQUEST ['numTematicasElim'] = count ( $elim );
 			$cadenaSql = $this->miSql->getCadenaSql ( "quitarTematica", $elim );
 			echo $cadenaSql;
 			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "eliminar" );
 		}
-		
 		
 		$cods = array ();
 		$num = 0;
@@ -76,9 +74,10 @@ class Registrar {
 		
 		var_dump ( $codTematicas );
 		var_dump ( $cods );
-		var_dump ( $resultado );
+		if (isset ( $resultado ))
+			var_dump ( $resultado );
 		var_dump ( $_REQUEST );
-// 		exit ();
+		// exit ();
 		
 		if ($cods) {
 			$cadenaSql = $this->miSql->getCadenaSql ( "asignarTematica", $cods );
