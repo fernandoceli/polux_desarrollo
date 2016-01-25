@@ -89,17 +89,24 @@ class Sql extends \Sql {
 			case 'buscarProyectos' :
 				
 				$cadenaSql = 'SELECT ';
-				$cadenaSql .= 'pro_fradi, ';
-				$cadenaSql .= 'pro_antp, ';
-				$cadenaSql .= 'moda_nombre,';
-				$cadenaSql .= 'pro_titu,';
-				$cadenaSql .= 'pro_eantp ';
+				$cadenaSql .= 'proy_fcrea, ';
+				$cadenaSql .= 'proy_proy, ';
+				$cadenaSql .= 'proy_titu, ';
+				$cadenaSql .= 'nombre || \' \' || apellido AS estudiante,';
+				$cadenaSql .= 'moda_nombre, ';
+				$cadenaSql .= 'proy_eproy ';
 				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado.pro_tpro ';
+				$cadenaSql .= 'trabajosdegrado.pry_tproy ';
+				$cadenaSql .= 'JOIN trabajosdegrado.pry_testpry ';
+				$cadenaSql .= 'ON proy_proy=estproy_proy ';
+				$cadenaSql .= 'JOIN trabajosdegrado.ge_testd ';
+				$cadenaSql .= 'ON estproy_estd=estd_estd ';
+				$cadenaSql .= 'JOIN polux_usuario ';
+				$cadenaSql .= 'ON estd_us=id_usuario ';
 				$cadenaSql .= 'JOIN trabajosdegrado.ge_tmoda ';
-				$cadenaSql .= 'ON pro_moda = moda_moda ';
+				$cadenaSql .= 'ON proy_moda=moda_moda ';
 				$cadenaSql .= 'WHERE ';
-				$cadenaSql .= 'pro_pcur=\'' . $variable . '\' ';
+				$cadenaSql .= 'proy_pcur=\'' . $variable . '\'; ';
 				// echo $cadenaSql;
 				break;
 			
@@ -140,7 +147,7 @@ class Sql extends \Sql {
 				$cadenaSql .= 'ON prof_pcur = pcur_pcur ';
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'prof_us=\'' . $variable . '\' ';
-// 				echo $cadenaSql;
+				// echo $cadenaSql;
 				break;
 			
 			case 'consultarRol' :
@@ -155,6 +162,14 @@ class Sql extends \Sql {
 				$cadenaSql .= 'ON us.rol_id = r.rol_id ';
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'u.id_usuario=\'' . $variable . '\' ';
+				break;
+			
+			case 'buscarNombrePrograma' :
+				$cadenaSql = 'SELECT pcur_nom ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.ge_tpcur ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'pcur_pcur=\'' . $variable . '\' ';
 				break;
 		}
 		

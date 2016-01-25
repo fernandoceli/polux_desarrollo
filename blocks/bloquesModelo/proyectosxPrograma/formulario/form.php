@@ -81,26 +81,13 @@ class Formulario {
 		
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
-		$esteCampo = 'ante';
-		$atributos ["id"] = $esteCampo;
-		$atributos ["tipo"] = "hidden";
-		$atributos ['estilo'] = '';
-		$atributos ['validar'] = '';
-		$atributos ["obligatorio"] = true;
-		$atributos ['marco'] = true;
-		$atributos ["etiqueta"] = "";
-		
-		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoCuadroTexto ( $atributos );
-		unset ( $atributos );
-		
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $usuario );
-		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		$matrizProyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
 		// var_dump($matrizItems);
 		// var_dump($matrizItems[0]);
 		
-		$rol = $matrizItems [0] [0];
+		$rol = $matrizProyectos [0] [0];
 		$acceso = false;
 		$mostrar = true;
 		// echo $rol;
@@ -109,128 +96,163 @@ class Formulario {
 		if ($rol == "Coordinador") {
 			$acceso = true;
 			$_REQUEST ['docente'] = $_REQUEST ['usuario'];
-			// $_REQUEST['docente'] = 'CC321456789';
+			
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarProgramaDocente", $_REQUEST ['docente'] );
-			$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-			var_dump ( $matrizItems );
-			$_REQUEST ["variable"] = $matrizItems [0] [0];
+			$matrizProyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+			var_dump ( $matrizProyectos );
+			$_REQUEST ["variable"] = $matrizProyectos [0] [0];
 		}
 		
-		if ($rol == 'Administrador General') {
+		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
+			// $_REQUEST ["variable"] = '321456789';
 			$acceso = true;
 		}
 		
 		if (isset ( $_REQUEST ["variable"] )) {
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarProyectos", $_REQUEST ["variable"] );
-			$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		} else {
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarProyectos", "0" );
 		}
-		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		$matrizProyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+// 		var_dump ( $matrizProyectos );
 		
-		?>
-
-<h2>Proyetos por programa curricular <?php
-		if (isset ( $_REQUEST ["variable"] )) {
-			echo " (" . $_REQUEST ["variable"];
+		if (isset ( $_REQUEST ['variable'] )) {
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarNombrePrograma", $_REQUEST ["variable"] );
-			$nombre = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-			echo " - " . $nombre [0] [0] . ")";
-		}
-		?></h2>
-<br>
-
-<?php
-		if ($matrizItems && $acceso) {
-			// echo $this->miFormulario->tablaReporte ( $matrizItems );
-			?>
-
-<table id="tProyectosPrograma">
-	<thead>
-		<tr>
-			<th>Fecha Radicaci&oacute;n</th>
-			<th>No. Anteproyecto</th>
-			<th>Modalidad de Grado</th>
-			<th>T&iacute;tulo</th>
-			<th>Estado</th>
-		</tr>
-	</thead>
-	<tbody>
-<?php
-			foreach ( $matrizItems as $fila ) {
-				echo "<tr>";
-				for($i = 0; $i < 5; $i ++) {
-					echo "<td>" . $fila [$i] . "</td>";
-				}
-				echo "</tr>";
-			}
-			?>
-	</tbody>
-</table>
-<div class=' '>
-
-<?php
+			$matrizNombre = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+			$atributos ['mensaje'] = 'Proyectos por programa curricular - ' . $matrizNombre [0] [0] . " - ";
 		} else {
-			$mostrar = false;
-			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
+			$atributos ['mensaje'] = 'Proyectos por programa curricular ';
+		}
+		$atributos ['tamanno'] = 'Enorme';
+		$atributos ['linea'] = 'true';
+		echo $this->miFormulario->campoMensaje ( $atributos );
+		
+		if ($matrizProyectos) {
+			for($i = 0; $i < count ( $matrizProyectos ); $i ++) {
+				$anteproyecto = $matrizProyectos [$i] [0];
+				
+				// ////////////////Hidden////////////
+				$esteCampo = 'antpSolicitudes';
+				$atributos ["id"] = $esteCampo;
+				$atributos ["tipo"] = "hidden";
+				$atributos ['estilo'] = '';
+				$atributos ['validar'] = '';
+				$atributos ["obligatorio"] = true;
+				$atributos ['marco'] = true;
+				$atributos ["etiqueta"] = "";
+				$atributos ['valor'] = count ( $matrizProyectos );
+				
+				$atributos = array_merge ( $atributos, $atributosGlobales );
+				echo $this->miFormulario->campoCuadroTexto ( $atributos );
+				unset ( $atributos );
+				// ////////////////////////////////////////
+				
+				?>
+
+<div class="bg-caja corner" id="caja<?php echo $i ?>"
+	style="float: left">
+	<div class="caja corner">
+		<div class="caja-header">
+			<div class="caja-fecha" style="float: left"><?php echo $matrizProyectos[$i]['proy_fcrea']?></div>
+			<div class="clearboth">
+				<br></br>
+			</div>
+		</div>
+		<div>
+			<div class="caja-codigo" style="float: left">
+				<div class="caja-icon-documento"></div>
+				<p class="caja-numero" id="cajanum<?php echo $i ?>"><?php echo 'No. '. $matrizProyectos[$i]['proy_proy']?></p>
+			</div>
+			<div class="caja-info" style="float: left">
+				<table style="border: 0; width: 100%">
+					<tbody>
+						<tr>
+							<td><b>Titulo:</b></td>
+							<td><?php echo $matrizProyectos[$i]['proy_titu'] ?></td>
+						</tr>
+						<tr>
+							<td><b>Autores:</b></td>
+							<td><?php echo $matrizProyectos[$i]['estudiante'] ?></td>
+						</tr>
+						<tr>
+							<td><b>Modalidad:</b></td>
+							<td><?php echo $matrizProyectos[$i]['moda_nombre'] ?></td>
+						</tr>
+						<tr>
+							<td><b>Estado:</b></td>
+							<td><?php echo $matrizProyectos[$i]['proy_eproy'] ?></td>
+						</tr>
+					</tbody>
+				</table>
+				<p></p>
+
+			</div>
+							<?php
+				
+				$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
+				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
+				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+				
+				$variableVer = "pagina=verProyecto";
+				$variableVer .= "&opcion=ver";
+				$variableVer .= "&usuario=" . $_REQUEST ['usuario'];
+				$variableVer .= "&proyecto=" . $matrizProyectos [$i] ['proy_proy'];
+				if (isset ( $docente )) {
+					$variableVer .= "&docente=" . $docente;
+				}
+				$variableVer .= "&rol=" . $rol;
+				$variableVer .= "&campoSeguro=" . $_REQUEST ['tiempo'];
+				$variableVer .= "&tiempo=" . time ();
+				
+				$variableVer = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variableVer, $directorio );
+				
+				// -------------Enlace-----------------------
+				$esteCampo = "enlaceVer";
+				$atributos ["id"] = $esteCampo;
+				$atributos ['enlace'] = $variableVer;
+				$atributos ['tabIndex'] = $esteCampo;
+				$atributos ['redirLugar'] = true;
+				$atributos ['estilo'] = 'color';
+				$atributos ['enlaceTexto'] = $this->lenguaje->getCadena ( $esteCampo );
+				;
+				$atributos ['ancho'] = '25';
+				$atributos ['alto'] = '25';
+				echo $this->miFormulario->enlace ( $atributos );
+				unset ( $atributos );
+				
+				?>
+						</div>
+	</div>
+</div>
+
+<?
+			}
+		} else {
 			?>
 <div class="canvas-contenido">
-		<div class="area-msg corner margen-interna ">
-			<div class="icono-msg info"></div>
-			<div class="content-msg info corner">
-				<div class="title-msg info">Informacion</div>
-				<div style="padding: 5px 0px;">
-					<div>
-						<contenido> No existen proyectos registrador en el programa
-						curricular.
-						<div style="text-align: right"
-							onclick="window.location = 'index.php?data=<?php echo $pag?>';">
-							<input
-								class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
-								type="submit" tabindex="1" value="Ir al inicio" role="button"
-								aria-disabled="false">
-						</div>
-						</contenido>
+	<div class="area-msg corner margen-interna ">
+		<div class="icono-msg info"></div>
+		<div class="content-msg info corner">
+			<div class="title-msg info">Informacion</div>
+			<div style="padding: 5px 0px;">
+				<div>
+					<contenido> No existen anteproyectos actualmente asignados para
+					revisi贸n.
+					<div style="text-align: right">
+						<input class="boton" type="button"
+							onclick="osm_go('inicio/PageBienvenida.do');"
+							value="Ir al inicio">
 					</div>
+					</contenido>
 				</div>
 			</div>
-			<div class="clearboth"></div>
 		</div>
+		<div class="clearboth"></div>
 	</div>
+</div>
 <?php
-		}
+		} 
 		
-		if ($mostrar) {
-			// ------------------Division para los botones-------------------------
-			$atributos ["id"] = "botones";
-			$atributos ["estilo"] = "marcoBotones";
-			$atributos ["titulo"] = "Enviar Informaci贸n";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			
-			// -----------------CONTROL: Bot髇 ----------------------------------------------------------------
-			$esteCampo = 'botonCrear';
-			$atributos ["id"] = $esteCampo;
-			$atributos ["tabIndex"] = $tab;
-			$atributos ["tipo"] = 'boton';
-			// submit: no se coloca si se desea un tipo button gen茅rico
-			$atributos ['submit'] = true;
-			$atributos ["estiloMarco"] = '';
-			$atributos ["estiloBoton"] = '';
-			// verificar: true para verificar el formulario antes de pasarlo al servidor.
-			$atributos ["verificar"] = '';
-			$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la funci贸n submit declarada en ready.js
-			$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-			$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-			$tab ++;
-			
-			// Aplica atributos globales al control
-			$atributos = array_merge ( $atributos, $atributosGlobales );
-			echo $this->miFormulario->campoBoton ( $atributos );
-			// -----------------FIN CONTROL: Bot贸n -----------------------------------------------------------
-			
-			// ------------------Fin Division para los botones-------------------------
-			echo $this->miFormulario->division ( "fin" );
-		}
 		// ------------------- SECCION: Paso de variables ------------------------------------------------
 		
 		/**
