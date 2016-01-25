@@ -114,7 +114,10 @@ class Sql extends \Sql {
 				$cadenaSql .= 'antp_descri, ';
 				$cadenaSql .= 'estantp_estd, ';
 				$cadenaSql .= 'nombre || \' \' || apellido AS nombre, ';
-				$cadenaSql .= 'dantp_vers ';
+				$cadenaSql .= 'dantp_vers, ';
+				$cadenaSql .= 'antp_moda, ';
+				$cadenaSql .= 'antp_pcur, ';
+				$cadenaSql .= 'antp_dir_int ';
 				$cadenaSql .= 'FROM ';
 				$cadenaSql .= 'trabajosdegrado.ant_tantp ';
 				$cadenaSql .= 'JOIN ';
@@ -136,6 +139,43 @@ class Sql extends \Sql {
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'antp_antp=\'' . $variable . '\' ';
 				break;
+				
+			case 'actualizarAnteproyecto':
+				$cadenaSql = "UPDATE ";
+				$cadenaSql .= "trabajosdegrado.ant_tantp ";
+				$cadenaSql .= "SET ";
+				$cadenaSql .= "antp_eantp='PROYECTO' ";
+				$cadenaSql .= "WHERE ";
+				$cadenaSql .= "antp_antp='" . $variable . "'";
+				break;
+				
+			case 'guardarProyecto':
+				$cadenaSql = "INSERT INTO ";
+				$cadenaSql .= "trabajosdegrado.pry_tproy ";
+				$cadenaSql .= "( ";
+				$cadenaSql .= "proy_antp, ";
+				$cadenaSql .= "proy_moda, ";
+				$cadenaSql .= "proy_pcur, ";
+				$cadenaSql .= "proy_titu, ";
+				$cadenaSql .= "proy_fcrea, ";
+				$cadenaSql .= "proy_descri, ";
+				$cadenaSql .= "proy_obser, ";
+				$cadenaSql .= "proy_eproy, ";
+				$cadenaSql .= "proy_duracion";
+				$cadenaSql .= ") ";
+				$cadenaSql .= "VALUES ";
+				$cadenaSql .= "( ";
+				$cadenaSql .= "'" . $variable['ante'] . "', ";
+				$cadenaSql .= "'" . $variable['modalidad'] . "', ";
+				$cadenaSql .= "'" . $variable['programa'] . "', ";
+				$cadenaSql .= "'" . $variable['titulo'] . "', ";
+				$cadenaSql .= "'" . $variable['proy_fcrea'] . "', ";
+				$cadenaSql .= "'" . $variable['descripcion'] . "', ";
+				$cadenaSql .= "'" . $variable['comentario'] . "', ";
+				$cadenaSql .= "'" . $variable['estado'] . "', ";
+				$cadenaSql .= "'" . $variable['duracion'] . "'";
+				$cadenaSql .= ") ";
+				$cadenaSql .= "RETURNING proy_proy;";
 		}
 		
 		return $cadenaSql;

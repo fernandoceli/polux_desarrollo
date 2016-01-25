@@ -10,6 +10,7 @@ class Formulario {
 	var $miConfigurador;
 	var $lenguaje;
 	var $miFormulario;
+	var $miSesion;
 	function __construct($lenguaje, $formulario, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		
@@ -20,6 +21,8 @@ class Formulario {
 		$this->miFormulario = $formulario;
 		
 		$this->miSql = $sql;
+		
+		$this->miSesion = \Sesion::singleton ();
 	}
 	function formulario() {
 		
@@ -45,10 +48,16 @@ class Formulario {
 		$_REQUEST ['tiempo'] = time ();
 		
 		// -------------------------------------------------------------------------------------------------
-		
+// 		var_dump($_REQUEST);
 		$conexion = 'estructura';
 		$esteRecurso = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
+
+		$usuario = $this->miSesion->getSesionUsuarioId ();
 		
+		if ($usuario == "") {
+			$usuario = $_REQUEST['usuario'];
+		}
+// 		var_dump($usuario);
 		// ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
 		$esteCampo = $esteBloque ['nombre'];
 		$atributos ['id'] = $esteCampo;
@@ -78,7 +87,7 @@ class Formulario {
 		
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", $_REQUEST ['anteproyecto'] );
 		$matrizAnteproyecto = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-		// var_dump($matrizAnteproyecto);
+		
 		?>
 <div id="contenido">
 	<h2>Iniciar proyecto de grado</h2>
@@ -305,6 +314,8 @@ class Formulario {
 		$valorCodificado = "action=" . $esteBloque ["nombre"];
 		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
+		$valorCodificado .= "&anteproyecto=" . $_REQUEST['anteproyecto'];
+		$valorCodificado .= "&usuario=" . $usuario;
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&opcion=guardar";
 		/**

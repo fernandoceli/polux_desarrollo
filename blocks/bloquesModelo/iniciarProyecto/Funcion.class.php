@@ -55,7 +55,8 @@ class Funcion {
         // en la carpeta funcion
         
         // Importante: Es adecuado que sea una variable llamada opcion o action la que guie el procesamiento:
-        
+//         var_dump($_REQUEST);
+//         exit();
         if (isset ( $_REQUEST ['procesarAjax'] )) {
             $this->procesarAjax ();
         } else if (isset ( $_REQUEST ["opcion"] )) {
