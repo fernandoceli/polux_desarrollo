@@ -48,16 +48,16 @@ class Formulario {
 		$_REQUEST ['tiempo'] = time ();
 		
 		// -------------------------------------------------------------------------------------------------
-// 		var_dump($_REQUEST);
+		// var_dump($_REQUEST);
 		$conexion = 'estructura';
 		$esteRecurso = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-
+		
 		$usuario = $this->miSesion->getSesionUsuarioId ();
 		
 		if ($usuario == "") {
-			$usuario = $_REQUEST['usuario'];
+			$usuario = $_REQUEST ['usuario'];
 		}
-// 		var_dump($usuario);
+		// var_dump($usuario);
 		// ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
 		$esteCampo = $esteBloque ['nombre'];
 		$atributos ['id'] = $esteCampo;
@@ -92,43 +92,44 @@ class Formulario {
 <div id="contenido">
 	<h2>Iniciar proyecto de grado</h2>
 	<br>
-	<h3>Informacion general del anteproyecto</h3>
-	<br>
-	<table id="tInfo">
-		<tr>
-			<td>Referencia:</td>
-			<td>Anteproyecto No. <?php echo $matrizAnteproyecto[0][0];?></td>
-		</tr>
-		<tr>
-			<td>Titulo:</td>
-			<td><?php echo $matrizAnteproyecto[0][1];?></td>
-		</tr>
-		<tr>
-			<td>Descripcion:</td>
-			<td><?php echo $matrizAnteproyecto[0][2];?></td>
-		</tr>
-		<tr>
-			<td>Proponentes:</td>
-			<td>
+	<div class="area-msg">
+		<h3>Informacion general del anteproyecto</h3>
+		<br>
+		<table id="tInfo">
+			<tr>
+				<td>Referencia:</td>
+				<td>Anteproyecto No. <?php echo $matrizAnteproyecto[0][0];?></td>
+			</tr>
+			<tr>
+				<td>Titulo:</td>
+				<td><?php echo $matrizAnteproyecto[0][1];?></td>
+			</tr>
+			<tr>
+				<td>Descripcion:</td>
+				<td><?php echo $matrizAnteproyecto[0][2];?></td>
+			</tr>
+			<tr>
+				<td>Proponentes:</td>
+				<td>
 		<?php
 		for($i = 0; $i < count ( $matrizAnteproyecto ); $i ++) {
 			echo $matrizAnteproyecto [$i] [3] . " - " . $matrizAnteproyecto [$i] [4];
 		}
 		?>
 		</td>
-		</tr>
-		<tr>
-			<td>Versiones del documento a radicar:</td>
-			<td>Version No. <?php echo $matrizAnteproyecto[0][5];?></td>
-		</tr>
-	</table>
-	<br>
-	<div id="mensaje">IMPORTANTE: La version del documento a radicar como
-		proyecto es la ultima subida al sistema. Por favor verifique si el
-		numero corresponde a la version que realmente desea que sea evaluada.
-	</div>
+			</tr>
+			<tr>
+				<td>Versiones del documento a radicar:</td>
+				<td>Version No. <?php echo $matrizAnteproyecto[0][5];?></td>
+			</tr>
+		</table>
+		<br>
+		<div id="mensaje">IMPORTANTE: La version del documento a radicar como
+			proyecto es la ultima subida al sistema. Por favor verifique si el
+			numero corresponde a la version que realmente desea que sea evaluada.
+		</div>
 
-	<h3>Informacion requerida para el inicio del proyecto</h3>
+		<h3>Informacion requerida para el inicio del proyecto</h3>
 <?php
 		
 		// ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
@@ -290,6 +291,7 @@ class Formulario {
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 		?>
 		</div>
+</div>
 <?php
 		// ------------------Fin Division para los botones-------------------------
 		echo $this->miFormulario->division ( "fin" );
@@ -314,7 +316,7 @@ class Formulario {
 		$valorCodificado = "action=" . $esteBloque ["nombre"];
 		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
-		$valorCodificado .= "&anteproyecto=" . $_REQUEST['anteproyecto'];
+		$valorCodificado .= "&anteproyecto=" . $_REQUEST ['anteproyecto'];
 		$valorCodificado .= "&usuario=" . $usuario;
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&opcion=guardar";
