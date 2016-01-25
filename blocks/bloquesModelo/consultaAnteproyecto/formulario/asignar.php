@@ -241,6 +241,8 @@ class Formulario {
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarDocentes", $arreglo );
 		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
+// 		echo $atributos['cadena_sql'];
+		
 		if($matrizItems){
 			$atributos ['matrizItems'] = $matrizItems;
 		}

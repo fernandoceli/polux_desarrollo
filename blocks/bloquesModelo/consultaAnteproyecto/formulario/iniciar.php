@@ -75,12 +75,26 @@ class Formulario {
 		
 		?>
 
-<div class="pregunta">
-	<titulo>Iniciar proyecto de grado</titulo>
-	<br>
-	<br>
-	<contenido>Esta seguro que desea inciar el proyecto de grado?</contenido>
-</div>
+<!-- <div class="pregunta"> -->
+<!-- 	<titulo>Iniciar proyecto de grado</titulo> -->
+<!-- 	<br> -->
+<!-- 	<br> -->
+<!-- 	<contenido>Esta seguro que desea inciar el proyecto de grado?</contenido> -->
+<!-- </div> -->
+
+<div class="canvas-contenido">
+	<div class="area-msg corner margen-interna ">
+		<div class="icono-msg info"></div>
+		<div class="content-msg info corner">
+			<div class="title-msg info resaltado">Iniciar proyecto de grado</div>
+			<div style="padding: 5px 0px;">
+				<div>
+				<br>
+					<b> Esta seguro que desea inciar el proyecto de grado? </b>
+					<br>
+				</div>
+			</div>
+
 <?php
 		
 		// ------------------Division para los botones-------------------------
@@ -133,6 +147,14 @@ class Formulario {
 		// ------------------Fin Division para los botones-------------------------
 		echo $this->miFormulario->division ( "fin" );
 		
+		?>
+		
+		</div>
+		<div class="clearboth"></div>
+	</div>
+</div>
+<?php
+		
 		// ------------------- SECCION: Paso de variables ------------------------------------------------
 		
 		/**
@@ -159,7 +181,7 @@ class Formulario {
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&opcion=iniciar";
-// 		var_dump($_REQUEST);
+		// var_dump($_REQUEST);
 		/**
 		 * SARA permite que los nombres de los campos sean dinámicos.
 		 * Para ello utiliza la hora en que es creado el formulario para

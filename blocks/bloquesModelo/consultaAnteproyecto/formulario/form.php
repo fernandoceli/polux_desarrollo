@@ -273,9 +273,9 @@ class Formulario {
 		<?php
 		
 		$viab = true;
-		for($i = 0; $i < count($matrizRespuesta); $i++) {
+		for($i = 0; $i < count ( $matrizRespuesta ); $i ++) {
 			if ($matrizRespuesta [$i] [2] != "VIABLE") {
-				$viab = false;	
+				$viab = false;
 			}
 		}
 		
@@ -284,7 +284,7 @@ class Formulario {
 		$atributos ["estilo"] = "marcoBotones";
 		echo $this->miFormulario->division ( "inicio", $atributos );
 		
-		if ($viab && $mostrar && $matrizAnteproyectos[0][7] != "PROYECTO") {
+		if ($viab && $mostrar && $matrizAnteproyectos [0] [7] != "PROYECTO") {
 			// -----------------CONTROL: BotÃ³n ----------------------------------------------------------------
 			$esteCampo = 'botonIniciar';
 			$atributos ["id"] = $esteCampo;
@@ -328,7 +328,7 @@ class Formulario {
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoBoton ( $atributos );
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
-
+		
 		// ------------------Fin Division para los botones-------------------------
 		echo $this->miFormulario->division ( "fin" );
 		
@@ -548,9 +548,11 @@ class Formulario {
 		}
 		
 		$modi = false;
-		foreach ( $matrizRespuesta as $clave => $valor ) {
-			if ($valor [2] == "MODIFICABLE") {
-				$modi = true;
+		if ($matrizRespuesta) {
+			foreach ( $matrizRespuesta as $clave => $valor ) {
+				if ($valor [2] == "MODIFICABLE") {
+					$modi = true;
+				}
 			}
 		}
 		
@@ -690,7 +692,9 @@ class Formulario {
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&usuario=" . $_REQUEST ['usuario'];
-		$valorCodificado .= "&estudiante=" . $_REQUEST ['estudiante'];
+		if (isset ( $_REQUEST ['estudiante'] )) {
+			$valorCodificado .= "&estudiante=" . $_REQUEST ['estudiante'];
+		}
 		$valorCodificado .= "&rol=" . $rol;
 		$valorCodificado .= "&opcion=asignar";
 		/**
