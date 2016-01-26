@@ -1,10 +1,9 @@
 <?php
 
-namespace bloquesModelo\proyectoxEstudiante\funcion;
+namespace bloquesModelo\proyectosxEstudiante\funcion;
 
 include_once ('redireccionar.php');
-
-class Ver {
+class FormProcessor {
 	var $miConfigurador;
 	var $lenguaje;
 	var $miFormulario;
@@ -17,12 +16,16 @@ class Ver {
 		$this->miSql = $sql;
 	}
 	function procesarFormulario() {
-		redireccion::redireccionar ( 'ver', $_REQUEST);
-		exit ();
+		
+		// Aquí va la lógica de procesamiento
+		
+		// Al final se ejecuta la redirección la cual pasará el control a otra página
+		$variable = 'cualquierDato';
+		redireccionar::redireccionar ( 'opcion1', $variable );
 	}
 	function resetForm() {
 		foreach ( $_REQUEST as $clave => $valor ) {
-				
+			
 			if ($clave != 'pagina' && $clave != 'development' && $clave != 'jquery' && $clave != 'tiempo') {
 				unset ( $_REQUEST [$clave] );
 			}
@@ -30,6 +33,7 @@ class Ver {
 	}
 }
 
-$miProcesador = new Ver ( $this->lenguaje, $this->sql );
+$miProcesador = new FormProcessor ( $this->lenguaje, $this->sql );
 
 $resultado = $miProcesador->procesarFormulario ();
+

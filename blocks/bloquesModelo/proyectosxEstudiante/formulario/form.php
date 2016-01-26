@@ -1,6 +1,6 @@
 <?php
 
-namespace bloquesModelo\proyectoxEstudiante\formulario;
+namespace bloquesModelo\proyectosxEstudiante\formulario;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("../index.php");
@@ -82,12 +82,12 @@ class Formulario {
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $usuario );
-		$matrizAnteproyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		$matrizProyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
 		// var_dump($matrizItems);
 		// var_dump($matrizItems[0]);
 		
-		$rol = $matrizAnteproyectos [0] [0];
+		$rol = $matrizProyectos [0] [0];
 		$acceso = false;
 		$mostrar = true;
 		// echo $rol;
@@ -104,28 +104,28 @@ class Formulario {
 		}
 		
 		if (isset ( $_REQUEST ["variable"] )) {
-			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyectos", $_REQUEST ["variable"] );
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarProyectos", $_REQUEST ["variable"] );
 		} else {
-			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyectos", "0" );
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarProyectos", "0" );
 		}
-		$matrizAnteproyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-// 		var_dump ( $matrizAnteproyectos );
+		$matrizProyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		var_dump ( $matrizProyectos );
 		
 		if (isset ( $_REQUEST ['variable'] )) {
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarEstudiante", $_REQUEST ["variable"] );
 			$matrizNombre = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-			$atributos ['mensaje'] = 'Anteproyectos por estudiante - ' . $matrizNombre [0] [0] . " - ";
+			$atributos ['mensaje'] = 'Proyectos por estudiante - ' . $matrizNombre [0] [0] . " - ";
 		} else {
-			$atributos ['mensaje'] = 'Anteproyectos por estudiante ';
+			$atributos ['mensaje'] = 'Proyectos por estudiante ';
 		}
 		$atributos ['tamanno'] = 'Enorme';
 		$atributos ['linea'] = 'true';
 		echo $this->miFormulario->campoMensaje ( $atributos );
 		
-		if ($matrizAnteproyectos && $acceso) {
+		if ($matrizProyectos && $acceso) {
 			
-			for($i = 0; $i < count ( $matrizAnteproyectos ); $i ++) {
-				$anteproyecto = $matrizAnteproyectos [$i] ['anteproyecto'];
+			for($i = 0; $i < count ( $matrizProyectos ); $i ++) {
+				$proyecto = $matrizProyectos [$i] ['proyecto'];
 				
 				// ////////////////Hidden////////////
 				$esteCampo = 'antpSolicitudes';
@@ -136,7 +136,7 @@ class Formulario {
 				$atributos ["obligatorio"] = true;
 				$atributos ['marco'] = true;
 				$atributos ["etiqueta"] = "";
-				$atributos ['valor'] = count ( $matrizAnteproyectos );
+				$atributos ['valor'] = count ( $matrizProyectos );
 				
 				$atributos = array_merge ( $atributos, $atributosGlobales );
 				echo $this->miFormulario->campoCuadroTexto ( $atributos );
@@ -149,7 +149,7 @@ class Formulario {
 	style="float: left">
 	<div class="caja corner">
 		<div class="caja-header">
-			<div class="caja-fecha" style="float: left"><?php echo $matrizAnteproyectos[$i]['fecha']?></div>
+			<div class="caja-fecha" style="float: left"><?php echo $matrizProyectos[$i]['fecha']?></div>
 			<div class="clearboth">
 				<br></br>
 			</div>
@@ -157,22 +157,22 @@ class Formulario {
 		<div>
 			<div class="caja-codigo" style="float: left">
 				<div class="caja-icon-documento"></div>
-				<p class="caja-numero" id="cajanum<?php echo $i ?>"><?php echo 'No. '. $matrizAnteproyectos[$i]['anteproyecto']?></p>
+				<p class="caja-numero" id="cajanum<?php echo $i ?>"><?php echo 'No. '. $matrizProyectos[$i]['proyecto']?></p>
 			</div>
 			<div class="caja-info" style="float: left">
 				<table style="border: 0; width: 100%">
 					<tbody>
 						<tr>
 							<td><b>Titulo:</b></td>
-							<td><?php echo $matrizAnteproyectos[$i]['titulo'] ?></td>
+							<td><?php echo $matrizProyectos[$i]['titulo'] ?></td>
 						</tr>
 						<tr>
 							<td><b>Modalidad:</b></td>
-							<td><?php echo $matrizAnteproyectos[$i]['modalidad'] ?></td>
+							<td><?php echo $matrizProyectos[$i]['modalidad'] ?></td>
 						</tr>
 						<tr>
 							<td><b>Estado:</b></td>
-							<td><?php echo $matrizAnteproyectos[$i]['estado'] ?></td>
+							<td><?php echo $matrizProyectos[$i]['estado'] ?></td>
 						</tr>
 					</tbody>
 				</table>
@@ -186,9 +186,9 @@ class Formulario {
 				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
 				
 // 				$variableVer = "action=" . $esteBloque ["nombre"];
-				$variableVer = "pagina=verAnteproyecto";
+				$variableVer = "pagina=verProyecto";
 				$variableVer .= "&usuario=" . $_REQUEST ['usuario'];
-				$variableVer .= "&anteproyecto=" . $matrizAnteproyectos [$i] ['anteproyecto'];
+				$variableVer .= "&proyecto=" . $matrizProyectos [$i] ['proyecto'];
 				if (isset ( $docente )) {
 					$variableVer .= "&docente=" . $docente;
 				}

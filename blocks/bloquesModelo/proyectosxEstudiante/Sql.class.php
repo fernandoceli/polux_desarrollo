@@ -1,6 +1,6 @@
 <?php
 
-namespace bloquesModelo\proyectoxEstudiante;
+namespace bloquesModelo\proyectosxEstudiante;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("../index.php");
@@ -99,28 +99,26 @@ class Sql extends \Sql {
 				// echo $cadenaSql;
 				break;
 			
-			case 'buscarAnteproyectos' :
+			case 'buscarProyectos' :
 				
 				$cadenaSql = 'SELECT ';
-				$cadenaSql .= 'antp_fradi as FECHA, ';
-				$cadenaSql .= 'antp_antp as ANTEPROYECTO, ';
+				$cadenaSql .= 'proy_fcrea as FECHA, ';
+				$cadenaSql .= 'proy_proy as PROYECTO, ';
 				$cadenaSql .= 'moda_nombre as MODALIDAD, ';
-				$cadenaSql .= 'antp_titu as TITULO, ';
-				$cadenaSql .= 'antp_eantp as ESTADO ';
+				$cadenaSql .= 'proy_titu as TITULO, ';
+				$cadenaSql .= 'proy_eproy as ESTADO ';
 				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado.ant_testantp ';
-				$cadenaSql .= 'JOIN trabajosdegrado.ge_testd ';
-				$cadenaSql .= 'ON estantp_estd = estd_estd ';
-				$cadenaSql .= 'JOIN trabajosdegrado.ant_tantp ';
-				$cadenaSql .= 'ON estantp_antp = antp_antp ';
+				$cadenaSql .= 'trabajosdegrado.pry_tproy ';
 				$cadenaSql .= 'JOIN trabajosdegrado.ge_tmoda ';
-				$cadenaSql .= 'ON antp_moda = moda_moda ';
+				$cadenaSql .= 'ON proy_moda = moda_moda ';
+				$cadenaSql .= 'JOIN trabajosdegrado.pry_testpry ';
+				$cadenaSql .= 'ON proy_proy=estproy_proy ';
 				$cadenaSql .= 'WHERE ';
-				$cadenaSql .= 'estd_estd=\'' . $variable . '\' ';
+				$cadenaSql .= 'estproy_estd=\'' . $variable . '\' ';
 				// $cadenaSql .= 'WHERE '; $cadenaSql .= ''
 				// $cadenaSql .= 'estado=\'RADICADO\' OR estado=\'ASIGNADO REVISORES\'';
 				// $cadenaSql .= 'nombre=\'' . $_REQUEST ['nombrePagina'] . '\' ';
-				// echo $cadenaSql;
+// 				echo $cadenaSql;
 				break;
 			
 			case 'buscarAnteproyecto' :

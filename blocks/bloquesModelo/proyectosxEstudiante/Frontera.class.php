@@ -1,6 +1,6 @@
 <?
 
-namespace bloquesModelo\proyectoxEstudiante;
+namespace bloquesModelo\proyectosxEstudiante;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("../index.php");
