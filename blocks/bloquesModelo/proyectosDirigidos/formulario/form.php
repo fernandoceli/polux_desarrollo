@@ -81,7 +81,7 @@ class Formulario {
 		
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
-		$esteCampo = 'ante';
+		$esteCampo = 'proy';
 		$atributos ["id"] = $esteCampo;
 		$atributos ["tipo"] = "hidden";
 		$atributos ['estilo'] = '';
@@ -95,12 +95,12 @@ class Formulario {
 		unset ( $atributos );
 		
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $usuario );
-		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		$matrizProyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
 		// var_dump($matrizItems);
 		// var_dump($matrizItems[0]);
 		
-		$rol = $matrizItems [0] [0];
+		$rol = $matrizProyectos [0] [0];
 		$acceso = false;
 		$mostrar = true;
 // 		echo $rol;
@@ -116,15 +116,15 @@ class Formulario {
 		}
 		
 		if (isset ( $_REQUEST ["variable"] )) {
-			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", $_REQUEST ["variable"] );
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarProyectos", $_REQUEST ["variable"] );
 		} else {
-			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", "0" );
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarProyectos", "0" );
 		}
-		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		$matrizProyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
 		?>
 
-<h2>Anteproyectos dirigidos <?php
+<h2>Proyectos dirigidos <?php
 		if (isset ( $_REQUEST ["variable"] )) {
 			echo " (" . $_REQUEST ["variable"];
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarDocente", $_REQUEST ["variable"] );
@@ -136,7 +136,7 @@ class Formulario {
 
 <?php
 		
-		if ($matrizItems && $acceso) {
+		if ($matrizProyectos && $acceso) {
 			// echo $this->miFormulario->tablaReporte ( $matrizItems );
 			?>
 
@@ -144,7 +144,7 @@ class Formulario {
 	<thead>
 		<tr>
 			<th>Fecha Radicaci&oacute;n</th>
-			<th>No. Anteproyecto</th>
+			<th>No. Proyecto</th>
 			<th>Modalidad de Grado</th>
 			<th>T&iacute;tulo</th>
 			<th>Estado</th>
@@ -152,7 +152,7 @@ class Formulario {
 	</thead>
 	<tbody>
 <?php
-			foreach ( $matrizItems as $fila ) {
+			foreach ( $matrizProyectos as $fila ) {
 				echo "<tr>";
 				for($i = 0; $i < 5; $i ++) {
 					echo "<td>" . $fila [$i] . "</td>";
@@ -176,7 +176,7 @@ class Formulario {
 				<div class="title-msg info">Informacion</div>
 				<div style="padding: 5px 0px;">
 					<div>
-						<contenido> No existen anteproyectos actualmente registrados para
+						<contenido> No existen proyectos actualmente registrados para
 						dirigir.
 						<div style="text-align: right"
 							onclick="window.location = 'index.php?data=<?php echo $pag?>';">

@@ -86,24 +86,24 @@ class Sql extends \Sql {
 				$cadenaSql .= 'nombre=\'' . $_REQUEST ['nombrePagina'] . '\' ';
 				break;
 			
-			case 'buscarAnteproyecto' :
+			case 'buscarProyectos' :
 				
 				$cadenaSql = 'SELECT ';
-				$cadenaSql .= 'antp_fradi as FECHA, ';
-				$cadenaSql .= 'antp_antp as ANTEPROYECTO, ';
+				$cadenaSql .= 'proy_fcrea as FECHA, ';
+				$cadenaSql .= 'proy_proy as PROYECTO, ';
 				$cadenaSql .= 'moda_nombre as MODALIDAD, ';
-				$cadenaSql .= 'antp_titu as TITULO, ';
-				$cadenaSql .= 'antp_eantp as ESTADO ';
+				$cadenaSql .= 'proy_titu as TITULO, ';
+				$cadenaSql .= 'proy_eproy as ESTADO ';
 				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado.ant_tantp ';
+				$cadenaSql .= 'trabajosdegrado.pry_tproy ';
 				$cadenaSql .= 'JOIN trabajosdegrado.ge_tmoda ';
-				$cadenaSql .= 'ON antp_moda = moda_moda ';
+				$cadenaSql .= 'ON proy_moda = moda_moda ';
 				$cadenaSql .= 'WHERE ';
 				$aux = substr ( $variable, 2 );
 				if (! is_numeric ( $aux )) {
-					$cadenaSql .= 'antp_dir_int=\'' . substr ( $variable, 2 + strlen ( $variable ) ) . '\' ';
+					$cadenaSql .= 'proy_dir_int=\'' . substr ( $variable, 2 + strlen ( $variable ) ) . '\' ';
 				} else {
-					$cadenaSql .= 'antp_dir_int=\'' . $variable . '\' ';
+					$cadenaSql .= 'proy_dir_int=\'' . $variable . '\' ';
 				}
 				
 // 				echo $cadenaSql;

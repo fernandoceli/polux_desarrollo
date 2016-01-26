@@ -21,9 +21,9 @@ class redireccion {
 			
 			case "ver" :
 				
-				$variable = 'pagina=verAnteproyecto';
+				$variable = 'pagina=verProyecto';
 				$variable .= '&usuario=' . $valor['usuario'];
-				$variable .= '&numanteproyecto=' . $valor['ante'];
+				$variable .= '&numproyecto=' . $valor['proy'];
 				break;
 			
 			default :
