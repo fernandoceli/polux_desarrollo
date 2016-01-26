@@ -86,6 +86,24 @@ class Sql extends \Sql {
 				$cadenaSql .= 'nombre=\'' . $_REQUEST ['nombrePagina'] . '\' ';
 				break;
 			
+			case 'buscarDocente' :
+				
+				$cadenaSql = 'SELECT ';
+				$cadenaSql .= 'nombre || \' \' || apellido AS  Nombre ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'polux_usuario ';
+				$cadenaSql .= 'JOIN trabajosdegrado.ge_tprof ';
+				$cadenaSql .= 'ON id_usuario = prof_us ';
+				$cadenaSql .= 'WHERE ';
+				$aux = substr ( $variable, 2 );
+				if (! is_numeric ( $aux )) {
+					$cadenaSql .= 'prof_prof=\'' . substr ( $variable, 2 + strlen ( $variable ) ) . '\' ';
+				} else {
+					$cadenaSql .= 'prof_prof=\'' . $variable . '\' ';
+				}
+// 				echo $cadenaSql;
+				break;
+			
 			case 'buscarAnteproyecto' :
 				
 				$cadenaSql = 'SELECT ';
@@ -106,7 +124,7 @@ class Sql extends \Sql {
 					$cadenaSql .= 'antp_dir_int=\'' . $variable . '\' ';
 				}
 				
-// 				echo $cadenaSql;
+				// echo $cadenaSql;
 				break;
 			
 			case 'buscarDocente' :
