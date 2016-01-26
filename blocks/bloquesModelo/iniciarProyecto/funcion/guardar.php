@@ -59,7 +59,8 @@ class Registrar {
 					"descripcion" => $_REQUEST ['descripcion'],
 					"comentario" => $_REQUEST ['comentario'],
 					"estado" => "EN DESARROLLO",
-					"duracion" => "6" 
+					"duracion" => "6", 
+					"director" => $matrizAnteproyecto[0]['antp_dir_int']
 			);
 			
 			// registro de proyecto

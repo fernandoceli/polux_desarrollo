@@ -167,7 +167,8 @@ class Sql extends \Sql {
 				$cadenaSql .= "proy_descri, ";
 				$cadenaSql .= "proy_obser, ";
 				$cadenaSql .= "proy_eproy, ";
-				$cadenaSql .= "proy_duracion";
+				$cadenaSql .= "proy_duracion, ";
+				$cadenaSql .= "proy_dir_int ";
 				$cadenaSql .= ") ";
 				$cadenaSql .= "VALUES ";
 				$cadenaSql .= "( ";
@@ -179,7 +180,8 @@ class Sql extends \Sql {
 				$cadenaSql .= "'" . $variable ['descripcion'] . "', ";
 				$cadenaSql .= "'" . $variable ['comentario'] . "', ";
 				$cadenaSql .= "'" . $variable ['estado'] . "', ";
-				$cadenaSql .= "'" . $variable ['duracion'] . "'";
+				$cadenaSql .= "'" . $variable ['duracion'] . "', ";
+				$cadenaSql .= "'" . $variable ['director'] . "'";
 				$cadenaSql .= ") ";
 				$cadenaSql .= "RETURNING proy_proy;";
 				break;
@@ -275,6 +277,14 @@ class Sql extends \Sql {
 				
 			case 'obtenerID':
 				$cadenaSql = 'SELECT last_value FROM trabajosdegrado."PRY_SPRY"';
+				break;
+				
+			case 'buscarDocumento':
+				$cadenaSql = 'SELECT *';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.ant_tdantp ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'dantp_antp=\'' . $variable . '\' ';
 				break;
 		}
 		
