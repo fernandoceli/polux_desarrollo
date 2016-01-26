@@ -32,7 +32,7 @@ class Seleccionar {
 		
 		// Aquí va la lógica de procesamiento
 		
-		redireccion::redireccionar ('sel');
+		redireccion::redireccionar ( $_REQUEST ['pagina'] );
 		exit ();
 		
 		

@@ -29,19 +29,9 @@ class Seleccionar {
 		
 		// Aquí va la lógica de procesamiento
 		
-		switch ($_REQUEST ['pagina']) {
-			case 'anteDirigidos' :
-				redireccion::redireccionar ( 'dirigidos' );
-				exit ();
-				break;
-			case 'anteproyectoAsignadoRevision' :
-				redireccion::redireccionar ( 'revision' );
-				exit ();
-			case 'solRevAnteproyecto' :
-				redireccion::redireccionar ( 'sols' );
-				exit ();
-				break;
-		}
+		redireccion::redireccionar ( $_REQUEST ['pagina'] );
+		exit ();
+
 	}
 	function resetForm() {
 		foreach ( $_REQUEST as $clave => $valor ) {
