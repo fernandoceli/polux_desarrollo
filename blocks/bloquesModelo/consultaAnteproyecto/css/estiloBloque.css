@@ -3,7 +3,32 @@ div.campoBoton {
 	display: inline-block;
 }
 
-div.formulario{
+.bg-tablero {
+	float: right;
+	width: 49%;
+	background: #fff none repeat scroll 0 0;
+	padding: 3px;
+	border-radius: 5px;
+	border: 2px solid #424242;
+	-webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+	box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.75);
+	margin-top: .5em;
+	margin-bottom: .5em;
+	margin-left: 1em;
+	margin-right: .5em;
+}
+
+.icon-mini-info {
+    background: transparent url("images/icons/icon-mini-info.png") no-repeat scroll 50% 50%;
+    cursor: pointer;
+    height: 25px;
+    position: relative;
+    text-align: center;
+    width: 25px;
+}
+
+div.formulario {
 	padding: 5px;
 }
 
@@ -21,8 +46,6 @@ div.formulario{
 #versiones, #revisores, #proceso, #modif {
 	float: right;
 	width: 49%;
-	text-align: justify;
-	font: 14px arial, helvetica, sans-serif;
 	border-radius: 5px;
 	border: 2px solid #424242;
 	-webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);

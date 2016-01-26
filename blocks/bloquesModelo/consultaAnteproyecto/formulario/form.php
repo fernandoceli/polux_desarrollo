@@ -408,68 +408,106 @@ class Formulario {
 		<?php
 		if ($matrizRevisor) {
 			?>
-			<div id="revisores">
-			<h4>Solicitudes de Asignacion de Revisor</h4>
-			<p class="idnt">A continucion encontrara un resumen de las
-				solicitudes creadas.</p>
-			<table id="vers" class="table">
-				<tr>
-					<td class="estilo_tr tit" colspan="4">Solicitudes de asignacion de
-						revision</td>
-				</tr>
-				<tr>
-					<td class="table-tittle estilo_tr" colspan="2">Fecha solicitud</td>
-					<td class="table-tittle estilo_tr">Docente asignado</td>
-					<td class="table-tittle estilo_tr">Estado</td>
-				</tr>
+			
+			<div class="bg-tablero corner">
+			<div class="plugins corner margen-interna">
+				<div class="plugin">
+					<div>
+						<span class="titulo-tablero-revision">Solicitudes de
+							Asignaci&oacute;n de Revisor</span>
+					</div>
+					<div>
+						<div class="mensaje-ayuda">
+							<div>A continucion encontrara un resumen de las solicitudes
+								creadas.</div>
+
+							<table id="vers" class="table">
+								<tr>
+									<td class="estilo_tr tit" colspan="4">Solicitudes de asignacion
+										de revision</td>
+								</tr>
+								<tr>
+									<td class="table-tittle estilo_tr" colspan="2">Fecha solicitud</td>
+									<td class="table-tittle estilo_tr">Docente asignado</td>
+									<td class="table-tittle estilo_tr">Estado</td>
+								</tr>
 				<?php
 			for($i = 0; $i < count ( $matrizRevisor ); $i ++) {
 				?>
 				<tr>
-					<td class="estilo_tr">
-						<div class="corner bg-imagen-documento">
-							<div id="documento" class="icon-mini-people"></div>
-						</div>
-					</td>
-					<td class="estilo_tr">
+									<td class="estilo_tr">
+										<div class="corner bg-imagen-documento">
+											<div id="documento" class="icon-mini-people"></div>
+										</div>
+									</td>
+									<td class="estilo_tr">
 						<?php echo $matrizRevisor[$i][0];?>
 					</td>
-					<td class="estilo_tr">
+									<td class="estilo_tr">
 						<?php echo $matrizRevisor [$i] [1];?>
 					</td>
-					<td class="estilo_tr">
+									<td class="estilo_tr">
 						<?php echo "ACEPTADO"?>
 					</td>
-				</tr>
+								</tr>
 				<?php
 			}
 			?>
 			
 			
 			</table>
-			<br>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
+
+
+	</div>
 		<?php
 		} else {
 			?>
-		<div id="revisores">
-			<h4>Solicitudes de Asignacion de Revisor</h4>
-			<p class="idnt2">
-				Aun no exiten solicitudes de asignacion de revision indicadas por el
-				programa curricular. <br> <strong>NOTA: </strong> Una vez el
-				programa curricular inicie las solicitudes, los revisroes tendran un
-				plazo maximo de 10 dias calendario para dar respuesta a la solicitud
-			</p>
-
+			<div class="bg-tablero corner">
+		<div class="plugins corner margen-interna">
+			<div class="plugin">
+				<div>
+					<span class="titulo-tablero-revision">Solicitudes de
+						Asignaci&oacute;n de Revisor</span>
+				</div>
+				<div>
+					<table class="table-formulario">
+						<tbody>
+							<tr>
+								<td class="">
+									<div class="icon-mini-info"></div>
+								</td>
+								<td>
+									<div class="mensaje-ayuda">
+										<div>
+											Aun no existen solicitudes de asignaci&oacute;n revisor
+											iniciadas por el programa curricular. <br> <br> <b>NOTA:</b>
+											Una vez el programa curricular inicie las solicitudes, los
+											revisores tendr&aacute;n un plazo m&aacute;ximo de <span
+												class="resaltado">10 d&iacute;as calendario</span> para dar
+											repuesta a la solicitud.
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
+	</div>
 			
 		<?php
 		}
 		?>
 	
 <!-- 	<div id="separador"> -->
-		<!-- 			<br>______<br> -->
-		<!-- 		</div> -->
+	<!-- 			<br>______<br> -->
+	<!-- 		</div> -->
 
 	<?php
 		$fecini = substr ( $matrizRevisor [0] [0], 8 );
@@ -478,71 +516,94 @@ class Formulario {
 		if ($matrizRespuesta) {
 			?>
 			<div id="proceso">
-			<h4>Proceso de revision (<?php echo count ( $matrizRespuesta );?>/3)</h4>
-			<table class="table2">
-				<tr>
-					<td>Responsable: <strong>Revisores</strong></td>
-					<td class="izq">Dias restantes <?php echo  ($fecini - $fecact['mday']) + 20;?>/20</td>
-				</tr>
-			</table>
-			<table id="proc" class="table">
-				<tr>
-					<td class="estilo_tr tit" colspan="5">Solicitudes de asignacion de
-						revision</td>
-				</tr>
-				<tr>
-					<td class="table-tittle estilo_tr" colspan="2">Revisor</td>
-					<td class="table-tittle estilo_tr">Fecha solicitud</td>
-					<td class="table-tittle estilo_tr">Concepto respuesta</td>
-					<td class="table-tittle estilo_tr">Fecha respuesta</td>
-				</tr>
+		<h4>Proceso de revision (<?php echo count ( $matrizRespuesta );?>/3)</h4>
+		<table class="table2">
+			<tr>
+				<td>Responsable: <strong>Revisores</strong></td>
+				<td class="izq">Dias restantes <?php echo  ($fecini - $fecact['mday']) + 20;?>/20</td>
+			</tr>
+		</table>
+		<table id="proc" class="table">
+			<tr>
+				<td class="estilo_tr tit" colspan="5">Solicitudes de asignacion de
+					revision</td>
+			</tr>
+			<tr>
+				<td class="table-tittle estilo_tr" colspan="2">Revisor</td>
+				<td class="table-tittle estilo_tr">Fecha solicitud</td>
+				<td class="table-tittle estilo_tr">Concepto respuesta</td>
+				<td class="table-tittle estilo_tr">Fecha respuesta</td>
+			</tr>
 				<?php
 			// var_dump($matrizRespuesta);
 			for($i = 0; $i < count ( $matrizRespuesta ); $i ++) {
 				?>
 				<tr>
-					<td class="estilo_tr">
-						<div class="corner bg-imagen-documento">
-							<div id="documento" class="icon-mini-people"></div>
-						</div>
-					</td>
-					<td class="estilo_tr">
+				<td class="estilo_tr">
+					<div class="corner bg-imagen-documento">
+						<div id="documento" class="icon-mini-people"></div>
+					</div>
+				</td>
+				<td class="estilo_tr">
 						<?php echo $matrizRespuesta[$i][3];?>
 					</td>
-					<td class="estilo_tr">
+				<td class="estilo_tr">
 						<?php echo $matrizRespuesta [$i] [4];?>
 					</td>
-					<td class="estilo_tr">
+				<td class="estilo_tr">
 						<?php echo $matrizRespuesta [$i] [2];?>
 					</td>
-					<td class="estilo_tr">
+				<td class="estilo_tr">
 						<?php echo $matrizRespuesta [$i] [0];?>
 					</td>
-				</tr>
+			</tr>
 				<?php
 			}
 			?>
 			
 			
 			</table>
-			<br>
+		<br>
 
-		</div>
+	</div>
 		<?php
 		} else {
 			?>
-		<div id="proceso">
-			<h4>Proceso de revision</h4>
-			<p class="idnt2">
-				Aun no exiten procesos de evaluacion iniciados. Para iniciar un
-				proceso de evalucacion es indispensable que solicite revision de la
-				ultima version del documento del anteproyecto. <br> <strong>NOTA: </strong>
-				Una vez el programa curricular inicie las solicitudes, los revisroes
-				tendran un plazo maximo de 10 dias calendario para dar respuesta a
-				la solicitud
-			</p>
-
+		<div class="bg-tablero corner">
+		<div class="plugins corner margen-interna">
+			<div class="plugin">
+				<div>
+					<span class="titulo-tablero-revision">Proceso de Revisi&oacute;n</span>
+				</div>
+				<div>
+					<table class="table-formulario">
+						<tbody>
+							<tr>
+								<td class="">
+									<div class="icon-mini-info"></div>
+								</td>
+								<td>
+									<div class="mensaje-ayuda">
+										<div>
+											Aun no existen procesos de evaluaci&oacute;n iniciados. Para
+											iniciar un proceso de evaluaci&oacute;n es indispensable que
+											solicite revisi&oacute;n de la &uacute;ltima versi&oacute;n
+											del documento de la anteproyecto. <br> <br> <b>NOTA:</b> Una
+											vez solicite la revisi&oacute;n, los revisores tendr&aacute;n
+											un plazo m&aacute;ximo de <span class="resaltado">20
+												d&iacute;as calendario</span> para dar repuesta a la
+											solicitud la c&uacute;al ser&aacute; notificada a los
+											estudiantes a traves del correo electr&oacute;nico.
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
+	</div>
 			
 		<?php
 		}
@@ -559,68 +620,92 @@ class Formulario {
 		?>
 		
 <!-- 		<div id="separador"> -->
-		<!-- 			<br>______<br> -->
-		<!-- 		</div> -->
+	<!-- 			<br>______<br> -->
+	<!-- 		</div> -->
 		
 		<?php
 		if (! $modi) {
 			?>
 		
-		<div id="modif">
-			<h4>Solicitud de modificacion</h4>
-			<p class="idnt2">
-				No existen procesos de moficiacion pendientes. Es indispensable que
-				todos procesos de revision finalizen para determinar si es necesario
-				realizar modificaciones al documento. <br> <strong>NOTA: </strong>
-				Una vez exista una solicitud de modificacion, los estudiantes
-				tendran un plazo maximo de 25 dias calendario para dar modificar el
-				documento y solicitar nuevamente la revision por parte de los
-				revisores.
-			</p>
-
+		<div class="bg-tablero corner">
+		<div class="plugins corner margen-interna">
+			<div class="plugin">
+				<div>
+					<span class="titulo-tablero-revision">Solicitud de
+						Modificaci&oacute;n</span>
+				</div>
+				<div>
+					<table class="table-formulario">
+						<tbody>
+							<tr>
+								<td class="">
+									<div class="icon-mini-info"></div>
+								</td>
+								<td>
+									<div class="mensaje-ayuda">
+										<div>
+											No existen procesos de modificaci&oacute;n pendientes. Es
+											indispensable que todos los procesos de revisi&oacute;n
+											finalicen para determinar si es necesario realizar
+											modificaciones al documento. <br> <br> <b>NOTA:</b> Una vez
+											exista una solicitud de modificaci&oacute;n, los estudiantes
+											tendr&aacute;n un plazo m&aacute;ximo de <span
+												class="resaltado">25 d&iacute;as calendario </span> para dar
+											modificar el documento y solicitar nuevamente la
+											revisi&oacute;n por parte de los revisores.
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
-		<?php
+	</div>
+</div>
+<?php
 		} else {
 			?>
-		<div id="modif">
-			<h4>Solicitud de modificacion</h4>
-			<p class="idnt">A continuacion se observa la modificacion requerida
-				por el revisor:</p>
-			<table id="proc" class="table">
-				<tr>
-					<td class="estilo_tr tit" colspan="5">Solicitudes de modificacion
-						de revision</td>
-				</tr>
-				<tr>
-					<td class="table-tittle estilo_tr" colspan="2">Revisor</td>
-					<td class="table-tittle estilo_tr">Fecha solicitud</td>
-					<td class="table-tittle estilo_tr">Concepto respuesta</td>
-					<td class="table-tittle estilo_tr">Fecha respuesta</td>
-				</tr>
+<div id="modif">
+	<h4>Solicitud de modificacion</h4>
+	<p class="idnt">A continuacion se observa la modificacion requerida por
+		el revisor:</p>
+	<table id="proc" class="table">
+		<tr>
+			<td class="estilo_tr tit" colspan="5">Solicitudes de modificacion de
+				revision</td>
+		</tr>
+		<tr>
+			<td class="table-tittle estilo_tr" colspan="2">Revisor</td>
+			<td class="table-tittle estilo_tr">Fecha solicitud</td>
+			<td class="table-tittle estilo_tr">Concepto respuesta</td>
+			<td class="table-tittle estilo_tr">Fecha respuesta</td>
+		</tr>
 				<?php
 			// var_dump($matrizRespuesta);
 			for($i = 0; $i < count ( $matrizRespuesta ); $i ++) {
 				if ($matrizRespuesta [$i] [2] == "MODIFICABLE") {
 					?>
 				<tr>
-					<td class="estilo_tr">
-						<div class="corner bg-imagen-documento">
-							<div id="documento" class="icon-mini-people"></div>
-						</div>
-					</td>
-					<td class="estilo_tr">
+			<td class="estilo_tr">
+				<div class="corner bg-imagen-documento">
+					<div id="documento" class="icon-mini-people"></div>
+				</div>
+			</td>
+			<td class="estilo_tr">
 						<?php echo $matrizRespuesta [$i] [3];?>
 					</td>
-					<td class="estilo_tr">
+			<td class="estilo_tr">
 						<?php echo $matrizRespuesta [$i] [4];?>
 					</td>
-					<td class="estilo_tr">
+			<td class="estilo_tr">
 						<?php echo $matrizRespuesta [$i] [2];?>
 					</td>
-					<td class="estilo_tr">
+			<td class="estilo_tr">
 						<?php echo $matrizRespuesta [$i] [0];?>
 					</td>
-				</tr>
+		</tr>
 				<?php
 				}
 			}
@@ -628,12 +713,12 @@ class Formulario {
 			
 			
 			</table>
-			<br>
-		</div>
-		<?php
+	<br>
+</div>
+<?php
 		}
 		?>
-			</div>
+</div>
 </div>
 
 <?php
