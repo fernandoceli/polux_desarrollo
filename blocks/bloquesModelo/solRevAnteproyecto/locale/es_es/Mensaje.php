@@ -12,4 +12,6 @@ $this->idioma["enlaceVer"]="Ver Solicitud";
 
 $this->idioma["revisor"]="Docente:";
 
+$this->idioma["infoMensaje"]="No existen anteproyectos actualmente asignados para revisión.";
+
 ?>

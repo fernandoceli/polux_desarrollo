@@ -10,4 +10,6 @@ $this->idioma ["botonIngresar"] = "Ingresar";
 
 $this->idioma["revisor"]="Docente:";
 
+
+$this->idioma["infoMensaje"]="No existen proyectos actualmente asignados para revisión.";
 ?>

@@ -83,13 +83,9 @@ class Formulario {
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $_REQUEST['usuario'] );
 		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		// 		var_dump($matrizItems);
-		// 		var_dump($matrizItems[0]);
-		
 		$rol = $matrizItems[0][0];
 		$acceso = false;
 		$mostrar = true;
-		// 		echo $rol;
 		
 		if (($rol == "Docente") || ($rol == "Coordinador")) {
 			$acceso = true;
@@ -97,13 +93,8 @@ class Formulario {
 		}
 		
 		if ($rol == 'Administrador General') {
-			// 			$_REQUEST ["variable"] = '321456789';
 			$acceso = true;
 		}
-		
-		
-		//Seleccionar un docente por defecto. 
-// 		$docente = $_REQUEST['usuario'];
 		
 		//Buscar Anteproyectos asignados al docente
 		if (isset ( $_REQUEST ["variable"] )) {
@@ -112,8 +103,7 @@ class Formulario {
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyectos", "0" );
 		}
 		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-		//var_dump($matrizItems);
-// 		echo  $atributos ['cadena_sql'];
+		
 		?>
 		<h2>Solicitud de revision  <?php
 		if (isset ( $_REQUEST ["variable"] )) {
@@ -191,32 +181,8 @@ class Formulario {
 	} else {
 		$mostrar = false;
 		$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
-?>
-<div class="canvas-contenido">
-	<div class="area-msg corner margen-interna ">
-		<div class="icono-msg info"></div>
-		<div class="content-msg info corner">
-			<div class="title-msg info">Informacion</div>
-			<div style="padding: 5px 0px;">
-				<div>
-					<contenido> No existen anteproyectos actualmente asignados para
-					revision.
-					<div style="text-align: right"
-						onclick="window.location = 'index.php?data=<?php echo $pag?>';">
-						<input
-							class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
-							type="submit" tabindex="1" value="Ir al inicio" role="button"
-							aria-disabled="false">
-					</div>
-					</contenido>
-				</div>
-			</div>
-		</div>
-		<div class="clearboth"></div>
-	</div>
-</div>
-<?php
-		}
+		echo $this->miFormulario->infoReporte ( $this->lenguaje->getCadena ( "infoMensaje" ), $pag);
+	}
 		
 		// // ------------------Division para los botones-------------------------
 		// $atributos ["id"] = "botones";

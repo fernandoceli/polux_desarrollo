@@ -229,29 +229,8 @@ class Formulario {
 <?
 			}
 		} else {
-			?>
-<div class="canvas-contenido">
-	<div class="area-msg corner margen-interna ">
-		<div class="icono-msg info"></div>
-		<div class="content-msg info corner">
-			<div class="title-msg info">Informacion</div>
-			<div style="padding: 5px 0px;">
-				<div>
-					<contenido> No existen anteproyectos actualmente asignados para
-					revisión.
-					<div style="text-align: right">
-						<input class="boton" type="button"
-							onclick="osm_go('inicio/PageBienvenida.do');"
-							value="Ir al inicio">
-					</div>
-					</contenido>
-				</div>
-			</div>
-		</div>
-		<div class="clearboth"></div>
-	</div>
-</div>
-<?php
+			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
+			echo $this->miFormulario->infoReporte ( $this->lenguaje->getCadena ( "infoMensaje" ), $pag);
 		}
 		
 		// ---------------- FIN SECCION: Controles del Formulario -------------------------------------------
