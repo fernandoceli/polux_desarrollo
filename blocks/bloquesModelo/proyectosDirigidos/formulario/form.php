@@ -97,21 +97,18 @@ class Formulario {
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $usuario );
 		$matrizProyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		// var_dump($matrizItems);
-		// var_dump($matrizItems[0]);
-		
 		$rol = $matrizProyectos [0] [0];
 		$acceso = false;
 		$mostrar = true;
-// 		echo $rol;
 		
 		if (($rol == "Docente") || ($rol == "Coordinador")) {
 			$acceso = true;
-			$_REQUEST ["variable"] = $usuario;
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarCodigo", $_REQUEST ["usuario"] );
+			$matrizCodigo = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+			$_REQUEST ["variable"] = $matrizCodigo [0] [0];
 		}
 		
 		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
-			// $_REQUEST ["variable"] = '321456789';
 			$acceso = true;
 		}
 		
@@ -122,49 +119,19 @@ class Formulario {
 		}
 		$matrizProyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		?>
-
-<h2>Proyectos dirigidos <?php
-		if (isset ( $_REQUEST ["variable"] )) {
-			echo " (" . $_REQUEST ["variable"];
+		if (isset ( $_REQUEST ['variable'] )) {
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarDocente", $_REQUEST ["variable"] );
-			$nombre = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-			echo " - " . $nombre [0] [0] . ")";
+			$matrizNombre = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+			$atributos ['mensaje'] = 'Proyectos dirigidos por ' . $matrizNombre [0] [0] . " (" . $_REQUEST ["variable"] . ")";
+		} else {
+			$atributos ['mensaje'] = 'Proyectos dirigidos ';
 		}
-		?></h2>
-<br>
 
-<?php
+		$atributos ['tamanno'] = 'Enorme';
 		
 		if ($matrizProyectos && $acceso) {
-			// echo $this->miFormulario->tablaReporte ( $matrizItems );
-			?>
-
-<table id="tAnteproyectosDirigidos">
-	<thead>
-		<tr>
-			<th>Fecha Radicaci&oacute;n</th>
-			<th>No. Proyecto</th>
-			<th>Modalidad de Grado</th>
-			<th>T&iacute;tulo</th>
-			<th>Estado</th>
-		</tr>
-	</thead>
-	<tbody>
-<?php
-			foreach ( $matrizProyectos as $fila ) {
-				echo "<tr>";
-				for($i = 0; $i < 5; $i ++) {
-					echo "<td>" . $fila [$i] . "</td>";
-				}
-				echo "</tr>";
-			}
-			?>
-	</tbody>
-</table>
-<div class=' '>
-
-<?php
+			echo $this->miFormulario->campoMensaje ( $atributos );
+			echo $this->miFormulario->tablaReporte ( $matrizProyectos, "tAnteproyectosDirigidos");
 		} else {
 			$mostrar = false;
 			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );

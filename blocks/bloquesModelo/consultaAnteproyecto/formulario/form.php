@@ -61,16 +61,12 @@ class Formulario {
 		
 		$usuario = $this->miSesion->getSesionUsuarioId ();
 		
-		// saber si es coordinador
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $_REQUEST ['usuario'] );
 		$matrizRol = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-		// var_dump($matrizItems);
 		
 		$rol = $matrizRol [0] [0];
 		$acceso = false;
 		$mostrar = false;
-		// echo $rol;
-		// var_dump($_REQUEST);
 		
 		if ($rol == "Estudiante") {
 			$acceso = true;
@@ -79,7 +75,6 @@ class Formulario {
 		}
 		
 		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
-			// $_REQUEST ["variable"] = '321456789';
 			$acceso = true;
 			$mostrar = true;
 		}

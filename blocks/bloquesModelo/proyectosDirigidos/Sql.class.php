@@ -106,7 +106,7 @@ class Sql extends \Sql {
 					$cadenaSql .= 'proy_dir_int=\'' . $variable . '\' ';
 				}
 				
-// 				echo $cadenaSql;
+				// echo $cadenaSql;
 				break;
 			
 			case 'buscarDocente' :
@@ -156,6 +156,18 @@ class Sql extends \Sql {
 				$cadenaSql .= 'ON us.rol_id = r.rol_id ';
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'u.id_usuario=\'' . $variable . '\' ';
+				break;
+			
+			case 'consultarCodigo' :
+				$cadenaSql = 'SELECT prof_prof ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.ge_tprof ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'polux_usuario ';
+				$cadenaSql .= 'ON prof_us=id_usuario ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'id_usuario=\'' . $variable . '\' ';
+				// echo $cadenaSql;
 				break;
 		}
 		

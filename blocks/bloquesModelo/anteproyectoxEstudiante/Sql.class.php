@@ -102,11 +102,11 @@ class Sql extends \Sql {
 			case 'buscarAnteproyectos' :
 				
 				$cadenaSql = 'SELECT ';
-				$cadenaSql .= 'antp_fradi as FECHA, ';
-				$cadenaSql .= 'antp_antp as ANTEPROYECTO, ';
-				$cadenaSql .= 'moda_nombre as MODALIDAD, ';
 				$cadenaSql .= 'antp_titu as TITULO, ';
-				$cadenaSql .= 'antp_eantp as ESTADO ';
+				$cadenaSql .= 'moda_nombre as MODALIDAD, ';
+				$cadenaSql .= 'antp_eantp as ESTADO, ';
+				$cadenaSql .= 'antp_fradi as FECHA, ';
+				$cadenaSql .= 'antp_antp as ANTEPROYECTO ';
 				$cadenaSql .= 'FROM ';
 				$cadenaSql .= 'trabajosdegrado.ant_testantp ';
 				$cadenaSql .= 'JOIN trabajosdegrado.ge_testd ';

@@ -77,19 +77,23 @@ class Sql extends \Sql {
 				$cadenaSql .= 'proy_descri, ';
 				$cadenaSql .= 'proy_obser, ';
 				$cadenaSql .= 'proy_eproy, ';
-				$cadenaSql .= 'proy_duracion, ';
+				$cadenaSql .= 'duracion_descri, ';
 				$cadenaSql .= 'proy_dir_int ';
 				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado.pry_tproy  ';
+				$cadenaSql .= 'trabajosdegrado.pry_tproy ';
 				$cadenaSql .= 'JOIN ';
-				$cadenaSql .= 'trabajosdegrado.ge_tmoda  ';
+				$cadenaSql .= 'trabajosdegrado.ge_tmoda ';
 				$cadenaSql .= 'ON ';
-				$cadenaSql .= 'proy_moda=moda_moda  ';
+				$cadenaSql .= 'proy_moda=moda_moda ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'trabajosdegrado.pry_tduracion ';
+				$cadenaSql .= 'ON ';
+				$cadenaSql .= 'proy_duracion=duracion_duracion ';
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'proy_proy =' . $variable;
 				// $cadenaSql .= 'estado=\'RADICADO\' OR estado=\'ASIGNADO REVISORES\'';
 				// $cadenaSql .= 'nombre=\'' . $_REQUEST ['nombrePagina'] . '\' ';
-				// echo $cadenaSql;
+// 				echo $cadenaSql;
 				break;
 			
 			case 'buscarTematicas' :
@@ -258,6 +262,7 @@ class Sql extends \Sql {
 				$cadenaSql .= "FROM ";
 				$cadenaSql .= "trabajosdegrado.pry_tdproy ";
 				$cadenaSql .= "WHERE dproy_dproy='" . $variable . "' ";
+				$cadenaSql .= "ORDER BY dproy_vers DESC";
 				// echo $cadenaSql;
 				break;
 			

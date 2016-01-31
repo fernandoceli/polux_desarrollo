@@ -210,6 +210,11 @@ class Formulario {
 			</tr>
 
 			<tr>
+				<td class="table-tittle estilo_tr">Duracion</td>
+				<td class="estilo_tr"><p><?php echo $matrizProyectos[0]['duracion_descri']?></p></td>
+			</tr>
+
+			<tr>
 				<td class="table-tittle estilo_tr">Estado</td>
 				<td class="estilo_tr"><p class="res"><?php echo $matrizProyectos[0]['proy_eproy']?></p></td>
 			</tr>
@@ -276,10 +281,10 @@ class Formulario {
 		
 		<?php
 		
-		$viab = true;
+		$aprob = true;
 		for($i = 0; $i < count ( $matrizRespuesta ); $i ++) {
-			if ($matrizRespuesta [$i] [2] != "VIABLE") {
-				$viab = false;
+			if ($matrizRespuesta [$i] [2] != "APROBADO") {
+				$aprob = false;
 			}
 		}
 		
@@ -288,7 +293,7 @@ class Formulario {
 		$atributos ["estilo"] = "marcoBotones";
 		echo $this->miFormulario->division ( "inicio", $atributos );
 		
-		if ($viab && $mostrar && $matrizProyectos [0] ['proy_eproy'] != "INFORME FINAL") {
+		if ($aprob && $mostrar && $matrizProyectos [0] ['proy_eproy'] != "INFORME FINAL") {
 			// -----------------CONTROL: Botón ----------------------------------------------------------------
 			$esteCampo = 'botonIniciar';
 			$atributos ["id"] = $esteCampo;
@@ -717,7 +722,8 @@ class Formulario {
 		<div class="plugins corner margen-interna">
 			<div class="plugin">
 				<div>
-					<span class="titulo-tablero-revision">Solicitudes Por Modalidad de Grado</span>
+					<span class="titulo-tablero-revision">Solicitudes Por Modalidad de
+						Grado</span>
 				</div>
 				<div>
 					<table class="table-formulario">

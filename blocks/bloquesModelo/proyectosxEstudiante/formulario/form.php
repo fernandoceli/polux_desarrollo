@@ -119,68 +119,14 @@ class Formulario {
 		
 		if ($matrizProyectos && $acceso) {
 			
+			$enlaces = array ();
+				
+			$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
+			$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
+			$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+				
 			for($i = 0; $i < count ( $matrizProyectos ); $i ++) {
-				$proyecto = $matrizProyectos [$i] ['proyecto'];
-				
-				// ////////////////Hidden////////////
-				$esteCampo = 'antpSolicitudes';
-				$atributos ["id"] = $esteCampo;
-				$atributos ["tipo"] = "hidden";
-				$atributos ['estilo'] = '';
-				$atributos ['validar'] = '';
-				$atributos ["obligatorio"] = true;
-				$atributos ['marco'] = true;
-				$atributos ["etiqueta"] = "";
-				$atributos ['valor'] = count ( $matrizProyectos );
-				
-				$atributos = array_merge ( $atributos, $atributosGlobales );
-				echo $this->miFormulario->campoCuadroTexto ( $atributos );
-				unset ( $atributos );
-				// ////////////////////////////////////////
-				
-				?>
-
-<div class="bg-caja corner" id="caja<?php echo $i ?>"
-	style="float: left">
-	<div class="caja corner">
-		<div class="caja-header">
-			<div class="caja-fecha" style="float: left"><?php echo $matrizProyectos[$i]['fecha']?></div>
-			<div class="clearboth">
-				<br></br>
-			</div>
-		</div>
-		<div>
-			<div class="caja-codigo" style="float: left">
-				<div class="caja-icon-documento"></div>
-				<p class="caja-numero" id="cajanum<?php echo $i ?>"><?php echo 'No. '. $matrizProyectos[$i]['proyecto']?></p>
-			</div>
-			<div class="caja-info" style="float: left">
-				<table style="border: 0; width: 100%">
-					<tbody>
-						<tr>
-							<td><b>Titulo:</b></td>
-							<td><?php echo $matrizProyectos[$i]['titulo'] ?></td>
-						</tr>
-						<tr>
-							<td><b>Modalidad:</b></td>
-							<td><?php echo $matrizProyectos[$i]['modalidad'] ?></td>
-						</tr>
-						<tr>
-							<td><b>Estado:</b></td>
-							<td><?php echo $matrizProyectos[$i]['estado'] ?></td>
-						</tr>
-					</tbody>
-				</table>
-				<p></p>
-
-			</div>
-										<?php
-				
-				$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
-				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
-				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
-				
-// 				$variableVer = "action=" . $esteBloque ["nombre"];
+				// $variableVer = "action=" . $esteBloque ["nombre"];
 				$variableVer = "pagina=verProyecto";
 				$variableVer .= "&usuario=" . $_REQUEST ['usuario'];
 				$variableVer .= "&proyecto=" . $matrizProyectos [$i] ['proyecto'];
@@ -188,9 +134,9 @@ class Formulario {
 					$variableVer .= "&docente=" . $docente;
 				}
 				$variableVer .= "&rol=" . $rol;
-				
+			
 				$variableVer = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variableVer, $directorio );
-				
+			
 				// -------------Enlace-----------------------
 				$esteCampo = "enlaceVer";
 				$atributos ["id"] = $esteCampo;
@@ -199,19 +145,47 @@ class Formulario {
 				$atributos ['redirLugar'] = true;
 				$atributos ['estilo'] = 'color';
 				$atributos ['enlaceTexto'] = $this->lenguaje->getCadena ( $esteCampo );
-				;
 				$atributos ['ancho'] = '25';
 				$atributos ['alto'] = '25';
-				echo $this->miFormulario->enlace ( $atributos );
-				unset ( $atributos );
-				
-				?>
-									</div>
-	</div>
-</div>
-
-<?
+			
+				array_push ( $enlaces, $this->miFormulario->enlace ( $atributos ) );
 			}
+			$atributos ['posicion'] = $i;
+				
+			$clases = array (
+					"bg-caja corner",
+					"caja corner",
+					"caja-header",
+					"caja-fecha",
+					"clearboth",
+					"caja-codigo",
+					"caja-icon-documento",
+					"caja-numero",
+					"caja-info"
+			);
+				
+			$datos = array (
+					"Titulo",
+					"Modalidad",
+					"Estado"
+			);
+				
+			$atributos ['clase'] = $clases;
+			$atributos ['estilo'] = 'float: left';
+			$atributos ['estilo-tabla'] = 'border: 0; width: 100%';
+				
+			$atributos ['datos'] = $datos;
+			$atributos ['matrizItems'] = $matrizProyectos;
+			$atributos ['enlaces'] = $enlaces;
+				
+			$atributos = array_merge ( $atributos, $atributosGlobales );
+				
+			$resul = $this->miFormulario->listaTabla ( $atributos );
+				
+			for($i = 0; $i < count ( $resul ); $i ++) {
+				echo $resul[$i];
+			}
+			
 		} else {
 			$mostrar = false;
 			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );

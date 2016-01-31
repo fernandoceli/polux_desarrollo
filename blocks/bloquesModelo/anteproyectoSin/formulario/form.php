@@ -88,19 +88,15 @@ class Formulario {
 		echo $this->miFormulario->campoCuadroTexto ( $atributos );
 		unset ( $atributos );
 		
-		// /////////////////
-		
 		$mostrar = true;
 		
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyectos" );
 		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		?>
-
-<h2>Anteproyectos sin revisores asignados</h2>
-<br>
-
-<?php
+		$atributos ['mensaje'] = 'Anteproyectos sin revisores asignados';
+		$atributos ['tamanno'] = 'Enorme';
+		$atributos ['linea'] = 'false';
+		echo $this->miFormulario->campoMensaje ( $atributos );
 		
 		if (($matrizItems [0] [0]) != "") {
 			echo $this->miFormulario->tablaReporte ( $matrizItems, "tablaAnteproyectosSin");

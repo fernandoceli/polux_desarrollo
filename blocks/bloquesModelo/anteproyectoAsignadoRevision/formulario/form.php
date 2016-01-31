@@ -96,19 +96,15 @@ class Formulario {
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $usuario );
 		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		// var_dump($matrizItems);
-		// var_dump($matrizItems[0]);
-		
 		$rol = $matrizItems [0] [0];
 		$acceso = false;
 		$mostrar = true;
-		// echo $rol;
 		
 		if (($rol == "Docente") || ($rol == "Coordinador")) {
 			$acceso = true;
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarCodigo", $_REQUEST ["usuario"] );
 			$matrizCodigo = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-			$_REQUEST ["variable"] = $matrizCodigo[0][0];
+			$_REQUEST ["variable"] = $matrizCodigo [0] [0];
 		}
 		
 		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
@@ -122,55 +118,26 @@ class Formulario {
 		}
 		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		?>
-
-<h2>Anteproyectos Asignados Para Revision <?php
 		if (isset ( $_REQUEST ["variable"] )) {
-			echo " (" . $_REQUEST ["variable"];
+			$atributos ['mensaje'] = 'Anteproyectos Asignados Para Revision';
+			$atributos ['mensaje'] .= " (" . $_REQUEST ["variable"];
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarDocente", $_REQUEST ["variable"] );
 			$nombre = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-			echo " - " . $nombre [0] [0] . ")";
+			$atributos ['mensaje'] .= " - " . $nombre [0] [0] . ")";
+		} else {
+			$atributos ['mensaje'] = 'Anteproyectos Asignados Para Revision';
 		}
-		?></h2>
-<br>
-
-<?php
-		$filas = count ( $matrizItems );
-		$columnas = count ( $matrizItems [0] );
+		
+		$atributos ['tamanno'] = 'Enorme';
+		$atributos ['linea'] = 'false';
+		echo $this->miFormulario->campoMensaje ( $atributos );
 		
 		if ($matrizItems && $acceso) {
-			// echo $this->miFormulario->tablaReporte ( $matrizItems );
-			?>
-
-<table id="tAsignadoRevision">
-	<thead>
-		<tr>
-			<th>Fecha Radicaci&oacute;n</th>
-			<th>No. Anteproyecto</th>
-			<th>Modalidad de Grado</th>
-			<th>T&iacute;tulo</th>
-			<th>Estado</th>
-		</tr>
-	</thead>
-	<tbody>
-<?php
-			foreach ( $matrizItems as $fila ) {
-				echo "<tr>";
-				for($i = 0; $i < 5; $i ++) {
-					echo "<td>" . $fila [$i] . "</td>";
-				}
-				echo "</tr>";
-			}
-			?>
-	</tbody>
-</table>
-<div class=' '>
-
-<?php
+			echo $this->miFormulario->tablaReporte ( $matrizItems, "tAsignadoRevision");
 		} else {
 			$mostrar = false;
 			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
-			echo $this->miFormulario->infoReporte ( $this->lenguaje->getCadena ( "infoMensaje" ), $pag);
+			echo $this->miFormulario->infoReporte ( $this->lenguaje->getCadena ( "infoMensaje" ), $pag );
 		}
 		
 		if ($mostrar) {
@@ -269,7 +236,6 @@ class Formulario {
 			$tipoMensaje = $this->miConfigurador->getVariableConfiguracion ( 'tipoMensaje' );
 			
 			if ($tipoMensaje == 'json') {
-				
 				$atributos ['mensaje'] = $mensaje;
 				$atributos ['json'] = true;
 			} else {
