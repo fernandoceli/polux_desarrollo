@@ -45,7 +45,6 @@ $urlFinal2 = $url . $cadena2;
 var iCnt = 0;
 var iCnt2 = 0;
 // Obtener elemento div 
-var container1 = document.getElementById('contenedor1');
 var dato = '';
 
 //Arreglo para guardar los códigos
@@ -57,35 +56,8 @@ var text2="";
 
 var ruta = "blocks/bloquesModelo/asignarTematica";
 
-function contains(a, obj) {
-    for (var i = 0; i < a.length; i++) {
-        if (a[i] === obj) {
-            return true;
-        }
-    }
-    return false;
-}
-
-function eliminar(num){
-	var dato = $("#td" + num).val();
-	var index = tematicas.indexOf(dato);
-	tematicas.splice(index, 1);
-	for (i = 0; i < tematicas.length; i++) { 
-	    text2 += tematicas[i] + ";";
-	}
-	$('#<?php echo $this->campoSeguro("nombresTematicas")?>').val(text2);
-	$('#<?php echo $this->campoSeguro("numTematicas")?>').val(tematicas.length);
-	$("#td" + num).remove();
-	$("#img" + num).remove();
-	$("#br" + num).remove();
-	console.log("Se elimino " + num);
-}
-
 function seleccionar(elem, request, response){
 	$.ajax({
-		url: "<?php echo $urlFinal; ?>",
-		dataType: "json",
-		data: {valor: $("#<?php echo $this->campoSeguro('docente')?>").val()},
 		success: function(data){
             $("#<?php echo $this->campoSeguro('seleccionarTematica')?>").removeAttr('disabled');
             $('#<?php echo $this->campoSeguro('seleccionarTematica')?>').width(280);
@@ -100,15 +72,16 @@ function actualizar(elem, request, response){
 		dataType: "json",
 		data: {valor: $("#<?php echo $this->campoSeguro('docente')?>").val()},
 		success: function(data){
+			var container1 = document.getElementById('contenedor1');
 			$(container1).empty();
 			iCnt = 0;
 			iCnt2 = 0;
 			var dato =  $("#<?php echo $this->campoSeguro('docente')?>").val();
+// 			alert(data);
+			console.log(data);
 			if (data) {
-				console.log(data);
 				if (!contains(tematicas, dato)) {
 					for (var i in data) {
-					
 						iCnt2++;
 						$(container1).append('<input type=text class="tem" style="display: inline-block;" disabled id=td' + iCnt2 + ' />');
 
@@ -140,16 +113,30 @@ function actualizar(elem, request, response){
 	});	
 };
 
-$(function () {
-	$("#<?php echo $this->campoSeguro('docente')?>").change(function(){
-		if($("#<?php echo $this->campoSeguro('docente')?>").val()!='') {
-			seleccionar();
-			actualizar();
-		} else {
-			$("#<?php echo $this->campoSeguro('seleccionarTematica')?>").attr('disabled','');
-		}
-	 });
-});
+function contains(a, obj) {
+    for (var i = 0; i < a.length; i++) {
+        if (a[i] === obj) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function eliminar(num){
+// 	alert(num);
+	var dato = $("#td" + num).val();
+	var index = tematicas.indexOf(dato);
+	tematicas.splice(index, 1);
+	for (i = 0; i < tematicas.length; i++) { 
+	    text2 += tematicas[i] + ";";
+	}
+	$('#<?php echo $this->campoSeguro("nombresTematicas")?>').val(text2);
+	$('#<?php echo $this->campoSeguro("numTematicas")?>').val(tematicas.length);
+	$("#td" + num).remove();
+	$("#img" + num).remove();
+	$("#br" + num).remove();
+	console.log("Se elimino " + num);
+}
 
 
 </script>

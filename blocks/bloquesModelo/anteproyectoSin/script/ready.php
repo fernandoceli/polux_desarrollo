@@ -5,6 +5,9 @@ $("#anteproyectoSin").validationEngine({
 	autoHideDelay: 2000
 });
 
+
+$('#tablaAnteproyectosSin').DataTable();
+
 $('#<?php echo $this->campoSeguro('revisor')?>').width(280);
 $('#<?php echo $this->campoSeguro('revisor')?>').select2();
 

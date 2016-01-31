@@ -50,7 +50,7 @@ class Formulario {
 		
 		$conexion = 'estructura';
 		$esteRecurso = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-
+		
 		$seccion ['tiempo'] = $tiempo;
 		
 		$usuario = $this->miSesion->getSesionUsuarioId ();
@@ -84,6 +84,25 @@ class Formulario {
 		
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $usuario );
+		$matrizAnteproyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		
+		$rol = $matrizAnteproyectos [0] [0];
+		$acceso = false;
+		$mostrar = true;
+		
+		if ($rol == "Coordinador" || $rol == "Docente") {
+			$acceso = true;
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarCodigo", $_REQUEST ["usuario"] );
+			$matrizCodigo = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+			$codigo = $matrizCodigo [0] [0];
+			$_REQUEST ["variable"] = $codigo;
+		}
+		
+		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
+			$acceso = true;
+		}
+		
 		$atributos ['mensaje'] = 'Asignar tematicas de Interes';
 		$atributos ['tamanno'] = 'Enorme';
 		$atributos ['linea'] = 'true';
@@ -104,7 +123,6 @@ class Formulario {
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ['tab'] = $tab;
 		$atributos ['marco'] = true;
-		$atributos ['seleccion'] = - 1;
 		$atributos ['evento'] = '';
 		$atributos ['deshabilitado'] = false;
 		$atributos ['limitar'] = true;
@@ -118,16 +136,17 @@ class Formulario {
 		$atributos ['anchoEtiqueta'] = 280;
 		$atributos ['anchoCaja'] = 60;
 		
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarDocentes" );
+		$matrizDocentes = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+// 		var_dump ( $matrizDocentes );
+		
+		$atributos ['matrizItems'] = $matrizDocentes;
+		
 		if (isset ( $_REQUEST [$esteCampo] )) {
 			$atributos ['seleccion'] = $_REQUEST [$esteCampo];
 		} else {
 			$atributos ['seleccion'] = - 1;
 		}
-		
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarDocentes" );
-		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-		
-		$atributos ['matrizItems'] = $matrizItems;
 		
 		$tab ++;
 		
@@ -165,9 +184,9 @@ class Formulario {
 		}
 		
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarTematicas" );
-		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		$matrizTematicas = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		$atributos ['matrizItems'] = $matrizItems;
+		$atributos ['matrizItems'] = $matrizTematicas;
 		
 		$tab ++;
 		$atributos = array_merge ( $atributos, $atributosGlobales );
@@ -213,6 +232,41 @@ class Formulario {
 		unset ( $atributos );
 		// ////////////////////////////////////////
 		
+		// Hidden para guardar el número de estudiantes
+		// ////////////////Hidden////////////
+		$esteCampo = 'rol';
+		$atributos ["id"] = $esteCampo;
+		$atributos ["tipo"] = "hidden";
+		$atributos ['estilo'] = '';
+		$atributos ['validar'] = '';
+		$atributos ["obligatorio"] = true;
+		$atributos ['marco'] = true;
+		$atributos ["etiqueta"] = "";
+		$atributos ["valor"] = $rol;
+		
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		unset ( $atributos );
+		// ////////////////////////////////////////
+		
+		if (isset ( $codigo )) {
+			// Hidden para guardar el número de estudiantes
+			// ////////////////Hidden////////////
+			$esteCampo = 'numDocente';
+			$atributos ["id"] = $esteCampo;
+			$atributos ["tipo"] = "hidden";
+			$atributos ['estilo'] = '';
+			$atributos ['validar'] = '';
+			$atributos ["obligatorio"] = true;
+			$atributos ['marco'] = true;
+			$atributos ["etiqueta"] = "";
+			$atributos ["valor"] = $codigo;
+			
+			$atributos = array_merge ( $atributos, $atributosGlobales );
+			echo $this->miFormulario->campoCuadroTexto ( $atributos );
+			unset ( $atributos );
+			// ////////////////////////////////////////
+		}
 		// echo $this->miFormulario->marcoAgrupacion ( 'fin' );
 		// ------------------Division para los botones-------------------------
 		$atributos ["id"] = "botones";

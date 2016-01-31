@@ -232,6 +232,32 @@ class Sql extends \Sql {
 				$cadenaSql .= "acono_nom='" . $variable . "' ";
 				// var_dump ( $cadenaSql );
 				break;
+			
+			case 'consultarRol' :
+				$cadenaSql = 'SELECT rol_nombre ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'polux_usuario u ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'polux_usuario_subsistema us ';
+				$cadenaSql .= 'ON u.id_usuario::varchar = us.id_usuario ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'polux_rol r ';
+				$cadenaSql .= 'ON us.rol_id = r.rol_id ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'u.id_usuario=\'' . $variable . '\' ';
+				break;
+			
+			case 'consultarCodigo' :
+				$cadenaSql = 'SELECT prof_prof ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.ge_tprof ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'polux_usuario ';
+				$cadenaSql .= 'ON prof_us=id_usuario ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'id_usuario=\'' . $variable . '\' ';
+// 				echo $cadenaSql;
+				break;
 		}
 		
 		return $cadenaSql;

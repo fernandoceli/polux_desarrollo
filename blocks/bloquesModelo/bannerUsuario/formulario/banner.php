@@ -93,6 +93,7 @@ class Formulario {
 		
 		$usuario = $this->miSesion->getSesionUsuarioId ();
 		var_dump($_REQUEST);
+// 		var_dump($_GET);
 		if (! isset ( $_REQUEST ['usuario'] )) {
 			if ($usuario) {
 				$_REQUEST ['usuario'] = $usuario;

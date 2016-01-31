@@ -30,10 +30,10 @@ $(function() {
 });
 
 $(document).ready(function() {
-	var table = $('#tablaReporte').DataTable();
+	var table = $('#tablaAnteproyectosSin').DataTable();
 	var cod=0;
 	
-	$('#tablaReporte tbody').on('click', 'tr', function() {
+	$('#tablaAnteproyectosSin tbody').on('click', 'tr', function() {
 		$fila = table.row(this).data()
 		cod = $fila[1];
 		

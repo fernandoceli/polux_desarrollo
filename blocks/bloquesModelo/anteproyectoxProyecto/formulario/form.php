@@ -173,31 +173,7 @@ class Formulario {
 		} else {
 			$mostrar = false;
 			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
-			?>
-<div class="canvas-contenido">
-		<div class="area-msg corner margen-interna ">
-			<div class="icono-msg info"></div>
-			<div class="content-msg info corner">
-				<div class="title-msg info">Informacion</div>
-				<div style="padding: 5px 0px;">
-					<div>
-						<contenido> No existen anteproyectos registrados para el programa
-						curricular.
-						<div style="text-align: right"
-							onclick="window.location = 'index.php?data=<?php echo $pag?>';">
-							<input
-								class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
-								type="submit" tabindex="1" value="Ir al inicio" role="button"
-								aria-disabled="false">
-						</div>
-						</contenido>
-					</div>
-				</div>
-			</div>
-			<div class="clearboth"></div>
-		</div>
-	</div>
-<?php
+			echo $this->miFormulario->infoReporte ( $this->lenguaje->getCadena ( "infoMensaje" ), $pag);
 		}
 		
 		if ($mostrar) {

@@ -1,7 +1,6 @@
 <?php
 $indice = 0;
 
-$estilo [$indice ++] = "estiloPie.css";
 $estilo [$indice ++] = "validationEngine.jquery.css";
 $estilo [$indice ++] = "animate.css";
 $estilo [$indice ++] = "estiloBienvenida.css";

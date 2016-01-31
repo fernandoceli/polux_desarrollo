@@ -84,22 +84,18 @@ class Formulario {
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $usuario );
 		$matrizAnteproyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		// var_dump($matrizItems);
-		// var_dump($matrizItems[0]);
-		
 		$rol = $matrizAnteproyectos [0] [0];
 		$acceso = false;
 		$mostrar = true;
-		// echo $rol;
-		// var_dump($_REQUEST);
 		
 		if ($rol == "Estudiante") {
 			$acceso = true;
-			$_REQUEST ["variable"] = $_REQUEST ['usuario'];
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarCodigo", $_REQUEST ["usuario"] );
+			$matrizCodigo = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+			$_REQUEST ["variable"] = $matrizCodigo[0][0];
 		}
 		
 		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
-			// $_REQUEST ["variable"] = '321456789';
 			$acceso = true;
 		}
 		
@@ -109,7 +105,6 @@ class Formulario {
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyectos", "0" );
 		}
 		$matrizAnteproyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-// 		var_dump ( $matrizAnteproyectos );
 		
 		if (isset ( $_REQUEST ['variable'] )) {
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarEstudiante", $_REQUEST ["variable"] );
@@ -220,31 +215,7 @@ class Formulario {
 		} else {
 			$mostrar = false;
 			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
-			?>
-<div class="canvas-contenido">
-	<div class="area-msg corner margen-interna ">
-		<div class="icono-msg info"></div>
-		<div class="content-msg info corner">
-			<div class="title-msg info">Informacion</div>
-			<div style="padding: 5px 0px;">
-				<div>
-					<contenido> No hay ningun anteproyecto registrado para el estudiante <?php if(isset($_REQUEST["variable"])) { echo $_REQUEST["variable"];}?>.
-					<div style="text-align: right"
-						onclick="window.location = 'index.php?data=<?php echo $pag?>';">
-						<input
-							class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
-							type="submit" tabindex="1" value="Ir al inicio" role="button"
-							aria-disabled="false">
-					</div>
-					</contenido>
-				</div>
-			</div>
-		</div>
-		<div class="clearboth"></div>
-	</div>
-</div>
-
-<?php
+			echo $this->miFormulario->infoReporte ( $this->lenguaje->getCadena ( "infoMensaje" ), $pag);
 		}
 		
 		// ------------------- SECCION: Paso de variables ------------------------------------------------
