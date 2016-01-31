@@ -23,5 +23,6 @@ $this->idioma["mensajeRegistro"]="Revisor asignado";
 $this->idioma["mensajeError"]="Error al asignar el revisor";
 $this->idioma["continuar"]="Continuar";
 $this->idioma["enlaceVer"]="Ver Anteproyecto";
+$this->idioma["infoMensaje"]="No existen anteproyectos actualmente registrados para dirigir.";
 
 ?>

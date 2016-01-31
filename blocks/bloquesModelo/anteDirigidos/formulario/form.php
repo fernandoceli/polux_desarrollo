@@ -84,22 +84,18 @@ class Formulario {
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $usuario );
 		$matrizAnteproyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		// var_dump($matrizItems);
-		// var_dump($matrizItems[0]);
-		
 		$rol = $matrizAnteproyectos [0] [0];
 		$acceso = false;
 		$mostrar = true;
-		// echo $rol;
-		// var_dump($_REQUEST);
 		
-		if ($rol == "Estudiante") {
+		if ($rol == "Coordinador" || $rol == "Docente") {
 			$acceso = true;
-			$_REQUEST ["variable"] = $_REQUEST ['usuario'];
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarCodigo", $_REQUEST ["usuario"] );
+			$matrizCodigo = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+			$_REQUEST ["variable"] = $matrizCodigo [0] [0];
 		}
 		
 		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
-			// $_REQUEST ["variable"] = '321456789';
 			$acceso = true;
 		}
 		
@@ -109,7 +105,6 @@ class Formulario {
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", "0" );
 		}
 		$matrizAnteproyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-// 		var_dump ( $matrizAnteproyectos );
 		
 		if (isset ( $_REQUEST ['variable'] )) {
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarDocente", $_REQUEST ["variable"] );
@@ -123,28 +118,7 @@ class Formulario {
 		echo $this->miFormulario->campoMensaje ( $atributos );
 		
 		if ($matrizAnteproyectos && $acceso) {
-			
-			for($i = 0; $i < count ( $matrizAnteproyectos ); $i ++) {
-				$anteproyecto = $matrizAnteproyectos [$i] ['anteproyecto'];
-				
-				// ////////////////Hidden////////////
-				$esteCampo = 'antpSolicitudes';
-				$atributos ["id"] = $esteCampo;
-				$atributos ["tipo"] = "hidden";
-				$atributos ['estilo'] = '';
-				$atributos ['validar'] = '';
-				$atributos ["obligatorio"] = true;
-				$atributos ['marco'] = true;
-				$atributos ["etiqueta"] = "";
-				$atributos ['valor'] = count ( $matrizAnteproyectos );
-				
-				$atributos = array_merge ( $atributos, $atributosGlobales );
-				echo $this->miFormulario->campoCuadroTexto ( $atributos );
-				unset ( $atributos );
-				// ////////////////////////////////////////
-				
-				?>
-
+			?>
 <div class="bg-caja corner" id="caja<?php echo $i ?>"
 	style="float: left">
 	<div class="caja corner">
@@ -176,75 +150,48 @@ class Formulario {
 						</tr>
 					</tbody>
 				</table>
-				<p></p>
 
 			</div>
-										<?php
-				
-				$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
-				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
-				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
-				
-// 				$variableVer = "action=" . $esteBloque ["nombre"];
-				$variableVer = "pagina=verAnteproyecto";
-				$variableVer .= "&usuario=" . $_REQUEST ['usuario'];
-				$variableVer .= "&anteproyecto=" . $matrizAnteproyectos [$i] ['anteproyecto'];
-				if (isset ( $docente )) {
-					$variableVer .= "&docente=" . $docente;
-				}
-				$variableVer .= "&rol=" . $rol;
-				
-				$variableVer = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variableVer, $directorio );
-				
-				// -------------Enlace-----------------------
-				$esteCampo = "enlaceVer";
-				$atributos ["id"] = $esteCampo;
-				$atributos ['enlace'] = $variableVer;
-				$atributos ['tabIndex'] = $esteCampo;
-				$atributos ['redirLugar'] = true;
-				$atributos ['estilo'] = 'color';
-				$atributos ['enlaceTexto'] = $this->lenguaje->getCadena ( $esteCampo );
-				;
-				$atributos ['ancho'] = '25';
-				$atributos ['alto'] = '25';
-				echo $this->miFormulario->enlace ( $atributos );
-				unset ( $atributos );
-				
-				?>
-									</div>
-	</div>
-</div>
-
-<?
+													<?php
+			
+			$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
+			$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
+			$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+			
+			// $variableVer = "action=" . $esteBloque ["nombre"];
+			$variableVer = "pagina=verAnteproyecto";
+			$variableVer .= "&usuario=" . $_REQUEST ['usuario'];
+			$variableVer .= "&anteproyecto=" . $matrizAnteproyectos [$i] ['anteproyecto'];
+			if (isset ( $docente )) {
+				$variableVer .= "&docente=" . $docente;
 			}
-		} else {
-			$mostrar = false;
-			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
+			$variableVer .= "&rol=" . $rol;
+			
+			$variableVer = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variableVer, $directorio );
+			
+			// -------------Enlace-----------------------
+			$esteCampo = "enlaceVer";
+			$atributos ["id"] = $esteCampo;
+			$atributos ['enlace'] = $variableVer;
+			$atributos ['tabIndex'] = $esteCampo;
+			$atributos ['redirLugar'] = true;
+			$atributos ['estilo'] = 'color';
+			$atributos ['enlaceTexto'] = $this->lenguaje->getCadena ( $esteCampo );
+			;
+			$atributos ['ancho'] = '25';
+			$atributos ['alto'] = '25';
+			echo $this->miFormulario->enlace ( $atributos );
+			unset ( $atributos );
+			
 			?>
-<div class="canvas-contenido">
-	<div class="area-msg corner margen-interna ">
-		<div class="icono-msg info"></div>
-		<div class="content-msg info corner">
-			<div class="title-msg info">Informacion</div>
-			<div style="padding: 5px 0px;">
-				<div>
-					<contenido> No existen anteproyectos actualmente registrados para
-					dirigir.
-					<div style="text-align: right"
-						onclick="window.location = 'index.php?data=<?php echo $pag?>';">
-						<input
-							class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
-							type="submit" tabindex="1" value="Ir al inicio" role="button"
-							aria-disabled="false">
-					</div>
-					</contenido>
-				</div>
-			</div>
-		</div>
-		<div class="clearboth"></div>
+												</div>
 	</div>
 </div>
 <?php
+		} else {
+			$mostrar = false;
+			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
+			echo $this->miFormulario->infoReporte ( $this->lenguaje->getCadena ( "infoMensaje" ), $pag );
 		}
 		
 		// ------------------- SECCION: Paso de variables ------------------------------------------------
