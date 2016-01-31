@@ -53,8 +53,6 @@ class Registrar {
 				$cadenaSql33 = $this->miSql->getCadenaSql ( 'registrarHistorial', $_REQUEST );
 				$resultado33 = $esteRecursoDB->ejecutarAcceso ( $cadenaSql33, 'insertar' );
 				
-				exit();
-				
 				$i = 0;
 				foreach ( $_FILES as $key => $values ) {
 					
