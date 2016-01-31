@@ -1,6 +1,6 @@
 <?php
 
-namespace bloquesModelo\consultaAnteproyecto\formulario;
+namespace bloquesModelo\consutaAnteproyecto\formulario;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("../index.php");
@@ -107,17 +107,49 @@ class Formulario {
 		
 		// /////////////////
 		
+		// Hidden para guardar los revisores
+		// ////////////////Hidden////////////
+		$esteCampo = 'nombresRevisores';
+		$atributos ["id"] = $esteCampo;
+		$atributos ["tipo"] = "hidden";
+		$atributos ['estilo'] = '';
+		$atributos ['validar'] = '';
+		$atributos ["obligatorio"] = true;
+		$atributos ['marco'] = true;
+		$atributos ["etiqueta"] = "";
+		
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		unset ( $atributos );
+		// ////////////////////////////////////////
+		
+		// Hidden para guardar el número de estudiantes
+		// ////////////////Hidden////////////
+		$esteCampo = 'numRevisores';
+		$atributos ["id"] = $esteCampo;
+		$atributos ["tipo"] = "hidden";
+		$atributos ['estilo'] = '';
+		$atributos ['validar'] = '';
+		$atributos ["obligatorio"] = true;
+		$atributos ['marco'] = true;
+		$atributos ["etiqueta"] = "";
+		
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		unset ( $atributos );
+		// ////////////////////////////////////////
+		
 		$atributos ['mensaje'] = 'Asignar revisores de anteproyecto';
 		$atributos ['tamanno'] = 'Enorme';
 		$atributos ['linea'] = 'true';
 		echo $this->miFormulario->campoMensaje ( $atributos );
 		
-		$esteCampo = "marcoDatos";
+/*		$esteCampo = "marcoDatos";
 		$atributos ['id'] = $esteCampo;
 		$atributos ["estilo"] = "jqueryui";
 		$atributos ['tipoEtiqueta'] = 'inicio';
 		$atributos ["leyenda"] = $this->lenguaje->getCadena ( $esteCampo );
-		echo $this->miFormulario->marcoAgrupacion ( 'inicio', $atributos );
+		echo $this->miFormulario->marcoAgrupacion ( 'inicio', $atributos );*/
 		
 		// ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
 		$esteCampo = 'observaciones';
@@ -241,8 +273,6 @@ class Formulario {
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarDocentes", $arreglo );
 		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-// 		echo $atributos['cadena_sql'];
-		
 		if($matrizItems){
 			$atributos ['matrizItems'] = $matrizItems;
 		}
@@ -257,9 +287,20 @@ class Formulario {
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoCuadroLista ( $atributos );
+	
+		// ------------------Division para los botones-------------------------
+		$atributos ["id"] = "botones";
+		$atributos ["estilo"] = "marcoBotones";
+		$atributos ["titulo"] = "Enviar InformaciÃ³n";
+		echo $this->miFormulario->division ( "inicio", $atributos );
 		
 		// --------------- FIN CONTROL : Cuadro Lista --------------------------------------------------
 		
+		?>
+			<div id="contenedor1"></div>
+			<button type="button" id="btn1" class="btn btn-primary btn-lg active">Agregar</button>
+		<?php
+		echo $this->miFormulario->division ( "fin" );			
 		// ------------------Division para los botones-------------------------
 		$atributos ["id"] = "botones";
 		$atributos ["estilo"] = "marcoBotones";
@@ -310,7 +351,7 @@ class Formulario {
 		
 		// ------------------Fin Division para los botones-------------------------
 		echo $this->miFormulario->division ( "fin" );
-		echo $this->miFormulario->marcoAgrupacion ( 'fin' );
+	//	echo $this->miFormulario->marcoAgrupacion ( 'fin' );
 		// ------------------- SECCION: Paso de variables ------------------------------------------------
 		
 		/**

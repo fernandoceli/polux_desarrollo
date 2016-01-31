@@ -33,20 +33,32 @@ class Sql extends \Sql {
 			 */
 			case 'registrar' :
 				
-				$cadenaSql = "INSERT INTO trabajosdegrado.ant_trev";
-				$cadenaSql .= "(";
-				$cadenaSql .= "rev_antp,";
-				$cadenaSql .= "rev_prof,";
-				$cadenaSql .= "rev_fasig";
-				$cadenaSql .= ") ";
-				$cadenaSql .= "VALUES ";
-				$cadenaSql .= "(";
-				
-				$cadenaSql .= $_REQUEST ['anteproyecto'] . ", ";
-				$cadenaSql .= "'" . $_REQUEST ['revisor'] . "', ";
-				$cadenaSql .= "'" . $_REQUEST ['fecha'] . "' ";
-				$cadenaSql .= ") ";
-				// var_dump ( $cadenaSql );
+				// obtener codigos por separado
+				$cadenaSql = "";
+				$revisores = $_REQUEST ['nombresRevisores'];
+				var_dump ( $revisores );
+				$porciones = explode ( ";", $revisores );
+				var_dump ( $porciones );
+				var_dump ( $_REQUEST ['numRevisores'] );
+				for($i = 0; $i < $_REQUEST ['numRevisores']; $i ++) {
+					
+					$cadena = "INSERT INTO trabajosdegrado.ant_trev";
+					$cadena .= "(";
+					$cadena .= "rev_antp,";
+					$cadena .= "rev_prof,";
+					$cadena .= "rev_fasig";
+					$cadena .= ") ";
+					$cadena .= "VALUES ";
+					$cadena .= "(";
+					
+					$cadena .= $_REQUEST ['anteproyecto'] . ", ";
+					$cadena .= "'" . $porciones [$i] . "', ";
+					$cadena .= "'" . $_REQUEST ['fecha'] . "' ";
+					$cadena .= "); ";
+					
+					$cadenaSql = $cadenaSql . $cadena;
+				}
+				// echo ( $cadenaSql );
 				break;
 			
 			case 'buscarAnteproyectos' :
@@ -105,6 +117,22 @@ class Sql extends \Sql {
 				$cadenaSql .= 'trabajosdegrado.ant_tacantp ';
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'acantp_antp =' . $variable;
+				// echo $cadenaSql;
+				break;
+			
+			case 'buscarHistorial' :
+				
+				$cadenaSql = 'SELECT ';
+				$cadenaSql .= 'h.hantp_fasig as FECHA,';
+				$cadenaSql .= 'h.hantp_eantp as ESTADO, ';
+				$cadenaSql .= "(u.nombre || ' ' ||u.apellido) AS  USUARIO, ";
+				$cadenaSql .= 'h.hantp_obser as OBSERVACIONES ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.ant_thantp h, ';
+				$cadenaSql .= "public.polux_usuario u ";
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'h.hantp_antp =' . $variable;
+				$cadenaSql .= " and (h.hantp_usua=u.id_usuario)";
 				// echo $cadenaSql;
 				break;
 			
@@ -175,7 +203,7 @@ class Sql extends \Sql {
 			
 			case 'buscarDocentes' :
 				// var_dump ( count ( $variable ['tematica'] ) );
-				$cadenaSql = "SELECT ";
+				$cadenaSql = "SELECT DISTINCT ";
 				$cadenaSql .= "d.prof_prof, ";
 				$cadenaSql .= "(u.nombre || ' ' ||u.apellido) AS  Nombre, ";
 				$cadenaSql .= "d.prof_us ";
@@ -234,8 +262,7 @@ class Sql extends \Sql {
 				// echo $cadenaSql;
 				break;
 			
-				
-			case 'consultaRespuesta':
+			case 'consultaRespuesta' :
 				$cadenaSql = "SELECT ";
 				$cadenaSql .= "eval_fcrea, ";
 				$cadenaSql .= "eval_dantp, ";
@@ -263,20 +290,38 @@ class Sql extends \Sql {
 				$cadenaSql .= "WHERE ";
 				$cadenaSql .= "dantp_antp='" . $variable . "' ";
 				break;
-				
+			
 			case "consultarRevisor" :
 				$cadenaSql = "SELECT ";
-				$cadenaSql .= "rev_fasig, nombre || ' ' || apellido as Nombre ";
+				$cadenaSql .= "r.rev_fasig, r.rev_prof, u.nombre || ' ' || u.apellido as Nombre ";
 				$cadenaSql .= "FROM ";
-				$cadenaSql .= "trabajosdegrado.ant_trev ";
-				$cadenaSql .= "JOIN ";
-				$cadenaSql .= "trabajosdegrado.ge_tprof ";
-				$cadenaSql .= "ON rev_prof = prof_prof ";
-				$cadenaSql .= "JOIN ";
-				$cadenaSql .= "polux_usuario ";
-				$cadenaSql .= "ON id_usuario = (tipo_identificacion || prof_prof) ";
-				$cadenaSql .= "WHERE rev_antp='" . $_REQUEST ['anteproyecto'] . "' ";
-// 				echo $cadenaSql;
+				$cadenaSql .= "trabajosdegrado.ant_trev r, ";
+				$cadenaSql .= "trabajosdegrado.ge_tprof p, ";
+				$cadenaSql .= "public.polux_usuario u ";
+				$cadenaSql .= "WHERE ";
+				$cadenaSql .= "r.rev_prof = p.prof_prof ";
+				$cadenaSql .= "and p.prof_us = u.id_usuario ";
+				$cadenaSql .= "and r.rev_antp='" . $_REQUEST ['anteproyecto'] . "' ";
+				// echo $cadenaSql;
+				break;
+			
+			case 'buscarRevisiones' :
+				
+				$cadenaSql = "SELECT ";
+				$cadenaSql .= "e.eval_eval, ";
+				$cadenaSql .= "e.eval_fcrea, ";
+				$cadenaSql .= "e.eval_cpto_rta, ";
+				$cadenaSql .= "d.dantp_antp ";
+				
+				$cadenaSql .= "FROM ";
+				$cadenaSql .= "trabajosdegrado.ant_teval e, ";
+				$cadenaSql .= "trabajosdegrado.ant_tdantp d ";
+				$cadenaSql .= "WHERE ";
+				$cadenaSql .= "e.eval_dantp = d.dantp_dantp ";
+				$cadenaSql .= "and d.dantp_antp=" . $variable ['anteproyecto'] . " ";
+				$cadenaSql .= "and e.eval_us_crea='" . $variable ['revisor'] . "'";
+				
+				echo $cadenaSql;
 				break;
 		}
 		

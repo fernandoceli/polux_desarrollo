@@ -24,4 +24,6 @@ $this->idioma["mensajeError"]="Error al asignar el revisor";
 $this->idioma["continuar"]="Continuar";
 $this->idioma["enlaceVer"]="Ver Proyecto";
 
+$this->idioma["infoMensaje"]="No hay proyectos registrados para este programa curricular";
+
 ?>

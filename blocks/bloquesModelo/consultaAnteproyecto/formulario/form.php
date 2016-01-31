@@ -329,6 +329,29 @@ class Formulario {
 		echo $this->miFormulario->campoBoton ( $atributos );
 		// -----------------FIN CONTROL: BotÛn -----------------------------------------------------------
 		
+		if (! $matrizRevisor && ($rol=="Coordinador" || ($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas') )) {
+			// -----------------CONTROL: BotÛn ----------------------------------------------------------------
+			$esteCampo = 'botonA';
+			$atributos ["id"] = $esteCampo;
+			$atributos ["tabIndex"] = $tab;
+			$atributos ["tipo"] = 'boton';
+			// submit: no se coloca si se desea un tipo button genÈrico
+			$atributos ['submit'] = true;
+			$atributos ["estiloMarco"] = '';
+			$atributos ["estiloBoton"] = 'jqueryui';
+			// verificar: true para verificar el formulario antes de pasarlo al servidor.
+			$atributos ["verificar"] = '';
+			$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la funciÛn submit declarada en ready.js
+			$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+			$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+			$tab ++;
+				
+			// Aplica atributos globales al control
+			$atributos = array_merge ( $atributos, $atributosGlobales );
+			echo $this->miFormulario->campoBoton ( $atributos );
+			// -----------------FIN CONTROL: BotÛn -----------------------------------------------------------
+		}
+		
 		// ------------------Fin Division para los botones-------------------------
 		echo $this->miFormulario->division ( "fin" );
 		
@@ -444,7 +467,7 @@ class Formulario {
 						<?php echo $matrizRevisor[$i][0];?>
 					</td>
 									<td class="estilo_tr">
-						<?php echo $matrizRevisor [$i] [1];?>
+						<?php echo $matrizRevisor [$i] [2];?>
 					</td>
 									<td class="estilo_tr">
 						<?php echo "ACEPTADO"?>
@@ -544,24 +567,57 @@ class Formulario {
 						<div id="documento" class="icon-mini-people"></div>
 					</div>
 				</td>
-				<td class="estilo_tr">
+				<td class="estilo_tr" >
 						<?php echo $matrizRespuesta[$i][3];?>
 					</td>
-				<td class="estilo_tr">
-						<?php echo $matrizRespuesta [$i] [4];?>
+					<td class="estilo_tr" >
+						<?php echo $matrizRespuesta [$i][4];?>
 					</td>
-				<td class="estilo_tr">
-						<?php echo $matrizRespuesta [$i] [2];?>
+				<?php //si el antp fue revisado
+				
+				//buscar evaluaciones del anteproyecto
+				
+					
+					//var_dump($matrizRevision);
+					?>
+					<td class="estilo_tr" style="cursor: pointer;">
+						<?php 
+						
+						$miPaginaActual = $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
+						
+						$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
+						$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
+						$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+						
+						$variable = "pagina=" . "consultaEvaluacionAnteproyecto";
+						$variable .= "&usuario=".$_REQUEST['usuario'];
+						$variable .= "&anteproyecto=".$_REQUEST ['anteproyecto'];
+						$variable .= "&revision=".$matrizRespuesta[$i][1];
+						$variable .= "&concepto=".$matrizRespuesta[$i][2];
+						$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable, $directorio );
+						
+						unset ( $atributos );
+						//var_dump($matrizRevision);
+						
+						$esteCampo = 'verEvaluacion'.$i;
+						$atributos ['id'] = $esteCampo;
+						$atributos ['enlace'] = $variable;
+						$atributos ['tabIndex'] = 1;
+						$atributos ['estilo'] = 'textoSubtitulo';
+						$atributos ['enlaceTexto'] = $matrizRespuesta[0][2];
+						$atributos ['ancho'] = '10%';
+						$atributos ['alto'] = '10%';
+						$atributos ['redirLugar'] = true;
+						echo $this->miFormulario->enlace ( $atributos );
+						?>
 					</td>
-				<td class="estilo_tr">
-						<?php echo $matrizRespuesta [$i] [0];?>
+					<td class="estilo_tr" >
+						<?php echo $matrizRespuesta[0][1]?>
 					</td>
-			</tr>
+				</tr>
 				<?php
 			}
 			?>
-			
-			
 			</table>
 		<br>
 
@@ -730,28 +786,6 @@ class Formulario {
 		$atributos ["estilo"] = "marcoBotones";
 		echo $this->miFormulario->division ( "inicio", $atributos );
 		
-		if (! $matrizRevisor) {
-			// -----------------CONTROL: BotÛn ----------------------------------------------------------------
-			$esteCampo = 'botonA';
-			$atributos ["id"] = $esteCampo;
-			$atributos ["tabIndex"] = $tab;
-			$atributos ["tipo"] = 'boton';
-			// submit: no se coloca si se desea un tipo button genÈrico
-			$atributos ['submit'] = true;
-			$atributos ["estiloMarco"] = '';
-			$atributos ["estiloBoton"] = 'jqueryui';
-			// verificar: true para verificar el formulario antes de pasarlo al servidor.
-			$atributos ["verificar"] = '';
-			$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la funciÛn submit declarada en ready.js
-			$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-			$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-			$tab ++;
-			
-			// Aplica atributos globales al control
-			$atributos = array_merge ( $atributos, $atributosGlobales );
-			echo $this->miFormulario->campoBoton ( $atributos );
-			// -----------------FIN CONTROL: BotÛn -----------------------------------------------------------
-		}
 		// ------------------Fin Division para los botones-------------------------
 		echo $this->miFormulario->division ( "fin" );
 		
@@ -773,7 +807,7 @@ class Formulario {
 		// Paso 1: crear el listado de variables
 		
 		$valorCodificado = "action=" . $esteBloque ["nombre"]; // Ir pagina Funcionalidad
-		$valorCodificado = "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' ); // Frontera mostrar formulario
+		$valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' ); // Frontera mostrar formulario
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&usuario=" . $_REQUEST ['usuario'];
@@ -782,6 +816,8 @@ class Formulario {
 		}
 		$valorCodificado .= "&rol=" . $rol;
 		$valorCodificado .= "&opcion=asignar";
+		
+// 		echo $valorCodificado;
 		/**
 		 * SARA permite que los nombres de los campos sean din√°micos.
 		 * Para ello utiliza la hora en que es creado el formulario para

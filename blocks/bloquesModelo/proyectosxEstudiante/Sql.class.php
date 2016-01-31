@@ -118,7 +118,7 @@ class Sql extends \Sql {
 				// $cadenaSql .= 'WHERE '; $cadenaSql .= ''
 				// $cadenaSql .= 'estado=\'RADICADO\' OR estado=\'ASIGNADO REVISORES\'';
 				// $cadenaSql .= 'nombre=\'' . $_REQUEST ['nombrePagina'] . '\' ';
-// 				echo $cadenaSql;
+				// echo $cadenaSql;
 				break;
 			
 			case 'buscarAnteproyecto' :
@@ -177,6 +177,18 @@ class Sql extends \Sql {
 				$cadenaSql .= 'ON us.rol_id = r.rol_id ';
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'u.id_usuario=\'' . $variable . '\' ';
+				break;
+			
+			case 'consultarCodigo' :
+				$cadenaSql = 'SELECT estd_estd ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.ge_testd ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'polux_usuario ';
+				$cadenaSql .= 'ON estd_us=id_usuario ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'id_usuario=\'' . $variable . '\' ';
+				// echo $cadenaSql;
 				break;
 		}
 		

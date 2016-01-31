@@ -84,27 +84,19 @@ class Formulario {
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $usuario );
 		$matrizProyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		// var_dump($matrizItems);
-		// var_dump($matrizItems[0]);
-		
 		$rol = $matrizProyectos [0] [0];
 		$acceso = false;
 		$mostrar = true;
-		// echo $rol;
-		// var_dump($_REQUEST);
 		
 		if ($rol == "Coordinador") {
 			$acceso = true;
 			$_REQUEST ['docente'] = $_REQUEST ['usuario'];
-			
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarProgramaDocente", $_REQUEST ['docente'] );
 			$matrizProyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-			var_dump ( $matrizProyectos );
 			$_REQUEST ["variable"] = $matrizProyectos [0] [0];
 		}
 		
 		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
-			// $_REQUEST ["variable"] = '321456789';
 			$acceso = true;
 		}
 		
@@ -114,7 +106,6 @@ class Formulario {
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarProyectos", "0" );
 		}
 		$matrizProyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-// 		var_dump ( $matrizProyectos );
 		
 		if (isset ( $_REQUEST ['variable'] )) {
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarNombrePrograma", $_REQUEST ["variable"] );
@@ -194,7 +185,6 @@ class Formulario {
 				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
 				
 				$variableVer = "pagina=verProyecto";
-				$variableVer .= "&opcion=ver";
 				$variableVer .= "&usuario=" . $_REQUEST ['usuario'];
 				$variableVer .= "&proyecto=" . $matrizProyectos [$i] ['proy_proy'];
 				if (isset ( $docente )) {
@@ -228,29 +218,8 @@ class Formulario {
 <?
 			}
 		} else {
-			?>
-<div class="canvas-contenido">
-	<div class="area-msg corner margen-interna ">
-		<div class="icono-msg info"></div>
-		<div class="content-msg info corner">
-			<div class="title-msg info">Informacion</div>
-			<div style="padding: 5px 0px;">
-				<div>
-					<contenido> No existen anteproyectos actualmente asignados para
-					revisión.
-					<div style="text-align: right">
-						<input class="boton" type="button"
-							onclick="osm_go('inicio/PageBienvenida.do');"
-							value="Ir al inicio">
-					</div>
-					</contenido>
-				</div>
-			</div>
-		</div>
-		<div class="clearboth"></div>
-	</div>
-</div>
-<?php
+			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
+			echo $this->miFormulario->infoReporte ( $this->lenguaje->getCadena ( "infoMensaje" ), $pag);
 		} 
 		
 		// ------------------- SECCION: Paso de variables ------------------------------------------------

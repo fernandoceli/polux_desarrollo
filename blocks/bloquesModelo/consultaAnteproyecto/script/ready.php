@@ -5,6 +5,8 @@ $("#consultaAnteproyecto").validationEngine({
 	autoHideDelay: 2000
 });
 
+$("#tablaReporte").DataTable();
+
 $('#<?php echo $this->campoSeguro('seleccionar')?>').width(280);
 $('#<?php echo $this->campoSeguro('seleccionar')?>').select2();
 
