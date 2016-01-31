@@ -150,6 +150,18 @@ class Sql extends \Sql {
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'u.id_usuario=\'' . $variable . '\' ';
 				break;
+			
+			case 'consultarCodigo' :
+				$cadenaSql = 'SELECT prof_prof ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.ge_tprof ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'polux_usuario ';
+				$cadenaSql .= 'ON prof_us=id_usuario ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'id_usuario=\'' . $variable . '\' ';
+				// echo $cadenaSql;
+				break;
 		}
 		
 		return $cadenaSql;
