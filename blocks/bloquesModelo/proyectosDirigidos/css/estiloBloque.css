@@ -1,47 +1,27 @@
-.estilo_tr{
-	border-style: solid;
-	border-color: white;
+
+.color {
+    color: #0080c0;
+    text-decoration: none;
+    font: 18px arial, helvetica, sans-serif;
+    margin: 0 55px;
 }
 
-table.dataTable tbody tr{
-	cursor: pointer;
+#formulario{
+	padding: 0px;
 }
 
 form {
-	margin: 0 auto 0 auto;
-	width: 95%;
-}
-
-#col{
-	width: 10%;
+	width: 90%;
+	padding: 0px;
 }
 
 body { /*font: 62.5% "Arial", sans-serif*/
+	/*font: 12px arial, helvetica, sans-serif;*/
+	/*margin: 1% 4%;*/
 	width: 100%;
-	border: 1px solid #EEEEEE;
-	background-color: #FFFFFF;
-	display: table;
-}
-
-.icon-max-pdf {
-    background: transparent url(../icons/app-pdf-icon.png) 50% 50%
- no-repeat;
-    position: relative;
-    width: 90px;
-    height: 100px;
-    text-align: center;
-    margin: 5px 0;
-    cursor: pointer;
-}
-
-.bg-imagen-documento {
-    background: #fff;
-    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)
- inset;
-    border: 1px solid #ababab;
-    display: inline-block;
-    text-align: center;
-    cursor: pointer;
+	color: #000;
+	min-width: 1000px;
+	overflow: auto;
 }
 
 h1 { /* font: 24px Georgia,"Times New Roman",Times,serif; */
@@ -127,17 +107,16 @@ b {
 .table {
 	display: table;
 	width: 85%;
-	font: 12px arial, helvetica, sans-serif;
+	/*font: 12px arial, helvetica, sans-serif;*/
 	border: solid 1px #ababab;
 	border-collapse: collapse;
 	text-align: left;
-	background: #c0c0c0;
+	background: #fff;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)
 		inset;
 	position: relative;
 	left: 25px;
 }
-
 
 .table-tittle {
 	background: #18174D /*#C20000*/;
@@ -195,7 +174,7 @@ tr.table-fila-body:hover {
 .canvas {
 	margin: 10px 0;
 	padding: 0;
-	/* background: #f9f9f9 url(images/background/gris-degradado-1x300.png) 0 100% repeat-x; */
+	/* background: #f9f9f9 url(../icons/gris-degradado-1x300.png) 0 100% repeat-x; */
 }
 
 .canvas-titulo {
@@ -212,7 +191,7 @@ tr.table-fila-body:hover {
 	position: relative;
 	left: 25px;
 	width: 83%;
-	background: #d4d4d4 url(images/background/gris-degradado-1x100.png) 0 0%
+	background: #d4d4d4 url(../icons/gris-degradado-1x100.png) 0 0%
 		repeat-x;
 	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)
 		inset;
@@ -226,22 +205,6 @@ tr.table-fila-body:hover {
 	padding-left: 2px;
 }
 
-.icono-msg.error {
-	background: url(images/mensajes/cancel.png) 0 0 no-repeat;
-}
-
-.icono-msg.info {
-	background: url(images/mensajes/alert.png) 0 0 no-repeat;
-}
-
-.icono-msg.ok {
-	background: url(images/mensajes/ok.png) 0 0 no-repeat;
-}
-
-.icono-msg.default {
-	background: url(images/mensajes/alert.png) 0 0 no-repeat;
-}
-
 .content-msg {
 	margin: 5px 5px 5px 60px;
 	border: 1px solid #ccc;
@@ -250,44 +213,82 @@ tr.table-fila-body:hover {
 		inset;
 }
 
-.content-msg.error {
-	background: #F1F1F1;
-	color: #18174D /*#C20000*/;
+.caja-fecha {
+    padding: 5px;
+    font-size: 12px;
 }
 
-.content-msg.info {
-	background: #FAFFBD 0 0 repeat-x;
-	color: #444;
+.caja-header {
+    margin: 2px;
 }
 
-.content-msg.ok {
-	background: #F1F1F1;
-	color: #45881D;
+.bg-caja {
+    border: 1px solid #ABABAB;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)
+ inset;
+    margin: 10px;
 }
 
-.content-msg.default {
-	background: #F1F1F1;
-	color: #444444;
+.caja-codigo {
+    padding: 3px;
+    text-align: center;
 }
 
-.title-msg.error {
-	font: 16px arial, helvetica, sans-serif;
-	border-bottom: 1px dotted #777;
+.caja-icon-documento {
+    background: transparent url(images/icons/icon-documento.png) 50% 0
+ no-repeat;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    margin: 0;
+    cursor: pointer;
 }
 
-.title-msg.info {
-	font: 16px arial, helvetica, sans-serif;
-	border-bottom: 1px dotted #777;
+.caja-numero {
+    text-align: center;
+    font-weight: bold;
+    color: #444;
+    font-size: 12px;
 }
 
-.title-msg.ok {
-	font: 16px arial, helvetica, sans-serif;
-	border-bottom: 1px dotted #777;
+.caja-info {
+    margin: 0 12px;
+    padding: 2px;
+    width: 240px;
+    overflow: hidden;
+    font-size: 12px;
 }
 
-.title-msg.default {
-	font: 16px arial, helvetica, sans-serif;
-	color: #000;
-	font-weight: bold;
-	border-bottom: 1px dotted #777;
+.caja {
+    position: relative;
+    display: block;
+    width: 320px;
+    height: 150px;
+    margin: 3px;
+    overflow: hidden;
+    background: #d4d4d4 url(../icons/gris-degradado-1x100.png) 0 0
+ repeat-x;
+    /*cursor: pointer;*/
+}
+
+.icon-max-pdf {
+    background: transparent url(../icons/app-pdf-icon.png) 50% 50%
+ no-repeat;
+    position: relative;
+    width: 90px;
+    height: 100px;
+    text-align: center;
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+.bg-imagen-documento {
+    background: #fff;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)
+ inset;
+    border: 1px solid #ababab;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
 }

@@ -61,6 +61,10 @@ class Funcion {
 				case 'registrar' :
 					$this->registrar ();
 					break;
+				
+				
+					
+					
 			}
 		} else {
 			$resultado = $this->procesarFormulario ();

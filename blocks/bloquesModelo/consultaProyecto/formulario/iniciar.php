@@ -75,23 +75,14 @@ class Formulario {
 		
 		?>
 
-<!-- <div class="pregunta"> -->
-<!-- 	<titulo>Iniciar proyecto de grado</titulo> -->
-<!-- 	<br> -->
-<!-- 	<br> -->
-<!-- 	<contenido>Esta seguro que desea inciar el proyecto de grado?</contenido> -->
-<!-- </div> -->
-
 <div class="canvas-contenido">
 	<div class="area-msg corner margen-interna ">
 		<div class="icono-msg info"></div>
 		<div class="content-msg info corner">
-			<div class="title-msg info resaltado">Iniciar proyecto de grado</div>
+			<div class="title-msg info resaltado">Iniciar informe final</div>
 			<div style="padding: 5px 0px;">
 				<div>
-				<br>
-					<b> Esta seguro que desea inciar el proyecto de grado? </b>
-					<br>
+					<br> <b> Esta seguro que desea inciar el informe final? </b> <br>
 				</div>
 			</div>
 
@@ -175,7 +166,9 @@ class Formulario {
 		$valorCodificado = "action=" . $esteBloque ["nombre"];
 		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
 		$valorCodificado .= "&usuario=" . $_REQUEST ['usuario'];
-		$valorCodificado .= "&estudiante=" . $_REQUEST ['estudiante'];
+		if (isset ( $_REQUEST ['estudiante'] )) {
+			$valorCodificado .= "&estudiante=" . $_REQUEST ['estudiante'];
+		}
 		$valorCodificado .= "&rol=" . $_REQUEST ['rol'];
 		$valorCodificado .= "&id=" . $_REQUEST ['id'];
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];

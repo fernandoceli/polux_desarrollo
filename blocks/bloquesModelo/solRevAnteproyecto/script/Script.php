@@ -28,4 +28,5 @@ foreach ( $funcion as $clave => $nombre ) {
 	}
 }
 
+
 ?>

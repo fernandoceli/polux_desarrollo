@@ -37,7 +37,5 @@ $(function() {
 
 $(document).ready(function(){
 	//numero de solicitudes
-	var dato = $('#<?php echo $this->campoSeguro("antpSolicitudes")?>').val();
-	
-	
+	var dato = $('#<?php echo $this->campoSeguro('antpSolicitudes')?>').val();
 });

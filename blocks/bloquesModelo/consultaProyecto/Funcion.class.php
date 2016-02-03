@@ -31,6 +31,9 @@ class Funcion {
 		
 		return $resultado;
 	}
+	function redireccionar($opcion, $valor = "") {
+		include_once ($this->ruta . "/funcion/redireccionar.php");
+	}
 	function iniciar() {
 		include_once ($this->ruta . "funcion/formProcessor.php");
 		
@@ -39,24 +42,27 @@ class Funcion {
 	function procesarAjax() {
 		include_once ($this->ruta . "funcion/procesarAjax.php");
 	}
-	function registrar() {
-		include_once ($this->ruta . "/funcion/registrar.php");
-	}
 	function mostrar() {
 		include_once ($this->ruta . "/funcion/ver.php");
 	}
-	function asignar() {
-		include_once ($this->ruta . "funcion/asignar.php");
+	function continuar() {
+		include_once ($this->ruta . "/funcion/continuar.php");
 	}
-	function iniciar_proyecto() {
+	function guardarSolicitud() {
+		include_once ($this->ruta . "/funcion/guardarSolicitud.php");
+	}
+	function crearVersion() {
+		include_once ($this->ruta . "/funcion/guardarVersion.php");
+	}
+	function iniciar_informe() {
 		include_once ($this->ruta . "funcion/iniciar.php");
 	}
 	function action() {
 		$resultado = true;
 		
-		// AquÃ­ se coloca el cÃ³digo que procesarÃ¡ los diferentes formularios que pertenecen al bloque
-		// aunque el cÃ³digo fuente puede ir directamente en este script, para facilitar el mantenimiento
-		// se recomienda que aqui solo sea el punto de entrada para incluir otros scripts que estarÃ¡n
+		// Aquí se coloca el código que procesará los diferentes formularios que pertenecen al bloque
+		// aunque el código fuente puede ir directamente en este script, para facilitar el mantenimiento
+		// se recomienda que aqui solo sea el punto de entrada para incluir otros scripts que estarán
 		// en la carpeta funcion
 		
 		// Importante: Es adecuado que sea una variable llamada opcion o action la que guie el procesamiento:
@@ -64,7 +70,7 @@ class Funcion {
 		if (isset ( $_REQUEST ['procesarAjax'] )) {
 			$this->procesarAjax ();
 		} else if (isset ( $_REQUEST ['botonIni'] ) && ($_REQUEST ['botonIni'] == true)) {
-			$this->iniciar_proyecto();
+			$this->iniciar_informe ();
 		} else if (isset ( $_REQUEST ["opcion"] )) {
 			
 			switch ($_REQUEST ["opcion"]) {
@@ -73,8 +79,16 @@ class Funcion {
 					$this->mostrar ();
 					break;
 				
-				case 'asignar' :
-					$this->asignar ();
+				case 'guardarSolicitud' :
+					$this->guardarSolicitud ();
+					break;
+				
+				case 'crearVersion' :
+					$this->crearVersion ();
+					break;
+				
+				case 'continuar' :
+					$this->continuar ();
 					break;
 			}
 		} 

@@ -88,7 +88,7 @@ class Sql extends \Sql {
 			
 			case 'buscarProyectos' :
 				
-				$cadenaSql = 'SELECT ';
+				$cadenaSql = 'SELECT DISTINCT ';
 				$cadenaSql .= 'proy_fcrea as FECHA, ';
 				$cadenaSql .= 'proy_proy as PROYECTO, ';
 				$cadenaSql .= 'moda_nombre as MODALIDAD, ';

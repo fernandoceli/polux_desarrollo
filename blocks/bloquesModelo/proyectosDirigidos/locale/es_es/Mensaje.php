@@ -24,5 +24,6 @@ $this->idioma["mensajeError"]="Error al asignar el revisor";
 $this->idioma["continuar"]="Continuar";
 
 $this->idioma['infoMensaje'] = "No existen proyectos actualmente registrados para dirigir.";
+$this->idioma["enlaceVer"]="Ver Proyecto";
 
 ?>

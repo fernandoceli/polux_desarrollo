@@ -128,47 +128,126 @@ class Formulario {
 		}
 
 		$atributos ['tamanno'] = 'Enorme';
+		$atributos ['linea'] = 'true';
+		echo $this->miFormulario->campoMensaje ( $atributos );
 		
 		if ($matrizProyectos && $acceso) {
-			echo $this->miFormulario->campoMensaje ( $atributos );
-			echo $this->miFormulario->tablaReporte ( $matrizProyectos, "tAnteproyectosDirigidos");
+			
+			for($i = 0; $i < count ( $matrizProyectos ); $i ++) {
+				$proyecto = $matrizProyectos [$i] ['proyecto'];
+				
+				$titulo = $matrizProyectos[$i]['titulo'];
+				if ($titulo == strtoupper($titulo)) {
+					$titulo = substr($titulo, 0, 45) . "...";
+				}
+				if (strlen ($titulo) > 60) {
+					$titulo = substr($titulo, 0, 55) . "...";
+				}
+				
+				?>
+
+<div class="bg-caja corner" id="caja<?php echo $i ?>"
+	style="float: left">
+	<div class="caja corner">
+		<div class="caja-header">
+			<div class="caja-fecha" style="float: left"><?php echo $matrizProyectos[$i]['fecha']?></div>
+			<div class="clearboth">
+				<br></br>
+			</div>
+		</div>
+		<div>
+			<div class="caja-codigo" style="float: left">
+				<div class="caja-icon-documento"></div>
+				<p class="caja-numero" id="cajanum<?php echo $i ?>"><?php echo 'No. '. $matrizProyectos[$i]['proyecto']?></p>
+			</div>
+			<div class="caja-info" style="float: left">
+				<table style="border: 0; width: 100%">
+					<tbody>
+						<tr>
+							<td><b>Titulo:</b></td>
+							<td><?php echo $titulo ?></td>
+						</tr>
+						<tr>
+							<td><b>Modalidad:</b></td>
+							<td><?php echo $matrizProyectos[$i]['modalidad'] ?></td>
+						</tr>
+						<tr>
+							<td><b>Estado:</b></td>
+							<td><?php echo $matrizProyectos[$i]['estado'] ?></td>
+						</tr>
+					</tbody>
+				</table>
+				<p></p>
+
+			</div>
+										<?php
+				
+				$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
+				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
+				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+				
+// 				$variableVer = "action=" . $esteBloque ["nombre"];
+				$variableVer = "pagina=verProyecto";
+				$variableVer .= "&usuario=" . $_REQUEST ['usuario'];
+				$variableVer .= "&proyecto=" . $matrizProyectos [$i] ['proyecto'];
+				if (isset ( $docente )) {
+					$variableVer .= "&docente=" . $docente;
+				}
+				$variableVer .= "&rol=" . $rol;
+				
+				$variableVer = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variableVer, $directorio );
+				
+				// -------------Enlace-----------------------
+				$esteCampo = "enlaceVer";
+				$atributos ["id"] = $esteCampo;
+				$atributos ['enlace'] = $variableVer;
+				$atributos ['tabIndex'] = $esteCampo;
+				$atributos ['redirLugar'] = true;
+				$atributos ['estilo'] = 'color';
+				$atributos ['enlaceTexto'] = $this->lenguaje->getCadena ( $esteCampo );
+				;
+				$atributos ['ancho'] = '25';
+				$atributos ['alto'] = '25';
+				echo $this->miFormulario->enlace ( $atributos );
+				unset ( $atributos );
+				
+				?>
+									</div>
+	</div>
+</div>
+
+<?
+			}
 		} else {
 			$mostrar = false;
 			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
-			echo $this->miFormulario->infoReporte ( $this->lenguaje->getCadena ( "infoMensaje" ), $pag );
+			?>
+<div class="canvas-contenido">
+	<div class="area-msg corner margen-interna ">
+		<div class="icono-msg info"></div>
+		<div class="content-msg info corner">
+			<div class="title-msg info">Informacion</div>
+			<div style="padding: 5px 0px;">
+				<div>
+					<contenido> No existen proyectos actualmente registrados para
+					dirigir.
+					<div style="text-align: right"
+						onclick="window.location = 'index.php?data=<?php echo $pag?>';">
+						<input
+							class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+							type="submit" tabindex="1" value="Ir al inicio" role="button"
+							aria-disabled="false">
+					</div>
+					</contenido>
+				</div>
+			</div>
+		</div>
+		<div class="clearboth"></div>
+	</div>
+</div>
+<?php
 		}
 		
-		if ($mostrar) {
-			// ------------------Division para los botones-------------------------
-			$atributos ["id"] = "botones";
-			$atributos ["estilo"] = "marcoBotones";
-			$atributos ["titulo"] = "Enviar Información";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			
-			// -----------------CONTROL: Bot�n ----------------------------------------------------------------
-			$esteCampo = 'botonCrear';
-			$atributos ["id"] = $esteCampo;
-			$atributos ["tabIndex"] = $tab;
-			$atributos ["tipo"] = 'boton';
-			// submit: no se coloca si se desea un tipo button genérico
-			$atributos ['submit'] = true;
-			$atributos ["estiloMarco"] = '';
-			$atributos ["estiloBoton"] = '';
-			// verificar: true para verificar el formulario antes de pasarlo al servidor.
-			$atributos ["verificar"] = '';
-			$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-			$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-			$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-			$tab ++;
-			
-			// Aplica atributos globales al control
-			$atributos = array_merge ( $atributos, $atributosGlobales );
-			echo $this->miFormulario->campoBoton ( $atributos );
-			// -----------------FIN CONTROL: Botón -----------------------------------------------------------
-			
-			// ------------------Fin Division para los botones-------------------------
-			echo $this->miFormulario->division ( "fin" );
-		}
 		// ------------------- SECCION: Paso de variables ------------------------------------------------
 		
 		/**

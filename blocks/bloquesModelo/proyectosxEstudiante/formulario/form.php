@@ -84,18 +84,25 @@ class Formulario {
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $usuario );
 		$matrizProyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
+		// var_dump($matrizItems);
+		// var_dump($matrizItems[0]);
+		
 		$rol = $matrizProyectos [0] [0];
 		$acceso = false;
 		$mostrar = true;
+		// echo $rol;
+		// var_dump($_REQUEST);
 		
 		if ($rol == "Estudiante") {
 			$acceso = true;
-			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarCodigo", $_REQUEST ["usuario"] );
-			$matrizCodigo = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-			$_REQUEST ["variable"] = $matrizCodigo[0][0];
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarCodigo", $_REQUEST ["usuario"] );
+			$cod = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+			$_REQUEST ["variable"] = $cod[0][0];
+			//$_REQUEST ["variable"] = $_REQUEST ['usuario'];
 		}
 		
 		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
+			// $_REQUEST ["variable"] = '321456789';
 			$acceso = true;
 		}
 		
@@ -105,6 +112,7 @@ class Formulario {
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarProyectos", "0" );
 		}
 		$matrizProyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		//var_dump ( $matrizProyectos );
 		
 		if (isset ( $_REQUEST ['variable'] )) {
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarEstudiante", $_REQUEST ["variable"] );
@@ -119,14 +127,60 @@ class Formulario {
 		
 		if ($matrizProyectos && $acceso) {
 			
-			$enlaces = array ();
-				
-			$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
-			$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
-			$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
-				
 			for($i = 0; $i < count ( $matrizProyectos ); $i ++) {
-				// $variableVer = "action=" . $esteBloque ["nombre"];
+				$proyecto = $matrizProyectos [$i] ['proyecto'];
+				
+				$titulo = $matrizProyectos[$i]['titulo'];
+				if ($titulo == strtoupper($titulo)) {
+					$titulo = substr($titulo, 0, 45) . "...";
+				}
+				if (strlen ($titulo) > 60) {
+					$titulo = substr($titulo, 0, 55) . "...";
+				}
+				
+				?>
+
+<div class="bg-caja corner" id="caja<?php echo $i ?>"
+	style="float: left">
+	<div class="caja corner">
+		<div class="caja-header">
+			<div class="caja-fecha" style="float: left"><?php echo $matrizProyectos[$i]['fecha']?></div>
+			<div class="clearboth">
+				<br></br>
+			</div>
+		</div>
+		<div>
+			<div class="caja-codigo" style="float: left">
+				<div class="caja-icon-documento"></div>
+				<p class="caja-numero" id="cajanum<?php echo $i ?>"><?php echo 'No. '. $matrizProyectos[$i]['proyecto']?></p>
+			</div>
+			<div class="caja-info" style="float: left">
+				<table style="border: 0; width: 100%">
+					<tbody>
+						<tr>
+							<td><b>Titulo:</b></td>
+							<td><?php echo $titulo ?></td>
+						</tr>
+						<tr>
+							<td><b>Modalidad:</b></td>
+							<td><?php echo $matrizProyectos[$i]['modalidad'] ?></td>
+						</tr>
+						<tr>
+							<td><b>Estado:</b></td>
+							<td><?php echo $matrizProyectos[$i]['estado'] ?></td>
+						</tr>
+					</tbody>
+				</table>
+				<p></p>
+
+			</div>
+										<?php
+				
+				$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
+				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
+				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+				
+// 				$variableVer = "action=" . $esteBloque ["nombre"];
 				$variableVer = "pagina=verProyecto";
 				$variableVer .= "&usuario=" . $_REQUEST ['usuario'];
 				$variableVer .= "&proyecto=" . $matrizProyectos [$i] ['proyecto'];
@@ -134,9 +188,9 @@ class Formulario {
 					$variableVer .= "&docente=" . $docente;
 				}
 				$variableVer .= "&rol=" . $rol;
-			
+				
 				$variableVer = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variableVer, $directorio );
-			
+				
 				// -------------Enlace-----------------------
 				$esteCampo = "enlaceVer";
 				$atributos ["id"] = $esteCampo;
@@ -145,51 +199,47 @@ class Formulario {
 				$atributos ['redirLugar'] = true;
 				$atributos ['estilo'] = 'color';
 				$atributos ['enlaceTexto'] = $this->lenguaje->getCadena ( $esteCampo );
+				;
 				$atributos ['ancho'] = '25';
 				$atributos ['alto'] = '25';
-			
-				array_push ( $enlaces, $this->miFormulario->enlace ( $atributos ) );
+				echo $this->miFormulario->enlace ( $atributos );
+				unset ( $atributos );
+				
+				?>
+									</div>
+	</div>
+</div>
+
+<?
 			}
-			$atributos ['posicion'] = $i;
-				
-			$clases = array (
-					"bg-caja corner",
-					"caja corner",
-					"caja-header",
-					"caja-fecha",
-					"clearboth",
-					"caja-codigo",
-					"caja-icon-documento",
-					"caja-numero",
-					"caja-info"
-			);
-				
-			$datos = array (
-					"Titulo",
-					"Modalidad",
-					"Estado"
-			);
-				
-			$atributos ['clase'] = $clases;
-			$atributos ['estilo'] = 'float: left';
-			$atributos ['estilo-tabla'] = 'border: 0; width: 100%';
-				
-			$atributos ['datos'] = $datos;
-			$atributos ['matrizItems'] = $matrizProyectos;
-			$atributos ['enlaces'] = $enlaces;
-				
-			$atributos = array_merge ( $atributos, $atributosGlobales );
-				
-			$resul = $this->miFormulario->listaTabla ( $atributos );
-				
-			for($i = 0; $i < count ( $resul ); $i ++) {
-				echo $resul[$i];
-			}
-			
 		} else {
 			$mostrar = false;
 			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
-			echo $this->miFormulario->infoReporte ( $this->lenguaje->getCadena ( "infoMensaje" ), $pag);
+			?>
+<div class="canvas-contenido">
+	<div class="area-msg corner margen-interna ">
+		<div class="icono-msg info"></div>
+		<div class="content-msg info corner">
+			<div class="title-msg info">Informacion</div>
+			<div style="padding: 5px 0px;">
+				<div>
+					<contenido> No hay ningun anteproyecto registrado para el estudiante <?php if(isset($_REQUEST["variable"])) { echo $_REQUEST["variable"];}?>.
+					<div style="text-align: right"
+						onclick="window.location = 'index.php?data=<?php echo $pag?>';">
+						<input
+							class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+							type="submit" tabindex="1" value="Ir al inicio" role="button"
+							aria-disabled="false">
+					</div>
+					</contenido>
+				</div>
+			</div>
+		</div>
+		<div class="clearboth"></div>
+	</div>
+</div>
+
+<?php
 		}
 		
 		// ------------------- SECCION: Paso de variables ------------------------------------------------

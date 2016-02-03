@@ -88,28 +88,36 @@ class Formulario {
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", $_REQUEST ['anteproyecto'] );
 		$matrizAnteproyecto = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
+		
+		
 		?>
 <div id="contenido">
-	<h2>Iniciar proyecto de grado</h2>
+	
+	
 	<br>
 	<div class="area-msg">
-		<h3>Informacion general del anteproyecto</h3>
+		<?php 
+		$atributos ['mensaje'] = 'Iniciar proyecto de grado';
+		$atributos ['tamanno'] = 'Enorme';
+		echo $this->miFormulario->campoMensaje ( $atributos );
+		?>
+		<h3>Informaci贸n general del anteproyecto</h3>
 		<br>
 		<table id="tInfo">
 			<tr>
-				<td>Referencia:</td>
+				<td><b>Referencia:</b></td>
 				<td>Anteproyecto No. <?php echo $matrizAnteproyecto[0][0];?></td>
 			</tr>
 			<tr>
-				<td>Titulo:</td>
+				<td><b>Titulo:</b></td>
 				<td><?php echo $matrizAnteproyecto[0][1];?></td>
 			</tr>
 			<tr>
-				<td>Descripcion:</td>
+				<td><b>Descripcion:</b></td>
 				<td><?php echo $matrizAnteproyecto[0][2];?></td>
 			</tr>
 			<tr>
-				<td>Proponentes:</td>
+				<td><b>Proponentes:</b></td>
 				<td>
 		<?php
 		for($i = 0; $i < count ( $matrizAnteproyecto ); $i ++) {
@@ -119,17 +127,31 @@ class Formulario {
 		</td>
 			</tr>
 			<tr>
-				<td>Versiones del documento a radicar:</td>
-				<td>Version No. <?php echo $matrizAnteproyecto[0][5];?></td>
+				<td><b>Versiones del documento a radicar:</b></td>
+				<td>Versi贸n No. <?php echo $matrizAnteproyecto[0][5];?></td>
 			</tr>
 		</table>
-		<br>
-		<div id="mensaje">IMPORTANTE: La version del documento a radicar como
-			proyecto es la ultima subida al sistema. Por favor verifique si el
-			numero corresponde a la version que realmente desea que sea evaluada.
-		</div>
+		
+		<table class="table3">
+				<tbody>
+					<tr>
+						<td>
+							<div class="icon-mini-info"></div>
+						</td>
+						<td>
+							<div class="mensaje-ayuda">
+							<div>IMPORTANTE: La versi贸n del documento a radicar como
+			proyecto es la 煤ltima subida al sistema. Por favor verifique si el
+			n煤mero corresponde a la versi贸n que realmente desea que sea evaluada.</div>
+							</div> 
 
-		<h3>Informacion requerida para el inicio del proyecto</h3>
+						</td>
+
+					</tr>
+				</tbody>
+			</table>
+		
+		<h3>Informaci贸n requerida para el inicio del proyecto</h3>
 <?php
 		
 		// ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
@@ -140,13 +162,13 @@ class Formulario {
 		$atributos ['estilo'] = 'jqueryui';
 		$atributos ['marco'] = true;
 		$atributos ['columnas'] = 1;
-		$atributos ['dobleLinea'] = true;
+		$atributos ['dobleLinea'] = false;
 		$atributos ['obligatorio'] = true;
 		$atributos ['etiquetaObligatorio'] = true;
 		$atributos ['tabIndex'] = $tab;
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ['validar'] = 'required';
-		$atributos ['anchoEtiqueta'] = 170;
+		$atributos ['anchoEtiqueta'] = 220;
 		
 		if (isset ( $_REQUEST [$esteCampo] )) {
 			$atributos ['valor'] = $_REQUEST [$esteCampo];
@@ -172,13 +194,13 @@ class Formulario {
 		$atributos ['estilo'] = 'jqueryui';
 		$atributos ['marco'] = true;
 		$atributos ['columnas'] = 1;
-		$atributos ['dobleLinea'] = true;
+		$atributos ['dobleLinea'] = false;
 		$atributos ['obligatorio'] = true;
 		$atributos ['etiquetaObligatorio'] = true;
 		$atributos ['tabIndex'] = $tab;
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ['validar'] = 'required';
-		$atributos ['anchoEtiqueta'] = 170;
+		$atributos ['anchoEtiqueta'] = 220;
 		
 		if (isset ( $_REQUEST [$esteCampo] )) {
 			$atributos ['valor'] = $_REQUEST [$esteCampo];
@@ -204,13 +226,13 @@ class Formulario {
 		$atributos ['estilo'] = 'jqueryui';
 		$atributos ['marco'] = true;
 		$atributos ['columnas'] = 1;
-		$atributos ['dobleLinea'] = true;
+		$atributos ['dobleLinea'] = false;
 		$atributos ['obligatorio'] = true;
 		$atributos ['etiquetaObligatorio'] = true;
 		$atributos ['tabIndex'] = $tab;
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ['validar'] = 'required';
-		$atributos ['anchoEtiqueta'] = 170;
+		$atributos ['anchoEtiqueta'] = 220;
 		
 		if (isset ( $_REQUEST [$esteCampo] )) {
 			$atributos ['valor'] = $_REQUEST [$esteCampo];
@@ -240,7 +262,7 @@ class Formulario {
 		$atributos ['estiloMarco'] = '';
 		$atributos ["etiquetaObligatorio"] = true;
 		$atributos ['columnas'] = 1;
-		$atributos ['dobleLinea'] = true;
+		$atributos ['dobleLinea'] = false;
 		$atributos ['tabIndex'] = $tab;
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ['validar'] = 'required, accept="application/pdf" ';
@@ -254,7 +276,7 @@ class Formulario {
 		$atributos ['deshabilitado'] = true;
 		$atributos ['tamanno'] = 200;
 		$atributos ['maximoTamanno'] = '';
-		$atributos ['anchoEtiqueta'] = 170;
+		$atributos ['anchoEtiqueta'] = 220;
 		$tab ++;
 		
 		// Aplica atributos globales al control
@@ -262,7 +284,23 @@ class Formulario {
 		echo $this->miFormulario->campoCuadroTexto ( $atributos );
 		unset ( $atributos );
 		// --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
-		// --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
+		
+		//ENLACE MOMENTANEO PARA LA EVALUACI覰 DEL PROYECTO
+		$miPaginaActual = $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
+			
+		$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
+		$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
+		$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+			
+		$variable = "pagina=" . "evaluacionProyecto";
+		$variable .= "&usuario=" . $_REQUEST ['usuario'];
+		//$variable .= "&anteproyecto=" . $_REQUEST ['anteproyecto'];
+		//$variable .= "&revision=" . $matrizRevisiones [$n] [0];
+		//$variable .= "&concepto=" . $matrizRevisiones [$n] [2];
+		$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable, $directorio );
+			
+		unset ( $atributos );
+		// var_dump($matrizRevision);
 		
 		// ------------------Division para los botones-------------------------
 		$atributos ["id"] = "botones";

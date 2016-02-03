@@ -507,8 +507,6 @@ class Formulario {
 			$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 			$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 			$valorCodificado .= "&usuario=" . $_REQUEST ['usuario'];
-			$valorCodificado .= "&docente=" . $_REQUEST ['docente'];
-			$valorCodificado .= "&rol=" . $_REQUEST ['rol'];
 			$valorCodificado .= "&opcion=guardar";
 			
 			/**

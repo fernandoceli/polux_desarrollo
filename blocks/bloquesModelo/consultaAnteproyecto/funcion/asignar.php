@@ -40,18 +40,34 @@ class Registrar {
 			
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrar', $_REQUEST );
 			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, 'insertar' );
-
+			
 			if ($resultado) {
+				
+				// obtener codigos por separado
+				$revisores = $_REQUEST ['revisores'];
+				$porciones = explode ( ";", $revisores );
+				for($i = 0; $i < $_REQUEST ['numRevisores']; $i ++) {
+					//guardar solicitudes
+					$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( 'registrarSolicitudes', $porciones [$i] );
+					$matrizSol = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+					var_dump($matrizSol);
+					
+					//guardar historial de las solicitudes de revisión
+					$cadenaSql = $this->miSql->getCadenaSql ( 'guardarHistorialSol', $matrizSol[0][0] );
+					$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, 'insertar' );
+				}
+				
 				//modificar el estado del Anteproyecto
 				$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarEstado', $_REQUEST );
 				$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, 'insertar' );
+				
 				redireccion::redireccionar ( 'inserto');
 				exit ();
 			} else {
 				redireccion::redireccionar ( 'noInserto' );
 				exit ();
 			}
-			exit();
+			
 			
 		}
 	}

@@ -34,4 +34,28 @@ class Informacion extends HtmlBase {
 		return $this->cadenaHTML[0];
 	}
 	
+	function titulo($tipo, $atributos) {
+		$this->setAtributos ( $atributos );
+		$this->campoSeguro();
+		
+		$this->cadenaHTML = '';
+		
+		$this->cadenaHTML .='<' . $tipo . '>';
+		$this->cadenaHTML .= $this->atributos['mensaje'];
+		$this->cadenaHTML .='</' . $tipo . '>';
+		
+		return $this->cadenaHTML;
+	}
+	
+	function campoSpan($atributos) {
+		
+		$this->setAtributos ( $atributos );
+		$this->campoSeguro();
+		
+		$this->cadenaHTML = "<span " . $this->atributos['estilo'] . ">";
+		$this->cadenaHTML .= $this->atributos ['mensaje'] . "</span>";
+		
+		return $this->cadenaHTML;
+	}
+	
 }

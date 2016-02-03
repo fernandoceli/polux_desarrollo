@@ -86,36 +86,35 @@ class Sql extends \Sql {
 				$cadenaSql .= 'nombre=\'' . $_REQUEST ['nombrePagina'] . '\' ';
 				break;
 			
-			case 'buscarAnteproyectos' :
+			case 'buscarProyectos' :
 				
 				$cadenaSql = 'SELECT ';
-				$cadenaSql .= 'p.prof_prof, ';
-				$cadenaSql .= 'p.prof_us, ';
-				$cadenaSql .= 'a.antp_antp, ';
-				$cadenaSql .= 'a.antp_fradi, ';
-				$cadenaSql .= 'a.antp_eantp, ';
-				$cadenaSql .= 'r.rev_antp, ';
-				$cadenaSql .= 'r.rev_prof, ';
-				$cadenaSql .= 'r.rev_fasig ';
+				$cadenaSql .= 'd.prof_prof, ';
+				$cadenaSql .= 'd.prof_us, ';
+				$cadenaSql .= 'p.proy_proy, ';
+				$cadenaSql .= 'p.proy_fcrea, ';
+				$cadenaSql .= 'p.proy_eproy, ';
+				$cadenaSql .= 'p.proy_dir_int ';
 				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado.ant_tantp a, ';
-				$cadenaSql .= 'trabajosdegrado.ant_trev r, ';
-				$cadenaSql .= 'trabajosdegrado.ge_tprof p ';
+				$cadenaSql .= 'trabajosdegrado.pry_tproy p, ';
+				$cadenaSql .= 'trabajosdegrado.ge_tprof d, ';
+				$cadenaSql .= 'trabajosdegrado.pry_tsrdp s ';
 				$cadenaSql .= 'WHERE ';
-				$cadenaSql .= "r.rev_antp = a.antp_antp ";
-				$cadenaSql .= "and p.prof_prof=r.rev_prof ";
-				$cadenaSql .= "and p.prof_prof = '" . $variable . "' ";
-				$cadenaSql .= "and a.antp_eantp = 'REVISORES ASIGNADOS' ";
+				// $cadenaSql .= "r.rev_antp = a.antp_antp ";
+				$cadenaSql .= " d.prof_prof=p.proy_dir_int ";
+				$cadenaSql .= "and d.prof_us = '" . $variable . "' ";
+				$cadenaSql .= "and s.srdp_proy = p.proy_proy ";
+				$cadenaSql .= "and s.srdp_esrdp = 'PENDIENTE' ";
 				// echo $cadenaSql;
 				break;
 			
-			case 'buscarAnteproyecto' :
+			case 'buscarProyecto' :
 				
 				$cadenaSql = 'SELECT * ';
 				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado.ant_tantp ';
+				$cadenaSql .= 'trabajosdegrado.pry_tproy ';
 				$cadenaSql .= 'WHERE ';
-				$cadenaSql .= "antp_antp = " . $variable . " ";
+				$cadenaSql .= "proy_proy = " . $variable . " ";
 				break;
 			
 			case 'buscarDocentes' :
@@ -133,19 +132,31 @@ class Sql extends \Sql {
 				$cadenaSql .= "and (d.prof_pern=p.pern_pern)";
 				break;
 			
-			case 'buscarDocenteAjax' :
+			case 'buscarAutores' :
 				
+				$cadenaSql = 'SELECT ';
+				$cadenaSql .= 'estproy_estd as ESTUDIANTE,';
+				$cadenaSql .= 'estproy_proy as PROYECTO ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.pry_testpry ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'estproy_proy =' . $_REQUEST ['proyecto'];
+				// echo $cadenaSql;
+				break;
+			
+			case 'buscarNombresAutores' :
 				$cadenaSql = "SELECT ";
-				$cadenaSql .= "d.prof_prof, ";
-				$cadenaSql .= "(p.pern_nomb || ' ' ||p.pern_papell || ' ' ||p.pern_sapell) AS  Nombre, ";
-				$cadenaSql .= "d.prof_pern ";
+				$cadenaSql .= "e.estd_estd, ";
+				$cadenaSql .= "(u.nombre || ' ' ||u.apellido) AS  Nombre, ";
+				$cadenaSql .= "e.estd_us ";
 				
 				$cadenaSql .= "FROM ";
-				$cadenaSql .= "trabajosdegrado.ge_tprof d, ";
-				$cadenaSql .= "trabajosdegrado.ge_tpern p ";
+				$cadenaSql .= "trabajosdegrado.ge_testd e, ";
+				$cadenaSql .= "public.polux_usuario u ";
 				$cadenaSql .= "WHERE ";
-				$cadenaSql .= "d.prof_tpvinc='Planta'";
-				$cadenaSql .= "and (d.prof_pern=p.pern_pern)";
+				$cadenaSql .= "e.estd_estd='" . $variable . "'";
+				$cadenaSql .= " and e.estd_us =u.id_usuario";
+				// echo $cadenaSql;
 				break;
 			
 			case 'borrarRegistro' :
@@ -168,31 +179,18 @@ class Sql extends \Sql {
 				$cadenaSql .= ') ';
 				break;
 			
-			case 'buscarDocente' :
-				
-				$cadenaSql = 'SELECT ';
-				$cadenaSql .= "nombre || ' ' || apellido AS Nombre ";
-				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'polux_usuario ';
-				$cadenaSql .= 'JOIN trabajosdegrado.ge_tprof ';
-				$cadenaSql .= 'ON id_usuario = prof_us ';
+			case 'buscarDocumento' :
+				$cadenaSql = 'SELECT MAX(dproy_dproy) FROM trabajosdegrado.pry_tdproy ';
 				$cadenaSql .= 'WHERE ';
-				$cadenaSql .= 'prof_prof=\'' . $variable . '\' ';
-				// echo $cadenaSql;
+				$cadenaSql .= 'dproy_proy=\'' . $variable . '\' ';
+				// var_dump ( $cadenaSql );
 				break;
 			
-			case 'consultarRol' :
-				$cadenaSql = 'SELECT rol_nombre ';
-				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'polux_usuario u ';
-				$cadenaSql .= 'JOIN ';
-				$cadenaSql .= 'polux_usuario_subsistema us ';
-				$cadenaSql .= 'ON u.id_usuario::varchar = us.id_usuario ';
-				$cadenaSql .= 'JOIN ';
-				$cadenaSql .= 'polux_rol r ';
-				$cadenaSql .= 'ON us.rol_id = r.rol_id ';
+			case 'buscarVersionDoc' :
+				$cadenaSql = 'SELECT dproy_vers FROM trabajosdegrado.pry_tdproy ';
 				$cadenaSql .= 'WHERE ';
-				$cadenaSql .= 'u.id_usuario=\'' . $variable . '\' ';
+				$cadenaSql .= 'dproy_dproy=\'' . $variable . '\' ';
+				// var_dump ( $cadenaSql );
 				break;
 		}
 		

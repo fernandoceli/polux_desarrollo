@@ -22,10 +22,9 @@ class redireccion {
 			case "evaluar" :
 				
 				$variable = 'pagina=evaluacionAnteproyecto';
-				$variable .= "&docente=" . $_REQUEST['docente'];
-				$variable .= "&rol=" . $_REQUEST['rol'];
-				$variable .= '&usuario=' . $valor ['usuario'];
-				$variable .= '&ante=' . $valor ['ante'];
+				$variable .= '&usuario=' . $valor['usuario'];
+				$variable .= '&ante=' . $valor['ante'];
+				$variable .= "&solicitud=" . $_REQUEST ['solicitud'];
 				break;
 			
 			default :
@@ -44,10 +43,10 @@ class redireccion {
 		$_REQUEST [$enlace] = $enlace . '=' . $variable;
 		$redireccion = $url . $_REQUEST [$enlace];
 		
-		var_dump ( $_REQUEST );
+		var_dump($_REQUEST);
 		
 		echo "<script>location.replace('" . $redireccion . "')</script>";
-		// echo "entro";
+// 		echo "entro";
 		return true;
 	}
 }

@@ -34,16 +34,14 @@ class Funcion {
 	function procesarAjax() {
 		include_once ($this->ruta . "funcion/procesarAjax.php");
 	}
-	
 	function mostrar() {
-		include_once ($this->ruta . "funcion/mostrar.php");
+		include_once ($this->ruta . "/funcion/ver.php");
 	}
-	
 	function asignar() {
 		include_once ($this->ruta . "funcion/asignar.php");
 	}
-	
 	function action() {
+		var_dump($_REQUEST);
 		$resultado = true;
 		
 		// Aquí se coloca el código que procesará los diferentes formularios que pertenecen al bloque
@@ -56,21 +54,21 @@ class Funcion {
 		if (isset ( $_REQUEST ['procesarAjax'] )) {
 			$this->procesarAjax ();
 		} 
-		
+
 		else if (isset ( $_REQUEST ["opcion"] )) {
-		
+			var_dump($_REQUEST);
 			switch ($_REQUEST ["opcion"]) {
-		
-			/*	case 'mostrar' :
-					$this->mostrar();
-					break;*/
-		
+				
+				case 'mostrar' :
+					$this->mostrar ();
+					break;
+				
 				case 'asignar' :
-					$this->asignar();
+					$this->asignar ();
 					break;
 			}
-		}
-		
+		} 
+
 		else {
 			
 			$resultado = $this->procesarFormulario ();

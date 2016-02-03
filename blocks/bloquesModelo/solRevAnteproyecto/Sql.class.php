@@ -86,6 +86,32 @@ class Sql extends \Sql {
 				$cadenaSql .= 'nombre=\'' . $_REQUEST ['nombrePagina'] . '\' ';
 				break;
 			
+			case "consultarSolicitudes" :
+		
+				$cadenaSql = "SELECT DISTINCT ";
+				$cadenaSql .= "slrev_slrev, ";
+				$cadenaSql .= "s.slrev_fcrea, ";
+				$cadenaSql .= "s.slrev_fradi, ";
+				$cadenaSql .= "(u.nombre || ' ' ||u.apellido) AS Nombre, ";
+				$cadenaSql .= "s.slrev_antp, ";
+				$cadenaSql .= "s.slrev_descri, ";
+				$cadenaSql .= "s.slrev_eslrev, ";
+				$cadenaSql .= "s.slrev_acta, ";
+				$cadenaSql .= "s.slrev_acta_fecha, ";
+				$cadenaSql .= "slrev_prof_asignado ";
+				
+				$cadenaSql .= "FROM ";
+				$cadenaSql .= "trabajosdegrado.ant_tslrev s, ";
+				$cadenaSql .= "trabajosdegrado.ge_tprof p, ";
+				$cadenaSql .= "public.polux_usuario u ";
+				$cadenaSql .= "WHERE ";
+				$cadenaSql .= "slrev_eslrev='ASIGNADA' ";
+				$cadenaSql .= "and p.prof_us='" . $variable . "' ";
+				$cadenaSql .= "and s.slrev_prof_asignado=p.prof_prof ";
+				$cadenaSql .= "and u.id_usuario=s.slrev_usua; ";
+// 				echo $cadenaSql;
+				break;
+			
 			case 'buscarAnteproyectos' :
 				
 				$cadenaSql = 'SELECT ';
@@ -104,14 +130,9 @@ class Sql extends \Sql {
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= "r.rev_antp = a.antp_antp ";
 				$cadenaSql .= "and p.prof_prof=r.rev_prof ";
-				$aux = substr ( $variable, 2 );
-				if (! is_numeric ( $aux )) {
-					$cadenaSql .= "and p.prof_us = '" .  substr ( $variable, 2 + strlen ( $variable ) )  . "' ";
-				} else {
-					$cadenaSql .= "and p.prof_prof = '" . $variable . "' ";
-				}
+				$cadenaSql .= "and p.prof_us = '" . $variable . "' ";
 				$cadenaSql .= "and a.antp_eantp = 'REVISORES ASIGNADOS' ";
-// 				echo $cadenaSql;
+				// echo $cadenaSql;
 				break;
 			
 			case 'buscarAnteproyecto' :
@@ -147,7 +168,7 @@ class Sql extends \Sql {
 				$cadenaSql .= 'trabajosdegrado.ant_testantp ';
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'estantp_antp =' . $_REQUEST ['anteproyecto'];
-				// echo $cadenaSql;
+				//echo $cadenaSql;
 				break;
 			
 			case 'buscarNombresAutores' :
@@ -183,20 +204,6 @@ class Sql extends \Sql {
 				$cadenaSql .= $_REQUEST ['nivelPagina'] . ', ';
 				$cadenaSql .= '\'' . $_REQUEST ['parametroPagina'] . '\'';
 				$cadenaSql .= ') ';
-				break;
-			
-			case 'consultarRol' :
-				$cadenaSql = 'SELECT rol_nombre ';
-				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'polux_usuario u ';
-				$cadenaSql .= 'JOIN ';
-				$cadenaSql .= 'polux_usuario_subsistema us ';
-				$cadenaSql .= 'ON u.id_usuario::varchar = us.id_usuario ';
-				$cadenaSql .= 'JOIN ';
-				$cadenaSql .= 'polux_rol r ';
-				$cadenaSql .= 'ON us.rol_id = r.rol_id ';
-				$cadenaSql .= 'WHERE ';
-				$cadenaSql .= 'u.id_usuario=\'' . $variable . '\' ';
 				break;
 		}
 		

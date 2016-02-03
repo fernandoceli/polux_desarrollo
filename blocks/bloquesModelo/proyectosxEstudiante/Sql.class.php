@@ -101,7 +101,7 @@ class Sql extends \Sql {
 			
 			case 'buscarProyectos' :
 				
-				$cadenaSql = 'SELECT ';
+				$cadenaSql = 'SELECT DISTINCT ';
 				$cadenaSql .= 'proy_fcrea as FECHA, ';
 				$cadenaSql .= 'proy_proy as PROYECTO, ';
 				$cadenaSql .= 'moda_nombre as MODALIDAD, ';
@@ -115,9 +115,17 @@ class Sql extends \Sql {
 				$cadenaSql .= 'ON proy_proy=estproy_proy ';
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'estproy_estd=\'' . $variable . '\' ';
-				// $cadenaSql .= 'WHERE '; $cadenaSql .= ''
-				// $cadenaSql .= 'estado=\'RADICADO\' OR estado=\'ASIGNADO REVISORES\'';
-				// $cadenaSql .= 'nombre=\'' . $_REQUEST ['nombrePagina'] . '\' ';
+// 				echo $cadenaSql;
+				break;
+			
+			case 'buscarCodigo' :
+				
+				$cadenaSql = 'SELECT ';
+				$cadenaSql .= 'estd_estd as CODIGO ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.ge_testd ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'estd_us=\'' . $variable . '\' ';
 				// echo $cadenaSql;
 				break;
 			
@@ -177,18 +185,6 @@ class Sql extends \Sql {
 				$cadenaSql .= 'ON us.rol_id = r.rol_id ';
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'u.id_usuario=\'' . $variable . '\' ';
-				break;
-			
-			case 'consultarCodigo' :
-				$cadenaSql = 'SELECT estd_estd ';
-				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado.ge_testd ';
-				$cadenaSql .= 'JOIN ';
-				$cadenaSql .= 'polux_usuario ';
-				$cadenaSql .= 'ON estd_us=id_usuario ';
-				$cadenaSql .= 'WHERE ';
-				$cadenaSql .= 'id_usuario=\'' . $variable . '\' ';
-				// echo $cadenaSql;
 				break;
 		}
 		

@@ -18,6 +18,7 @@ $this->idioma["comentarioTitulo"]="Comentario del proyecto";
 $this->idioma["archivo"]="Acta de inicio de proyecto";
 $this->idioma["archivoTitulo"]="Archivo PDF del acta de inicio de proyecto";
 
+
 $this->idioma["mensajeRegistro"]="Proyecto iniciado con exito, se registro con el codigo ";
 $this->idioma["mensajeError"]="Error al iniciar proyecto";
 ?>

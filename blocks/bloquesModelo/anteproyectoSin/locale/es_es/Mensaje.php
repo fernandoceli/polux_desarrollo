@@ -22,7 +22,4 @@ $this->idioma["revisor"]="Revisores (Cantidad minima de revisores permitida: 1)"
 $this->idioma["mensajeRegistro"]="Revisor asignado";
 $this->idioma["mensajeError"]="Error al asignar el revisor";
 $this->idioma["continuar"]="Continuar";
-
-
-$this->idioma["infoMensaje"]="No hay anteproyectos registrados sin revisores asignados";
 ?>

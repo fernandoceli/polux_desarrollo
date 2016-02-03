@@ -2,7 +2,7 @@
 
 namespace bloquesModelo\consultaAnteproyecto\funcion;
 
-use bloquesModelo\anteproyectoSin\funcion\redireccionar;
+use bloquesModelo\consultaAnteproyecto\funcion\redireccionar;
 
 include_once ('redireccionar.php');
 
@@ -25,7 +25,7 @@ class Iniciar {
 		if (isset ( $_REQUEST ['botonCancelarIni'] ) && $_REQUEST ['botonCancelarIni'] == "true") {
 			redireccion::redireccionar ( 'devolver' );
 			exit ();
-		} else if (isset ( $_REQUEST ['botonIni'] ) && $_REQUEST ['botonIni'] == "true") {
+		} else if (isset ( $_REQUEST ['botonIniciar'] ) && $_REQUEST ['botonIniciar'] == "true") {
 			redireccion::redireccionar ( 'iniciar' );
 			exit ();
 		}

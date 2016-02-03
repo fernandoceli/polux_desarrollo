@@ -37,8 +37,7 @@ if (!isset($GLOBALS["autorizado"])) {
     
     if ($_REQUEST['mensaje'] == 'confirma') {
         $tipo = 'success';
-        $mensaje = $this->lenguaje->getCadena ( 'mensajeRegistro' ). '<br></br>'.
-		'Programa Curricular: ' . $_REQUEST ['programaCurricular'];
+        $mensaje = $this->lenguaje->getCadena ( 'mensajeRegistro' );
         $boton = "continuar";
 		
         $valorCodificado = "pagina=".$esteBloque['nombre'];
@@ -47,7 +46,20 @@ if (!isset($GLOBALS["autorizado"])) {
         $valorCodificado.="&bloqueGrupo=" . $esteBloque["grupo"];
         
         
-    } else if($_REQUEST['mensaje'] == 'error') {
+    } 
+    
+    else if($_REQUEST['mensaje'] == 'confirma2') {
+    	$tipo = 'success';
+    	$mensaje =  $this->lenguaje->getCadena('mensajeRegistro2');
+    	$boton = "regresar";
+    	$valorCodificado = "pagina=".$esteBloque['nombre'];
+    	$valorCodificado.="&opcion=nuevo";
+    	$valorCodificado.="&bloque=" . $esteBloque["id_bloque"];
+    	$valorCodificado.="&bloqueGrupo=" . $esteBloque["grupo"];
+    	 
+    }
+    
+    else if($_REQUEST['mensaje'] == 'error') {
         $tipo = 'error';
         $mensaje =  $this->lenguaje->getCadena('mensajeError');
         $boton = "regresar";
@@ -56,7 +68,20 @@ if (!isset($GLOBALS["autorizado"])) {
         $valorCodificado.="&bloque=" . $esteBloque["id_bloque"];
         $valorCodificado.="&bloqueGrupo=" . $esteBloque["grupo"];
        
-    }else{
+    }
+    
+    else if($_REQUEST['mensaje'] == 'error2') {
+    	$tipo = 'error';
+    	$mensaje =  $this->lenguaje->getCadena('mensajeError2');
+    	$boton = "regresar";
+    	$valorCodificado = "pagina=".$esteBloque['nombre'];
+    	$valorCodificado.="&opcion=nuevo";
+    	$valorCodificado.="&bloque=" . $esteBloque["id_bloque"];
+    	$valorCodificado.="&bloqueGrupo=" . $esteBloque["grupo"];
+    	 
+    }
+    
+    else{
         $tipo = 'alert';
         $mensaje = "Oprimio el Enlace";
         $boton = "continuar";       
@@ -142,11 +167,11 @@ if (!isset($GLOBALS["autorizado"])) {
      * Para ello utiliza la hora en que es creado el formulario para
      * codificar el nombre de cada campo. 
      */
-    //$valorCodificado = "action=" . $esteBloque ["nombre"]; //Ir pagina Funcionalidad
-    $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );//Frontera mostrar formulario
+    $valorCodificado = "action=" . $esteBloque ["nombre"]; //Ir pagina Funcionalidad
+    $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );//Frontera mostrar formulario
     $valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
     $valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
-    $valorCodificado.= "&usuario=" . $_REQUEST['usuario'];
+    $valorCodificado .= "&usuario=" . $_REQUEST['usuario'];
     $valorCodificado .= "&opcion=continuar";
     
     $valorCodificado .= "&campoSeguro=" . $_REQUEST['tiempo'];

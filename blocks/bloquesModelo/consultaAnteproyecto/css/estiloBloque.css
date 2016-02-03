@@ -3,6 +3,11 @@ div.campoBoton {
 	display: inline-block;
 }
 
+.mensaje-ayuda {
+    width: auto;
+    padding: 5px;
+}
+
 .bg-tablero {
 	float: right;
 	width: 49%;
@@ -20,12 +25,12 @@ div.campoBoton {
 }
 
 .icon-mini-info {
-    background: transparent url("images/icons/icon-mini-info.png") no-repeat scroll 50% 50%;
+    background: transparent url("../images/icon-mini-info.png") no-repeat scroll 50% 50%;
     cursor: pointer;
     height: 25px;
     position: relative;
     text-align: center;
-    width: 25px;
+    width: 50px;
 }
 
 div.formulario {
@@ -225,7 +230,7 @@ h4 {
 }
 
 .margen-interna {
-	padding: 10px 10px;
+	padding: 1px 10px;
 }
 
 .margen-externa {
@@ -280,6 +285,15 @@ b {
 }
 
 .table2 {
+	display: table;
+	width: 85%;
+	font: 14px arial, helvetica, sans-serif;
+	text-align: left;
+	background: #ffffff;
+	margin: 10px 10px 10px 30px;
+}
+
+#table3 {
 	display: table;
 	width: 85%;
 	font: 14px arial, helvetica, sans-serif;

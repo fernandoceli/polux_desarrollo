@@ -23,5 +23,4 @@ $this->idioma["mensajeRegistro"]="Revisor asignado";
 $this->idioma["mensajeError"]="Error al asignar el revisor";
 $this->idioma["continuar"]="Continuar";
 
-$this->idioma["infoMensaje"]="No hay anteproyectos registrados para este programa curricular";
 ?>

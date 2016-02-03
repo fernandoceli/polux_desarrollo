@@ -50,7 +50,7 @@ class Sql extends \Sql {
 				break;
 			
 			case 'buscarAnteproyectos' :
-				$cadenaSql = 'SELECT ';
+				$cadenaSql = 'SELECT DISTINCT ';
 				$cadenaSql .= 'a.antp_fradi as FECHA, ';
 				$cadenaSql .= 'a.antp_antp as ANTEPROYECTO, ';
 				$cadenaSql .= 'm.moda_nombre as MODALIDAD, ';
@@ -60,8 +60,8 @@ class Sql extends \Sql {
 				$cadenaSql .= 'trabajosdegrado.ant_tantp a, ';
 				$cadenaSql .= 'trabajosdegrado.ge_tmoda m ';
 				$cadenaSql .= 'WHERE ';
-				$cadenaSql .= "antp_eantp='RADICADO'";
-				$cadenaSql .= "and a.antp_moda=m.moda_moda";
+				//$cadenaSql .= "antp_eantp='RADICADO'";
+				$cadenaSql .= " a.antp_moda=m.moda_moda";
 				// echo $cadenaSql;
 				break;
 				

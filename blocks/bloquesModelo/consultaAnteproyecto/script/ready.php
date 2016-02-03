@@ -5,7 +5,7 @@ $("#consultaAnteproyecto").validationEngine({
 	autoHideDelay: 2000
 });
 
-$("#tablaReporte").DataTable();
+//$("#<?php echo $this->campoSeguro('botonA')?>").prop("disabled", true);
 
 $('#<?php echo $this->campoSeguro('seleccionar')?>').width(280);
 $('#<?php echo $this->campoSeguro('seleccionar')?>').select2();
@@ -16,9 +16,7 @@ $('#<?php echo $this->campoSeguro('revisor')?>').select2();
 $('#<?php echo $this->campoSeguro('observaciones')?>').width(350);
 $('#<?php echo $this->campoSeguro('acta')?>').width(280);
 $('#<?php echo $this->campoSeguro('fecha')?>').width(280);
-
-
-$("#<?php echo $this->campoSeguro('botonAsignar')?>").attr('disabled','true');	
+	
 
 $('#<?php echo $this->campoSeguro('fecha')?>').datepicker({
 

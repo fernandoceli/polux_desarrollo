@@ -236,15 +236,17 @@
 			var options = form.data('jqv');
 			options.eventTrigger = "field";
 			// validate the current field
-			window.setTimeout(function() {
-				methods._validateField(field, options);
-				if (options.InvalidFields.length == 0 && options.onFieldSuccess) {
-					options.onFieldSuccess();
-				} else if (options.InvalidFields.length > 0 && options.onFieldFailure) {
-					options.onFieldFailure();
-				}
-			}, (event.data) ? event.data.delay : 0);
-
+			
+			if(field.val().length > 0){
+				window.setTimeout(function() {
+					methods._validateField(field, options);
+					if (options.InvalidFields.length == 0 && options.onFieldSuccess) {
+						options.onFieldSuccess();
+					} else if (options.InvalidFields.length > 0 && options.onFieldFailure) {
+						options.onFieldFailure();
+					}
+				}, (event.data) ? event.data.delay : 0);
+			}
 		},
 		/**
 		* Called when the form is submited, shows prompts accordingly

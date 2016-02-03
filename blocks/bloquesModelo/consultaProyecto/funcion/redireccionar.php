@@ -29,10 +29,12 @@ class redireccion {
 				break;
 			
 			case "iniciar" :
-				$variable = "pagina=iniciarProyecto";
+				$variable = "pagina=iniciarInformeFinal";
 				$variable .= "&usuario=" . $_REQUEST ['usuario'];
-				$variable .= "&anteproyecto=" . $_REQUEST ['id'];
-				$variable .= "&estudiante=" . $_REQUEST ['estudiante'];
+				$variable .= "&proyecto=" . $_REQUEST ['id'];
+				if (isset ( $_REQUEST ['estudiante'] )) {
+					$variable .= "&estudiante=" . $_REQUEST ['estudiante'];
+				}
 				$variable .= "&rol=" . $_REQUEST ['rol'];
 				break;
 			

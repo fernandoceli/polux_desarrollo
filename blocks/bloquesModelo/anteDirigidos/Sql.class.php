@@ -101,32 +101,30 @@ class Sql extends \Sql {
 				} else {
 					$cadenaSql .= 'prof_prof=\'' . $variable . '\' ';
 				}
-// 				echo $cadenaSql;
+				// echo $cadenaSql;
 				break;
 			
 			case 'buscarAnteproyecto' :
 				
-				$cadenaSql = 'SELECT ';
-				$cadenaSql .= 'antp_titu as TITULO, ';
-				$cadenaSql .= 'moda_nombre as MODALIDAD, ';
-				$cadenaSql .= 'antp_eantp as ESTADO, ';
+				$cadenaSql = 'SELECT DISTINCT ';
 				$cadenaSql .= 'antp_fradi as FECHA, ';
-				$cadenaSql .= 'antp_antp as ANTEPROYECTO ';
+				$cadenaSql .= 'antp_antp as ANTEPROYECTO, ';
+				$cadenaSql .= 'moda_nombre as MODALIDAD, ';
+				$cadenaSql .= 'antp_titu as TITULO, ';
+				$cadenaSql .= 'antp_eantp as ESTADO ';
 				$cadenaSql .= 'FROM ';
 				$cadenaSql .= 'trabajosdegrado.ant_tantp ';
 				$cadenaSql .= 'JOIN trabajosdegrado.ge_tmoda ';
 				$cadenaSql .= 'ON antp_moda = moda_moda ';
 				$cadenaSql .= 'WHERE ';
-				$aux = substr ( $variable, 0, 2 );
+				$aux = substr ( $variable, 2 );
 				if (! is_numeric ( $aux )) {
-// 					echo "no numero";
-					$cadenaSql .= 'antp_dir_int=\'' . substr ( $variable, 2) . '\' ';
+					$cadenaSql .= 'antp_dir_int=\'' . substr ( $variable, 2 + strlen ( $variable ) ) . '\' ';
 				} else {
-// 					echo "numero";
 					$cadenaSql .= 'antp_dir_int=\'' . $variable . '\' ';
 				}
 				
-// 				echo $cadenaSql;
+				// echo $cadenaSql;
 				break;
 			
 			case 'buscarDocente' :
@@ -177,8 +175,8 @@ class Sql extends \Sql {
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'u.id_usuario=\'' . $variable . '\' ';
 				break;
-				
-			case 'consultarCodigo':
+			
+			case 'consultarCodigo' :
 				$cadenaSql = 'SELECT prof_prof ';
 				$cadenaSql .= 'FROM ';
 				$cadenaSql .= 'trabajosdegrado.ge_tprof ';
@@ -187,7 +185,7 @@ class Sql extends \Sql {
 				$cadenaSql .= 'ON prof_us=id_usuario ';
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'id_usuario=\'' . $variable . '\' ';
-// 				echo $cadenaSql;
+				// echo $cadenaSql;
 				break;
 		}
 		

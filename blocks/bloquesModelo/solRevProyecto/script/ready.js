@@ -35,6 +35,7 @@ $(function() {
 	});
 });
 
-$('#<?php echo $this->campoSeguro('revisor')?>').change(function(){
-	$('#<?php echo $this->campoSeguro('docente')?>').val($('#<?php echo $this->campoSeguro('revisor')?>').val());
+$(document).ready(function(){
+	//numero de solicitudes
+	var dato = $('#<?php echo $this->campoSeguro('antpSolicitudes')?>').val();
 });

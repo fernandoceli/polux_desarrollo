@@ -1,6 +1,6 @@
 <?php
 
-namespace bloquesModelo\solRevProyecto\funcion;
+namespace bloquesModelo\solRevAnteproyecto\funcion;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("index.php");

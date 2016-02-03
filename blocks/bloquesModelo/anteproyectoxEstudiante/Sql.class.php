@@ -99,14 +99,25 @@ class Sql extends \Sql {
 				// echo $cadenaSql;
 				break;
 			
-			case 'buscarAnteproyectos' :
+			case 'buscarCodigo' :
 				
 				$cadenaSql = 'SELECT ';
-				$cadenaSql .= 'antp_titu as TITULO, ';
-				$cadenaSql .= 'moda_nombre as MODALIDAD, ';
-				$cadenaSql .= 'antp_eantp as ESTADO, ';
+				$cadenaSql .= 'estd_estd as CODIGO ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.ge_testd ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'estd_us=\'' . $variable . '\' ';
+				// echo $cadenaSql;
+				break;
+			
+			case 'buscarAnteproyectos' :
+				
+				$cadenaSql = 'SELECT DISTINCT ';
 				$cadenaSql .= 'antp_fradi as FECHA, ';
-				$cadenaSql .= 'antp_antp as ANTEPROYECTO ';
+				$cadenaSql .= 'antp_antp as ANTEPROYECTO, ';
+				$cadenaSql .= 'moda_nombre as MODALIDAD, ';
+				$cadenaSql .= 'antp_titu as TITULO, ';
+				$cadenaSql .= 'antp_eantp as ESTADO ';
 				$cadenaSql .= 'FROM ';
 				$cadenaSql .= 'trabajosdegrado.ant_testantp ';
 				$cadenaSql .= 'JOIN trabajosdegrado.ge_testd ';
@@ -117,10 +128,7 @@ class Sql extends \Sql {
 				$cadenaSql .= 'ON antp_moda = moda_moda ';
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'estd_estd=\'' . $variable . '\' ';
-				// $cadenaSql .= 'WHERE '; $cadenaSql .= ''
-				// $cadenaSql .= 'estado=\'RADICADO\' OR estado=\'ASIGNADO REVISORES\'';
-				// $cadenaSql .= 'nombre=\'' . $_REQUEST ['nombrePagina'] . '\' ';
-				// echo $cadenaSql;
+				//echo $cadenaSql;
 				break;
 			
 			case 'buscarAnteproyecto' :
@@ -179,18 +187,6 @@ class Sql extends \Sql {
 				$cadenaSql .= 'ON us.rol_id = r.rol_id ';
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'u.id_usuario=\'' . $variable . '\' ';
-				break;
-			
-			case 'consultarCodigo' :
-				$cadenaSql = 'SELECT estd_estd ';
-				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado.ge_testd ';
-				$cadenaSql .= 'JOIN ';
-				$cadenaSql .= 'polux_usuario ';
-				$cadenaSql .= 'ON estd_us=id_usuario ';
-				$cadenaSql .= 'WHERE ';
-				$cadenaSql .= 'id_usuario=\'' . $variable . '\' ';
-				// echo $cadenaSql;
 				break;
 		}
 		

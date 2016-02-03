@@ -48,18 +48,7 @@ class Registrar {
 		// capturando el return
 		$fecha = date ( 'Y-m-d' );
 		
-		$rol = $_REQUEST['rol'];
-		
-		if (($rol == "Docente") || ($rol == "Coordinador")) {
-			$docente = $_REQUEST['usuario'];
-		}
-		
-		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
-			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( 'tipoDoc', $_REQUEST['docente'] );
-			$matrizTD = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-			echo $atributos ['cadena_sql'];
-			$docente = $matrizTD[0][0] . $_REQUEST['docente'];
-		}
+		$docente = $_REQUEST['usuario'];
 		
 		$eval = array (
 				'documento' => $documento,
@@ -74,7 +63,7 @@ class Registrar {
 		$eval = $matrizPrueba [0] [0];
 		var_dump ( $eval );
 		
-		if ($matrizPrueba [0] [0] != null) {
+		if ($matrizPrueba) {
 			// guardar respuestas del cuestionario
 			
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarPreguntas" );

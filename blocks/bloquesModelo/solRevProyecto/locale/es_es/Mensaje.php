@@ -7,9 +7,9 @@ $this->idioma ["botonAceptar"] = "Aceptar";
 $this->idioma ["botonCancelar"] = "Cancelar";
 $this->idioma ["noDefinido"] = "No definido";
 $this->idioma ["botonIngresar"] = "Ingresar";
-
+$this->idioma ["botonEvaluar"] = "Evaluar";
+$this->idioma ["botonDetalle"] = "Detalle Solicitud";
+$this->idioma ["enlaceVer"] = "Ver Solicitud";
 $this->idioma["revisor"]="Docente:";
 
-
-$this->idioma["infoMensaje"]="No existen proyectos actualmente asignados para revisión.";
 ?>

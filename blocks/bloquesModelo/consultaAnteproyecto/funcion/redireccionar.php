@@ -17,8 +17,8 @@ class redireccion {
 				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=confirma";
-				$variable .= "&programaCurricular=" . $valor;
 				$variable .= "&usuario=" . $_REQUEST ['usuario'];
+				$variable .= "&anteproyecto=" . $_REQUEST ['anteproyecto'];
 				break;
 			
 			case "noInserto" :
@@ -32,7 +32,9 @@ class redireccion {
 				$variable = "pagina=iniciarProyecto";
 				$variable .= "&usuario=" . $_REQUEST ['usuario'];
 				$variable .= "&anteproyecto=" . $_REQUEST ['id'];
-				$variable .= "&estudiante=" . $_REQUEST ['estudiante'];
+				if (isset ( $_REQUEST ['estudiante'] )) {
+					$variable .= "&estudiante=" . $_REQUEST ['estudiante'];
+				}
 				$variable .= "&rol=" . $_REQUEST ['rol'];
 				break;
 			

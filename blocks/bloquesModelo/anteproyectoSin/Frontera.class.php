@@ -42,13 +42,13 @@ class Frontera {
 		
 		// Como se tiene un solo formulario no es necesario un switch para cargarlo:
 		$this->ruta = $this->miConfigurador->getVariableConfiguracion ( "rutaBloque" );
-// 		var_dump($_REQUEST);
-// exit;
+		
 		if (isset ( $_REQUEST ['opcion'] )) {
 			switch ($_REQUEST ['opcion']) {
-				case "mostrar" :
+				
+				/*case "mostrar" :
 					include_once ($this->ruta . "/formulario/mostrar.php");
-					break;
+					break;*/
 				case "asignar" :
 					include_once ($this->ruta . "/formulario/asignar.php");
 					break;

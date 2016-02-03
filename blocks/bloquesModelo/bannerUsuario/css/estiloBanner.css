@@ -1,4 +1,5 @@
 /*-------------------------Banner----------------------------------*/
+
 #banner {
 	position: static;
 	text-align: left;
@@ -12,12 +13,6 @@
 	float:right;
 	padding: 0px 3px 0px 5px;
 	color: #C20000;
-	/*font-family: poorRich;
-	font-size: 100%;
-	color: #2680FF;
-	font-weight: bold;
-	position: static;
-	text-align: left;*/
 }
 
 #bannerFecha {
@@ -27,10 +22,4 @@
 	float:right;
 	padding: 0px 3px 0px 5px;
 	color: #C20000;
-	/*font-family: poorRich;
-	font-size: 100%;
-	color: #2680FF;
-	font-weight: bold;
-	position: static;
-	text-align: left;*/
 }

@@ -96,15 +96,24 @@ class Formulario {
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $usuario );
 		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
+		//var_dump($matrizItems);
+		// var_dump($matrizItems[0]);
+		
 		$rol = $matrizItems [0] [0];
+		
 		$acceso = false;
 		$mostrar = true;
+		// echo $rol;
+		// var_dump($_REQUEST);
 		
 		if ($rol == "Coordinador") {
+		
 			$acceso = true;
 			$_REQUEST ['docente'] = $_REQUEST ['usuario'];
+			// $_REQUEST['docente'] = 'CC321456789';
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarProgramaDocente", $_REQUEST ['docente'] );
 			$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+			var_dump ( $matrizItems );
 			$_REQUEST ["variable"] = $matrizItems [0] [0];
 		}
 		
@@ -120,23 +129,76 @@ class Formulario {
 		}
 		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		if (isset ( $_REQUEST ['variable'] )) {
+		?>
+
+<h2>Anteproyectos por programa curricular <?php
+		if (isset ( $_REQUEST ["variable"] )) {
+			echo " (" . $_REQUEST ["variable"];
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarNombrePrograma", $_REQUEST ["variable"] );
 			$nombre = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-			$atributos ['mensaje'] = 'Anteproyectos por programa curricular - ' . $nombre [0] [0] . " - ";
-		} else {
-			$atributos ['mensaje'] = 'Anteproyectos por programa curricular ';
+			echo " - " . $nombre [0] [0] . ")";
 		}
-		$atributos ['tamanno'] = 'Enorme';
-		$atributos ['linea'] = 'true';
-		echo $this->miFormulario->campoMensaje ( $atributos );
-		
+		?></h2>
+<br>
+
+<?php
 		if ($matrizItems && $acceso) {
-			echo $this->miFormulario->tablaReporte ( $matrizItems, "tAnteproyectosPrograma");
+			// echo $this->miFormulario->tablaReporte ( $matrizItems );
+			?>
+
+<table id="tAnteproyectosPrograma">
+	<thead>
+		<tr>
+			<th>Fecha Radicaci&oacute;n</th>
+			<th>No. Anteproyecto</th>
+			<th>Modalidad de Grado</th>
+			<th>T&iacute;tulo</th>
+			<th>Estado</th>
+		</tr>
+	</thead>
+	<tbody>
+<?php
+			foreach ( $matrizItems as $fila ) {
+				echo "<tr>";
+				for($i = 0; $i < 5; $i ++) {
+					echo "<td>" . $fila [$i] . "</td>";
+				}
+				echo "</tr>";
+			}
+			?>
+	</tbody>
+</table>
+<div class=' '>
+
+<?php
 		} else {
 			$mostrar = false;
 			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
-			echo $this->miFormulario->infoReporte ( $this->lenguaje->getCadena ( "infoMensaje" ), $pag );
+			?>
+<div class="canvas-contenido">
+		<div class="area-msg corner margen-interna ">
+			<div class="icono-msg info"></div>
+			<div class="content-msg info corner">
+				<div class="title-msg info">Informacion</div>
+				<div style="padding: 5px 0px;">
+					<div>
+						<contenido> No existen anteproyectos registrados para el programa
+						curricular.
+						<div style="text-align: right"
+							onclick="window.location = 'index.php?data=<?php echo $pag?>';">
+							<input
+								class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+								type="submit" tabindex="1" value="Ir al inicio" role="button"
+								aria-disabled="false">
+						</div>
+						</contenido>
+					</div>
+				</div>
+			</div>
+			<div class="clearboth"></div>
+		</div>
+	</div>
+<?php
 		}
 		
 		if ($mostrar) {

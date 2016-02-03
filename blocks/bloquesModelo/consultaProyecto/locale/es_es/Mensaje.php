@@ -29,4 +29,6 @@ $this->idioma["revisor"]="Revisores (Cantidad minima de revisores permitida: 1)"
 $this->idioma["marcoDatos"]="Asignar revisores";
 $this->idioma["marcoDatos2"]="Historial del proyecto";
 
+$this->idioma['botonI'] = "Iniciar Informe Final";
+
 ?>

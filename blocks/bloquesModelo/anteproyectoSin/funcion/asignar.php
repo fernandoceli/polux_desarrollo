@@ -45,6 +45,7 @@ class Registrar {
 				//modificar el estado del Anteproyecto
 				$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarEstado', $_REQUEST );
 				$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, 'insertar' );
+				
 				redireccion::redireccionar ( 'inserto');
 				exit ();
 			} else {

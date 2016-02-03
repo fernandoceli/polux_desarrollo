@@ -88,13 +88,12 @@ class Sql extends \Sql {
 			
 			case 'buscarProyectos' :
 				
-				$cadenaSql = 'SELECT ';
-				$cadenaSql .= 'proy_fcrea, ';
-				$cadenaSql .= 'proy_proy, ';
-				$cadenaSql .= 'proy_titu, ';
-				$cadenaSql .= 'nombre || \' \' || apellido AS estudiante,';
-				$cadenaSql .= 'moda_nombre, ';
-				$cadenaSql .= 'proy_eproy ';
+				$cadenaSql = 'SELECT DISTINCT ';
+				$cadenaSql .= 'proy_titu AS titulo, ';
+				$cadenaSql .= 'moda_nombre AS modalidad, ';
+				$cadenaSql .= 'proy_eproy AS estado, ';
+				$cadenaSql .= 'proy_fcrea AS fecha, ';
+				$cadenaSql .= 'proy_proy AS proyecto ';
 				$cadenaSql .= 'FROM ';
 				$cadenaSql .= 'trabajosdegrado.pry_tproy ';
 				$cadenaSql .= 'JOIN trabajosdegrado.pry_testpry ';
@@ -107,7 +106,7 @@ class Sql extends \Sql {
 				$cadenaSql .= 'ON proy_moda=moda_moda ';
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'proy_pcur=\'' . $variable . '\'; ';
-				// echo $cadenaSql;
+// 				echo $cadenaSql;
 				break;
 			
 			case 'borrarRegistro' :

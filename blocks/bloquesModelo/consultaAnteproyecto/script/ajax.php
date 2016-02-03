@@ -49,6 +49,18 @@ function contains(a, obj) {
     return false;
 }
 
+function contains2(a, num) {
+    for (var i = 0; i < a.length; i++) {
+    	
+    	if (typeof a[i] !== 'undefined'){
+	        if (num == a[i]) {
+	            return true;
+	        }
+        }
+    }
+    return false;
+}
+
 function eliminar(num){
 	var dato = $("#tb" + num).val();
 	var index = revisores.indexOf(dato);
@@ -56,7 +68,7 @@ function eliminar(num){
 	for (i = 0; i < revisores.length; i++) { 
 	    text2 += revisores[i] + ";";
 	}
-	$('#<?php echo $this->campoSeguro("nombresRevisores")?>').val(text2);
+	$('#<?php echo $this->campoSeguro("revisores")?>').val(text2);
 	$('#<?php echo $this->campoSeguro("numRevisores")?>').val(revisores.length);
 	$("#tb" + num).remove();
 	$("#img2" + num).remove();
@@ -68,19 +80,18 @@ function eliminar(num){
 $('#btn1').on('click', function() {
 	
 	if (revisores.length < 2) {
-		
 		var dato = $('#<?php echo $this->campoSeguro('revisor')?> option:selected').html();
-		if (dato != 'Seleccione .....' && !contains(revisores, dato)) {
+		var id=$('#<?php echo $this->campoSeguro('revisor')?>').val();
+		
+		if (dato != 'Seleccione .....' && !contains2(revisores, id)) {
 			iCnt = iCnt + 1;
-			var id=$('#<?php echo $this->campoSeguro('revisor')?>').val();
-			console.log(id);
-			 
+			
 			// Añadir caja de texto.
 			$(container1).append('<input type=text class="input ui-widget ui-widget-content ui-corner-all" style="display: inline-block; text-align: right; border-style: hidden; width:200px;" disabled id=tb' + iCnt + ' ' +
 			'" />');
 			 
 			$('#tb'+ iCnt).val(dato);
-			$(container1).append('<img id=img2' + iCnt + ' width="22px" height="22px" src="' + ruta + '/css/images/icons/icon-mini-delete.png" alt="delete" onclick="eliminar(' + iCnt + ')">');
+			$(container1).append('<img id=img2' + iCnt + ' width="22px" height="22px" src="' + ruta + '/css/images/icon-mini-delete.png" alt="delete" onclick="eliminar(' + iCnt + ')">');
 			$(container1).append('<br id=br2' + iCnt + ' >');
 			revisores.push(id);
 			
@@ -88,7 +99,8 @@ $('#btn1').on('click', function() {
 			    text += revisores[i] + ";";
 			}
 			//Guardar datos en el hidden
-			$('#<?php echo $this->campoSeguro('nombresRevisores')?>').val(text);
+			$('#<?php echo $this->campoSeguro('revisores')?>').val(text);
+			console.log(text);
 			$('#<?php echo $this->campoSeguro('numRevisores')?>').val(revisores.length);
 			text="";
 			

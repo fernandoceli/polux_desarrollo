@@ -49,8 +49,9 @@ class Formulario {
 		
 		$conexion = 'estructura';
 		$esteRecurso = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-		
+
 		$usuario = $this->miSesion->getSesionUsuarioId ();
+		
 		// -------------------------------------------------------------------------------------------------
 		
 		// ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
@@ -75,32 +76,24 @@ class Formulario {
 		// ---------------- FIN SECCION: de Parámetros Generales del Formulario ----------------------------
 		
 		// ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
-		$atributos ['tipoEtiqueta'] = 'inicio';
-		echo $this->miFormulario->formulario ( $atributos );
+		// $atributos ['tipoEtiqueta'] = 'inicio';
+		// echo $this->miFormulario->formulario ( $atributos );
 		
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
-		$esteCampo = 'ante';
-		$atributos ["id"] = $esteCampo;
-		$atributos ["tipo"] = "hidden";
-		$atributos ['estilo'] = '';
-		$atributos ['validar'] = '';
-		$atributos ["obligatorio"] = true;
-		$atributos ['marco'] = true;
-		$atributos ["etiqueta"] = "";
-		
-		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoCuadroTexto ( $atributos );
-		unset ( $atributos );
-		
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $usuario );
-		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		$matrizAnteproyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		$rol = $matrizItems [0] [0];
+		// var_dump($matrizItems);
+		// var_dump($matrizItems[0]);
+		
+		$rol = $matrizAnteproyectos [0] [0];
 		$acceso = false;
 		$mostrar = true;
+		// echo $rol;
+		// var_dump($_REQUEST);
 		
-		if (($rol == "Docente") || ($rol == "Coordinador")) {
+		if (($rol == "Coordinador") || ($rol == "Docente" ) ) {
 			$acceso = true;
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarCodigo", $_REQUEST ["usuario"] );
 			$matrizCodigo = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
@@ -108,69 +101,113 @@ class Formulario {
 		}
 		
 		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
+			// $_REQUEST ["variable"] = '321456789';
 			$acceso = true;
 		}
 		
 		if (isset ( $_REQUEST ["variable"] )) {
-			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", $_REQUEST ["variable"] );
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", $_REQUEST ["variable"]);
 		} else {
-			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", "0" );
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", "0");
 		}
 		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
+		?>
+
+<h2>Anteproyectos Asignados Para Revision <?php
 		if (isset ( $_REQUEST ["variable"] )) {
-			$atributos ['mensaje'] = 'Anteproyectos Asignados Para Revision';
-			$atributos ['mensaje'] .= " (" . $_REQUEST ["variable"];
+			echo " (" . $_REQUEST ["variable"];
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarDocente", $_REQUEST ["variable"] );
 			$nombre = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-			$atributos ['mensaje'] .= " - " . $nombre [0] [0] . ")";
-		} else {
-			$atributos ['mensaje'] = 'Anteproyectos Asignados Para Revision';
+			echo " - " . $nombre [0] [0] . ")";
 		}
+		?></h2>
+<br>
+
+<?php
+		$filas = count ( $matrizItems );
+		$columnas = count ( $matrizItems [0] );
 		
-		$atributos ['tamanno'] = 'Enorme';
-		$atributos ['linea'] = 'false';
-		echo $this->miFormulario->campoMensaje ( $atributos );
-		
-		if ($matrizItems && $acceso) {
-			echo $this->miFormulario->tablaReporte ( $matrizItems, "tAsignadoRevision");
+		if (($matrizItems [0] [0]) != "") {
+			echo $this->miFormulario->tablaReporte ( $matrizItems );
 		} else {
-			$mostrar = false;
 			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
-			echo $this->miFormulario->infoReporte ( $this->lenguaje->getCadena ( "infoMensaje" ), $pag );
+			?>
+<div class="canvas-contenido">
+	<div class="area-msg corner margen-interna ">
+		<div class="icono-msg info"></div>
+		<div class="content-msg info corner">
+			<div class="title-msg info">Informacion</div>
+			<div style="padding: 5px 0px;">
+				<div>
+					<contenido> No existen anteproyectos actualmente asignados para
+					revision.
+					<div style="text-align: right" onclick="window.location = 'index.php?data=<?php echo $pag?>';">
+							<input
+								class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+								type="submit" tabindex="1" value="Ir al inicio" role="button"
+								aria-disabled="false">
+					</div>
+					</contenido>
+				</div>
+			</div>
+		</div>
+		<div class="clearboth"></div>
+	</div>
+</div>
+<?php
 		}
 		
-		if ($mostrar) {
-			// ------------------Division para los botones-------------------------
-			$atributos ["id"] = "botones";
-			$atributos ["estilo"] = "marcoBotones";
-			$atributos ["titulo"] = "Enviar Información";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			
-			// -----------------CONTROL: Bot�n ----------------------------------------------------------------
-			$esteCampo = 'botonCrear';
-			$atributos ["id"] = $esteCampo;
-			$atributos ["tabIndex"] = $tab;
-			$atributos ["tipo"] = 'boton';
-			// submit: no se coloca si se desea un tipo button genérico
-			$atributos ['submit'] = true;
-			$atributos ["estiloMarco"] = '';
-			$atributos ["estiloBoton"] = '';
-			// verificar: true para verificar el formulario antes de pasarlo al servidor.
-			$atributos ["verificar"] = '';
-			$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-			$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-			$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-			$tab ++;
-			
-			// Aplica atributos globales al control
-			$atributos = array_merge ( $atributos, $atributosGlobales );
-			echo $this->miFormulario->campoBoton ( $atributos );
-			// -----------------FIN CONTROL: Botón -----------------------------------------------------------
-			
-			// ------------------Fin Division para los botones-------------------------
-			echo $this->miFormulario->division ( "fin" );
-		}
+		// // ------------------Division para los botones-------------------------
+		// $atributos ["id"] = "botones";
+		// $atributos ["estilo"] = "marcoBotones";
+		// echo $this->miFormulario->division ( "inicio", $atributos );
+		
+		// // -----------------CONTROL: Botón ----------------------------------------------------------------
+		// $esteCampo = 'botonAceptar';
+		// $atributos ["id"] = $esteCampo;
+		// $atributos ["tabIndex"] = $tab;
+		// $atributos ["tipo"] = 'boton';
+		// // submit: no se coloca si se desea un tipo button genérico
+		// $atributos ['submit'] = true;
+		// $atributos ["estiloMarco"] = '';
+		// $atributos ["estiloBoton"] = 'jqueryui';
+		// // verificar: true para verificar el formulario antes de pasarlo al servidor.
+		// $atributos ["verificar"] = '';
+		// $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+		// $atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+		// $atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+		// $tab ++;
+		
+		// // Aplica atributos globales al control
+		// $atributos = array_merge ( $atributos, $atributosGlobales );
+		// echo $this->miFormulario->campoBoton ( $atributos );
+		// // -----------------FIN CONTROL: Botón -----------------------------------------------------------
+		
+		// // -----------------CONTROL: Botón ----------------------------------------------------------------
+		// $esteCampo = 'botonCancelar';
+		// $atributos ["id"] = $esteCampo;
+		// $atributos ["tabIndex"] = $tab;
+		// $atributos ["tipo"] = 'boton';
+		// // submit: no se coloca si se desea un tipo button genérico
+		// $atributos ['submit'] = true;
+		// $atributos ["estiloMarco"] = '';
+		// $atributos ["estiloBoton"] = 'jqueryui';
+		// // verificar: true para verificar el formulario antes de pasarlo al servidor.
+		// $atributos ["verificar"] = '';
+		// $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+		// $atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+		// $atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+		// $tab ++;
+		
+		// // Aplica atributos globales al control
+		// $atributos = array_merge ( $atributos, $atributosGlobales );
+		// echo $this->miFormulario->campoBoton ( $atributos );
+		// // -----------------FIN CONTROL: Botón -----------------------------------------------------------
+		
+		// // ------------------Fin Division para los botones-------------------------
+		// echo $this->miFormulario->division ( "fin" );
+		
 		// ------------------- SECCION: Paso de variables ------------------------------------------------
 		
 		/**
@@ -190,10 +227,9 @@ class Formulario {
 		
 		$valorCodificado = "action=" . $esteBloque ["nombre"];
 		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
-		$valorCodificado .= "&usuario=" . $usuario;
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
-		$valorCodificado .= "&opcion=ver";
+		$valorCodificado .= "&opcion=registrarBloque";
 		/**
 		 * SARA permite que los nombres de los campos sean dinámicos.
 		 * Para ello utiliza la hora en que es creado el formulario para
@@ -236,6 +272,7 @@ class Formulario {
 			$tipoMensaje = $this->miConfigurador->getVariableConfiguracion ( 'tipoMensaje' );
 			
 			if ($tipoMensaje == 'json') {
+				
 				$atributos ['mensaje'] = $mensaje;
 				$atributos ['json'] = true;
 			} else {

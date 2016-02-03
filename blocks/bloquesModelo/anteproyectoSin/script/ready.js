@@ -30,14 +30,14 @@ $(function() {
 });
 
 $(document).ready(function() {
-	var table = $('#tablaAnteproyectosSin').DataTable();
+	var table = $('#tablaReporte').DataTable();
 	var cod=0;
 	
-	$('#tablaAnteproyectosSin tbody').on('click', 'tr', function() {
+	$('#tablaReporte tbody').on('click', 'tr', function() {
 		$fila = table.row(this).data()
 		cod = $fila[1];
 		
-		$('#<?php echo $this->campoSeguro("id")?>').val(cod);
+		$('#<?php echo $this->campoSeguro('id')?>').val(cod);
 		
 		if ($(this).hasClass('selected')) {
 			// $(this).removeClass('selected');
@@ -54,8 +54,6 @@ $(document).ready(function() {
 	});
 
 });
-
-
 
 $(function() {
 	$("button").button().click(function(event) {

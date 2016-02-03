@@ -35,7 +35,7 @@ class Registrar {
 			$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 			
 			var_dump ( $_REQUEST );
-			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", $_REQUEST ['anteproyecto'] );
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarProyecto", $_REQUEST ['proyecto'] );
 			$matrizAnteproyecto = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 			
 			// echo $atributos['cadena_sql'];
@@ -66,7 +66,6 @@ class Registrar {
 			// registro de proyecto
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( 'guardarProyecto', $proyecto );
 			$resultadoProyecto = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], 'insertar' );
-			
 			var_dump($resultadoProyecto);
 			
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( 'obtenerID', $proyecto );
@@ -76,8 +75,29 @@ class Registrar {
 			
 			$_REQUEST['proyecto'] = $IDproyecto[0][0];
 			// echo $atributos['cadena_sql'];
-			
 			echo $resultadoProyecto;
+			
+			// registro de documento de proyecto: se guarda la última versión del anteproyecto
+			//1. Buscar el ultimo documento del anteproyecto
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( 'buscarDocumento', $_REQUEST ['anteproyecto'] );
+			$documentoAnteproyecto = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], 'busqueda' );
+			//datos del documento que pasa a ser proyecto
+			$documento = array (
+					"version" => $documentoAnteproyecto[0][1],
+					"observacion" => $documentoAnteproyecto[0][2],
+					"fecha" => $documentoAnteproyecto[0][3],
+					"usuario" => $documentoAnteproyecto[0][4],
+					"proyecto" =>$_REQUEST['proyecto'],
+					"url" => $documentoAnteproyecto[0][6],
+					"hash" => $documentoAnteproyecto[0][7],
+					"bytes" => $documentoAnteproyecto[0][8],
+					"nombre" => $documentoAnteproyecto[0][9],
+					"extension" => $documentoAnteproyecto[0][10]
+			);
+			var_dump($documento );
+			//2. Registrar el documento como proyecto
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( 'registrarDocumento', $documento );
+			$documentoProyecto = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], 'registrar' );
 			
 			if ($resultadoProyecto) {
 				// var_dump ( $_FILES );
@@ -138,15 +158,15 @@ class Registrar {
 										"usuario" => $_REQUEST ['usuario'] 
 								);
 								
-								$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "registroDocumento", $aDoc );
+								$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "registrarAnexo", $aDoc );
 								$resultadoDocumento = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], 'registroDocumento', $aDoc, "registroDocumento" );
 								// var_dump ( $idAprobacion );
 								// exit ();
 								echo $resultadoDocumento;
 								
 								if ($resultadoDocumento == false) {
-									exit ();
-									redireccion::redireccionar ( 'noInserto' );
+									//exit ();
+									//redireccion::redireccionar ( 'noInserto' );
 									exit ();
 								} else {
 									

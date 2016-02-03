@@ -1,3 +1,45 @@
+/*
+==============================================
+= ESTILOS PARA SEMAFORO
+============================================== 
+ */
+
+.semaforo-amarillo {
+	background: transparent url(../icons/semaforo-amarillo-50x50.png)
+		50% 50% no-repeat;
+	position: relative;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+}
+
+.caja-semaforo-verde {
+    background: transparent url(../icons/semaforo-verde-22x22.png) 50%
+ 50% no-repeat;
+    position: relative;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+}
+
+.semaforo-rojo {
+	background: transparent url(../icons/semaforo-rojo-50x50.png)
+		50% 50% no-repeat;
+	position: relative;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+}
+
+.caja-semaforo-gris {
+    background: transparent url(../icons/semaforo-gris-22x22.png) 50%
+ 50% no-repeat;
+    position: relative;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+}
+
 
 .color {
     color: #0080c0;
@@ -7,6 +49,7 @@
 }
 
 #formulario{
+	width: 90%;
 	padding: 0px;
 }
 

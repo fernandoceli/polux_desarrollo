@@ -263,8 +263,6 @@ class registrarForm4 {
 			$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 			$valorCodificado .= "&ante=" . $_REQUEST ['ante'];
 			$valorCodificado .= "&usuario=" . $_REQUEST ['usuario'];
-			$valorCodificado .= "&docente=" . $_REQUEST ['docente'];
-			$valorCodificado .= "&rol=" . $_REQUEST ['rol'];
 			$valorCodificado .= "&opcion=guardar";
 // 			echo $valorCodificado;
 			/**

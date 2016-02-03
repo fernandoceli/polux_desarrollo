@@ -16,6 +16,8 @@ if ($esteBloque ["grupo"] == "") {
 	$rutaBloque .= "/blocks/" . $esteBloque ["grupo"] . "/" . $esteBloque ["nombre"];
 }
 
+$_REQUEST['tiempo']=time();
+
 foreach ( $funcion as $clave => $nombre ) {
 	if (! isset ( $embebido [$clave] )) {
 		echo "\n<script type='text/javascript' src='" . $rutaBloque . "/script/" . $nombre . "'>\n</script>\n";
@@ -25,5 +27,6 @@ foreach ( $funcion as $clave => $nombre ) {
 		echo "\n</script>\n";
 	}
 }
+
 
 ?>

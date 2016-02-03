@@ -34,11 +34,10 @@ if (!isset($GLOBALS["autorizado"])) {
     //$atributos["estiloEnLinea"]="display:none"; 
     echo $this->miFormulario->division("inicio", $atributos);
     
-    
+    var_dump($_REQUEST);
     if ($_REQUEST['mensaje'] == 'confirma') {
         $tipo = 'success';
-        $mensaje = $this->lenguaje->getCadena ( 'mensajeRegistro' ). '<br></br>'.
-		'Programa Curricular: ' . $_REQUEST ['programaCurricular'];
+        $mensaje = $this->lenguaje->getCadena ( 'mensajeRegistro' );
         $boton = "continuar";
 		
         $valorCodificado = "pagina=".$esteBloque['nombre'];
@@ -147,8 +146,9 @@ if (!isset($GLOBALS["autorizado"])) {
     $valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
     $valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
     $valorCodificado.= "&usuario=" . $_REQUEST['usuario'];
+    $valorCodificado .= "&anteproyecto=" . $_REQUEST['anteproyecto'];
     $valorCodificado .= "&opcion=continuar";
-    
+   
     $valorCodificado .= "&campoSeguro=" . $_REQUEST['tiempo'];
     // Paso 2: codificar la cadena resultante
     $valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar($valorCodificado);

@@ -76,41 +76,29 @@ class Formulario {
 		
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
-		$rol = $_REQUEST ['rol'];
-		if (($rol == "Docente") || ($rol == "Coordinador")) {
-			$acceso = true;
-			$docente = $usuario;
-		}
-		
-		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
-			// $_REQUEST ["variable"] = '321456789';
-			$acceso = true;
-			if (isset ( $_REQUEST ["docente"] )) {
-				$docente = $_REQUEST ["docente"];
-			}
-		}
-		
-		// Anteproyecto
+		//Anteproyecto
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", $_REQUEST ['anteproyecto'] );
 		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		// Buscar estudiantes asociados
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAutores", $_REQUEST ['anteproyecto'] );
+		
+		//Buscar estudiantes asociados
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAutores", $_REQUEST['anteproyecto'] );
 		$matrizItems2 = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		//var_dump($matrizItems2);
 		
-		$cod = array ();
-		for($i = 0; $i < count ( $matrizItems2 ); $i ++) {
-			array_push ( $cod, $matrizItems2 [$i] [0] );
+		$cod = array();
+		for($i=0; $i<count($matrizItems2); $i++){
+			array_push($cod, $matrizItems2[$i][0]);
 		}
 		
-		// Buscar nombres de los estudiantes
-		$autores = array ();
-		for($i = 0; $i < count ( $cod ); $i ++) {
-			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarNombresAutores", $cod [$i] );
+		//Buscar nombres de los estudiantes
+		$autores = array();
+		for($i = 0; $i < count($cod); $i++){
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarNombresAutores", $cod[$i] );
 			$matrizItems4 = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-			array_push ( $autores, $matrizItems4 [0] [1] );
+			array_push($autores, $matrizItems4[0][1]);
 		}
-		
+		var_dump($_REQUEST);
 		?>
 
 
@@ -129,49 +117,43 @@ class Formulario {
 				</div>
 			</td>
 			<td class="table-tittle estilo_tr">Referencia:</td>
-			<td class="estilo_tr"><p><?php echo 'Anteproyecto No. '. $_REQUEST['anteproyecto']?></p></td>
+			<td class="estilo_tr"><?php echo 'Anteproyecto No. '. $_REQUEST['anteproyecto']?></td>
 		</tr>
 
 		<tr>
 			<td class="table-tittle estilo_tr">Documento a evaluar</td>
-			<td class="estilo_tr"><p>Versión No. 1</p></td>
+			<td class="estilo_tr">Versión No. 1</td>
 		</tr>
 
 		<tr>
 			<td class="table-tittle estilo_tr">Titulo del anteproyecto</td>
-			<td class="estilo_tr"><p><?php echo $matrizItems[0][3]?></p></td>
+			<td class="estilo_tr"><?php echo $matrizItems[0][3]?></td>
 		</tr>
 
 		<tr>
 			<td class="table-tittle estilo_tr">Descripción</td>
-			<td class="estilo_tr"><p>Descripción</p></td>
+			<td class="estilo_tr">Descripción</td>
 		</tr>
 
 		<tr>
 			<td class="table-tittle estilo_tr">Proponentes:</td>
-			<td class="estilo_tr"><p><?php
-		for($i = 0; $i < count ( $autores ); $i ++) {
-			echo $autores [$i]?><br></br> <?php
-			
-;
-		}
-		?></p></td>
-		</tr>
+			<td class="estilo_tr"><?php
+			for($i = 0; $i < count ( $autores ); $i ++) {
+				echo $autores [$i]?><br> <?php ;
+			}
+			?></td>
+		</tr>		
 
 		<tr>
 			<td class="table-tittle estilo_tr">Fecha Solicitud:</td>
-			<td class="estilo_tr"><p><?php echo $matrizItems[0][7]?></p></td>
+			<td class="estilo_tr"><?php echo $matrizItems[0][7]?></td>
 		</tr>
-
+		
 		<tr>
 			<td class="table-tittle estilo_tr">Iteración de revisión:</td>
-			<td class="estilo_tr"><p><?php echo '1/3' ?></p></td>
+			<td class="estilo_tr"><?php echo '1/3' ?></td>
 		</tr>
-
-		<tr>
-			<td class="table-tittle estilo_tr">Dias restantes:</td>
-			<td class="estilo_tr"><p><?php echo '1/3' ?></p></td>
-		</tr>
+		
 
 	</table>
 	<br></br>
@@ -229,10 +211,9 @@ class Formulario {
 		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
-		$valorCodificado .= "&docente=" . $docente;
-		$valorCodificado .= "&rol=" . $rol;
 		$valorCodificado .= "&usuario=" . $_REQUEST ['usuario'];
 		$valorCodificado .= "&ante=" . $_REQUEST ['anteproyecto'];
+		$valorCodificado .= "&solicitud=" . $_REQUEST ['solicitud'];
 		$valorCodificado .= "&opcion=evaluar";
 		
 		/**

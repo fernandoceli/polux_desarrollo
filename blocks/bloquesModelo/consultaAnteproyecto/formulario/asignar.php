@@ -54,7 +54,7 @@ class Formulario {
 		for($i = 0; $i < count ( $matriz ); $i ++) {
 			array_push ( $codTematicas, $matriz [$i] [0] );
 		}
-		//var_dump ( $codTematicas );
+		// var_dump ( $codTematicas );
 		
 		$arreglo = array (
 				'ante' => $_REQUEST ['id'],
@@ -109,7 +109,7 @@ class Formulario {
 		
 		// Hidden para guardar los revisores
 		// ////////////////Hidden////////////
-		$esteCampo = 'nombresRevisores';
+		$esteCampo = 'revisores';
 		$atributos ["id"] = $esteCampo;
 		$atributos ["tipo"] = "hidden";
 		$atributos ['estilo'] = '';
@@ -139,17 +139,19 @@ class Formulario {
 		unset ( $atributos );
 		// ////////////////////////////////////////
 		
-		$atributos ['mensaje'] = 'Asignar revisores de anteproyecto';
+		$atributos ['mensaje'] = 'Asignar revisores de anteproyecto No. '.$_REQUEST ['id'];
 		$atributos ['tamanno'] = 'Enorme';
 		$atributos ['linea'] = 'true';
 		echo $this->miFormulario->campoMensaje ( $atributos );
 		
-/*		$esteCampo = "marcoDatos";
-		$atributos ['id'] = $esteCampo;
-		$atributos ["estilo"] = "jqueryui";
-		$atributos ['tipoEtiqueta'] = 'inicio';
-		$atributos ["leyenda"] = $this->lenguaje->getCadena ( $esteCampo );
-		echo $this->miFormulario->marcoAgrupacion ( 'inicio', $atributos );*/
+		/*
+		 * $esteCampo = "marcoDatos";
+		 * $atributos ['id'] = $esteCampo;
+		 * $atributos ["estilo"] = "jqueryui";
+		 * $atributos ['tipoEtiqueta'] = 'inicio';
+		 * $atributos ["leyenda"] = $this->lenguaje->getCadena ( $esteCampo );
+		 * echo $this->miFormulario->marcoAgrupacion ( 'inicio', $atributos );
+		 */
 		
 		// ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
 		$esteCampo = 'observaciones';
@@ -197,7 +199,7 @@ class Formulario {
 		$atributos ['etiquetaObligatorio'] = true;
 		$atributos ['tabIndex'] = $tab;
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-		$atributos ['validar'] = 'required, maxSize[50]';
+		$atributos ['validar'] = 'required, maxSize[50], custom[onlyNumberSp]';
 		
 		if (isset ( $_REQUEST [$esteCampo] )) {
 			$atributos ['valor'] = $_REQUEST [$esteCampo];
@@ -273,10 +275,9 @@ class Formulario {
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarDocentes", $arreglo );
 		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		if($matrizItems){
+		if ($matrizItems) {
 			$atributos ['matrizItems'] = $matrizItems;
 		}
-		
 		
 		if (isset ( $_REQUEST [$esteCampo] )) {
 			$atributos ['valor'] = $_REQUEST [$esteCampo];
@@ -287,20 +288,23 @@ class Formulario {
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoCuadroLista ( $atributos );
-	
+		
+		// --------------- FIN CONTROL : Cuadro Lista --------------------------------------------------
+		
 		// ------------------Division para los botones-------------------------
 		$atributos ["id"] = "botones";
 		$atributos ["estilo"] = "marcoBotones";
 		$atributos ["titulo"] = "Enviar Información";
 		echo $this->miFormulario->division ( "inicio", $atributos );
 		
-		// --------------- FIN CONTROL : Cuadro Lista --------------------------------------------------
-		
 		?>
-			<div id="contenedor1"></div>
-			<button type="button" id="btn1" class="btn btn-primary btn-lg active">Agregar</button>
-		<?php
-		echo $this->miFormulario->division ( "fin" );			
+<div id="contenedor1"></div>
+<button type="button" id="btn1" class="btn btn-primary btn-lg active">Agregar</button>
+<?php
+		
+		// ------------------Fin Division para los botones-------------------------
+		echo $this->miFormulario->division ( "fin" );
+		
 		// ------------------Division para los botones-------------------------
 		$atributos ["id"] = "botones";
 		$atributos ["estilo"] = "marcoBotones";
@@ -351,7 +355,7 @@ class Formulario {
 		
 		// ------------------Fin Division para los botones-------------------------
 		echo $this->miFormulario->division ( "fin" );
-	//	echo $this->miFormulario->marcoAgrupacion ( 'fin' );
+		// echo $this->miFormulario->marcoAgrupacion ( 'fin' );
 		// ------------------- SECCION: Paso de variables ------------------------------------------------
 		
 		/**
@@ -374,6 +378,7 @@ class Formulario {
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&usuario=" . $_REQUEST ['usuario'];
+		$valorCodificado .= "&anteproyecto=" . $_REQUEST ['id'];
 		$valorCodificado .= "&opcion=asignar";
 		/**
 		 * SARA permite que los nombres de los campos sean dinámicos.

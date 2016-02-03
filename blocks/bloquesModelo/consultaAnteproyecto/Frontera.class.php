@@ -40,30 +40,34 @@ class Frontera {
 	}
 	function html() {
 		
-		// Como se tiene un solo formulario no es necesario un switch para cargarlo:
 		$this->ruta = $this->miConfigurador->getVariableConfiguracion ( "rutaBloque" );
 		
-		// var_dump($_REQUEST);
-		// exit();
+		if (isset ( $_REQUEST ['opcion'] )) {
 		
-		if (isset ( $_REQUEST ['botonIniciar'] ) && ($_REQUEST ['botonIniciar'] == true)) {
-			include_once ($this->ruta . "/formulario/iniciar.php");
-		} elseif (isset ( $_REQUEST ['opcion'] )) {
 			switch ($_REQUEST ['opcion']) {
+				
 				case "asignar" :
-// 					var_dump($_REQUEST);
-					if (isset ( $_REQUEST ['botonH'] ) && ($_REQUEST ['botonH'] == 'true')) {
-						include_once ($this->ruta . "/formulario/historial.php");
-					} elseif (isset($_REQUEST['botonA']) && ($_REQUEST['botonA'] == 'true')){
+					if (isset ( $_REQUEST ['botonA'] ) && $_REQUEST ['botonA'] == "true") {
 						include_once ($this->ruta . "/formulario/asignar.php");
+						break;
 					}
-					break;
+					if (isset ( $_REQUEST ['botonH'] ) && $_REQUEST ['botonH'] == "true") {
+						include_once ($this->ruta . "/formulario/historial.php");
+						break;
+					}
+					if (isset ( $_REQUEST ['botonIniciar'] ) && $_REQUEST ['botonIniciar'] == "true") {
+						include_once ($this->ruta . "/formulario/iniciar.php");
+						break;
+					}
+					
 				case "mensaje" :
 					include_once ($this->ruta . "/formulario/mensaje.php");
 					break;
 				case "continuar" :
 					include_once ($this->ruta . "/formulario/form.php");
 					break;
+				
+				
 			}
 		} else {
 			include_once ($this->ruta . "/formulario/form.php");

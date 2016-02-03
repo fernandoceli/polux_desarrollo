@@ -72,7 +72,7 @@ class Formulario {
 		echo $this->miFormulario->formulario ( $atributos );
 		
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
-		
+		// var_dump($_REQUEST);
 		?>
 
 <!-- <div class="pregunta"> -->
@@ -89,9 +89,7 @@ class Formulario {
 			<div class="title-msg info resaltado">Iniciar proyecto de grado</div>
 			<div style="padding: 5px 0px;">
 				<div>
-				<br>
-					<b> Esta seguro que desea inciar el proyecto de grado? </b>
-					<br>
+					<br> <b> Esta seguro que desea inciar el proyecto de grado? </b> <br>
 				</div>
 			</div>
 
@@ -103,7 +101,7 @@ class Formulario {
 		echo $this->miFormulario->division ( "inicio", $atributos );
 		
 		// -----------------CONTROL: Botón ----------------------------------------------------------------
-		$esteCampo = 'botonIni';
+		$esteCampo = 'botonIniciar';
 		$atributos ["id"] = $esteCampo;
 		$atributos ["tabIndex"] = $tab;
 		$atributos ["tipo"] = 'boton';
@@ -175,7 +173,9 @@ class Formulario {
 		$valorCodificado = "action=" . $esteBloque ["nombre"];
 		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
 		$valorCodificado .= "&usuario=" . $_REQUEST ['usuario'];
-		$valorCodificado .= "&estudiante=" . $_REQUEST ['estudiante'];
+		if (isset ( $_REQUEST ['estudiante'] )) {
+			$valorCodificado .= "&estudiante=" . $_REQUEST ['estudiante'];
+		}
 		$valorCodificado .= "&rol=" . $_REQUEST ['rol'];
 		$valorCodificado .= "&id=" . $_REQUEST ['id'];
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];

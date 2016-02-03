@@ -6,6 +6,7 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("../index.php");
 	exit ();
 }
+
 class Formulario {
 	var $miConfigurador;
 	var $lenguaje;

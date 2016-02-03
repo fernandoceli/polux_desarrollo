@@ -88,7 +88,7 @@ class Sql extends \Sql {
 			
 			case 'buscarAnteproyecto' :
 				
-				$cadenaSql = 'SELECT ';
+				$cadenaSql = 'SELECT DISTINCT ';
 				$cadenaSql .= 'antp_fradi as FECHA, ';
 				$cadenaSql .= 'antp_antp as ANTEPROYECTO, ';
 				$cadenaSql .= 'moda_nombre as MODALIDAD, ';
@@ -101,17 +101,17 @@ class Sql extends \Sql {
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'rev_prof=\'' . $variable . '\' ';
 				// $cadenaSql .= 'nombre=\'' . $_REQUEST ['nombrePagina'] . '\' ';
-				// echo $cadenaSql;
+// 				echo $cadenaSql;
 				break;
 			
 			case 'buscarDocente' :
 				
 				$cadenaSql = 'SELECT ';
-				$cadenaSql .= "nombre || ' ' || apellido AS Nombre ";
+				$cadenaSql .= 'nombre || \' \' || apellido AS Nombre  ';
 				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'polux_usuario ';
-				$cadenaSql .= 'JOIN trabajosdegrado.ge_tprof ';
-				$cadenaSql .= 'ON id_usuario = prof_us ';
+				$cadenaSql .= 'trabajosdegrado.ge_tprof ';
+				$cadenaSql .= 'JOIN polux_usuario ';
+				$cadenaSql .= 'ON prof_us = id_usuario ';
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'prof_prof=\'' . $variable . '\' ';
 				// echo $cadenaSql;

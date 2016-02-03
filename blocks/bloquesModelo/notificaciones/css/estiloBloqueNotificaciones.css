@@ -1,0 +1,29 @@
+
+form {
+	margin: 0 auto 0 auto;
+	width: 40%;
+}
+
+div.campoBoton {
+	display: inline-block;
+}
+
+div.seccionB{
+	background:#FFFFFF;
+}
+
+.estiloMio {
+	margin: 0 auto 0 auto;
+	width: 30%;  
+}
+
+.retraso-1{
+	-webkit-animation-delay: 1s;
+	-moz-animation-delay: 1s;
+	animation-delay: 1s;
+}
+.retraso-2{
+	-webkit-animation-delay: 2s;
+	-moz-animation-delay: 2s;
+	animation-delay: 2s;
+}

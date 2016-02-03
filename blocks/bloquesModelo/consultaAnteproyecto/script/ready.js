@@ -33,3 +33,5 @@ $(function() {
 		event.preventDefault();
 	});
 });
+
+$('#tablaReporte').DataTable();
