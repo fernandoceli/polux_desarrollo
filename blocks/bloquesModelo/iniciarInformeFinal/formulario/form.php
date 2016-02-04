@@ -88,20 +88,17 @@ class Formulario {
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarProyecto", $_REQUEST ['proyecto'] );
 		$matrizProyecto = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		
-		
 		?>
 <div id="contenido">
-	
 	
 	<br>
 	<div class="area-msg">
 		<?php 
-		$atributos ['mensaje'] = 'Iniciar informe final';
+		$atributos ['mensaje'] = 'Radicar informe final en proyecto curricular';
 		$atributos ['tamanno'] = 'Enorme';
 		echo $this->miFormulario->campoMensaje ( $atributos );
 		?>
-		<h3>Información general del proyecto</h3>
+		<h3>Información general propuesta</h3>
 		<br>
 		<table id="tInfo">
 			<tr>

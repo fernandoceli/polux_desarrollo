@@ -132,7 +132,7 @@ class Sql extends \Sql {
 				$cadenaSql .= 'JOIN ';
 				$cadenaSql .= 'trabajosdegrado.ge_testd ';
 				$cadenaSql .= 'ON ';
-				$cadenaSql .= 'estantp_estd=estd_estd ';
+				$cadenaSql .= 'estproy_estd=estd_estd ';
 				$cadenaSql .= 'JOIN ';
 				$cadenaSql .= 'polux_usuario ';
 				$cadenaSql .= 'ON ';
@@ -143,36 +143,36 @@ class Sql extends \Sql {
 				$cadenaSql .= 'proy_proy=acproy_proy ';
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'proy_proy=\'' . $variable . '\' ';
-// 				echo $cadenaSql;
+				echo $cadenaSql;
 				break;
 			
-			case 'actualizarAnteproyecto' :
+			case 'actualizarProyecto' :
 				$cadenaSql = "UPDATE ";
-				$cadenaSql .= "trabajosdegrado.ant_tantp ";
+				$cadenaSql .= "trabajosdegrado.pry_tproy ";
 				$cadenaSql .= "SET ";
-				$cadenaSql .= "antp_eantp='PROYECTO' ";
+				$cadenaSql .= "proy_eproy='INFORME FINAL' ";
 				$cadenaSql .= "WHERE ";
-				$cadenaSql .= "antp_antp='" . $variable . "'";
+				$cadenaSql .= "proy_proy='" . $variable . "'; ";
+				echo $cadenaSql;
 				break;
 			
-			case 'guardarProyecto' :
+			case 'guardarInformeFinal' :
 				$cadenaSql = "INSERT INTO ";
-				$cadenaSql .= "trabajosdegrado.pry_tproy ";
+				$cadenaSql .= "trabajosdegrado.inf_tinfo ";
 				$cadenaSql .= "( ";
-				$cadenaSql .= "proy_antp, ";
-				$cadenaSql .= "proy_moda, ";
-				$cadenaSql .= "proy_pcur, ";
-				$cadenaSql .= "proy_titu, ";
-				$cadenaSql .= "proy_fcrea, ";
-				$cadenaSql .= "proy_descri, ";
-				$cadenaSql .= "proy_obser, ";
-				$cadenaSql .= "proy_eproy, ";
-				$cadenaSql .= "proy_duracion, ";
-				$cadenaSql .= "proy_dir_int ";
+				$cadenaSql .= "info_proy, ";
+				$cadenaSql .= "info_moda, ";
+				$cadenaSql .= "info_pcur, ";
+				$cadenaSql .= "info_titu, ";
+				$cadenaSql .= "info_fcrea, ";
+				$cadenaSql .= "info_descri, ";
+				$cadenaSql .= "info_obser, ";
+				$cadenaSql .= "info_einfo, ";
+				$cadenaSql .= "info_dir_int ";
 				$cadenaSql .= ") ";
 				$cadenaSql .= "VALUES ";
 				$cadenaSql .= "( ";
-				$cadenaSql .= "'" . $variable ['ante'] . "', ";
+				$cadenaSql .= "'" . $variable ['proy'] . "', ";
 				$cadenaSql .= "'" . $variable ['modalidad'] . "', ";
 				$cadenaSql .= "'" . $variable ['programa'] . "', ";
 				$cadenaSql .= "'" . $variable ['titulo'] . "', ";
@@ -180,23 +180,23 @@ class Sql extends \Sql {
 				$cadenaSql .= "'" . $variable ['descripcion'] . "', ";
 				$cadenaSql .= "'" . $variable ['comentario'] . "', ";
 				$cadenaSql .= "'" . $variable ['estado'] . "', ";
-				$cadenaSql .= "'" . $variable ['duracion'] . "', ";
 				$cadenaSql .= "'" . $variable ['director'] . "'";
 				$cadenaSql .= ") ";
-				$cadenaSql .= "RETURNING proy_proy;";
+				$cadenaSql .= "RETURNING info_info;";
+				echo $cadenaSql;
 				break;
 			
 			case 'registrarHistorial' :
 				
-				$cadenaSql = " INSERT INTO trabajosdegrado.pry_thproy ( ";
-				$cadenaSql .= "hproy_proy, hproy_eproy, hproy_fasig, ";
-				$cadenaSql .= "hproy_obser, hproy_usua) ";
+				$cadenaSql = " INSERT INTO trabajosdegrado.inf_thinfo ( ";
+				$cadenaSql .= "hinfo_info, hinfo_einfo, hinfo_fasig, ";
+				$cadenaSql .= "hinfo_obser, hinfo_usua) ";
 				$cadenaSql .= " VALUES (";
 				// anteproyecto: buscar valor de la secuencia actual
 				$cadenaSql .= '(SELECT ';
 				$cadenaSql .= 'last_value ';
 				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado."PRY_SPRY"), ';
+				$cadenaSql .= 'trabajosdegrado."INF_SINFO"), ';
 				
 				$cadenaSql .= "'" . $variable ['estado'] . "', ";
 				$cadenaSql .= "'" . $variable ['fecha'] . "', ";
@@ -204,27 +204,28 @@ class Sql extends \Sql {
 				// Usuario que ha iniciado sesión
 				$cadenaSql .= " '" . $variable ['usuario'] . "' ";
 				$cadenaSql .= ") ";
+				echo $cadenaSql;
 				// var_dump ( $cadenaSql );
 				break;
 			
 			case "registrarAnexo" :
 				$hash = "funcion hash";
 				$cadenaSql = "INSERT INTO ";
-				$cadenaSql .= "trabajosdegrado.pry_tdapy ( ";
-				$cadenaSql .= "dapy_proy, ";
-				$cadenaSql .= "dapy_tdapy, ";
-				$cadenaSql .= "dapy_falm, ";
-				$cadenaSql .= "dapy_usua, ";
-				$cadenaSql .= "dapy_url, ";
-				$cadenaSql .= "dapy_hash, ";
-				$cadenaSql .= "dapy_bytes, ";
-				$cadenaSql .= "dapy_nombre, ";
-				$cadenaSql .= "dapy_extension) ";
+				$cadenaSql .= "trabajosdegrado.inf_tdain ( ";
+				$cadenaSql .= "dain_info, ";
+				$cadenaSql .= "dain_tdain, ";
+				$cadenaSql .= "dain_falm, ";
+				$cadenaSql .= "dain_usua, ";
+				$cadenaSql .= "dain_url, ";
+				$cadenaSql .= "dain_hash, ";
+				$cadenaSql .= "dain_bytes, ";
+				$cadenaSql .= "dain_nombre, ";
+				$cadenaSql .= "dain_extension) ";
 				$cadenaSql .= "VALUES ( ";
 				$cadenaSql .= '(SELECT ';
 				$cadenaSql .= 'last_value ';
 				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado."PRY_SPRY"), ';
+				$cadenaSql .= 'trabajosdegrado."INF_SINFO"), ';
 				$cadenaSql .= "'ACTA', ";
 				$cadenaSql .= "'" . $variable ['fecha'] . "', ";
 				$cadenaSql .= "'" . $variable ['usuario'] . "', ";
@@ -234,29 +235,30 @@ class Sql extends \Sql {
 				$cadenaSql .= "'" . $variable ['nombre'] . "', ";
 				$cadenaSql .= "'" . $variable ['tipo'] . "' ";
 				$cadenaSql .= ") ";
-				$cadenaSql .= "RETURNING dapy_dapy;";
+				$cadenaSql .= "RETURNING dain_dain;";
+				echo $cadenaSql;
 				// var_dump ( $cadenaSql );
 				break;
 			
 			case "registrarDocumento" :
 				$cadenaSql = "INSERT INTO ";
-				$cadenaSql .= "trabajosdegrado.pry_tdproy ( ";
-				$cadenaSql .= "dproy_vers, ";
-				$cadenaSql .= "dproy_observ, ";
-				$cadenaSql .= "dproy_falm, ";
-				$cadenaSql .= "dproy_usua, ";
-				$cadenaSql .= "dproy_proy, ";
-				$cadenaSql .= "dproy_url, ";
-				$cadenaSql .= "dproy_hash, ";
-				$cadenaSql .= "dproy_bytes, ";
-				$cadenaSql .= "dproy_nombre, ";
-				$cadenaSql .= "dproy_extension) ";
+				$cadenaSql .= "trabajosdegrado.inf_tdinfo ( ";
+				$cadenaSql .= "dinfo_vers, ";
+				$cadenaSql .= "dinfo_observ, ";
+				$cadenaSql .= "dinfo_falm, ";
+				$cadenaSql .= "dinfo_usua, ";
+				$cadenaSql .= "dinfo_info, ";
+				$cadenaSql .= "dinfo_url, ";
+				$cadenaSql .= "dinfo_hash, ";
+				$cadenaSql .= "dinfo_bytes, ";
+				$cadenaSql .= "dinfo_nombre, ";
+				$cadenaSql .= "dinfo_extension) ";
 				$cadenaSql .= "VALUES ( ";
 				$cadenaSql .= "" . $variable ['version'] . ", ";
 				$cadenaSql .= "'" . $variable ['observacion'] . "', ";
 				$cadenaSql .= "'" . $variable ['fecha'] . "', ";
 				$cadenaSql .= "'" . $variable ['usuario'] . "', ";
-				$cadenaSql .= "" . $variable ['proyecto'] . ", ";
+				$cadenaSql .= "" . $variable ['informe'] . ", ";
 				$cadenaSql .= "'" . $variable ['url'] . "', ";
 				$cadenaSql .= "'" . $variable ['hash'] . "', ";
 				$cadenaSql .= "'" . $variable ['bytes'] . "', ";
@@ -271,14 +273,14 @@ class Sql extends \Sql {
 				$cadenaSql = "";
 				
 				for($i = 0; $i < count ( $variable ); $i ++) {
-					$cadena = " INSERT INTO trabajosdegrado.pry_testpry ( ";
-					$cadena .= "estproy_estd, estproy_proy) ";
+					$cadena = " INSERT INTO trabajosdegrado.inf_testinfo ( ";
+					$cadena .= "estinfo_est, estinfo_info) ";
 					$cadena .= " VALUES (" . $variable [$i] . ", ";
 					// anteproyecto: buscar valor de la secuencia actual
 					$cadena .= '(SELECT ';
 					$cadena .= 'last_value ';
 					$cadena .= 'FROM ';
-					$cadena .= 'trabajosdegrado."PRY_SPRY") ); ';
+					$cadena .= 'trabajosdegrado."INF_SINFO") ); ';
 					$cadenaSql = $cadenaSql . $cadena;
 					var_dump ( $cadenaSql );
 				}
@@ -290,29 +292,29 @@ class Sql extends \Sql {
 				
 				for($i = 0; $i < count ( $variable ); $i ++) {
 					
-					$cadena = " INSERT INTO trabajosdegrado.pry_tacproy ( ";
-					$cadena .= "acproy_acono, acproy_proy) ";
+					$cadena = " INSERT INTO trabajosdegrado.inf_tacinfo ( ";
+					$cadena .= "acinfo_acono, acinfo_info) ";
 					$cadena .= " VALUES (" . $variable [$i] . ", ";
 					// anteproyecto: buscar valor de la secuencia actual
 					$cadena .= '(SELECT ';
 					$cadena .= 'last_value ';
 					$cadena .= 'FROM ';
-					$cadena .= 'trabajosdegrado."PRY_SPRY") ); ';
+					$cadena .= 'trabajosdegrado."INF_SINFO") ); ';
 					$cadenaSql = $cadenaSql . $cadena;
 				}
-				// var_dump ( $cadenaSql );
+				var_dump ( $cadenaSql );
 				break;
 			
 			case 'obtenerID' :
-				$cadenaSql = 'SELECT last_value FROM trabajosdegrado."PRY_SPRY"';
+				$cadenaSql = 'SELECT last_value FROM trabajosdegrado."INF_SINFO"';
 				break;
 			
 			case 'buscarDocumento' :
 				$cadenaSql = 'SELECT * ';
 				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado.ant_tdantp ';
+				$cadenaSql .= 'trabajosdegrado.pry_tdproy ';
 				$cadenaSql .= 'WHERE ';
-				$cadenaSql .= 'dantp_antp=\'' . $variable . '\' ';
+				$cadenaSql .= 'dproy_dproy=\'' . $variable . '\' ';
 				var_dump ( $cadenaSql );
 				break;
 		}
