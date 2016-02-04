@@ -69,6 +69,10 @@ class Formulario {
 		$tab = 1;
 		// ---------------- FIN SECCION: de Parámetros Generales del Formulario ----------------------------
 		
+		if (isset($_REQUEST['id'])) {
+			$_REQUEST['proyecto'] = $_REQUEST['id'];
+		}
+		
 		// ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
 		$atributos ['tipoEtiqueta'] = 'inicio';
 		echo $this->miFormulario->formulario ( $atributos );
@@ -76,11 +80,12 @@ class Formulario {
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarProyecto", $_REQUEST ['proyecto'] );
 		$matrizProyecto = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-		//var_dump ( $matrizProyecto );
+// 		var_dump ( $matrizProyecto );
 		
 		// Buscar estudiantes asociados
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAutores", $_REQUEST ['proyecto'] );
 		$matrizAutores = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+// 		var_dump($matrizAutores);
 		
 		$cod = array ();
 		for($i = 0; $i < count ( $matrizAutores ); $i ++) {
@@ -93,15 +98,13 @@ class Formulario {
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarNombresAutores", $cod [$i] );
 			$matrizItems4 = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 			array_push ( $autores, $matrizItems4 [0] [1] );
+// 			var_dump($matrizItems4);
 		}
 		
 		// Buscar el ultimo documento del proyecto
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( 'buscarDocumento', $_REQUEST ['proyecto'] );
 		$documentoProyecto = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], 'busqueda' );
-		
-		// Buscar la version del ultimo documento
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( 'buscarVersionDoc', $documentoProyecto [0] [0] );
-		$versionDoc = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], 'busqueda' );
+// 		var_dump($documentoProyecto);
 		
 		
 ?>
@@ -146,7 +149,7 @@ class Formulario {
 			</tr>
 			<tr>
 				<td><b>Versiones del documento a radicar:</b></td>
-				<td>Versión No. <?php echo $versionDoc[0][0];?></td>
+				<td>Versión No. <?php echo $documentoProyecto[0][0];?></td>
 			</tr>
 		</table>
 

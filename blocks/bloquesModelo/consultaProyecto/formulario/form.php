@@ -203,7 +203,8 @@ class Formulario {
 			if ($i == 0) {
 				echo $matrizTematicas [$i] [1];
 			} else {
-				echo "<br>" . $matrizTematicas [$i] [1];
+				echo "<br>";
+				echo $i + 1 . ". " . $matrizTematicas [$i] [1];
 			}
 		}
 		?></p></td>
@@ -234,7 +235,8 @@ class Formulario {
 			if ($i == 0) {
 				echo $i + 1 . ". " . $autores [$i];
 			} else {
-				echo "<br>" . $i + 1 . ". " . $autores [$i];
+				echo "<br>";
+				echo $i + 1 . ". " . $autores [$i];
 			}
 		}
 		?></p></td>
@@ -341,6 +343,29 @@ class Formulario {
 		if (! $matrizRevisor && ($rol == "Coordinador" || ($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas'))) {
 			// -----------------CONTROL: Botón ----------------------------------------------------------------
 			$esteCampo = 'botonA';
+			$atributos ["id"] = $esteCampo;
+			$atributos ["tabIndex"] = $tab;
+			$atributos ["tipo"] = 'boton';
+			// submit: no se coloca si se desea un tipo button genérico
+			$atributos ['submit'] = true;
+			$atributos ["estiloMarco"] = '';
+			$atributos ["estiloBoton"] = 'jqueryui';
+			// verificar: true para verificar el formulario antes de pasarlo al servidor.
+			$atributos ["verificar"] = '';
+			$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+			$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+			$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+			$tab ++;
+			
+			// Aplica atributos globales al control
+			$atributos = array_merge ( $atributos, $atributosGlobales );
+			echo $this->miFormulario->campoBoton ( $atributos );
+			// -----------------FIN CONTROL: Botón -----------------------------------------------------------
+		}
+		
+		if (!$matrizRespuesta) {
+			// -----------------CONTROL: Botón ----------------------------------------------------------------
+			$esteCampo = 'botonSolicitar';
 			$atributos ["id"] = $esteCampo;
 			$atributos ["tabIndex"] = $tab;
 			$atributos ["tipo"] = 'boton';
@@ -570,7 +595,7 @@ class Formulario {
 												Aun no existen procesos de evaluaci&oacute;n iniciados. Para
 												iniciar un proceso de evaluaci&oacute;n es indispensable que
 												solicite revisi&oacute;n de la &uacute;ltima versi&oacute;n
-												del documento de la anteproyecto. <br> <br> <b>NOTA:</b> Una
+												del documento del proyecto. <br> <br> <b>NOTA:</b> Una
 
 												vez solicite la revisi&oacute;n, los revisores
 												tendr&aacute;n un plazo m&aacute;ximo de <span

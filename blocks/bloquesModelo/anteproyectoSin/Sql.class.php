@@ -60,9 +60,9 @@ class Sql extends \Sql {
 				$cadenaSql .= 'trabajosdegrado.ant_tantp a, ';
 				$cadenaSql .= 'trabajosdegrado.ge_tmoda m ';
 				$cadenaSql .= 'WHERE ';
-				//$cadenaSql .= "antp_eantp='RADICADO'";
-				$cadenaSql .= " a.antp_moda=m.moda_moda";
-				// echo $cadenaSql;
+				$cadenaSql .= "a.antp_eantp='RADICADO' ";
+				$cadenaSql .= "AND a.antp_moda=m.moda_moda;";
+// 				echo $cadenaSql;
 				break;
 				
 				

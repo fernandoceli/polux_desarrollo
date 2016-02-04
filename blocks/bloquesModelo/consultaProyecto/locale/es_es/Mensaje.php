@@ -8,6 +8,7 @@ $this->idioma["claveTitulo"]="Clave de Acceso";
 $this->idioma["botonIngresar"]="Ingresar";
 $this->idioma["botonAceptar"]="Aceptar";
 $this->idioma["botonIni"]="Iniciar informe final";
+$this->idioma["botonSolRev"] = "Solicitar Revision";
 $this->idioma["botonCancelar"]="Cancelar";
 $this->idioma["botonCancelar2"]="Cancelar";
 $this->idioma["botonCancelarIni"]="Cancelar";
@@ -18,6 +19,7 @@ $this->idioma["botonA"]="Asignar revisor";
 $this->idioma["botonH"]="Historico Proyecto";
 $this->idioma["botonIniciar"]="Iniciar informe final";
 $this->idioma["botonRegresar"]="Regresar";
+$this->idioma["botonSolicitar"] = "Solicitar revision";
 
 $this->idioma["continuar"]="Continuar";
 
@@ -29,6 +31,6 @@ $this->idioma["revisor"]="Revisores (Cantidad minima de revisores permitida: 1)"
 $this->idioma["marcoDatos"]="Asignar revisores";
 $this->idioma["marcoDatos2"]="Historial del proyecto";
 
-$this->idioma['botonI'] = "Iniciar Informe Final";
+$this->idioma['botonI'] = "Radicar Informe Final";
 
 ?>

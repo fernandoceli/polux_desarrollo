@@ -24,19 +24,34 @@ class Registrar {
 		$cod = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		$_REQUEST ["variable"] = $cod [0][0];
 		
+		var_dump($_REQUEST);
+		
+		date_default_timezone_set ( 'America/Bogota' );
+		
+		$fecha = date ( "Y-m-d" );
+		
+		if (!isset($_REQUEST['proyecto'])) {
+			$_REQUEST['proyecto'] = $_REQUEST['id'];
+		}
+		
 		$arreglo = array (
-				'pregunta' => $_REQUEST ['pregunta1'],
+				'estado' => 'ESPERA',
+				'pregunta1' => $_REQUEST ['pregunta1'],
 				'estudiante' => $_REQUEST ["variable"],
-				'proyecto' => $_REQUEST ['proyecto']
+				'proyecto' => $_REQUEST ['proyecto'],
+				'fecha' => $fecha
 		);
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'guardarSolicitud', $arreglo );
 		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
 		
+		var_dump($cadenaSql);
+		
 		if ($resultado) {
 			redireccion::redireccionar ( 'inserto' );
 			exit ();
 		} else {
+			exit();
 			redireccion::redireccionar ( 'noInserto' );
 			exit ();
 		}

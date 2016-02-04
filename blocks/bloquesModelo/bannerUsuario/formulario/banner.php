@@ -92,7 +92,7 @@ class Formulario {
 		unset ( $atributos );
 		
 		$usuario = $this->miSesion->getSesionUsuarioId ();
-// 		var_dump($_REQUEST);
+		var_dump ( $_REQUEST );
 		if (! isset ( $_REQUEST ['usuario'] )) {
 			if ($usuario) {
 				$_REQUEST ['usuario'] = $usuario;
@@ -100,8 +100,7 @@ class Formulario {
 				if (isset ( $_REQUEST ['registro'] )) {
 					$_REQUEST ['usuario'] = $_REQUEST ['registro'];
 				} else {
-					var_dump ( $_REQUEST );
-				$_REQUEST ['usuario'] = "0";
+					$_REQUEST ['usuario'] = "0";
 				}
 			}
 		}

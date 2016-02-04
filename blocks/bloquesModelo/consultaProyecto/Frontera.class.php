@@ -43,8 +43,10 @@ class Frontera {
 		// Como se tiene un solo formulario no es necesario un switch para cargarlo:
 		$this->ruta = $this->miConfigurador->getVariableConfiguracion ( "rutaBloque" );
 		
-		if (isset ( $_REQUEST ['botonI'] ) && ($_REQUEST ['botonI'] == true)) {
+		if (isset ( $_REQUEST ['botonI'] ) && ($_REQUEST ['botonI'] == 'true')) {
 			include_once ($this->ruta . "/formulario/iniciar.php");
+		} elseif (isset($_REQUEST['botonSolicitar']) && ($_REQUEST['botonSolicitar'] == 'true')) {
+			include_once ($this->ruta . "/formulario/solicitarRevision.php");;
 		} else if (isset ( $_REQUEST ['opcion'] )) {
 			switch ($_REQUEST ['opcion']) {
 				case "asignar" :
@@ -58,8 +60,8 @@ class Frontera {
 					break;
 			}
 		} else {
-			include_once ($this->ruta . "/formulario/form.php");
-		}
+	include_once ($this->ruta . "/formulario/form.php");
+}
 	}
 }
 ?>

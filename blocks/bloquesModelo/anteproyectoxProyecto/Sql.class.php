@@ -100,6 +100,8 @@ class Sql extends \Sql {
 				$cadenaSql .= 'ON antp_moda = moda_moda ';
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'antp_pcur=\'' . $variable . '\' ';
+				$cadenaSql .= 'ORDER BY antp_antp ASC, ';
+				$cadenaSql .= 'antp_fradi ASC; ';
 // 				echo $cadenaSql;
 				break;
 			

@@ -95,6 +95,7 @@ class Registrar {
 					"extension" => $documentoAnteproyecto[0][10]
 			);
 			var_dump($documento );
+			exit();
 			//2. Registrar el documento como proyecto
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( 'registrarDocumento', $documento );
 			$documentoProyecto = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], 'registrar' );

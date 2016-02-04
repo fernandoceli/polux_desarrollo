@@ -93,7 +93,7 @@ class Sql extends \Sql {
 				$cadenaSql .= 'proy_proy =' . $variable;
 				// $cadenaSql .= 'estado=\'RADICADO\' OR estado=\'ASIGNADO REVISORES\'';
 				// $cadenaSql .= 'nombre=\'' . $_REQUEST ['nombrePagina'] . '\' ';
-// 				echo $cadenaSql;
+				// echo $cadenaSql;
 				break;
 			
 			case 'buscarTematicas' :
@@ -136,7 +136,7 @@ class Sql extends \Sql {
 				// echo $cadenaSql;
 				break;
 			
-			case 'buscarNombreDirector':
+			case 'buscarNombreDirector' :
 				$cadenaSql = 'SELECT ';
 				$cadenaSql .= 'nombre || \' \' || apellido AS NOMBRE ';
 				$cadenaSql .= 'FROM ';
@@ -147,9 +147,7 @@ class Sql extends \Sql {
 				$cadenaSql .= 'prof_us=id_usuario ';
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= "prof_prof='" . $variable . "' ";
-// 				echo $cadenaSql;
 				break;
-			
 			
 			case 'buscarNombreModalidad' :
 				$cadenaSql = "SELECT ";
@@ -266,7 +264,7 @@ class Sql extends \Sql {
 				// echo $cadenaSql;
 				break;
 			
-			case 'documentoAnexo':
+			case 'documentoAnexo' :
 				$cadenaSql = "SELECT ";
 				$cadenaSql .= "tdapy_descri, ";
 				$cadenaSql .= "dapy_url, ";
@@ -280,8 +278,8 @@ class Sql extends \Sql {
 				$cadenaSql .= "WHERE ";
 				$cadenaSql .= "dapy_proy='" . $variable . "';";
 				break;
-				
-			case 'consultaRespuesta':
+			
+			case 'consultaRespuesta' :
 				$cadenaSql = "SELECT ";
 				$cadenaSql .= "eval_fcrea, ";
 				$cadenaSql .= "eval_dantp, ";
@@ -309,7 +307,7 @@ class Sql extends \Sql {
 				$cadenaSql .= "WHERE ";
 				$cadenaSql .= "dantp_antp='" . $variable . "' ";
 				break;
-				
+			
 			case "consultarRevisor" :
 				$cadenaSql = "SELECT ";
 				$cadenaSql .= "rev_fasig, nombre || ' ' || apellido as Nombre ";
@@ -322,11 +320,50 @@ class Sql extends \Sql {
 				$cadenaSql .= "polux_usuario ";
 				$cadenaSql .= "ON id_usuario = (tipo_identificacion || prof_prof) ";
 				$cadenaSql .= "WHERE rev_antp='" . $variable . "' ";
-// 				echo $cadenaSql;
+				// echo $cadenaSql;
+				break;
+			
+			case 'actividadesPendientes' :
+				$cadenaSql = "";
+				break;
+			
+			case 'buscarDocumento' :
+				$cadenaSql = "SELECT ";
+				$cadenaSql .= "dproy_vers ";
+				$cadenaSql .= "FROM trabajosdegrado.pry_tdproy ";
+				$cadenaSql .= "ORDER BY dproy_vers DESC; ";
+				break;
+			
+			case 'buscarPreguntas' :
+				$cadenaSql = "SELECT ";
+				$cadenaSql .= "preg_preg, ";
+				$cadenaSql .= "preg_pregunta ";
+				$cadenaSql .= "FROM ";
+				$cadenaSql .= "trabajosdegrado.pry_tpreg; ";
+				break;
+			
+			case 'guardarSolicitud' :
+				$cadenaSql = "INSERT INTO ";
+				$cadenaSql .= "trabajosdegrado.pry_tsrdp ";
+				$cadenaSql .= "(srdp_esrdp, ";
+				$cadenaSql .= "srdp_fcrea, ";
+				$cadenaSql .= "srdp_observ, ";
+				$cadenaSql .= "srdp_estd, ";
+				$cadenaSql .= "srdp_proy) ";
+				$cadenaSql .= "VALUES (";
+				$cadenaSql .= "'" . $variable ['estado'] . "', ";
+				$cadenaSql .= "'" . $variable ['fecha'] . "', ";
+				$cadenaSql .= "'" . $variable ['pregunta1'] . "', ";
+				$cadenaSql .= "'" . $variable ['estudiante'] . "', ";
+				$cadenaSql .= "'" . $variable ['proyecto'] . "')";
 				break;
 				
-			case 'actividadesPendientes':
-				$cadenaSql = "";
+			case 'buscarCodigo' :
+				$cadenaSql = "SELECT ";
+				$cadenaSql .= "estd_estd ";
+				$cadenaSql .= "FROM ";
+				$cadenaSql .= "trabajosdegrado.ge_testd ";
+				$cadenaSql .= "WHERE estd_us='" . $variable . "' ";
 				break;
 		}
 		
