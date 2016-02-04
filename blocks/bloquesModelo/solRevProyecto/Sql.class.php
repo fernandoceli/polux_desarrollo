@@ -86,26 +86,19 @@ class Sql extends \Sql {
 				$cadenaSql .= 'nombre=\'' . $_REQUEST ['nombrePagina'] . '\' ';
 				break;
 			
-			case 'buscarProyectos' :
+			case 'buscarSolicitudes' :
 				
 				$cadenaSql = 'SELECT ';
-				$cadenaSql .= 'd.prof_prof, ';
-				$cadenaSql .= 'd.prof_us, ';
-				$cadenaSql .= 'p.proy_proy, ';
-				$cadenaSql .= 'p.proy_fcrea, ';
-				$cadenaSql .= 'p.proy_eproy, ';
-				$cadenaSql .= 'p.proy_dir_int ';
+				$cadenaSql .= 'proy_proy ';
 				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado.pry_tproy p, ';
-				$cadenaSql .= 'trabajosdegrado.ge_tprof d, ';
-				$cadenaSql .= 'trabajosdegrado.pry_tsrdp s ';
+				$cadenaSql .= 'trabajosdegrado.pry_tsrdp ';
+				$cadenaSql .= 'JOIN trabajosdegrado.pry_tproy ';
+				$cadenaSql .= 'ON srdp_proy=proy_proy ';
 				$cadenaSql .= 'WHERE ';
 				// $cadenaSql .= "r.rev_antp = a.antp_antp ";
-				$cadenaSql .= " d.prof_prof=p.proy_dir_int ";
-				$cadenaSql .= "and d.prof_us = '" . $variable . "' ";
-				$cadenaSql .= "and s.srdp_proy = p.proy_proy ";
-				$cadenaSql .= "and s.srdp_esrdp = 'PENDIENTE' ";
-				// echo $cadenaSql;
+				$cadenaSql .= "proy_dir_int='" . $variable . "' ";
+				$cadenaSql .= "AND srdp_esrdp='PENDIENTE' ";
+// 				echo $cadenaSql;
 				break;
 			
 			case 'buscarProyecto' :
@@ -191,6 +184,32 @@ class Sql extends \Sql {
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'dproy_dproy=\'' . $variable . '\' ';
 				// var_dump ( $cadenaSql );
+				break;
+			
+			case 'consultarRol' :
+				$cadenaSql = 'SELECT rol_nombre ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'polux_usuario u ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'polux_usuario_subsistema us ';
+				$cadenaSql .= 'ON u.id_usuario::varchar = us.id_usuario ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'polux_rol r ';
+				$cadenaSql .= 'ON us.rol_id = r.rol_id ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'u.id_usuario=\'' . $variable . '\' ';
+				break;
+			
+			case 'consultarCodigo' :
+				$cadenaSql = 'SELECT prof_prof ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.ge_tprof ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'polux_usuario ';
+				$cadenaSql .= 'ON prof_us=id_usuario ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'id_usuario=\'' . $variable . '\' ';
+				// echo $cadenaSql;
 				break;
 		}
 		

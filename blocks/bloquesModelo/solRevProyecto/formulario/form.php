@@ -10,6 +10,7 @@ class Formulario {
 	var $miConfigurador;
 	var $lenguaje;
 	var $miFormulario;
+	var $miSesion;
 	function __construct($lenguaje, $formulario, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		
@@ -20,6 +21,8 @@ class Formulario {
 		$this->miFormulario = $formulario;
 		
 		$this->miSql = $sql;
+		
+		$this->miSesion = \Sesion::singleton ();
 	}
 	function formulario() {
 		
@@ -46,6 +49,8 @@ class Formulario {
 		
 		$conexion = 'estructura';
 		$esteRecurso = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
+
+		$usuario = $this->miSesion->getSesionUsuarioId ();
 		
 		// -------------------------------------------------------------------------------------------------
 		
@@ -75,116 +80,134 @@ class Formulario {
 		echo $this->miFormulario->formulario ( $atributos );
 		
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
-
-		$docente = $_REQUEST['usuario'];
 		
-		//Buscar Proyectos asignados al docente y que tengan solicitudes pendientes
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarProyectos", $docente );
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $usuario );
+		$matrizAnteproyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		
+		$rol = $matrizAnteproyectos [0] [0];
+		
+		if (($rol == "Coordinador") || ($rol == "Docente")) {
+			$acceso = true;
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarCodigo", $_REQUEST ["usuario"] );
+			$matrizCodigo = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+			$docente = $matrizCodigo [0] [0];
+		}
+		
+		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
+			$docente = $_REQUEST ["variable"];
+			$acceso = true;
+		}
+		
+		// Buscar Proyectos asignados al docente y que tengan solicitudes pendientes
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarSolicitudes", $docente );
 		$matrizProyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-		//var_dump($matrizProyectos);
+		// var_dump($matrizProyectos);
 		?>
-		<br></br>
+<br></br>
 <?php
-	
-		if ($matrizProyectos[0][0] != "") {
-			
-		$atributos ['mensaje'] = 'Solicitudes Pendientes de Revisión de Proyectos';
-		$atributos ['tamanno'] = 'Enorme';
-		$atributos ['linea'] = 'true';
-		echo $this->miFormulario->campoMensaje ( $atributos );
 		
-		for($i=0; $i<count($matrizProyectos); $i++){
-			$proyecto = $matrizProyectos[$i][2];
+		if ($matrizProyectos) {
 			
-			//buscar proyecto
-			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarProyecto", $proyecto);
-			$matrizProyecto = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-			//var_dump($matrizProyecto);
+			$atributos ['mensaje'] = 'Solicitudes Pendientes de Revisión de Proyectos';
+			$atributos ['tamanno'] = 'Enorme';
+			$atributos ['linea'] = 'true';
+			echo $this->miFormulario->campoMensaje ( $atributos );
 			
-?>
+			for($i = 0; $i < count ( $matrizProyectos ); $i ++) {
+				$proyecto = $matrizProyectos [$i] [0];
+				
+				// buscar proyecto
+				$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarProyecto", $proyecto );
+				$matrizProyecto = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+				// var_dump($matrizProyecto);
+				
+				?>
 
-		<div class="bg-caja corner" id="caja<?php echo $i ?>" style="float:left">
-		<div class="caja corner" >
-			<div class="caja-header">
-				<div class="caja-fecha" style="float:left"><?php echo $matrizProyecto[$i][5]?></div>
-				<div class="caja-semaforo-gris" style="float:right"></div>
-				<div class="caja-semaforo-gris" style="float:right"></div>
-				<div class="caja-semaforo-verde" style="float:right"></div>
-				<div class="clearboth"><br></br></div>
-			</div>
-			<div>
-				<div class="caja-codigo" style="float:left">
-					<div class="caja-icon-documento"></div>
-					<p class="caja-numero" id="cajanum<?php echo $i ?>"><?php echo 'No. '. $matrizProyecto[$i][0]?></p>
-				</div>
-				<div class="caja-info" style="float:left">
-					<table style="border:0; width:100%">
-						<tbody>
-							<tr>
-								<td><b>Solicitantes:</b></td>
-								<td><?php echo 'Estudiante' ?></td>
-							</tr>
-							<tr>
-								<td><b>Proyecto:</b></td>
-								<td><?php echo 'No. '.$matrizProyecto[$i][0] ?></td>
-							</tr>
-							<tr>
-								<td><b>Estado:</b></td>
-								<td><?php echo 'PENDIENTE' ?></td>
-							</tr>
-							<tr>
-								<td><b>Dias Restantes:</b></td>
-								<td><?php 
-									$hoy = date ( "Y-m-d" );
-									$dias	= (strtotime($hoy)-strtotime($matrizProyecto[$i][5]))/86400;
-									$dias 	= abs($dias); 
-									$dias = floor($dias);		
-									echo 20-$dias."/20";
-									?></td>
-							</tr>
-						</tbody>
-					</table>
-					<p></p>
-	
-				</div>
-				<?php 
-	
-	$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
-	$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
-	$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
-	
-	$variableVer = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
-	$variableVer .= "&opcion=ver";
-	$variableVer .= "&usuario=" . $_REQUEST ['usuario'];
-	$variableVer .= "&proyecto=" . $matrizProyecto[$i][0];
-	$variableVer .= "&campoSeguro=" . $_REQUEST ['tiempo'];
-	$variableVer .= "&tiempo=" . time ();
-	
-	$variableVer = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variableVer, $directorio );
-		
-	// -------------Enlace-----------------------
-	$esteCampo = "enlaceVer";
-	$atributos ["id"] = $esteCampo;
-	$atributos ['enlace'] = $variableVer;
-	$atributos ['tabIndex'] = $esteCampo;
-	$atributos ['redirLugar'] = true;
-	$atributos ['estilo'] = 'color';
-	$atributos ['enlaceTexto'] = $this->lenguaje->getCadena ( $esteCampo );
-	;
-	$atributos ['ancho'] = '25';
-	$atributos ['alto'] = '25';
-	echo $this->miFormulario->enlace ( $atributos );
-	unset ( $atributos );
-	
-	?>
+<div class="bg-caja corner" id="caja<?php echo $i ?>"
+	style="float: left">
+	<div class="caja corner">
+		<div class="caja-header">
+			<div class="caja-fecha" style="float: left"><?php echo $matrizProyecto[$i][5]?></div>
+			<div class="caja-semaforo-gris" style="float: right"></div>
+			<div class="caja-semaforo-gris" style="float: right"></div>
+			<div class="caja-semaforo-verde" style="float: right"></div>
+			<div class="clearboth">
+				<br></br>
 			</div>
 		</div>
-		</div>
+		<div>
+			<div class="caja-codigo" style="float: left">
+				<div class="caja-icon-documento"></div>
+				<p class="caja-numero" id="cajanum<?php echo $i ?>"><?php echo 'No. '. $matrizProyecto[$i][0]?></p>
+			</div>
+			<div class="caja-info" style="float: left">
+				<table style="border: 0; width: 100%">
+					<tbody>
+						<tr>
+							<td><b>Solicitantes:</b></td>
+							<td><?php echo 'Estudiante' ?></td>
+						</tr>
+						<tr>
+							<td><b>Proyecto:</b></td>
+							<td><?php echo 'No. '.$matrizProyecto[$i][0] ?></td>
+						</tr>
+						<tr>
+							<td><b>Estado:</b></td>
+							<td><?php echo 'PENDIENTE' ?></td>
+						</tr>
+						<tr>
+							<td><b>Dias Restantes:</b></td>
+							<td><?php
+				$hoy = date ( "Y-m-d" );
+				$dias = (strtotime ( $hoy ) - strtotime ( $matrizProyecto [$i] [5] )) / 86400;
+				$dias = abs ( $dias );
+				$dias = floor ( $dias );
+				echo 20 - $dias . "/20";
+				?></td>
+						</tr>
+					</tbody>
+				</table>
+				<p></p>
+
+			</div>
+				<?php
+				
+				$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
+				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
+				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+				
+				$variableVer = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
+				$variableVer .= "&opcion=ver";
+				$variableVer .= "&usuario=" . $_REQUEST ['usuario'];
+				$variableVer .= "&proyecto=" . $matrizProyecto [$i] [0];
+				$variableVer .= "&campoSeguro=" . $_REQUEST ['tiempo'];
+				$variableVer .= "&tiempo=" . time ();
+				
+				$variableVer = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variableVer, $directorio );
+				
+				// -------------Enlace-----------------------
+				$esteCampo = "enlaceVer";
+				$atributos ["id"] = $esteCampo;
+				$atributos ['enlace'] = $variableVer;
+				$atributos ['tabIndex'] = $esteCampo;
+				$atributos ['redirLugar'] = true;
+				$atributos ['estilo'] = 'color';
+				$atributos ['enlaceTexto'] = $this->lenguaje->getCadena ( $esteCampo );
+				;
+				$atributos ['ancho'] = '25';
+				$atributos ['alto'] = '25';
+				echo $this->miFormulario->enlace ( $atributos );
+				unset ( $atributos );
+				
+				?>
+			</div>
+	</div>
+</div>
 
 <?
-		}
-	} else {
-?>
+			}
+		} else {
+			?>
 <div class="canvas-contenido">
 	<div class="area-msg corner margen-interna ">
 		<div class="icono-msg info"></div>
@@ -192,8 +215,7 @@ class Formulario {
 			<div class="title-msg info">Información</div>
 			<div style="padding: 5px 0px;">
 				<div>
-					<contenido> No existen proyectos pendientes de
-					revisión.
+					<contenido> No existen proyectos pendientes de revisión.
 					<div style="text-align: right">
 						<input class="boton" type="button"
 							onclick="osm_go('inicio/PageBienvenida.do');"
@@ -208,8 +230,6 @@ class Formulario {
 </div>
 <?php
 		}
-		
-		
 		
 		// ---------------- FIN SECCION: Controles del Formulario -------------------------------------------
 		

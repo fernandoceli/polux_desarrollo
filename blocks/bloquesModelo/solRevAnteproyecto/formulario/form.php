@@ -10,6 +10,7 @@ class Formulario {
 	var $miConfigurador;
 	var $lenguaje;
 	var $miFormulario;
+	var $miSesion;
 	function __construct($lenguaje, $formulario, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		
@@ -20,6 +21,8 @@ class Formulario {
 		$this->miFormulario = $formulario;
 		
 		$this->miSql = $sql;
+		
+		$this->miSesion = \Sesion::singleton ();
 	}
 	function formulario() {
 		
@@ -46,7 +49,11 @@ class Formulario {
 		
 		$conexion = 'estructura';
 		$esteRecurso = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-		
+
+		$usuario = $this->miSesion->getSesionUsuarioId ();
+		if (!isset($_REQUEST['usuario'])){
+			$_REQUEST['usuario'] = $usuario;
+		}
 		
 		// -------------------------------------------------------------------------------------------------
 		
@@ -77,7 +84,23 @@ class Formulario {
 		
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 
-		$docente = $_REQUEST['usuario'];
+
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $usuario );
+		$matrizAnteproyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		
+		$rol = $matrizAnteproyectos [0] [0];
+		
+		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
+			$docente = $_REQUEST ["variable"];
+			$acceso = true;
+		}
+		
+		if (($rol == "Coordinador") || ($rol == "Docente" ) ) {
+			$acceso = true;
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarCodigo", $_REQUEST ["usuario"] );
+			$matrizCodigo = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+			$docente = $matrizCodigo [0] [0];
+		}
 		
 		//Buscar Anteproyectos asignados al docente
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarSolicitudes", $docente );

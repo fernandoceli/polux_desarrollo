@@ -87,7 +87,7 @@ class Sql extends \Sql {
 				break;
 			
 			case "consultarSolicitudes" :
-		
+				
 				$cadenaSql = "SELECT DISTINCT ";
 				$cadenaSql .= "slrev_slrev, ";
 				$cadenaSql .= "s.slrev_fcrea, ";
@@ -106,7 +106,12 @@ class Sql extends \Sql {
 				$cadenaSql .= "public.polux_usuario u ";
 				$cadenaSql .= "WHERE ";
 				$cadenaSql .= "slrev_eslrev='ASIGNADA' ";
-				$cadenaSql .= "and p.prof_us='" . $variable . "' ";
+				$aux = substr ( $variable, 2 );
+				if (! is_numeric ( $aux )) {
+					$cadenaSql .= "and p.prof_us='" . $variable . "' ";
+				} else {
+					$cadenaSql .= "and p.prof_prof='" . $variable . "' ";
+				}
 				$cadenaSql .= "and s.slrev_prof_asignado=p.prof_prof ";
 				$cadenaSql .= "and u.id_usuario=s.slrev_usua; ";
 // 				echo $cadenaSql;
@@ -168,7 +173,7 @@ class Sql extends \Sql {
 				$cadenaSql .= 'trabajosdegrado.ant_testantp ';
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'estantp_antp =' . $_REQUEST ['anteproyecto'];
-				//echo $cadenaSql;
+				// echo $cadenaSql;
 				break;
 			
 			case 'buscarNombresAutores' :
@@ -204,6 +209,32 @@ class Sql extends \Sql {
 				$cadenaSql .= $_REQUEST ['nivelPagina'] . ', ';
 				$cadenaSql .= '\'' . $_REQUEST ['parametroPagina'] . '\'';
 				$cadenaSql .= ') ';
+				break;
+			
+			case 'consultarRol' :
+				$cadenaSql = 'SELECT rol_nombre ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'polux_usuario u ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'polux_usuario_subsistema us ';
+				$cadenaSql .= 'ON u.id_usuario::varchar = us.id_usuario ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'polux_rol r ';
+				$cadenaSql .= 'ON us.rol_id = r.rol_id ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'u.id_usuario=\'' . $variable . '\' ';
+				break;
+			
+			case 'consultarCodigo' :
+				$cadenaSql = 'SELECT prof_prof ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.ge_tprof ';
+				$cadenaSql .= 'JOIN ';
+				$cadenaSql .= 'polux_usuario ';
+				$cadenaSql .= 'ON prof_us=id_usuario ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'id_usuario=\'' . $variable . '\' ';
+				// echo $cadenaSql;
 				break;
 		}
 		
