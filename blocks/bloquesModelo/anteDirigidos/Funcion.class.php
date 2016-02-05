@@ -37,6 +37,9 @@ class Funcion {
 	function ver() {
 		include_once ($this->ruta . "/funcion/ver.php");
 	}
+	function inicio () {
+		include_once ($this->ruta . "/funcion/inicio.php");
+	}
 	function action() {
 		$resultado = true;
 		
@@ -49,6 +52,8 @@ class Funcion {
 		
 		if (isset ( $_REQUEST ['procesarAjax'] )) {
 			$this->procesarAjax ();
+		} else if (isset ( $_REQUEST ['botonInicio'] ) && ($_REQUEST ['botonInicio'] == 'true')) {
+			$this->inicio();
 		} else if (isset ( $_REQUEST ["opcion"] )) {
 			switch ($_REQUEST ["opcion"]) {
 				case 'ver' :

@@ -15,10 +15,6 @@ require_once ("core/builder/controleshtml/RecaptchaHtml.class.php");
 require_once ("core/builder/controleshtml/Select.class.php");
 require_once ("core/builder/controleshtml/TextArea.class.php");
 require_once ("core/builder/controleshtml/CrearTabla.class.php");
-require_once ("core/builder/controleshtml/Informacion.class.php");
-require_once ("core/builder/controleshtml/ListaCuadriculada.class.php");
-require_once ("core/builder/controleshtml/Ver.class.php");
-require_once ("core/builder/controleshtml/Paragraph.class.php");
 
 class FormularioHtml extends Agregador{
 	
@@ -62,10 +58,6 @@ class FormularioHtml extends Agregador{
         $this->aggregate('Select');
         $this->aggregate('TextArea');
         $this->aggregate('CrearTabla');
-        $this->aggregate('Informacion');
-        $this->aggregate('ListaCuadriculada');
-        $this->aggregate('Ver');
-        $this->aggregate('Paragraph');
         
     }
     
