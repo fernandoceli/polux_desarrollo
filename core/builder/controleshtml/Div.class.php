@@ -52,8 +52,8 @@ class Div extends HtmlBase {
 				$this->cadenaHTML .= "title='" . $this->atributos [self::TITULO] . "' ";
 			}
 			
-			if (isset($this->atributos['onclick'])) {
-				$this->cadenaHTML .= 'onclick="' . $this->atributos['onclick'] . '"; ';
+			if (isset ( $this->atributos ['onclick'] )) {
+				$this->cadenaHTML .= 'onclick="' . $this->atributos ['onclick'] . '"; ';
 			}
 			
 			$this->cadenaHTML .= "id='" . $this->atributos ["id"] . "' ";
@@ -300,6 +300,21 @@ class Div extends HtmlBase {
 		// var_dump ( $cadenaTabla );
 		return $cadenaTabla;
 	}
+	function crearTabla3($tipo, $atributos = "") {
+		if ($tipo == self::INICIO) {
+			$cadenaTabla = '<table ';
+			if (isset ( $atributos [self::ESTILO] )) {
+				$cadenaTabla .= 'style="' . $atributos [self::ESTILO] . '"';
+			}
+			$cadenaTabla .= '>';
+			$cadenaTabla .= '<tbody>';
+		} else {
+			$cadenaTabla = '</tbody>';
+			$cadenaTabla .= '</table>';
+		}
+		// var_dump ( $cadenaTabla );
+		return $cadenaTabla;
+	}
 	function div_especifico($tipo, $atributos) {
 		if ($tipo == self::INICIO) {
 			$cadena = '<' . $atributos ['tipo_etiqueta'] . ' ';
@@ -309,6 +324,14 @@ class Div extends HtmlBase {
 			}
 			if (isset ( $atributos [self::ID] )) {
 				$cadena .= 'id="' . $atributos [self::ID] . '" ';
+			}
+			if (($atributos ['tipo_etiqueta'] == "td") || ($atributos ['tipo_etiqueta'] == "tr")) {
+				if (isset ( $atributos ['rowspan'] )) {
+					$cadena .= 'rowspan="' . $atributos ['rowspan'] . '" ';
+				}
+				if (isset ( $atributos ['colspan'] )) {
+					$cadena .= 'colspan="' . $atributos ['colspan'] . '" ';
+				}
 			}
 			$cadena .= '>';
 			if (isset ( $atributos [self::MENSAJE] )) {

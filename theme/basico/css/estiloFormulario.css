@@ -406,7 +406,7 @@ div.campoMostrar {
 
 div.campoImagen {
 	float: left;
-	width: 95%;
+	width: 0%;
 	margin: 1px auto 1px auto;
 	border-collapse: collapse;
 	border-width: 0px;

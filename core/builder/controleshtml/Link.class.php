@@ -42,6 +42,10 @@ class Link  extends HtmlBase {
                 $this->cadenaHTML .= "class='" . $atributos [self::ESTILO] . "' ";
             }
         }
+        if (isset($atributos ['download']) && $atributos['download'] != "") {
+        	$this->cadenaHTML .= "download='" . $atributos ['download'] ."' ";
+        }
+        
         $this->cadenaHTML .= ">\n";
         if (isset ( $atributos ["enlaceTexto"] )) {
             $this->cadenaHTML .= "<span>" . $atributos ["enlaceTexto"] . "</span>";
