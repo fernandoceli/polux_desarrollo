@@ -12,4 +12,7 @@ $this->idioma["enlaceVer"]="Ver Solicitud";
 
 $this->idioma["revisor"]="Docente:";
 
+
+$this->idioma ["botonInicio"] = "Ir al inicio";
+
 ?>

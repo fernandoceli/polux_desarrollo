@@ -29,6 +29,9 @@ class Seleccionar {
 		
 		// Aquí va la lógica de procesamiento
 		
+		redireccion::redireccionar ($_REQUEST ['pagina']);
+		exit ();
+		
 		switch ($_REQUEST ['pagina']) {
 			case 'anteproyectoxProyecto' :
 				redireccion::redireccionar ( 'anteproyecto' );

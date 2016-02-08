@@ -112,7 +112,7 @@ class Sql extends \Sql {
 				$cadenaSql .= 'proy_proy, ';
 				$cadenaSql .= 'proy_titu, ';
 				$cadenaSql .= 'proy_descri, ';
-				$cadenaSql .= 'estproy_proy, ';
+				$cadenaSql .= 'estproy_estd, ';
 				$cadenaSql .= 'nombre || \' \' || apellido AS nombre, ';
 				$cadenaSql .= 'dproy_vers, ';
 				$cadenaSql .= 'proy_moda, ';
@@ -282,7 +282,7 @@ class Sql extends \Sql {
 					$cadena .= 'FROM ';
 					$cadena .= 'trabajosdegrado."INF_SINFO") ); ';
 					$cadenaSql = $cadenaSql . $cadena;
-					var_dump ( $cadenaSql );
+// 					var_dump ( $cadenaSql );
 				}
 				
 				break;

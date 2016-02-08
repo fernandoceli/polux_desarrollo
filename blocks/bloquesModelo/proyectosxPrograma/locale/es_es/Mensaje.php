@@ -26,4 +26,7 @@ $this->idioma["enlaceVer"]="Ver Proyecto";
 
 $this->idioma["infoMensaje"]="No hay proyectos registrados para este programa curricular";
 
+
+$this->idioma ["botonInicio"] = "Ir al inicio";
+
 ?>

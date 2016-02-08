@@ -88,15 +88,13 @@ class Formulario {
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", $_REQUEST ['anteproyecto'] );
 		$matrizAnteproyecto = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		
-		
 		?>
 <div id="contenido">
-	
-	
+
+
 	<br>
 	<div class="area-msg">
-		<?php 
+		<?php
 		$atributos ['mensaje'] = 'Iniciar proyecto de grado';
 		$atributos ['tamanno'] = 'Enorme';
 		echo $this->miFormulario->campoMensaje ( $atributos );
@@ -131,26 +129,30 @@ class Formulario {
 				<td>Versi贸n No. <?php echo $matrizAnteproyecto[0][5];?></td>
 			</tr>
 		</table>
-		
+
 		<table class="table3">
-				<tbody>
-					<tr>
-						<td>
-							<div class="icon-mini-info"></div>
-						</td>
-						<td>
-							<div class="mensaje-ayuda">
+			<tbody>
+				<tr>
+					<td>
+						<div class="icon-mini-info"></div>
+					</td>
+					<td>
+						<div class="mensaje-ayuda">
 							<div>IMPORTANTE: La versi贸n del documento a radicar como
 			proyecto es la 煤ltima subida al sistema. Por favor verifique si el
-			n煤mero corresponde a la versi贸n que realmente desea que sea evaluada.</div>
-							</div> 
+			n煤mero corresponde a la versi贸n que realmente desea que sea evaluada.
+			<?php
+		echo $this->miFormulario->division ( "fin" );
+		echo $this->miFormulario->division ( "fin" );
+		?>
+						
+					
+					</td>
 
-						</td>
+				</tr>
+			</tbody>
+		</table>
 
-					</tr>
-				</tbody>
-			</table>
-		
 		<h3>Informaci贸n requerida para el inicio del proyecto</h3>
 <?php
 		
@@ -285,20 +287,20 @@ class Formulario {
 		unset ( $atributos );
 		// --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
 		
-		//ENLACE MOMENTANEO PARA LA EVALUACI覰 DEL PROYECTO
+		// ENLACE MOMENTANEO PARA LA EVALUACI覰 DEL PROYECTO
 		$miPaginaActual = $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
-			
+		
 		$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
 		$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
 		$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
-			
+		
 		$variable = "pagina=" . "evaluacionProyecto";
 		$variable .= "&usuario=" . $_REQUEST ['usuario'];
-		//$variable .= "&anteproyecto=" . $_REQUEST ['anteproyecto'];
-		//$variable .= "&revision=" . $matrizRevisiones [$n] [0];
-		//$variable .= "&concepto=" . $matrizRevisiones [$n] [2];
+		// $variable .= "&anteproyecto=" . $_REQUEST ['anteproyecto'];
+		// $variable .= "&revision=" . $matrizRevisiones [$n] [0];
+		// $variable .= "&concepto=" . $matrizRevisiones [$n] [2];
 		$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable, $directorio );
-			
+		
 		unset ( $atributos );
 		// var_dump($matrizRevision);
 		

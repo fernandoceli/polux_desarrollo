@@ -11,33 +11,10 @@ class redireccion {
 		$miConfigurador = \Configurador::singleton ();
 		$miPaginaActual = $miConfigurador->getVariableConfiguracion ( "pagina" );
 		
-		switch ($opcion) {
-			
-			case "opcion1" :
-				
-				$variable = 'pagina=segundaPagina';
-				$variable .= '&variable' . $valor;
-				break;
-			
-			case "anteproyecto" :
-				$variable = "pagina=anteproyectoxProyecto";
-				$variable .= '&variable=' . $_REQUEST ["programa"];
-				$variable .= '&usuario=' . $_REQUEST ["usuario"];
-				// $variable .= "&opcion=mensaje";
-				// $variable .= "&mensaje=confirma";
-				break;
-			
-			case "proyecto" :
-				$variable = "pagina=proyectosxPrograma";
-				$variable .= '&variable=' . $_REQUEST ["programa"];
-				$variable .= '&usuario=' . $_REQUEST ["usuario"];
-				// $variable .= "&opcion=mensaje";
-				// $variable .= "&mensaje=confirma";
-				break;
-			
-			default :
-				$variable = '';
-		}
+		$variable = 'pagina=' . $_REQUEST ['pagina'];
+		$variable .= '&variable=' . $_REQUEST ["programa"];
+		$variable .= '&usuario=' . $_REQUEST ["usuario"];
+		
 		foreach ( $_REQUEST as $clave => $valor ) {
 			unset ( $_REQUEST [$clave] );
 		}

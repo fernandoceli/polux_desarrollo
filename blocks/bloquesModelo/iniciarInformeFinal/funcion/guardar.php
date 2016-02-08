@@ -21,6 +21,9 @@ class Registrar {
 	}
 	function procesarFormulario() {
 		if (isset ( $_REQUEST ['botonIniciar'] ) && $_REQUEST ['botonIniciar'] == "true") {
+			
+			echo "Cargando, espere un momento...";
+			
 			$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
 			
 			$rutaBloque = $this->miConfigurador->getVariableConfiguracion ( "raizDocumento" ) . "/blocks/bloquesModelo/";
@@ -175,16 +178,19 @@ class Registrar {
 										$autores = array ();
 										
 										for($i = 0; $i < count ( $matrizProyecto ); $i ++) {
-											if (! in_array ( $matrizProyecto [$i] ['estproy_proy'], $autores )) {
-												array_push ( $autores, $matrizProyecto [$i] ['estproy_proy'] );
+											if (! in_array ( $matrizProyecto [$i] ['estproy_estd'], $autores )) {
+												array_push ( $autores, $matrizProyecto [$i] ['estproy_estd'] );
 											}
 										}
+										
+										var_dump($autores);
 										
 										$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "registrarEstudiantes", $autores );
 										$resultadoEstudiantes = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], 'registrarEstudiantes' );
 										
+										echo "Estudiantes";
 										var_dump ( $resultadoEstudiantes );
-										// exit();
+// 										exit();
 										
 										$tematicas = array ();
 										
@@ -196,7 +202,7 @@ class Registrar {
 										
 										$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "registrarTematicas", $tematicas );
 										$resultadoTematicas = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], 'registrarTematicas', $tematicas, "registrarAutores" );
-										
+// 										exit();
 										redireccion::redireccionar ( 'inserto' );
 										exit ();
 									}
