@@ -10,6 +10,7 @@ class Formulario {
 	var $miConfigurador;
 	var $lenguaje;
 	var $miFormulario;
+	var $miSesion;
 	
 	function __construct($lenguaje, $formulario) {
 		$this->miConfigurador = \Configurador::singleton ();
@@ -19,6 +20,8 @@ class Formulario {
 		$this->lenguaje = $lenguaje;
 		
 		$this->miFormulario = $formulario;
+		
+		$this->miSesion = \Sesion::singleton ();
 	}
 	function formulario() {
 		
@@ -42,6 +45,11 @@ class Formulario {
 		 */
 		$atributosGlobales ['campoSeguro'] = 'true';
 		$_REQUEST ['tiempo'] = time ();
+
+		$conexion = 'estructura';
+		$esteRecurso = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
+		
+		$usuario = $this->miSesion->getSesionUsuarioId ();
 		
 		// -------------------------------------------------------------------------------------------------
 		
@@ -69,6 +77,7 @@ class Formulario {
 		// ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
 		$atributos ['tipoEtiqueta'] = 'inicio';
 		echo $this->miFormulario->formulario ( $atributos );
+		unset($atributos);
 		
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
@@ -76,6 +85,7 @@ class Formulario {
 		$atributos ['tamanno'] = 'Enorme';
 		$atributos ['linea'] = 'true';
 		echo $this->miFormulario->campoMensaje ( $atributos );
+		unset($atributos);
 		
 		// ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
 		$esteCampo = 'nombreTematica';
@@ -107,6 +117,7 @@ class Formulario {
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		unset($atributos);
 		
 		// --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
 		
@@ -140,6 +151,7 @@ class Formulario {
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		unset($atributos);
 		
 		// --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
 		
@@ -148,6 +160,7 @@ class Formulario {
 		$atributos ["id"] = "botones";
 		$atributos ["estilo"] = "marcoBotones";
 		echo $this->miFormulario->division ( "inicio", $atributos );
+		unset($atributos);
 		
 		// -----------------CONTROL: Botón ----------------------------------------------------------------
 		$esteCampo = 'botonCrear';
@@ -168,6 +181,7 @@ class Formulario {
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoBoton ( $atributos );
+		unset($atributos);
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 		
 		// -----------------CONTROL: Botón ----------------------------------------------------------------
@@ -189,6 +203,7 @@ class Formulario {
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoBoton ( $atributos );
+		unset($atributos);
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 		
 		
@@ -246,6 +261,7 @@ class Formulario {
 		$atributos ['marco'] = true;
 		$atributos ['tipoEtiqueta'] = 'fin';
 		echo $this->miFormulario->formulario ( $atributos );
+		unset($atributos);
 		
 		return true;
 	}

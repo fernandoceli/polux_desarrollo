@@ -26,7 +26,13 @@ $enlace = $this->miConfigurador->getVariableConfiguracion ( 'enlace' );
 			inteligencia corporativa a objeto de incrementar sus niveles de
 			eficacia, eficiencia y efectividad en el cumplimiento de su
 			misi&oacute;n social.
-		</div>
-		<div class="info-home resaltado">Universidad Distrital FJC.</div>
-	</div>
-</div>
+			
+			<?php
+			echo $this->miFormulario->division ( "fin" );
+			?>
+		<div class="info-home resaltado">Universidad Distrital FJC.
+		<?php
+		echo $this->miFormulario->division ( "fin" );
+		echo $this->miFormulario->division ( "fin" );
+		echo $this->miFormulario->division ( "fin" );
+		?>

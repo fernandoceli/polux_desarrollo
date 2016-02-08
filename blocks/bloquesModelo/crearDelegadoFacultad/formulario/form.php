@@ -10,6 +10,7 @@ class Formulario {
 	var $miConfigurador;
 	var $lenguaje;
 	var $miFormulario;
+	var $miSesion;
 	function __construct($lenguaje, $formulario, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		
@@ -18,7 +19,10 @@ class Formulario {
 		$this->lenguaje = $lenguaje;
 		
 		$this->miFormulario = $formulario;
+		
 		$this->miSql = $sql;
+		
+		$this->miSesion = \Sesion::singleton ();
 	}
 	function formulario() {
 		
@@ -46,6 +50,8 @@ class Formulario {
 		
 		$conexion = 'estructura';
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
+
+		$usuario = $this->miSesion->getSesionUsuarioId ();
 		
 		$seccion ['tiempo'] = $tiempo;
 		

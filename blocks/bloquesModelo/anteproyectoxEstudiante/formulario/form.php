@@ -83,25 +83,24 @@ class Formulario {
 		
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $usuario );
 		$matrizAnteproyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-	
+		
 		$rol = $matrizAnteproyectos [0] [0];
 		$acceso = false;
 		$mostrar = true;
 		
 		if ($rol == "Estudiante") {
 			$acceso = true;
-			//$_REQUEST ["variable"] = $_REQUEST ['usuario'];
-			//buscar código del usuario estudiante
+			// $_REQUEST ["variable"] = $_REQUEST ['usuario'];
+			// buscar código del usuario estudiante
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarCodigo", $_REQUEST ["usuario"] );
 			$cod = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-			$_REQUEST ["variable"] = $cod[0][0];
+			$_REQUEST ["variable"] = $cod [0] [0];
 		}
 		
 		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
-		
+			
 			$acceso = true;
 		}
-		
 		
 		if (isset ( $_REQUEST ["variable"] )) {
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyectos", $_REQUEST ["variable"] );
@@ -142,12 +141,12 @@ class Formulario {
 				unset ( $atributos );
 				// ////////////////////////////////////////
 				
-				$titulo = $matrizAnteproyectos[$i]['titulo'];
-				if ($titulo == strtoupper($titulo)) {
-					$titulo = substr($titulo, 0, 45) . "...";
-				} 
-				if (strlen ($titulo) > 55) {
-					$titulo = substr($titulo, 0, 50) . "...";
+				$titulo = $matrizAnteproyectos [$i] ['titulo'];
+				if ($titulo == strtoupper ( $titulo )) {
+					$titulo = substr ( $titulo, 0, 45 ) . "...";
+				}
+				if (strlen ( $titulo ) > 55) {
+					$titulo = substr ( $titulo, 0, 50 ) . "...";
 				}
 				
 				?>
@@ -159,40 +158,45 @@ class Formulario {
 			<div class="caja-fecha" style="float: left"><?php echo $matrizAnteproyectos[$i]['fecha']?></div>
 			<div class="clearboth">
 				<br></br>
-			</div>
-		</div>
+				<?php
+				echo $this->miFormulario->division ( "fin" );
+				echo $this->miFormulario->division ( "fin" );
+				?>
 		<div>
-			<div class="caja-codigo" style="float: left">
-				<div class="caja-icon-documento"></div>
-				<p class="caja-numero" id="cajanum<?php echo $i ?>"><?php echo 'No. '. $matrizAnteproyectos[$i]['anteproyecto']?></p>
-			</div>
+					<div class="caja-codigo" style="float: left">
+						<div class="caja-icon-documento"></div>
+						<p class="caja-numero" id="cajanum<?php echo $i ?>"><?php echo 'No. '. $matrizAnteproyectos[$i]['anteproyecto']?></p>
+			<?php
+				echo $this->miFormulario->division ( "fin" );
+				?>
 			<div class="caja-info" style="float: left">
-				<table style="border: 0; width: 100%">
-					<tbody>
-						<tr>
-							<td><b>Titulo:</b></td>
-							<td><?php echo $titulo ?></td>
-						</tr>
-						<tr>
-							<td><b>Modalidad:</b></td>
-							<td><?php echo $matrizAnteproyectos[$i]['modalidad'] ?></td>
-						</tr>
-						<tr>
-							<td><b>Estado:</b></td>
-							<td><?php echo $matrizAnteproyectos[$i]['estado'] ?></td>
-						</tr>
-					</tbody>
-				</table>
-				<p></p>
+							<table style="border: 0; width: 100%">
+								<tbody>
+									<tr>
+										<td><b>Titulo:</b></td>
+										<td><?php echo $titulo ?></td>
+									</tr>
+									<tr>
+										<td><b>Modalidad:</b></td>
+										<td><?php echo $matrizAnteproyectos[$i]['modalidad'] ?></td>
+									</tr>
+									<tr>
+										<td><b>Estado:</b></td>
+										<td><?php echo $matrizAnteproyectos[$i]['estado'] ?></td>
+									</tr>
+								</tbody>
+							</table>
+							<p></p>
 
-			</div>
-										<?php
+				<?php
+				
+				echo $this->miFormulario->division ( "fin" );
 				
 				$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
 				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
 				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
 				
-// 				$variableVer = "action=" . $esteBloque ["nombre"];
+				// $variableVer = "action=" . $esteBloque ["nombre"];
 				$variableVer = "pagina=verAnteproyecto";
 				$variableVer .= "&usuario=" . $_REQUEST ['usuario'];
 				$variableVer .= "&anteproyecto=" . $matrizAnteproyectos [$i] ['anteproyecto'];
@@ -219,8 +223,8 @@ class Formulario {
 				
 				?>
 									</div>
-	</div>
-</div>
+					</div>
+				</div>
 
 <?
 			}
@@ -229,27 +233,27 @@ class Formulario {
 			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
 			?>
 <div class="canvas-contenido">
-	<div class="area-msg corner margen-interna ">
-		<div class="icono-msg info"></div>
-		<div class="content-msg info corner">
-			<div class="title-msg info">Informacion</div>
-			<div style="padding: 5px 0px;">
-				<div>
-					<contenido> No hay ningun anteproyecto registrado para el estudiante <?php if(isset($_REQUEST["variable"])) { echo $_REQUEST["variable"];}?>.
+					<div class="area-msg corner margen-interna ">
+						<div class="icono-msg info"></div>
+						<div class="content-msg info corner">
+							<div class="title-msg info">Informacion</div>
+							<div style="padding: 5px 0px;">
+								<div>
+									<contenido> No hay ningun anteproyecto registrado para el estudiante <?php if(isset($_REQUEST["variable"])) { echo $_REQUEST["variable"];}?>.
 					<div style="text-align: right"
-						onclick="window.location = 'index.php?data=<?php echo $pag?>';">
-						<input
-							class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
-							type="submit" tabindex="1" value="Ir al inicio" role="button"
-							aria-disabled="false">
+										onclick="window.location = 'index.php?data=<?php echo $pag?>';">
+										<input
+											class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+											type="submit" tabindex="1" value="Ir al inicio" role="button"
+											aria-disabled="false">
+									</div>
+									</contenido>
+								</div>
+							</div>
+						</div>
+						<div class="clearboth"></div>
 					</div>
-					</contenido>
 				</div>
-			</div>
-		</div>
-		<div class="clearboth"></div>
-	</div>
-</div>
 
 <?php
 		}

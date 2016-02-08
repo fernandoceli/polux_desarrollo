@@ -139,7 +139,7 @@ class Formulario {
 		unset ( $atributos );
 		// ////////////////////////////////////////
 		
-		$atributos ['mensaje'] = 'Asignar revisores de anteproyecto No. '.$_REQUEST ['id'];
+		$atributos ['mensaje'] = 'Asignar revisores de anteproyecto No. ' . $_REQUEST ['id'];
 		$atributos ['tamanno'] = 'Enorme';
 		$atributos ['linea'] = 'true';
 		echo $this->miFormulario->campoMensaje ( $atributos );
@@ -298,7 +298,10 @@ class Formulario {
 		echo $this->miFormulario->division ( "inicio", $atributos );
 		
 		?>
-<div id="contenedor1"></div>
+<div id="contenedor1">
+<?php
+		echo $this->miFormulario->division ( "fin" );
+		?>
 <button type="button" id="btn1" class="btn btn-primary btn-lg active">Agregar</button>
 <?php
 		

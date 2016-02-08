@@ -98,10 +98,11 @@ class Formulario {
 		$atributos ['marco'] = true;
 		$tab = 1;
 		// ---------------- FIN SECCION: de Parámetros Generales del Formulario ----------------------------
-		
+		unset($atributos);
 		// ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
 		$atributos ['tipoEtiqueta'] = 'inicio';
 		echo $this->miFormulario->formulario ( $atributos );
+		unset($atributos);
 		
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
@@ -120,6 +121,7 @@ class Formulario {
 		$atributos ['tamanno'] = 'Enorme';
 		$atributos ['linea'] = 'true';
 		echo $this->miFormulario->campoMensaje ( $atributos );
+		unset($atributos);
 		
 		$esteCampo = "marcoDatos";
 		$atributos ['id'] = $esteCampo;
@@ -127,6 +129,7 @@ class Formulario {
 		$atributos ['tipoEtiqueta'] = 'inicio';
 		$atributos ["leyenda"] = $this->lenguaje->getCadena ( $esteCampo );
 		echo $this->miFormulario->marcoAgrupacion ( 'inicio', $atributos );
+		unset($atributos);
 		
 		// ---------------- CONTROL: Cuadro Lista --------------------------------------------------------
 		$esteCampo = 'seleccionarProgramaCurricular';
@@ -411,6 +414,7 @@ class Formulario {
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		unset($atributos);
 		// --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
 		
 		// ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
@@ -551,6 +555,7 @@ class Formulario {
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoBoton ( $atributos );
+		unset($atributos);
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 		
 		// -----------------CONTROL: Botón ----------------------------------------------------------------
@@ -572,6 +577,7 @@ class Formulario {
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoBoton ( $atributos );
+		unset($atributos);
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 		
 		// ------------------Fin Division para los botones-------------------------

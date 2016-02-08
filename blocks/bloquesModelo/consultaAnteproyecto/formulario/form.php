@@ -78,7 +78,7 @@ class Formulario {
 			$acceso = true;
 			$mostrar = true;
 			$_REQUEST ["variable"] = $_REQUEST ['usuario'];
-			$_REQUEST['estudiante'] = $_REQUEST ['usuario'];
+			$_REQUEST ['estudiante'] = $_REQUEST ['usuario'];
 		}
 		
 		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
@@ -201,9 +201,17 @@ class Formulario {
 			<tr>
 				<td id="col" rowspan="7">
 					<div class="corner bg-imagen-documento">
-						<div id="documento" class="icon-max-pdf"></div>
-						<div class="codigo-documento">Versi贸n No.1</div>
-					</div>
+						<div id="documento" class="icon-max-pdf">
+						<?php
+		echo $this->miFormulario->division ( "fin" );
+		?>
+						<div class="codigo-documento">Versi贸n No.1
+						<?php
+		echo $this->miFormulario->division ( "fin" );
+		echo $this->miFormulario->division ( "fin" );
+		?>
+				
+				
 				</td>
 				<td class="table-tittle estilo_tr">Titulo</td>
 				<td class="estilo_tr"><p><?php echo $matrizAnteproyecto[0][3]?></p></td>
@@ -260,9 +268,18 @@ class Formulario {
 			<tr>
 				<td id="col">
 					<div class="corner bg-imagen-documento">
-						<div id="documento" class="docs-anexos-icon"></div>
-						<div class="codigo-documento">Anexos</div>
-					</div>
+						<div id="documento" class="docs-anexos-icon">
+						<?php
+		echo $this->miFormulario->division ( "fin" );
+		?>
+						</div>
+						<div class="codigo-documento">Anexos
+						<?php
+		echo $this->miFormulario->division ( "fin" );
+		echo $this->miFormulario->division ( "fin" );
+		?>
+				
+				
 				</td>
 				<td class="estilo_tr">Documentaci贸n anexa</td>
 			</tr>
@@ -302,13 +319,13 @@ class Formulario {
 		// si ha recibido viable por parte de los revisores se ACTIVA bot髇 PROYECTO
 		$esViable = true;
 		for($i = 0; $i < count ( $matrizRevisionesPrueba ); $i ++) {
-			//var_dump($matrizRevisionesPrueba [$i] [2]);
+			// var_dump($matrizRevisionesPrueba [$i] [2]);
 			if ($matrizRevisionesPrueba [$i] [2] != 'VIABLE') {
 				$esViable = false;
 			}
 		}
-		//var_dump($esViable);
-		if ($esViable && (count($matrizRevisionesPrueba)==count($matrizSolicitudes)) && ($matrizAnteproyecto[0][7] != "PROYECTO")) {
+		// var_dump($esViable);
+		if ($esViable && (count ( $matrizRevisionesPrueba ) == count ( $matrizSolicitudes )) && ($matrizAnteproyecto [0] [7] != "PROYECTO")) {
 			
 			// -----------------CONTROL: Bot贸n ----------------------------------------------------------------
 			$esteCampo = 'botonIniciar';
@@ -432,8 +449,7 @@ class Formulario {
 		
 		
 		<?php
-	
-	
+		
 		if ($matrizRevisores) {
 			?>
 			<div id="revisores">

@@ -80,8 +80,8 @@ class Formulario {
 		$atributos ['nombre'] = $esteCampo;
 		$atributos ['estiloMarco'] = '';
 		$atributos ["imagen"] = $rutaBloque . "/imagen/polux-titulo.png";
-		$atributos ['alto'] = 106;
-		$atributos ['ancho'] = 800;
+		$atributos ['alto'] = 85;
+		$atributos ['ancho'] = 750;
 		$atributos ["borde"] = 0;
 		$atributos ['tabIndex'] = $tab ++;
 		echo $this->miFormulario->campoImagen ( $atributos );
@@ -92,7 +92,7 @@ class Formulario {
 		unset ( $atributos );
 		
 		$usuario = $this->miSesion->getSesionUsuarioId ();
-		var_dump ( $_REQUEST );
+// 		var_dump ( $_REQUEST );
 		if (! isset ( $_REQUEST ['usuario'] )) {
 			if ($usuario) {
 				$_REQUEST ['usuario'] = $usuario;

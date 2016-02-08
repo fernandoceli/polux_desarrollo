@@ -30,6 +30,7 @@ class redireccion {
 				
 				$variable = 'pagina=indexPolux';
 				$variable .= '&usuario=' . $valor ['usuario'];
+				
 				break;
 			
 			default :

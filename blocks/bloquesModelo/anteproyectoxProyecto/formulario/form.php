@@ -96,21 +96,14 @@ class Formulario {
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $usuario );
 		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		//var_dump($matrizItems);
-		// var_dump($matrizItems[0]);
-		
 		$rol = $matrizItems [0] [0];
 		
 		$acceso = false;
 		$mostrar = true;
-		// echo $rol;
-		// var_dump($_REQUEST);
 		
 		if ($rol == "Coordinador") {
-		
 			$acceso = true;
 			$_REQUEST ['docente'] = $_REQUEST ['usuario'];
-			// $_REQUEST['docente'] = 'CC321456789';
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarProgramaDocente", $_REQUEST ['docente'] );
 			$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 			var_dump ( $matrizItems );
@@ -174,31 +167,93 @@ class Formulario {
 		} else {
 			$mostrar = false;
 			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
-			?>
-<div class="canvas-contenido">
-		<div class="area-msg corner margen-interna ">
-			<div class="icono-msg info"></div>
-			<div class="content-msg info corner">
-				<div class="title-msg info">Informacion</div>
-				<div style="padding: 5px 0px;">
-					<div>
-						<contenido> No existen anteproyectos registrados para el programa
-						curricular.
-						<div style="text-align: right"
-							onclick="window.location = 'index.php?data=<?php echo $pag?>';">
-							<input
-								class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
-								type="submit" tabindex="1" value="Ir al inicio" role="button"
-								aria-disabled="false">
-						</div>
-						</contenido>
-					</div>
-				</div>
-			</div>
-			<div class="clearboth"></div>
-		</div>
-	</div>
-<?php
+			
+			$atributos ['id'] = "d";
+			$atributos ['estilo'] = "canvas-contenido";
+			echo $this->miFormulario->division ( "inicio", $atributos );
+			unset ( $atributos );
+			
+			$atributos ['id'] = "d";
+			$atributos ['estilo'] = "area-msg corner margen-interna";
+			echo $this->miFormulario->division ( "inicio", $atributos );
+			unset ( $atributos );
+			
+			$atributos ['id'] = "d";
+			$atributos ['estilo'] = "icono-msg info";
+			echo $this->miFormulario->division ( "inicio", $atributos );
+			echo $this->miFormulario->division ( "fin" );
+			unset ( $atributos );
+			
+			$atributos ['id'] = "d";
+			$atributos ['estilo'] = "content-msg info corner";
+			echo $this->miFormulario->division ( "inicio", $atributos );
+			unset ( $atributos );
+			
+			$atributos ['id'] = "d";
+			$atributos ['estilo'] = "title-msg info";
+			$atributos ['mensaje'] = 'Informacion';
+			echo $this->miFormulario->division ( "inicio", $atributos );
+			echo $this->miFormulario->division ( "fin" );
+			unset ( $atributos );
+			
+			$atributos ['id'] = "d";
+			$atributos ['estilo'] = "";
+			$atributos ['estiloEnLinea'] = "padding: 5px 0px;";
+			echo $this->miFormulario->division ( "inicio", $atributos );
+			unset ( $atributos );
+			
+			$atributos ['id'] = "d";
+			$atributos ['estilo'] = "";
+			echo $this->miFormulario->division ( "inicio", $atributos );
+			unset ( $atributos );
+			
+			$atributos ['id'] = "c";
+			$atributos ['estilo'] = "";
+			$atributos ['mensaje'] = 'No existen anteproyectos actualmente asignados para
+		revision.';
+			$atributos ['tipo_etiqueta'] = "contenido";
+			echo $this->miFormulario->div_especifico("inicio", $atributos);
+			unset($atributos);
+			
+			$atributos ['id'] = "d";
+			$atributos ['onclick'] = "window.location = 'index.php?data=" . $pag;
+			$atributos ['estilo'] = "";
+			echo $this->miFormulario->division ( "inicio", $atributos );
+			unset ( $atributos );
+			
+			// -----------------INICIO CONTROL: Botón ------------------------------------------
+			$esteCampo = 'botonInicio';
+			$atributos ['id'] = $esteCampo;
+			$atributos ['tabIndex'] = $tab;
+			$atributos ['tipo'] = 'submit';
+			$atributos ['tipoSubmit'] = true;
+			$atributos ['estiloBoton'] = 'jqueryui';
+			$atributos ['valor'] = $this->lenguaje->getCadena ( $esteCampo );
+			$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+			// Aplica atributos globales al control
+			$atributos = array_merge ( $atributos, $atributosGlobales );
+			echo $this->miFormulario->campoBoton ( $atributos );
+			unset ( $atributos );
+			// -----------------FIN CONTROL: Botón ---------------------------------------
+			
+			echo $this->miFormulario->division ( "fin" );
+			
+			$atributos ['tipo_etiqueta'] = "contenido";
+			echo $this->miFormulario->div_especifico("fin", $atributos);
+			unset($atributos);
+			
+			echo $this->miFormulario->division ( "fin" );
+			echo $this->miFormulario->division ( "fin" );
+			echo $this->miFormulario->division ( "fin" );
+			
+			$atributos ['id'] = "d";
+			$atributos ['estilo'] = "clearboth";
+			echo $this->miFormulario->division ( "inicio", $atributos );
+			echo $this->miFormulario->division ( "fin" );
+			unset ( $atributos );
+			
+			echo $this->miFormulario->division ( "fin" );
+			echo $this->miFormulario->division ( "fin" );
 		}
 		
 		if ($mostrar) {

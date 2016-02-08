@@ -138,7 +138,7 @@ class Formulario {
 		
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarDocentes" );
 		$matrizDocentes = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-// 		var_dump ( $matrizDocentes );
+		// var_dump ( $matrizDocentes );
 		
 		$atributos ['matrizItems'] = $matrizDocentes;
 		
@@ -196,9 +196,10 @@ class Formulario {
 		// --------------- FIN CONTROL : Cuadro Lista --------------------------------------------------
 		?>
 <button type="button" id="btn1" class="btn btn-primary btn-lg active">Agregar</button>
-<div id="contenedor1" align="center"></div>
+<div id="contenedor1" align="center">
 
 <?php
+		echo $this->miFormulario->division ( "fin" );
 		
 		// Hidden para guardar los nombres de las temáticas seleccionadas
 		// ////////////////Hidden////////////

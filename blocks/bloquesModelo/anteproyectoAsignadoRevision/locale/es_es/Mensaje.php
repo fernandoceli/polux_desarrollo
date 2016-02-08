@@ -8,4 +8,6 @@ $this->idioma ["botonCancelar"] = "Cancelar";
 $this->idioma ["noDefinido"] = "No definido";
 $this->idioma ["botonIngresar"] = "Ingresar";
 
+$this->idioma ["botonInicio"] = "Ir a inicio";
+
 ?>

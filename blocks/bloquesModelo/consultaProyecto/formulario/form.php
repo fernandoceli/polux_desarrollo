@@ -183,9 +183,15 @@ class Formulario {
 			<tr>
 				<td id="col" rowspan="7">
 					<div class="corner bg-imagen-documento">
-						<div id="documento" class="icon-max-pdf"></div>
-						<div class="codigo-documento">Versión No.1</div>
-					</div>
+						<div id="documento" class="icon-max-pdf">
+						<?php 
+						echo $this->miFormulario->division ( "fin" );
+						?>
+						<div class="codigo-documento">Versión No.1
+						<?php 
+						echo $this->miFormulario->division ( "fin" );
+						echo $this->miFormulario->division ( "fin" );
+						?>
 				</td>
 				<td class="table-tittle estilo_tr">Titulo</td>
 				<td class="estilo_tr"><p><?php echo $matrizProyectos[0]['proy_titu'];?></p></td>
@@ -258,9 +264,15 @@ class Formulario {
 			<tr>
 				<td id="col">
 					<div class="corner bg-imagen-documento">
-						<div id="documento" class="docs-anexos-icon"></div>
-						<div class="codigo-documento">Anexos</div>
-					</div>
+						<div id="documento" class="docs-anexos-icon">
+						<?php 
+						echo $this->miFormulario->division ( "fin" );
+						?>
+						<div class="codigo-documento">Anexos
+						<?php 
+						echo $this->miFormulario->division ( "fin" );
+						echo $this->miFormulario->division ( "fin" );
+						?>
 				</td>
 
 				<td class="estilo_tr">
