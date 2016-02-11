@@ -17,7 +17,6 @@ class redireccion {
 				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=confirma";
-				$variable .= "&usuario=" . $valor ['usuario'];
 				$variable .= "&identificacion=" . $valor ['identificacion'];
 				$variable .= "&nombres=" . $valor ['nombres'];
 				$variable .= "&apellidos=" . $valor ['apellidos'];
@@ -26,6 +25,7 @@ class redireccion {
 				$variable .= "&perfilUs=" . $valor ['perfilUs'];
 				$variable .= "&password=" . $valor ['pass'];
 				$variable .= "&id_usuario=" . $valor ['id_usuario'];
+				$variable .= "&usuario=" . $_REQUEST['usuario'];
 				break;
 			
 			case "noInserto" :
@@ -33,7 +33,6 @@ class redireccion {
 				$variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=error";
 				if ($valor != "") {
-					$variable .= "&usuario=" . $valor ['usuario'];
 					$variable .= "&identificacion=" . $valor ['identificacion'];
 					$variable .= "&nombres=" . $valor ['nombres'];
 					$variable .= "&apellidos=" . $valor ['apellidos'];
@@ -41,6 +40,7 @@ class redireccion {
 					$variable .= "&telefono=" . $valor ['telefono'];
 					$variable .= "&password=" . $valor ['password'];
 				}
+				$variable .= "&usuario=" . $_REQUEST['usuario'];
 				break;
 			
 			case "existe" :
@@ -48,7 +48,6 @@ class redireccion {
 				$variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=existe";
 				if ($valor != "") {
-					$variable .= "&usuario=" . $valor ['usuario'];
 					$variable .= "&identificacion=" . $valor ['identificacion'];
 					$variable .= "&nombres=" . $valor ['nombres'];
 					$variable .= "&apellidos=" . $valor ['apellidos'];
@@ -56,6 +55,7 @@ class redireccion {
 					$variable .= "&telefono=" . $valor ['telefono'];
 					$variable .= "&password=" . $valor ['password'];
 				}
+				$variable .= "&usuario=" . $_REQUEST['usuario'];
 				break;
 			
 			case "existeLog" :
@@ -63,17 +63,16 @@ class redireccion {
 				$variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=existeLog";
 				if ($valor != "") {
-					$variable .= "&usuario=" . $valor ['usuario'];
 					$variable .= "&id_usuario=" . $valor ['id_usuario'];
 					$variable .= "&identificacion=" . $valor ['identificacion'];
 					$variable .= "&nombres=" . $valor ['nombre'];
 					$variable .= "&apellidos=" . $valor ['apellido'];
 				}
+				$variable .= "&usuario=" . $_REQUEST['usuario'];
 				break;
 			
 			default :
 				$variable = '';
-				break;
 		}
 		foreach ( $_REQUEST as $clave => $valor ) {
 			unset ( $_REQUEST [$clave] );
@@ -82,7 +81,7 @@ class redireccion {
 		$url = $miConfigurador->configuracion ["host"] . $miConfigurador->configuracion ["site"] . "/index.php?";
 		
 		$enlace = $miConfigurador->configuracion ['enlace'];
-		var_dump ( $variable );
+		//var_dump ( $variable );
 		$variable = $miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
 		$_REQUEST [$enlace] = $enlace . '=' . $variable;
 		$redireccion = $url . $_REQUEST [$enlace];

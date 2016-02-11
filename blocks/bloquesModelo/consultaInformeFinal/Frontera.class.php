@@ -45,8 +45,6 @@ class Frontera {
 		
 		if (isset ( $_REQUEST ['botonI'] ) && ($_REQUEST ['botonI'] == 'true')) {
 			include_once ($this->ruta . "/formulario/iniciar.php");
-		} elseif (isset($_REQUEST['botonSolicitar']) && ($_REQUEST['botonSolicitar'] == 'true')) {
-			include_once ($this->ruta . "/formulario/solicitarRevision.php");;
 		} else if (isset ( $_REQUEST ['opcion'] )) {
 			switch ($_REQUEST ['opcion']) {
 				case "asignar" :
@@ -57,6 +55,19 @@ class Frontera {
 					break;
 				case "continuar" :
 					include_once ($this->ruta . "/formulario/form.php");
+					break;
+				case "solicitar":
+					if (isset ( $_REQUEST ['btnCrearVersion'] ) && ($_REQUEST ['btnCrearVersion'] == 'true')) {
+						include_once ($this->ruta . "/formulario/crearVersion.php");
+					}
+						
+					if (isset ( $_REQUEST ['botonSolicitar'] ) && ($_REQUEST ['botonSolicitar'] == 'true')) {
+						include_once ($this->ruta . "/formulario/solicitar.php");
+					}
+						
+					if (isset ( $_REQUEST ['btnAsignarJurados'] ) && ($_REQUEST ['btnAsignarJurados'] == 'true')) {
+						include_once ($this->ruta . "/formulario/asignar.php");
+					}
 					break;
 			}
 		} else {

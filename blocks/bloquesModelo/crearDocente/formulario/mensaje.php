@@ -8,7 +8,6 @@ class registrarForm {
 	var $lenguaje;
 	var $miFormulario;
 	var $miSql;
-	var $miSesion;
 	function __construct($lenguaje, $formulario, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		
@@ -19,8 +18,6 @@ class registrarForm {
 		$this->miFormulario = $formulario;
 		
 		$this->miSql = $sql;
-		
-		$this->miSesion = \Sesion::singleton ();
 	}
 	function miForm() {
 		// Rescatar los datos de este bloque
@@ -42,14 +39,6 @@ class registrarForm {
 		// -------------------------------------------------------------------------------------------------
 		$conexion = "estructura";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-		
-		$usuario = $this->miSesion->getSesionUsuarioId ();
-		
-		if (isset($_REQUEST['usuario'])) {
-			$usuario = $_REQUEST['usuario'];
-		}
-		
-// 		var_dump($_REQUEST);v
 		
 		// Limpia Items Tabla temporal
 		
@@ -88,8 +77,8 @@ class registrarForm {
 			$rutaBloque .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/blocks/";
 			$rutaBloque .= $esteBloque ['grupo'] . "/" . $esteBloque ['nombre'];
 			
+			
 			$variable = "pagina=" . $miPaginaActual;
-			$variable .= "&usuario=" . $usuario;
 			
 			// ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
 			$esteCampo = 'botonRegresar';
@@ -218,7 +207,9 @@ class registrarForm {
 			 * //echo $this->miFormulario->campoBoton ( $atributos );
 			 */
 			
+			$variable .= "&usuario=" . $_REQUEST['usuario'];
 			$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable, $directorio );
+			
 			
 			$esteCampo = 'botonContinuar';
 			$atributos ['id'] = $esteCampo;
@@ -273,14 +264,11 @@ class registrarForm {
 		
 		// Paso 1: crear el listado de variables
 		
-// 		$valorCodificado = "actionBloque=" . $esteBloque ["nombre"];
-		$valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
-		$valorCodificado .= "&usuario=" . $usuario;
+		$valorCodificado = "actionBloque=" . $esteBloque ["nombre"];
+		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&opcion=paginaPrincipal";
-// 		echo $valorCodificado;
-// 		exit();
 		/**
 		 * SARA permite que los nombres de los campos sean dinámicos.
 		 * Para ello utiliza la hora en que es creado el formulario para

@@ -73,7 +73,7 @@ class Funcion {
 			$this->iniciar_informe ();
 		} else if (isset ( $_REQUEST ["opcion"] )) {
 			
-			switch ($_REQUEST ["opcion"]) {
+		switch ($_REQUEST ["opcion"]) {
 				
 				case 'mostrar' :
 					$this->mostrar ();
@@ -85,6 +85,10 @@ class Funcion {
 				
 				case 'crearVersion' :
 					$this->crearVersion ();
+					break;
+				
+				case 'asignar' :
+					$this->asignar ();
 					break;
 				
 				case 'continuar' :

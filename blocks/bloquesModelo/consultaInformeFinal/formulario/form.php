@@ -134,6 +134,38 @@ class Formulario {
 		$director = $matrizDirector [0] [0];
 		$modalidad = $matrizInformes [0] [1];
 		
+		// Hidden para anteproyecto
+		$esteCampo = 'director';
+		$atributos ["id"] = $esteCampo;
+		$atributos ["tipo"] = "hidden";
+		$atributos ['estilo'] = '';
+		$atributos ['validar'] = '';
+		$atributos ["obligatorio"] = true;
+		$atributos ['marco'] = true;
+		$atributos ["etiqueta"] = "";
+		$atributos ['valor'] = $director;
+		
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		unset ( $atributos );
+		// /////////////////////////////////
+		
+		// Hidden para anteproyecto
+		$esteCampo = 'coddirector';
+		$atributos ["id"] = $esteCampo;
+		$atributos ["tipo"] = "hidden";
+		$atributos ['estilo'] = '';
+		$atributos ['validar'] = '';
+		$atributos ["obligatorio"] = true;
+		$atributos ['marco'] = true;
+		$atributos ["etiqueta"] = "";
+		$atributos ['valor'] = trim ( $matrizInformes [0] ['info_dir_int'] );
+		
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		unset ( $atributos );
+		// /////////////////////////////////
+		
 		// Buscar temáticas asociadas
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarTematicas", $_REQUEST ['informe'] );
 		$matrizTematicas = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
@@ -841,7 +873,7 @@ class Formulario {
 		
 		if (! $matrizRevisor && ($rol == "Coordinador" || ($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas'))) {
 			// -----------------CONTROL: Botón ----------------------------------------------------------------
-			$esteCampo = 'botonA';
+			$esteCampo = 'btnAsignarJurados';
 			$atributos ["id"] = $esteCampo;
 			$atributos ["tabIndex"] = $tab;
 			$atributos ["tipo"] = 'boton';
@@ -1097,8 +1129,8 @@ class Formulario {
 		
 		if (isset ( $matrizSolsJurados ) && $matrizSolsJurados) {
 		} else {
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "bg-tablero corner";
+			$atributos ['id'] = 'jurados';
+			$atributos ['estilo'] = "";
 			echo $this->miFormulario->division ( "inicio", $atributos );
 			unset ( $atributos );
 			
@@ -1435,8 +1467,8 @@ class Formulario {
 			echo $this->miFormulario->division ( "fin" );
 		} else {
 			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "bg-tablero corner";
+			$atributos ['id'] = "proceso";
+			$atributos ['estilo'] = "";
 			echo $this->miFormulario->division ( "inicio", $atributos );
 			unset ( $atributos );
 			
@@ -1552,8 +1584,8 @@ class Formulario {
 		
 		if (! $modi) {
 			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "bg-tablero corner";
+			$atributos ['id'] = "modif";
+			$atributos ['estilo'] = "";
 			echo $this->miFormulario->division ( "inicio", $atributos );
 			unset ( $atributos );
 			

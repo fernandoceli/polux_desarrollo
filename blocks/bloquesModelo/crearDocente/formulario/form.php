@@ -11,7 +11,7 @@ class Formulario {
 	var $lenguaje;
 	var $miFormulario;
 	var $miSql;
-	var $miSesion;
+	
 	function __construct($lenguaje, $formulario, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		
@@ -20,10 +20,7 @@ class Formulario {
 		$this->lenguaje = $lenguaje;
 		
 		$this->miFormulario = $formulario;
-		
-		$this->miSql = $sql;
-		
-		$this->miSesion = \Sesion::singleton ();
+		$this->miSql=$sql;
 	}
 	function formulario() {
 		
@@ -49,14 +46,8 @@ class Formulario {
 		$_REQUEST ['tiempo'] = time ();
 		$tiempo = $_REQUEST ['tiempo'];
 		
-		$conexion = 'estructura';
-		$esteRecurso = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-		
-		$usuario = $this->miSesion->getSesionUsuarioId ();
-		
-		if (isset($_REQUEST['usuario'])) {
-			$usuario = $_REQUEST['usuario'];
-		}
+		$conexion='estructura';
+		$esteRecursoDB=$this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 		
 		$seccion ['tiempo'] = $tiempo;
 		
@@ -64,16 +55,14 @@ class Formulario {
 		// identifca lo roles para la busqueda de subsistemas
 		$roles = $miSesion->RolesSesion ();
 		$aux = 0;
-		if (isset ( $roles[0] )) {
-			foreach ( $roles as $key => $value ) {
-				if ($roles [$key] ['cod_rol'] == 1 && $roles [$key] ['cod_app'] > 1) {
-					$app [$aux] = $roles [$key] ['cod_app'];
-					$aux ++;
-				} elseif ($roles [$key] ['cod_rol'] == 0 && $roles [$key] ['cod_app'] == 1) {
-					$app = '';
-					$app [0] = $roles [$key] ['cod_app'];
-					break;
-				}
+		foreach ( $roles as $key => $value ) {
+			if ($roles [$key] ['cod_rol'] == 1 && $roles [$key] ['cod_app'] > 1) {
+				$app [$aux] = $roles [$key] ['cod_app'];
+				$aux ++;
+			} elseif ($roles [$key] ['cod_rol'] == 0 && $roles [$key] ['cod_app'] == 1) {
+				$app = '';
+				$app [0] = $roles [$key] ['cod_app'];
+				break;
 			}
 		}
 		// -------------------------------------------------------------------------------------------------
@@ -98,30 +87,17 @@ class Formulario {
 		$atributos ['marco'] = true;
 		$tab = 1;
 		// ---------------- FIN SECCION: de Parámetros Generales del Formulario ----------------------------
-		unset($atributos);
+		
 		// ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
 		$atributos ['tipoEtiqueta'] = 'inicio';
 		echo $this->miFormulario->formulario ( $atributos );
-		unset($atributos);
 		
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
-		
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $usuario );
-		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-		
-		$rol = $matrizItems [0] [0];
-		$acceso = false;
-		
-		if ($rol == 'Administrador General') {
-			$acceso = true;
-			// $_REQUEST ["variable"] = '201011645';
-		}
 		
 		$atributos ['mensaje'] = 'Nuevo Docente';
 		$atributos ['tamanno'] = 'Enorme';
 		$atributos ['linea'] = 'true';
 		echo $this->miFormulario->campoMensaje ( $atributos );
-		unset($atributos);
 		
 		$esteCampo = "marcoDatos";
 		$atributos ['id'] = $esteCampo;
@@ -129,7 +105,6 @@ class Formulario {
 		$atributos ['tipoEtiqueta'] = 'inicio';
 		$atributos ["leyenda"] = $this->lenguaje->getCadena ( $esteCampo );
 		echo $this->miFormulario->marcoAgrupacion ( 'inicio', $atributos );
-		unset($atributos);
 		
 		// ---------------- CONTROL: Cuadro Lista --------------------------------------------------------
 		$esteCampo = 'seleccionarProgramaCurricular';
@@ -141,7 +116,7 @@ class Formulario {
 		$atributos ['seleccion'] = - 1;
 		$atributos ['evento'] = '';
 		$atributos ['deshabilitado'] = false;
-		$atributos ['limitar'] = false;
+		$atributos ['limitar'] = true;
 		$atributos ['tamanno'] = 1;
 		$atributos ['columnas'] = 1;
 		
@@ -150,8 +125,8 @@ class Formulario {
 		$atributos ["etiquetaObligatorio"] = true;
 		$atributos ['anchoEtiqueta'] = 280;
 		
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarProgramasCurriculares" );
-		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql("buscarProgramasCurriculares");
+		$matrizItems=$esteRecursoDB->ejecutarAcceso($atributos['cadena_sql'], "busqueda");
 		
 		$atributos ['matrizItems'] = $matrizItems;
 		
@@ -177,7 +152,7 @@ class Formulario {
 		$atributos ['seleccion'] = - 1;
 		$atributos ['evento'] = '';
 		$atributos ['deshabilitado'] = false;
-		$atributos ['limitar'] = false;
+		$atributos ['limitar'] = true;
 		$atributos ['tamanno'] = 1;
 		$atributos ['columnas'] = 1;
 		
@@ -187,9 +162,8 @@ class Formulario {
 		$atributos ["etiquetaObligatorio"] = true;
 		$atributos ['anchoEtiqueta'] = 280;
 		
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "tipoIdentificacion" );
-		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-		unset($matrizItems[3]);
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql("tipoIdentificacion");
+		$matrizItems=$esteRecursoDB->ejecutarAcceso($atributos['cadena_sql'], "busqueda");
 		$atributos ['matrizItems'] = $matrizItems;
 		
 		if (isset ( $_REQUEST [$esteCampo] )) {
@@ -286,7 +260,7 @@ class Formulario {
 		$atributos ['tabIndex'] = $tab;
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ['validar'] = 'required, maxSize[100]';
-		
+			
 		if (isset ( $_REQUEST [$esteCampo] )) {
 			$atributos ['valor'] = $_REQUEST [$esteCampo];
 		} else {
@@ -298,7 +272,7 @@ class Formulario {
 		$atributos ['tamanno'] = 100;
 		$atributos ['maximoTamanno'] = '';
 		$tab ++;
-		
+			
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoCuadroTexto ( $atributos );
@@ -349,7 +323,7 @@ class Formulario {
 		$atributos ['seleccion'] = - 1;
 		$atributos ['evento'] = '';
 		$atributos ['deshabilitado'] = false;
-		$atributos ['limitar'] = false;
+		$atributos ['limitar'] = true;
 		$atributos ['tamanno'] = 1;
 		$atributos ['columnas'] = 1;
 		
@@ -363,16 +337,16 @@ class Formulario {
 		$matrizItems = array (
 				array (
 						"Planta",
-						'Planta' 
+						'Planta'
 				),
 				array (
 						"Hora catedra",
-						'Hora catedra' 
+						'Hora catedra'
 				),
 				array (
 						"Tco",
-						'Tco' 
-				) 
+						'Tco'
+				)
 		);
 		
 		$atributos ['matrizItems'] = $matrizItems;
@@ -414,7 +388,6 @@ class Formulario {
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoCuadroTexto ( $atributos );
-		unset($atributos);
 		// --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
 		
 		// ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
@@ -430,7 +403,7 @@ class Formulario {
 		$atributos ['dobleLinea'] = 0;
 		$atributos ['tabIndex'] = $tab;
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-		$atributos ['validar'] = "required,minSize[7],custom[phone]";
+		$atributos ['validar']="required,minSize[7],custom[phone]";
 		$atributos ['valor'] = '';
 		$atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
 		$atributos ['deshabilitado'] = false;
@@ -443,7 +416,7 @@ class Formulario {
 		echo $this->miFormulario->campoCuadroTexto ( $atributos );
 		unset ( $atributos );
 		// ---------------- FIN CONTROL: Cuadro de Texto --------------------------------------------------------
-		
+				
 		// ---------------- CONTROL: Cuadro de Lista --------------------------------------------------------
 		$esteCampo = 'subsistema';
 		$atributos ['columnas'] = 2;
@@ -456,24 +429,24 @@ class Formulario {
 		$atributos ['tamanno'] = 1;
 		$atributos ['estilo'] = 'jqueryui';
 		$atributos ['validar'] = 'required';
-		$atributos ['limitar'] = false;
+		$atributos ['limitar'] = true;
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ['anchoEtiqueta'] = 100;
 		$atributos ['anchoCaja'] = 60;
 		if (isset ( $_REQUEST [$esteCampo] )) {
 			$atributos ['seleccion'] = $_REQUEST [$esteCampo];
 		} else {
-			$atributos ['seleccion'] = 0;
+			$atributos ['seleccion'] = - 1;
 		}
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "subsistema", $app );
-		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		$matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		$atributos ['matrizItems'] = $matrizItems;
 		$tab ++;
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoCuadroLista ( $atributos );
 		unset ( $atributos );
 		// ---------------- FIN CONTROL: Cuadro de Lista --------------------------------------------------------
-		
+			
 		// ---------------- CONTROL: Cuadro de Lista --------------------------------------------------------
 		$esteCampo = 'perfil';
 		$atributos ['columnas'] = 2;
@@ -486,7 +459,7 @@ class Formulario {
 		$atributos ['tamanno'] = 1;
 		$atributos ['estilo'] = 'jqueryui';
 		$atributos ['validar'] = 'required';
-		$atributos ['limitar'] = false;
+		$atributos ['limitar'] = true;
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ['anchoEtiqueta'] = 150;
 		$atributos ['anchoCaja'] = 60;
@@ -496,7 +469,7 @@ class Formulario {
 			$atributos ['seleccion'] = - 1;
 		}
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultaPerfiles" );
-		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		$matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		$atributos ['matrizItems'] = $matrizItems;
 		$tab ++;
 		$atributos = array_merge ( $atributos, $atributosGlobales );
@@ -523,14 +496,14 @@ class Formulario {
 		$atributos ['tamanno'] = 60;
 		$atributos ['maximoTamanno'] = '';
 		$atributos ['anchoEtiqueta'] = 170;
-		
+			
 		$tab ++;
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoCuadroTexto ( $atributos );
 		unset ( $atributos );
 		// ---------------- FIN CONTROL: Cuadro de Texto --------------------------------------------------------
-		
+				
 		// ------------------Division para los botones-------------------------
 		$atributos ["id"] = "botones";
 		$atributos ["estilo"] = "marcoBotones";
@@ -555,7 +528,6 @@ class Formulario {
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoBoton ( $atributos );
-		unset($atributos);
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 		
 		// -----------------CONTROL: Botón ----------------------------------------------------------------
@@ -577,8 +549,8 @@ class Formulario {
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoBoton ( $atributos );
-		unset($atributos);
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
+		
 		
 		// ------------------Fin Division para los botones-------------------------
 		echo $this->miFormulario->division ( "fin" );
@@ -601,11 +573,11 @@ class Formulario {
 		
 		// Paso 1: crear el listado de variables
 		
-		$valorCodificado = "action=" . $esteBloque ["nombre"]; // Ir pagina Funcionalidad
-		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' ); // Frontera mostrar formulario
-		$valorCodificado .= "&usuario=" . $usuario;
+		$valorCodificado = "action=" . $esteBloque ["nombre"]; //Ir pagina Funcionalidad
+		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );//Frontera mostrar formulario
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+		$valorCodificado .= "&usuario=" . $_REQUEST['usuario'];
 		$valorCodificado .= "&opcion=registrar";
 		/**
 		 * SARA permite que los nombres de los campos sean dinámicos.

@@ -14,7 +14,7 @@ $this->idioma ["botonCancelarIni"] = "Cancelar";
 $this->idioma ["noDefinido"] = "No definido";
 $this->idioma ["botonIngresar"] = "Ingresar";
 $this->idioma ["botonCrear"] = "Aceptar";
-$this->idioma ["botonA"] = "Solicitar de Asignación Jurado";
+$this->idioma ["btnAsignarJurados"] = "Asignar Jurado";
 $this->idioma ["botonH"] = "Hist&oacute;rico Informe Final";
 $this->idioma ["botonIniciar"] = "Iniciar informe final";
 $this->idioma ["botonRegresar"] = "Regresar";
@@ -31,5 +31,10 @@ $this->idioma ["marcoDatos"] = "Asignar revisores";
 $this->idioma ["marcoDatos2"] = "Historial del proyecto";
 
 $this->idioma ['botonI'] = "Radicar Informe Final";
+
+$this->idioma ['observacion'] = 'Observación de asignación: ';
+$this->idioma ['noacta'] = 'No. Acta de consejo de asignación de jurados';
+$this->idioma ['fecha'] = 'Fecha acta consejo de asignación de jurados';
+$this->idioma ['seleccionarJurado'] = 'Jurados (Cantidad minima permitida: 1)';
 
 ?>

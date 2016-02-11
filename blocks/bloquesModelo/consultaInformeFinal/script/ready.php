@@ -1,4 +1,4 @@
-$("#consultaAnteproyecto").validationEngine({
+$("#consultaInformeFinal").validationEngine({
 	promptPosition : "centerRight",
 	scroll: false,
 	autoHidePrompt: true,
@@ -17,6 +17,10 @@ $('#<?php echo $this->campoSeguro('fecha')?>').width(280);
 
 
 $("#<?php echo $this->campoSeguro('botonAsignar')?>").attr('disabled','true');	
+
+
+$('#<?php echo $this->campoSeguro('seleccionarJurado')?>').width(280);
+$('#<?php echo $this->campoSeguro('seleccionarJurado')?>').select2();
 
 $('#<?php echo $this->campoSeguro('fecha')?>').datepicker({
 

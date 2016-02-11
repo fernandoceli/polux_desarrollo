@@ -227,20 +227,6 @@ class Sql extends \Sql {
 				$cadenaSql .= " WHERE  tipo_estado = 1";
 				$cadenaSql .= " ORDER BY tipo_nombre ASC";
 				break;
-			
-			case 'consultarRol' :
-				$cadenaSql = 'SELECT rol_nombre ';
-				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'polux_usuario u ';
-				$cadenaSql .= 'JOIN ';
-				$cadenaSql .= 'polux_usuario_subsistema us ';
-				$cadenaSql .= 'ON u.id_usuario::varchar = us.id_usuario ';
-				$cadenaSql .= 'JOIN ';
-				$cadenaSql .= 'polux_rol r ';
-				$cadenaSql .= 'ON us.rol_id = r.rol_id ';
-				$cadenaSql .= 'WHERE ';
-				$cadenaSql .= 'u.id_usuario=\'' . $variable . '\' ';
-				break;
 		}
 		
 		return $cadenaSql;

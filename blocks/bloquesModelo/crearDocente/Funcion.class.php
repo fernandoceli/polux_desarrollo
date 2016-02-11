@@ -42,8 +42,9 @@ class Funcion {
 	function registrar() {
 		include_once ($this->ruta . "/funcion/registrar.php");
 	}
-	function resumen() {
-		include_once ($this->ruta . "/funcion/resumenUsuario.php");
+	
+	function resumen(){
+		include_once($this->ruta."/funcion/resumenUsuario.php");
 	}
 	function action() {
 		$resultado = true;
@@ -69,10 +70,6 @@ class Funcion {
 				
 				case "resumen" :
 					$this->resumen ();
-					break;
-				
-				default :
-					
 					break;
 			}
 		} 

@@ -45,16 +45,11 @@ class Frontera {
 		
 		if (isset ( $_REQUEST ['opcion'] )) {
 			switch ($_REQUEST ['opcion']) {
+				
 				case "mensaje" :
 					include_once ($this->ruta . "/formulario/mensaje.php");
 					break;
 				case "continuar" :
-					include_once ($this->ruta . "/formulario/form.php");
-					break;
-				case "paginaPrincipal":
-					include_once ($this->ruta . "/formulario/form.php");
-					break;
-				default :
 					include_once ($this->ruta . "/formulario/form.php");
 					break;
 			}
