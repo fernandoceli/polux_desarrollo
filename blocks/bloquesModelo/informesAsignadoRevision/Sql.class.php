@@ -95,19 +95,15 @@ class Sql extends \Sql {
 				$cadenaSql .= 'info_fcrea AS fecha, ';
 				$cadenaSql .= 'info_info AS informe ';
 				$cadenaSql .= 'FROM ';
-				$cadenaSql .= 'trabajosdegrado.inf_tinfo ';
-				$cadenaSql .= 'JOIN trabajosdegrado.inf_testinfo ';
-				$cadenaSql .= 'ON info_info=estinfo_info ';
-				$cadenaSql .= 'JOIN trabajosdegrado.ge_testd ';
-				$cadenaSql .= 'ON estinfo_est=estd_estd ';
-				$cadenaSql .= 'JOIN polux_usuario ';
-				$cadenaSql .= 'ON estd_us=id_usuario ';
+				$cadenaSql .= 'trabajosdegrado.inf_tjur ';
+				$cadenaSql .= 'JOIN trabajosdegrado.inf_tinfo ';
+				$cadenaSql .= 'ON jur_info=info_info ';
 				$cadenaSql .= 'JOIN trabajosdegrado.ge_tmoda ';
 				$cadenaSql .= 'ON info_moda=moda_moda ';
 				$cadenaSql .= 'WHERE ';
-				$cadenaSql .= 'info_dir_int=\'' . $variable . '\' ';
+				$cadenaSql .= 'jur_prof=\'' . $variable . '\' ';
 				$cadenaSql .= 'ORDER BY info_info ASC';
-				// echo $cadenaSql;
+// 				echo $cadenaSql;
 				break;
 			
 			case 'borrarRegistro' :
