@@ -29,6 +29,10 @@ h3 {
 	padding: 2px 0;
 }
 
+#tAnteproyectosPrograma {
+	cursor:pointer;
+}
+
 .border-1px-gris {
 	border: 1px solid #ababab;
 }

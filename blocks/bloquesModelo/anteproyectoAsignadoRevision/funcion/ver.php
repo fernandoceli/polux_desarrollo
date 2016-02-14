@@ -17,10 +17,6 @@ class Ver {
 		$this->miSql = $sql;
 	}
 	function procesarFormulario() {
-		
-// 		echo "aqui estamos en ver";
-// 		var_dump($_REQUEST);
-// 		exit;
 		redireccion::redireccionar ( 'ver', $_REQUEST);
 		exit ();
 	}
