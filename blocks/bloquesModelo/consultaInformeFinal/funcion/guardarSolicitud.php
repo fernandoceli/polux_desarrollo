@@ -24,28 +24,40 @@ class Registrar {
 		$cod = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		$_REQUEST ["variable"] = $cod [0][0];
 		
+		$codJurados = array ();
+		$jurados = $_REQUEST ['codJurados'];
+		
+		$jurados = explode ( ";", $jurados );
+		
+		$aux = count($jurados);
+		
+		if ($jurados[$aux-1] == "") {
+			array_pop($jurados);
+		}
+		
+// 		var_dump($jurados);
+		
 		var_dump($_REQUEST);
+// 		exit();
 		
 		date_default_timezone_set ( 'America/Bogota' );
 		
 		$fecha = date ( "Y-m-d" );
 		
-		if (!isset($_REQUEST['proyecto'])) {
-			$_REQUEST['proyecto'] = $_REQUEST['id'];
-		}
+		$_REQUEST ['revisores'] = $jurados;
 		
-		$arreglo = array (
-				'estado' => 'ESPERA',
-				'pregunta1' => $_REQUEST ['pregunta1'],
-				'estudiante' => $_REQUEST ["variable"],
-				'proyecto' => $_REQUEST ['proyecto'],
-				'fecha' => $fecha
+		$datos = array(
+			"informe" => $_REQUEST['informe'],
+			"fecha" => $fecha
 		);
 		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'guardarSolicitud', $arreglo );
+		$cadenaSql = $this->miSql->getCadenaSql ( 'registrar', $datos);
+		var_dump($cadenaSql);
+// 		exit;
+		
 		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
 		
-		var_dump($cadenaSql);
+		var_dump($resultado);
 		
 		if ($resultado) {
 			redireccion::redireccionar ( 'inserto' );

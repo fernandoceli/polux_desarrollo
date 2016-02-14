@@ -78,6 +78,81 @@ class Formulario {
 		unset ( $atributos );
 		// /////////////////////////////////
 		
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarRevisoresAntp", $_REQUEST ['id'] );
+		$matrizRevAntp = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+// 		var_dump($matrizRevAntp);
+		
+		$revisores = array();
+		for ($i = 0; $i < count ($matrizRevAntp); $i++) {
+			$act = array(
+					$matrizRevAntp[$i]['rev_prof'] => $matrizRevAntp[$i]['docente']
+			);
+			array_push($revisores, $act);
+		}
+		
+// 		var_dump($revisores);
+		
+		$nombres = "";
+		$codigos = "";
+		
+		for ($i = 0; $i < count($revisores); $i++) {
+			foreach ($revisores[$i] AS $codigo => $revisor) {
+				$codigos .= $codigo . ";";
+				$nombres .= $revisor . ";";
+			}
+		}
+		
+// 		var_dump($nombres);
+// 		var_dump($codigos);
+		
+		// Hidden para revisores
+		$esteCampo = 'revisores';
+		$atributos ["id"] = $esteCampo;
+		$atributos ["tipo"] = "hidden";
+		$atributos ['estilo'] = '';
+		$atributos ['validar'] = '';
+		$atributos ["obligatorio"] = true;
+		$atributos ['marco'] = true;
+		$atributos ["etiqueta"] = "";
+		$atributos ['valor'] = $nombres;
+		
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		unset ( $atributos );
+		// /////////////////////////////////
+		
+		// Hidden para anteproyecto
+		$esteCampo = 'numrevisores';
+		$atributos ["id"] = $esteCampo;
+		$atributos ["tipo"] = "hidden";
+		$atributos ['estilo'] = '';
+		$atributos ['validar'] = '';
+		$atributos ["obligatorio"] = true;
+		$atributos ['marco'] = true;
+		$atributos ["etiqueta"] = "";
+		$atributos ['valor'] = count($nombres);
+		
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		unset ( $atributos );
+		// /////////////////////////////////
+		
+		// Hidden para anteproyecto
+		$esteCampo = 'codrevisores';
+		$atributos ["id"] = $esteCampo;
+		$atributos ["tipo"] = "hidden";
+		$atributos ['estilo'] = '';
+		$atributos ['validar'] = '';
+		$atributos ["obligatorio"] = true;
+		$atributos ['marco'] = true;
+		$atributos ["etiqueta"] = "";
+		$atributos ['valor'] = $codigos;
+		
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		unset ( $atributos );
+		// /////////////////////////////////
+		
 		// -------------------------------------------------------------------------------------------------
 		
 		// ---------------- SECCION: Par√°metros Generales del Formulario ----------------------------------
@@ -240,7 +315,7 @@ class Formulario {
 // 		var_dump($matrizTematicas);
 		
 		$variable = array(
-				"director" => $director,
+				"revisores" => $revisores,
 				"tematicas" => $matrizTematicas
 		);
 		
@@ -286,6 +361,20 @@ class Formulario {
 		
 		// Hidden para guardar los nombres de las tem·ticas seleccionadas
 		$esteCampo = 'nombresJurados';
+		$atributos ["id"] = $esteCampo;
+		$atributos ["tipo"] = "hidden";
+		$atributos ['estilo'] = '';
+		$atributos ['validar'] = '';
+		$atributos ["obligatorio"] = true;
+		$atributos ['marco'] = true;
+		$atributos ["etiqueta"] = "";
+		
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		unset ( $atributos );
+		
+		// Hidden para guardar los nombres de las tem·ticas seleccionadas
+		$esteCampo = 'codJurados';
 		$atributos ["id"] = $esteCampo;
 		$atributos ["tipo"] = "hidden";
 		$atributos ['estilo'] = '';
@@ -379,10 +468,15 @@ class Formulario {
 		
 		// Paso 1: crear el listado de variables
 		
-		$valorCodificado = "action=" . $esteBloque ["nombre"];
-		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
+		$valorCodificado = "action=" . $esteBloque ["nombre"]; // Ir pagina Funcionalidad
+		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' ); // Frontera mostrar formulario
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+		$valorCodificado .= "&usuario=" . $_REQUEST ['usuario'];
+		$valorCodificado .= "&informe=" . $_REQUEST ['informe'];
+		if (isset ( $_REQUEST ['estudiante'] )) {
+			$valorCodificado .= "&estudiante=" . $_REQUEST ['estudiante'];
+		}
 		$valorCodificado .= "&opcion=guardarSolicitud";
 		/**
 		 * SARA permite que los nombres de los campos sean din√°micos.

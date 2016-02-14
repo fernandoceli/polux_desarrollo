@@ -37,4 +37,6 @@ $this->idioma ['noacta'] = 'No. Acta de consejo de asignación de jurados';
 $this->idioma ['fecha'] = 'Fecha acta consejo de asignación de jurados';
 $this->idioma ['seleccionarJurado'] = 'Jurados (Cantidad minima permitida: 1)';
 
+$this->idioma ['mensajeRegistro'] = 'Se han registrado los Jurados para el Informe Final';
+
 ?>

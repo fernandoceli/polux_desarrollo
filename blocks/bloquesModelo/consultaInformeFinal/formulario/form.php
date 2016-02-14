@@ -108,7 +108,7 @@ class Formulario {
 		
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
-		// Hidden para anteproyecto
+		// Hidden para informe
 		$esteCampo = 'id';
 		$atributos ["id"] = $esteCampo;
 		$atributos ["tipo"] = "hidden";
@@ -127,44 +127,13 @@ class Formulario {
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarInforme", $_REQUEST ['informe'] );
 		$matrizInformes = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		$id = $_REQUEST ['informe'];
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarNombreDirector", trim ( $matrizInformes [0] ['info_dir_int'] ) );
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarNombreDirector", $_REQUEST ['informe'] );
 		$matrizDirector = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		$director = $matrizDirector [0] [0];
+		$id = $_REQUEST ['informe'];
+		
 		$modalidad = $matrizInformes [0] [1];
-		
-		// Hidden para anteproyecto
-		$esteCampo = 'director';
-		$atributos ["id"] = $esteCampo;
-		$atributos ["tipo"] = "hidden";
-		$atributos ['estilo'] = '';
-		$atributos ['validar'] = '';
-		$atributos ["obligatorio"] = true;
-		$atributos ['marco'] = true;
-		$atributos ["etiqueta"] = "";
-		$atributos ['valor'] = $director;
-		
-		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoCuadroTexto ( $atributos );
-		unset ( $atributos );
-		// /////////////////////////////////
-		
-		// Hidden para anteproyecto
-		$esteCampo = 'coddirector';
-		$atributos ["id"] = $esteCampo;
-		$atributos ["tipo"] = "hidden";
-		$atributos ['estilo'] = '';
-		$atributos ['validar'] = '';
-		$atributos ["obligatorio"] = true;
-		$atributos ['marco'] = true;
-		$atributos ["etiqueta"] = "";
-		$atributos ['valor'] = trim ( $matrizInformes [0] ['info_dir_int'] );
-		
-		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoCuadroTexto ( $atributos );
-		unset ( $atributos );
-		// /////////////////////////////////
+		$director = $matrizDirector [0] [0];
 		
 		// Buscar temáticas asociadas
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarTematicas", $_REQUEST ['informe'] );
@@ -1890,6 +1859,7 @@ class Formulario {
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&usuario=" . $_REQUEST ['usuario'];
+		$valorCodificado .= "&informe=" . $_REQUEST ['informe'];
 		if (isset ( $_REQUEST ['estudiante'] )) {
 			$valorCodificado .= "&estudiante=" . $_REQUEST ['estudiante'];
 		}

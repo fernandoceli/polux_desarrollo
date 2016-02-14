@@ -37,11 +37,7 @@ class Sql extends \Sql {
 				// obtener codigos por separado
 				$cadenaSql = "";
 				$revisores = $_REQUEST ['revisores'];
-				var_dump ( $revisores );
-				$porciones = explode ( ";", $revisores );
-				var_dump ( $porciones );
-				var_dump ( $_REQUEST ['numJurados'] );
-				for($i = 0; $i < $_REQUEST ['numJurados']; $i ++) {
+				for($i = 0; $i < count($revisores); $i ++) {
 					
 					$cadena = "INSERT INTO trabajosdegrado.inf_tjur";
 					$cadena .= "(";
@@ -52,9 +48,9 @@ class Sql extends \Sql {
 					$cadena .= "VALUES ";
 					$cadena .= "(";
 					
-					$cadena .= $_REQUEST ['informe'] . ", ";
-					$cadena .= "'" . $_REQUEST ['revisor'] . "', ";
-					$cadena .= "'" . $_REQUEST ['fecha'] . "' ";
+					$cadena .= $variable ['informe'] . ", ";
+					$cadena .= "'" . $revisores [$i] . "', ";
+					$cadena .= "'" . $variable ['fecha'] . "' ";
 					$cadena .= "); ";
 					$cadenaSql = $cadenaSql . $cadena;
 				}
@@ -77,6 +73,29 @@ class Sql extends \Sql {
 				// echo $cadenaSql;
 				break;
 			
+			case 'buscarRevisoresAntp':
+				$cadenaSql = "SELECT ";
+				$cadenaSql .= "antp_antp, ";
+				$cadenaSql .= "proy_proy, ";
+				$cadenaSql .= "info_info, ";
+				$cadenaSql .= "rev_prof, ";
+				$cadenaSql .= "prof_us, ";
+				$cadenaSql .= "nombre || ' ' || apellido AS docente ";
+				$cadenaSql .= "FROM trabajosdegrado.inf_tinfo ";
+				$cadenaSql .= "JOIN trabajosdegrado.pry_tproy ";
+				$cadenaSql .= "ON info_proy=proy_proy ";
+				$cadenaSql .= "JOIN trabajosdegrado.ant_tantp ";
+				$cadenaSql .= "ON proy_antp=antp_antp ";
+				$cadenaSql .= "JOIN trabajosdegrado.ant_trev ";
+				$cadenaSql .= "ON antp_antp=rev_antp ";
+				$cadenaSql .= "JOIN trabajosdegrado.ge_tprof ";
+				$cadenaSql .= "ON rev_prof=prof_prof ";
+				$cadenaSql .= "JOIN polux_usuario ";
+				$cadenaSql .= "ON prof_us=id_usuario ";
+				$cadenaSql .= "WHERE info_info=" . $variable ."; ";
+// 				echo $cadenaSql;
+				break;
+				
 			case 'buscarInforme' :
 				
 				$cadenaSql = 'SELECT ';
@@ -387,6 +406,7 @@ class Sql extends \Sql {
 				break;
 			
 			case 'buscarDocenteParaJurado' :
+// 				var_dump($variable['revisores']);
 				$cadenaSql = "SELECT ";
 				$cadenaSql .= "prof_prof, ";
 				$cadenaSql .= "nombre || ' ' || apellido AS docente ";
@@ -396,7 +416,15 @@ class Sql extends \Sql {
 				$cadenaSql .= "ON prof_us=id_usuario ";
 				$cadenaSql .= "JOIN trabajosdegrado.ge_tacpro ";
 				$cadenaSql .= "ON acpro_prof=prof_prof ";
-				$cadenaSql .= "WHERE prof_prof<>'" . $variable ['director'] . "' ";
+				$cadenaSql .= "WHERE ";
+				for($i = 0; $i < count ( $variable ['revisores'] ); $i ++) {
+					foreach ($variable ['revisores'][$i] AS $codigo => $nombre) {
+						$cadenaSql .= "prof_prof<>'" . $codigo . "' ";
+						if ($i > 0) {
+							$cadenaSql .= "AND ";
+						}
+					}
+				}
 				for($i = 0; $i < count ( $variable ['tematicas'] ); $i ++) {
 					if ($i == 0) {
 						$cadenaSql .= "AND ";
@@ -405,7 +433,7 @@ class Sql extends \Sql {
 					}
 					$cadenaSql .= "acpro_acono=" . $variable ['tematicas'][0][$i] . " ";
 				}
-// 				echo $cadenaSql;
+// 				echo $cadenaSql; 	
 				break;
 			
 			case 'bucarDirector' :

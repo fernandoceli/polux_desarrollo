@@ -70,7 +70,7 @@ class Formulario {
 		// ---------------- FIN SECCION: de Parámetros Generales del Formulario ----------------------------
 		
 		if (isset($_REQUEST['id'])) {
-			$_REQUEST['proyecto'] = $_REQUEST['id'];
+			$_REQUEST['informe'] = $_REQUEST['id'];
 		}
 		
 		// ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
@@ -304,7 +304,7 @@ class Formulario {
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&usuario=" . $_REQUEST ['usuario'];
-		$valorCodificado .= "&proyecto=" . $matrizProyecto[0][0];
+		$valorCodificado .= "&informe=" . $_REQUEST['informe'];
 		$valorCodificado .= "&opcion=guardarSolicitud";
 		/**
 		 * SARA permite que los nombres de los campos sean dinámicos.

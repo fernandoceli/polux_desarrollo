@@ -9,16 +9,16 @@ $url = $this->miConfigurador->getVariableConfiguracion ( "host" );
 $url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
 $url .= "/index.php?";
 
-
 // Variables
 $cadenaACodificar16 = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
-//$cadenaACodificar16 .= "&procesarAjax=true";
+// $cadenaACodificar16 .= "&procesarAjax=true";
 $cadenaACodificar16 .= "&action=index.php";
 $cadenaACodificar16 .= "&bloqueNombre=" . $esteBloque ["nombre"];
 $cadenaACodificar16 .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 $cadenaACodificar16 .= $cadenaACodificar16 . "";
-if(isset($_REQUEST['id_usuario']))
-    {$cadenaACodificar16 .= "&id_usuario=".$_REQUEST['id_usuario'];}
+if (isset ( $_REQUEST ['id_usuario'] )) {
+	$cadenaACodificar16 .= "&id_usuario=" . $_REQUEST ['id_usuario'];
+}
 $cadenaACodificar16 .= "&tiempo=" . $_REQUEST ['tiempo'];
 
 // Codificar las variables
@@ -36,8 +36,7 @@ $urlFinal16 = $url . $cadena16;
 var dato = '';
 
 //Arreglo para guardar los códigos
-var codigos = [];
-
+var codjurados = [];
 var jurados = [];
 
 var iCnt = 0;
@@ -55,34 +54,48 @@ $(document).ready(function() {
 
 function actualizar () {
 
-	var director = $('#<?php echo $this->campoSeguro("director")?>').val();
-	var coddirector = $('#<?php echo $this->campoSeguro("coddirector")?>').val();
-	
-	iCnt2 = iCnt2 + 1;
-	
-	var container1 = document.getElementById('contenedor1');
-		 
-	// Añadir caja de texto.
-	$(container1).append('<input type=text class="tem" style="display: inline-block;" disabled id=td' + iCnt2 + ' />');
-	
-	$('#td'+ iCnt2).val(director);
-	
-	$(container1).append('<img id=img' + iCnt2 + ' width="22px" height="22px" src="' + ruta + '/css/images/icon-mini-delete.png" alt="delete" onclick="eliminar(' + iCnt2 + ')">');
-	
-	$(container1).append('<br id=br' + iCnt2 + '>');
-	
-	console.log(director);
-	jurados.push(director);
-	
-	for (i = 0; i < jurados.length; i++) { 
-	    text2 += jurados[i] + ";";
+	var revisores = $('#<?php echo $this->campoSeguro("revisores")?>').val();
+	var numrevisores = $('#<?php echo $this->campoSeguro("numrevisores")?>').val();
+	var codrevisores = $('#<?php echo $this->campoSeguro("codrevisores")?>').val();
+
+	for (i = 0; i < numrevisores; i++) {
+		var nombres = revisores.split(';');
+		var codigos = codrevisores.split(';');
+		
+		iCnt2 = iCnt2 + 1;
+		
+		var container1 = document.getElementById('contenedor1');
+			 
+		// Añadir caja de texto.
+		$(container1).append('<input type=text class="tem" style="display: inline-block;" disabled id=td' + iCnt2 + ' />');
+		
+		$('#td'+ iCnt2).val(nombres[i]);
+		
+		$(container1).append('<img id=img' + iCnt2 + ' width="22px" height="22px" src="' + ruta + '/css/images/icon-mini-delete.png" alt="delete" onclick="eliminar(' + iCnt2 + ')">');
+		
+		$(container1).append('<br id=br' + iCnt2 + '>');
+		
+		console.log(nombres[i]);
+		jurados.push(nombres[i]);
+		codjurados.push(codigos[i]);
+
+		for (i = 0; i < codjurados.length; i++) { 
+		    text += codjurados[i] + ";";
+		}
+		
+		for (i = 0; i < jurados.length; i++) { 
+		    text2 += jurados[i] + ";";
+		}
+		
+		// Guardar datos en el hidden
+		
+		$('#<?php echo $this->campoSeguro("codJurados")?>').val(text);
+		$('#<?php echo $this->campoSeguro("nombresJurados")?>').val(text2);
+		$('#<?php echo $this->campoSeguro("numJurados")?>').val(jurados.length);
+		text="";
+		text2="";
+		$('#marcoDatos2').after(container1);
 	}
-	
-	// Guardar datos en el hidden
-	$('#<?php echo $this->campoSeguro("nombresJurados")?>').val(text2);
-	$('#<?php echo $this->campoSeguro("numJurados")?>').val(jurados.length);
-	text2="";
-	$('#marcoDatos2').after(container1);
 }
 
 function consultarPerfil(elem, request, response){

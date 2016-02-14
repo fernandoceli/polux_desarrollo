@@ -33,8 +33,6 @@ $(document).ready(function() {
 	// Obtener elemento div
 	var dato = '';
 	
-	var codigos = [];
-	
 	// Arreglo para guardar los códigos
 	// Arreglo para guardar las temáticas
 	var text="";
@@ -48,7 +46,11 @@ $(document).ready(function() {
 		
 		var dato = $('#<?php echo $this->campoSeguro("seleccionarJurado")?> option:selected').html();
 //		alert(dato);
-		if (dato != 'Seleccione .....' && !contains(jurados, dato)) {
+		
+		var dato2 = document.getElementById('<?php echo $this->campoSeguro("seleccionarJurado")?>').value;
+//		alert(dato2);
+		
+		if (dato != 'Seleccione .....' && !contains(codjurados, dato2)) {
 //			alert("entro");
 			iCnt2 = iCnt2 + 1;
 			
@@ -65,14 +67,21 @@ $(document).ready(function() {
 			
 			console.log(dato);
 			jurados.push(dato);
+			codjurados.push(dato2);
+			
+			for (i = 0; i < codjurados.length; i++) { 
+			    text += codjurados[i] + ";";
+			}
 			
 			for (i = 0; i < jurados.length; i++) { 
 			    text2 += jurados[i] + ";";
 			}
 			
 			// Guardar datos en el hidden
+			$('#<?php echo $this->campoSeguro("codJurados")?>').val(text);
 			$('#<?php echo $this->campoSeguro("nombresJurados")?>').val(text2);
 			$('#<?php echo $this->campoSeguro("numJurados")?>').val(jurados.length);
+			text="";
 			text2="";
 			$('#marcoDatos2').after(container1);
 		}
