@@ -65,7 +65,7 @@ class Div extends HtmlBase {
 			}
 		} else {
 			
-			$this->cadenaHTML .= "\n</div>\n";
+			$this->cadenaHTML .= "\n</div><!--fin-->\n";
 		}
 		
 		return $this->cadenaHTML;
@@ -75,7 +75,7 @@ class Div extends HtmlBase {
 		$this->campoSeguro ();
 		$this->cadenaHTML = "<div id='mensaje' class='" . $atributos ["tipo"] . " shadow " . $atributos [self::ESTILO] . "' >";
 		$this->cadenaHTML .= "<span>" . $atributos ["mensaje"] . "</span>";
-		$this->cadenaHTML .= "</div><br>";
+		$this->cadenaHTML .= "</div><!--fin2--><br>";
 		return $this->cadenaHTML;
 	}
 	function campoTexto($atributos) {
@@ -102,7 +102,7 @@ class Div extends HtmlBase {
 		if (isset ( $atributos [self::ETIQUETA] )) {
 			$this->cadenaHTML .= "<div class='campoTextoEtiqueta'>\n";
 			$this->cadenaHTML .= $atributos [self::ETIQUETA];
-			$this->cadenaHTML .= "\n</div>\n";
+			$this->cadenaHTML .= "\n</div><!--fin3-->\n";
 			$this->cadenaHTML .= "<div class='campoTextoContenido'>\n";
 		} else {
 			$this->cadenaHTML .= "<div class='campoTextoContenidoSolo'>\n";
@@ -113,8 +113,8 @@ class Div extends HtmlBase {
 		} else {
 			$this->cadenaHTML .= "--";
 		}
-		$this->cadenaHTML .= "\n</div>\n";
-		$this->cadenaHTML .= "\n</div>\n";
+		$this->cadenaHTML .= "\n</div><!--fin4-->\n";
+		$this->cadenaHTML .= "\n</div><!--fin5-->\n";
 		
 		return $this->cadenaHTML;
 	}
@@ -172,7 +172,7 @@ class Div extends HtmlBase {
 		if (isset ( $atributos ['linea'] ) && $atributos ['linea']) {
 			$this->cadenaHTML .= "<hr class='hr_division'>";
 		}
-		$this->cadenaHTML .= "</div>\n";
+		$this->cadenaHTML .= "</div><!--fin6-->\n";
 		
 		return $this->cadenaHTML;
 	}
@@ -193,7 +193,7 @@ class Div extends HtmlBase {
 					$this->cadenaHTML .= "<span class='ui-accordion-header-icon ui-icon ui-icon-document'></span>" . $atributos [self::MENSAJE] . "</h3>";
 			}
 		}
-		$this->cadenaHTML .= "</div>";
+		$this->cadenaHTML .= "</div><!--fin7-->";
 		return $this->cadenaHTML;
 	}
 	function campoMensajeEtiqueta($atributos) {
@@ -209,7 +209,7 @@ class Div extends HtmlBase {
 			$this->cadenaHTML .= "<div class='campoEtiquetaMensaje'>\n";
 		}
 		$this->cadenaHTML .= $atributos [self::ETIQUETA];
-		$this->cadenaHTML .= "\n</div>\n";
+		$this->cadenaHTML .= "\n</div><!--fin8-->\n";
 		
 		if (isset ( $atributos [self::ESTILOCONTENIDO] ) && $atributos [self::ESTILOCONTENIDO] != "") {
 			$this->cadenaHTML .= "<div class='" . $atributos [self::ESTILOCONTENIDO] . "'>\n";
@@ -221,23 +221,23 @@ class Div extends HtmlBase {
 		} else {
 			$this->cadenaHTML .= "--";
 		}
-		$this->cadenaHTML .= "\n</div>\n";
-		$this->cadenaHTML .= "\n</div>\n";
+		$this->cadenaHTML .= "\n</div><!--fin9-->\n";
+		$this->cadenaHTML .= "\n</div><!--fin10-->\n";
 		
 		return $this->cadenaHTML;
 	}
 	function campoEspacio() {
-		$this->cadenaHTML = "<div class='espacioBlanco'>\n</div>\n";
+		$this->cadenaHTML = "<div class='espacioBlanco'>\n</div><!--fin11-->\n";
 		return $this->cadenaHTML;
 	}
 	function campoMapa($atributos) {
 		$this->cadenaCampoMapa = "<div class='campoMapaEtiqueta'>\n";
 		$this->cadenaCampoMapa .= $atributos [self::ETIQUETA];
-		$this->cadenaCampoMapa .= "</div>\n";
+		$this->cadenaCampoMapa .= "</div><!--fin12-->\n";
 		$this->cadenaCampoMapa .= "<div class='campoMapa'>\n";
 		$this->cadenaCampoMapa .= $this->division ( self::INICIO, $atributos );
 		$this->cadenaCampoMapa .= $this->division ( "fin", $atributos );
-		$this->cadenaCampoMapa .= "\n</div>\n";
+		$this->cadenaCampoMapa .= "\n</div><!--fin13-->\n";
 		
 		return $this->cadenaCampoMapa;
 	}
