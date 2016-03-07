@@ -51,15 +51,15 @@ class consulta {
     function miForm() {
         // Rescatar los datos de este bloque
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
-
+		
         $ruta= $this->miConfigurador->getVariableConfiguracion ( "host" ) . $this->miConfigurador->getVariableConfiguracion ( "site" );
-        $reporte='/blocks/reportes/reportico/reporteador/./run.php?';
+        $reporte='/blocks/reportes/reportes/reporteador/./run.php?';
         $reporte.="informes=".$_REQUEST['informes'];
         $reporte.="&acceso=".$_REQUEST['acceso'];
         isset($_REQUEST['reporte'])?$reporte.="&reporte=".$_REQUEST['reporte']:'';
         ?>
-        <div style='width:100%; height: 650px'>
-            <iframe src="<?php echo $ruta.$reporte;?>" style="width: 100%; height: 100%"></iframe>
+        <div id="rep">
+            <iframe src="<?php echo $ruta.$reporte;?>" style="width: 100%; height: 100%; border-style: hidden;"></iframe>
          </div>
         <?php
  

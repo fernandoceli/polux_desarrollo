@@ -90,7 +90,8 @@ class Sqlmenu extends sql {
                 $cadena_sql.=" mn.etiqueta,";
                 $cadena_sql.=" gru.posicion,";
                 $cadena_sql.=" gru.etiqueta,";
-                $cadena_sql.=" enl.etiqueta";
+                $cadena_sql.=" enl.id_enlace";
+//                 echo $cadena_sql;
                 break;
             
             case "RolesInactivos" :

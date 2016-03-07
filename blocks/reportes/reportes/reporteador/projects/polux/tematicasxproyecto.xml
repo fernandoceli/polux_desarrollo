@@ -1,0 +1,55 @@
+<?xml version="1.0"?><Report><ReportQuery><Format><ReportTitle>Temáticas de interés por programa curricular</ReportTitle><ReportDescription>Muestra los trabajos de grado, de acuerdo a un proyecto curricular seleccionado</ReportDescription><PageSize>.DEFAULT</PageSize><PageOrientation>.DEFAULT</PageOrientation><TopMargin></TopMargin><BottomMargin></BottomMargin><RightMargin></RightMargin><LeftMargin></LeftMargin><pdfFont></pdfFont><pdfFontSize></pdfFontSize><PreExecuteCode>NONE</PreExecuteCode><formBetweenRows>solidline</formBetweenRows><gridDisplay>show</gridDisplay><gridSortable>yes</gridSortable><gridSearchable>yes</gridSearchable><gridPageable>yes</gridPageable><gridPageSize>.DEFAULT</gridPageSize></Format><Datasource><SourceType>database</SourceType><SourceConnection><DatabaseType>mysql</DatabaseType><DatabaseName></DatabaseName><HostName></HostName><ServiceName></ServiceName><UserName></UserName><Password></Password></SourceConnection></Datasource><EntryForm><Query><TableSql></TableSql><WhereSql></WhereSql><GroupSql></GroupSql><RowSelection>all</RowSelection><SQL><QuerySql></QuerySql><SQLRaw>select row_number() over (order by estado, numero) as num, numero, titulo, autores, estado, tematica
+from (
+
+SELECT DISTINCT
+antp_antp AS numero, 
+antp_titu AS titulo, 
+string_agg(DISTINCT estantp_estd || ' - ' || nombre || ' ' || apellido, ', ') AS autores,
+antp_eantp AS estado,
+string_agg(DISTINCT acono_nom, ', ') AS tematica
+FROM trabajosdegrado.ant_tantp
+JOIN trabajosdegrado.ant_testantp ON antp_antp=estantp_antp
+JOIN trabajosdegrado.ge_testd ON estantp_estd=estd_estd
+JOIN polux_usuario ON estd_us=id_usuario
+JOIN trabajosdegrado.ant_tacantp ON acantp_antp=antp_antp
+JOIN trabajosdegrado.ge_tacono ON acantp_acono=acono_acono
+WHERE antp_eantp&lt;&gt;'CANCELADO' OR antp_eantp&lt;&gt;'FINALIZADO' OR antp_eantp&lt;&gt;'PROYECTO'
+GROUP BY antp_antp
+
+UNION
+
+SELECT DISTINCT
+proy_proy AS numero, 
+proy_titu AS titulo, 
+string_agg(DISTINCT estproy_estd || ' - ' || nombre || ' ' || apellido, ', ') AS autores,
+proy_eproy AS estado,
+string_agg(DISTINCT acono_nom, ', ') AS tematica
+FROM trabajosdegrado.pry_tproy
+JOIN trabajosdegrado.pry_testpry ON proy_proy=estproy_proy
+JOIN trabajosdegrado.ge_testd ON estproy_estd=estd_estd
+JOIN polux_usuario ON estd_us=id_usuario
+JOIN trabajosdegrado.pry_tacproy ON acproy_proy=proy_proy
+JOIN trabajosdegrado.ge_tacono ON acproy_acono=acono_acono
+WHERE proy_eproy&lt;&gt;'CANCELADO' AND proy_eproy&lt;&gt;'FINALIZADO' AND proy_eproy&lt;&gt;'INFORME FINAL' [AND proy_pcur IN ( {proyecto} )]
+GROUP BY proy_proy
+
+UNION
+
+SELECT DISTINCT
+info_info AS numero, 
+info_titu AS titulo, 
+string_agg(DISTINCT estinfo_est || ' - ' || nombre || ' ' || apellido, ', ') AS autores,
+info_einfo AS estado,
+string_agg(DISTINCT acono_nom, ', ') AS tematica
+FROM trabajosdegrado.inf_tinfo
+JOIN trabajosdegrado.inf_testinfo ON info_info=estinfo_info
+JOIN trabajosdegrado.ge_testd ON estinfo_est=estd_estd
+JOIN polux_usuario ON estd_us=id_usuario
+JOIN trabajosdegrado.inf_tacinfo ON acinfo_info=info_info
+JOIN trabajosdegrado.ge_tacono ON acinfo_acono=acono_acono
+WHERE info_einfo&lt;&gt;'CANCELADO' AND info_einfo&lt;&gt;'FINALIZADO' [AND info_pcur IN ( {proyecto} )]
+GROUP BY info_info
+
+ORDER BY numero
+
+) AS F</SQLRaw></SQL><QueryColumns><QueryColumn><Name>num</Name><TableName></TableName><ColumnName>row_number() over (order by estado, numero) as</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>center</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title> </column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn><QueryColumn><Name>numero</Name><TableName></TableName><ColumnName>numero</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>center</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title>NÚMERO</column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn><QueryColumn><Name>titulo</Name><TableName></TableName><ColumnName>titulo</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>center</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title>TÍTULO</column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn><QueryColumn><Name>estado</Name><TableName></TableName><ColumnName>estado</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>center</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title>ESTADO</column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn><QueryColumn><Name>autores</Name><TableName></TableName><ColumnName>autores</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>left</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title></column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn><QueryColumn><Name>tematica</Name><TableName></TableName><ColumnName>tematica</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>left</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title></column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn></QueryColumns><OrderColumns></OrderColumns><PreSQLS></PreSQLS></Query><Assignments></Assignments><Criteria><CriteriaItem><Name>proyecto</Name><Title>Seleccione un proyecto</Title><QueryTableName></QueryTableName><QueryColumnName>antp_pcur</QueryColumnName><CriteriaType>LOOKUP</CriteriaType><CriteriaDisplay>DROPDOWN</CriteriaDisplay><ExpandDisplay>NOINPUT</ExpandDisplay><ReturnColumn>pcur_pcur</ReturnColumn><DisplayColumn>pcur_nom</DisplayColumn><OverviewColumn>pcur_nom</OverviewColumn><MatchColumn>pcur_nom</MatchColumn><CriteriaDefaults></CriteriaDefaults><CriteriaList></CriteriaList><Query><TableSql></TableSql><WhereSql></WhereSql><GroupSql></GroupSql><RowSelection></RowSelection><SQLRaw>SELECT pcur_pcur, pcur_nom FROM trabajosdegrado.ge_tpcur</SQLRaw><SQL><QuerySql></QuerySql></SQL><QueryColumns><QueryColumn><Name>pcur_pcur</Name><TableName></TableName><ColumnName>pcur_pcur</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><justify>left</justify></Format></QueryColumn><QueryColumn><Name>pcur_nom</Name><TableName></TableName><ColumnName>pcur_nom</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><justify>left</justify></Format></QueryColumn></QueryColumns><OrderColumns></OrderColumns><Assignments></Assignments></Query><CriteriaLinks></CriteriaLinks></CriteriaItem></Criteria><Output><PageHeaders><PageHeader><LineNumber>1</LineNumber><HeaderText>{REPORT_TITLE}{STYLE border-width: 1 0 1 0; margin: 15px 0px 0px 0px; border-color: #000000; font-size: 18; border-style: solid;padding:5px 0px 5px 0px; height:1cm; background-color: #000000; color: #ffffff; text-align: center}</HeaderText><Format><ColumnStartPDF></ColumnStartPDF><justify>center</justify><ColumnWidthPDF></ColumnWidthPDF><ShowInPDF>yes</ShowInPDF><ShowInHTML>no</ShowInHTML></Format></PageHeader><PageHeader><LineNumber>1</LineNumber><HeaderText>Time: date('Y-m-d H:i:s'){STYLE font-size: 10; text-align: right; font-style: italic;}</HeaderText><Format><ColumnStartPDF></ColumnStartPDF><justify>right</justify><ColumnWidthPDF></ColumnWidthPDF><ShowInPDF>yes</ShowInPDF><ShowInHTML>no</ShowInHTML></Format></PageHeader></PageHeaders><PageFooters><PageFooter><LineNumber>2</LineNumber><FooterText>Page: {PAGE}{STYLE border-width: 1 0 0 0; margin: 40 0 0 0; font-style: italic; }</FooterText><Format><ColumnStartPDF></ColumnStartPDF><justify>center</justify><ColumnWidthPDF></ColumnWidthPDF><ShowInPDF>yes</ShowInPDF><ShowInHTML>no</ShowInHTML></Format></PageFooter></PageFooters><DisplayOrders><DisplayOrder><ColumnName>num</ColumnName><OrderNumber>1</OrderNumber></DisplayOrder><DisplayOrder><ColumnName>numero</ColumnName><OrderNumber>2</OrderNumber></DisplayOrder><DisplayOrder><ColumnName>titulo</ColumnName><OrderNumber>3</OrderNumber></DisplayOrder><DisplayOrder><ColumnName>estado</ColumnName><OrderNumber>4</OrderNumber></DisplayOrder><DisplayOrder><ColumnName>autores</ColumnName><OrderNumber>5</OrderNumber></DisplayOrder><DisplayOrder><ColumnName>tematica</ColumnName><OrderNumber>6</OrderNumber></DisplayOrder></DisplayOrders><Groups></Groups><Graphs></Graphs></Output></EntryForm></ReportQuery></Report>

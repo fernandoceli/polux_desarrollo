@@ -115,9 +115,8 @@ class Sql extends \Sql {
             	$cadenaSql .= "antp_antp AS numero, ";
             	$cadenaSql .= "antp_titu AS titulo, ";
             	$cadenaSql .= "string_agg(estantp_estd || ' - ' || nombre || ' ' || apellido, ', ') AS autor, ";
-            	$cadenaSql .= "'ANTEPROYECTO' AS estapa, ";
-            	$cadenaSql .= "antp_eantp AS estado, ";
-            	$cadenaSql .= "acantp_acono AS tematica ";
+            	$cadenaSql .= "'ANTEPROYECTO' AS etapa, ";
+            	$cadenaSql .= "antp_eantp AS estado ";
             	$cadenaSql .= "FROM trabajosdegrado.ant_tantp ";
             	$cadenaSql .= "JOIN trabajosdegrado.ant_testantp ";
             	$cadenaSql .= "ON estantp_antp=antp_antp ";
@@ -127,7 +126,7 @@ class Sql extends \Sql {
             	$cadenaSql .= "ON estd_us=id_usuario ";
             	$cadenaSql .= "JOIN trabajosdegrado.ant_tacantp ";
             	$cadenaSql .= "ON acantp_antp=antp_antp ";
-            	$cadenaSql .= "WHERE antp_eantp<>'PROYECTO' AND acantp_acono='" . $variable . "'";
+            	$cadenaSql .= "WHERE antp_eantp<>'PROYECTO' AND acantp_acono='" . $variable . "' ";
             	$cadenaSql .= "GROUP BY antp_antp, acantp_acono ";
             	
             	$cadenaSql .= "UNION ";
@@ -136,9 +135,8 @@ class Sql extends \Sql {
             	$cadenaSql .= "proy_proy AS numero, ";
             	$cadenaSql .= "proy_titu AS titulo, ";
             	$cadenaSql .= "string_agg(estproy_proy || ' - ' || nombre || ' ' || apellido, ', ') AS autor, ";
-            	$cadenaSql .= "'PROYECTO' AS estapa, ";
-            	$cadenaSql .= "proy_eproy AS estado, ";
-            	$cadenaSql .= "acproy_acono AS tematica ";
+            	$cadenaSql .= "'PROYECTO' AS etapa, ";
+            	$cadenaSql .= "proy_eproy AS estado ";
             	$cadenaSql .= "FROM trabajosdegrado.pry_tproy ";
             	$cadenaSql .= "JOIN trabajosdegrado.pry_testpry ";
             	$cadenaSql .= "ON estproy_proy=proy_proy ";
@@ -148,7 +146,7 @@ class Sql extends \Sql {
             	$cadenaSql .= "ON estd_us=id_usuario ";
             	$cadenaSql .= "JOIN trabajosdegrado.pry_tacproy ";
             	$cadenaSql .= "ON acproy_proy=proy_proy ";
-            	$cadenaSql .= "WHERE proy_eproy<>'INFORME FINAL' AND acproy_acono='" . $variable . "'";
+            	$cadenaSql .= "WHERE proy_eproy<>'INFORME FINAL' AND acproy_acono='" . $variable . "' ";
             	$cadenaSql .= "GROUP BY proy_proy, acproy_acono ";
             	
             	$cadenaSql .= "UNION ";
@@ -157,9 +155,8 @@ class Sql extends \Sql {
             	$cadenaSql .= "info_info AS numero, ";
             	$cadenaSql .= "info_titu AS titulo, ";
             	$cadenaSql .= "string_agg(estinfo_info || ' - ' || nombre || ' ' || apellido, ', ') AS autor, ";	
-            	$cadenaSql .= "'INFORME FINAL' AS estapa, ";
-            	$cadenaSql .= "info_einfo AS estado, ";
-            	$cadenaSql .= "acinfo_acono AS tematica ";
+            	$cadenaSql .= "'INFORME FINAL' AS etapa, ";
+            	$cadenaSql .= "info_einfo AS estado ";
             	$cadenaSql .= "FROM trabajosdegrado.inf_tinfo ";
             	$cadenaSql .= "JOIN trabajosdegrado.inf_testinfo ";
             	$cadenaSql .= "ON estinfo_info=info_info ";
@@ -169,9 +166,10 @@ class Sql extends \Sql {
             	$cadenaSql .= "ON estd_us=id_usuario ";
             	$cadenaSql .= "JOIN trabajosdegrado.inf_tacinfo ";
             	$cadenaSql .= "ON acinfo_info=info_info ";
-            	$cadenaSql .= "WHERE acinfo_acono='" . $variable . "'";
+            	$cadenaSql .= "WHERE acinfo_acono='" . $variable . "' ";
             	$cadenaSql .= "GROUP BY info_info, acinfo_acono ";
-            	$cadenaSql .= "ORDER BY estapa, numero; ";
+            	$cadenaSql .= "ORDER BY etapa, estado, numero; ";
+//             	echo $cadenaSql;
             	break;
         
         }

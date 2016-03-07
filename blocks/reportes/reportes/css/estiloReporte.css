@@ -1,0 +1,10 @@
+
+#rep {
+	width: 95%;
+	height: 700px; 
+	min-height: 300px;
+	margin: 0 auto;
+    border: 2px solid;
+    resize: vertical;
+    overflow: auto;
+}

@@ -12,18 +12,21 @@ class Formulario {
     var $miConfigurador;
     var $lenguaje;
     var $miFormulario;
+	var $miSesion;
 
-    function __construct($lenguaje, $formulario) {
-
-        $this->miConfigurador = \Configurador::singleton ();
-
-        $this->miConfigurador->fabricaConexiones->setRecursoDB ( 'principal' );
-
-        $this->lenguaje = $lenguaje;
-
-        $this->miFormulario = $formulario;
-
-    }
+function __construct($lenguaje, $formulario, $sql) {
+		$this->miConfigurador = \Configurador::singleton ();
+		
+		$this->miConfigurador->fabricaConexiones->setRecursoDB ( 'principal' );
+		
+		$this->lenguaje = $lenguaje;
+		
+		$this->miFormulario = $formulario;
+		
+		$this->miSql = $sql;
+		
+		$this->miSesion = \Sesion::singleton ();
+	}
 
     function formulario() {
 
@@ -47,6 +50,12 @@ class Formulario {
         */
         $atributosGlobales ['campoSeguro'] = 'true';
         $_REQUEST['tiempo']=time();
+        
+
+        $conexion = 'estructura';
+        $esteRecurso = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
+        
+        $usuario = $this->miSesion->getSesionUsuarioId ();
         
         // -------------------------------------------------------------------------------------------------
 
@@ -90,6 +99,12 @@ class Formulario {
         $q->access_mode = "REPORTOUTPUT";
         $q->embedded_report = true;
         $q->execute();
+        
+        $matrizTrabajos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+        
+        if ($matrizTrabajos) {
+        	echo $this->miFormulario->tablaReporte($matrizTrabajos, "tTrabajosxTematica");
+        }
         
         // ------------------Fin Division para los botones-------------------------
         echo $this->miFormulario->division ( "fin" );
@@ -185,8 +200,7 @@ class Formulario {
 
 }
 
-$miFormulario = new Formulario ( $this->lenguaje, $this->miFormulario );
-
+$miFormulario = new Formulario ( $this->lenguaje, $this->miFormulario, $this->sql );
 
 $miFormulario->formulario ();
 $miFormulario->mensaje ();
