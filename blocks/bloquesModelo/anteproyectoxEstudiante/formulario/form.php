@@ -143,7 +143,7 @@ class Formulario {
 				
 				$titulo = $matrizAnteproyectos [$i] ['titulo'];
 				if ($titulo == strtoupper ( $titulo )) {
-					$titulo = substr ( $titulo, 0, 45 ) . "...";
+					$titulo = substr ( $titulo, 0, 40 ) . "...";
 				}
 				if (strlen ( $titulo ) > 55) {
 					$titulo = substr ( $titulo, 0, 50 ) . "...";
