@@ -4,6 +4,8 @@ require_once ("core/log/loggerSql.class.php");
 require_once ("core/log/loggerBase.class.php");
 
 
+
+
 class logger extends loggerBase {
 
     private static $instancia;
