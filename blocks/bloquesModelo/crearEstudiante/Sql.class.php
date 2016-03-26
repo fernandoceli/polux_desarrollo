@@ -79,6 +79,7 @@ class Sql extends \Sql {
 					$cadenaSql .= " = " . $variable [0];
 				}
 				$cadenaSql .= " ORDER BY  etiketa ";
+// 				echo $cadenaSql;
 				break;
 			
 			case "consultarUsuarios" :

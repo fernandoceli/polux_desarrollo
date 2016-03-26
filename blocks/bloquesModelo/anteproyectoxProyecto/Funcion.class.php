@@ -37,6 +37,9 @@ class Funcion {
 	function ver() {
 		include_once ($this->ruta . "/funcion/ver.php");
 	}
+	function irinicio () {
+		include_once ($this->ruta . "/funcion/irinicio.php");
+	}
 	function action() {
 		$resultado = true;
 		
@@ -49,6 +52,8 @@ class Funcion {
 		
 		if (isset ( $_REQUEST ['procesarAjax'] )) {
 			$this->procesarAjax ();
+		} else if (isset($_REQUEST['botonInicio']) && $_REQUEST['botonInicio']) {
+			$this->irinicio ();
 		} else if (isset ( $_REQUEST ["opcion"] )) {
 			switch ($_REQUEST ["opcion"]) {
 				case 'ver' :
@@ -56,11 +61,11 @@ class Funcion {
 					break;
 			}
 		} else {
-			
-			$resultado = $this->procesarFormulario ();
-		}
-		
-		return $resultado;
+	
+	$resultado = $this->procesarFormulario ();
+}
+
+return $resultado;
 	}
 	function __construct() {
 		$this->miConfigurador = \Configurador::singleton ();

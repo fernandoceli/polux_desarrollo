@@ -9,6 +9,7 @@ $this->idioma ["botonCancelar2"]="Cancelar";
 $this->idioma ["noDefinido"] = "No definido";
 $this->idioma ["botonIngresar"] = "Ingresar";
 $this->idioma["botonCrear"]="Aceptar";
+$this->idioma["botonInicio"]="Ir al Inicio";
 $this->idioma["numero"]="Anteproyecto No. ";
 $this->idioma["marcoDatos"]="Datos del Anteproyecto";
 $this->idioma["botonAsignar"]="Asignar revisor";

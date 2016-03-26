@@ -128,7 +128,7 @@ class Formulario {
 		$atributos ['seleccion'] = - 1;
 		$atributos ['evento'] = '';
 		$atributos ['deshabilitado'] = false;
-		$atributos ['limitar'] = true;
+		$atributos ['limitar'] = false;
 		$atributos ['tamanno'] = 1;
 		$atributos ['columnas'] = 1;
 		
@@ -166,7 +166,7 @@ class Formulario {
 		$atributos ['seleccion'] = - 1;
 		$atributos ['evento'] = '';
 		$atributos ['deshabilitado'] = false;
-		$atributos ['limitar'] = true;
+		$atributos ['limitar'] = false;
 		$atributos ['tamanno'] = 1;
 		$atributos ['columnas'] = 1;
 		
@@ -424,7 +424,7 @@ class Formulario {
 		$atributos ['tamanno'] = 1;
 		$atributos ['estilo'] = 'jqueryui';
 		$atributos ['validar'] = 'required';
-		$atributos ['limitar'] = true;
+		$atributos ['limitar'] = false;
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ['anchoEtiqueta'] = 100;
 		$atributos ['anchoCaja'] = 60;

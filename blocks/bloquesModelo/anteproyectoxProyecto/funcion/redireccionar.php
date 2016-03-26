@@ -14,18 +14,21 @@ class redireccion {
 		switch ($opcion) {
 			
 			case "opcion1" :
-				
 				$variable = 'pagina=segundaPagina';
 				$variable .= '&variable' . $valor;
 				break;
 			
 			case "ver" :
-				
 				$variable = 'pagina=verAnteproyecto';
 				$variable .= '&usuario=' . $valor['usuario'];
 				$variable .= '&ante=' . $valor['ante'];
 				break;
 			
+			case "irinicio":
+				$variable = 'pagina=indexPolux';
+				$variable .= '&usuario=' . $valor['usuario'];
+				break;
+				
 			default :
 				$variable = '';
 				break;
