@@ -179,15 +179,13 @@ class Formulario {
 				echo $this->miFormulario->division ( "inicio", $atributos );
 				echo $this->miFormulario->division ( "fin" );
 				unset ( $atributos );
-				
-				$atributos ['id'] = "cajanum" . $i;
-				$atributos ['estilo'] = "caja-numero";
-				$atributos ['mensaje'] = 'No. '. $matrizAnteproyectos[$i]['anteproyecto'];
-				$atributos ['tipo_etiqueta'] = "p";
-				echo $this->miFormulario->div_especifico("inicio", $atributos);
-				echo $this->miFormulario->div_especifico("fin", $atributos);
-				unset($atributos);
-				
+			
+				?>
+				<p id="cajanum" class="caja-numero">
+				<?php echo 'No. '. $matrizAnteproyectos[$i]['anteproyecto'];?>
+				</p>
+				<?php
+								
 				echo $this->miFormulario->division ( "fin" );
 				
 				$atributos ['id'] = "d";
@@ -202,9 +200,22 @@ class Formulario {
 						"estado" => $matrizAnteproyectos [$i] ['estado'] 
 				);
 				
-				$atributos ['estilo'] = "border: 0; width: 100%";
-				echo $this->miFormulario->crearTabla2 ( $atributos, $datos );
-				unset ( $atributos );
+				?>
+				
+<table style="border: 0; width: 100%">
+	<tbody>
+		<?php 
+		foreach ( $datos as $columna => $valor ) {
+			echo '<tr>';
+			echo '<td><b>' . $columna . ': </b></td>';
+			echo '<td>' . $valor . '</td>';
+			echo '</tr>';
+		}
+		?>
+	</tbody>
+</table>
+
+				<?php 
 				
 				echo $this->miFormulario->division ( "fin" );
 				
@@ -284,19 +295,10 @@ class Formulario {
 			echo $this->miFormulario->division ( "inicio", $atributos );
 			unset ( $atributos );
 			
-			$atributos ['id'] = "c";
-			$atributos ['estilo'] = "";
-			$atributos ['mensaje'] = 'No existen anteproyectos actualmente registrados para
-					dirigir.';
-			$atributos ['tipo_etiqueta'] = "contenido";
-			echo $this->miFormulario->div_especifico("inicio", $atributos);
-			unset($atributos);
-			
-			$atributos ['id'] = "d";
-			$atributos ['onclick'] = "window.location = 'index.php?data=" . $pag;
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
+			?>
+			<contenido>
+			No existen anteproyectos actualmente registrados para dirigir.
+			<?php 
 			
 			// -----------------CONTROL: Botón ----------------------------------------------------------------
 			$esteCampo = 'botonInicio';
@@ -319,12 +321,9 @@ class Formulario {
 			echo $this->miFormulario->campoBoton ( $atributos );
 			// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 			
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			$atributos ['tipo_etiqueta'] = "contenido";
-			echo $this->miFormulario->div_especifico("fin", $atributos);
-			unset($atributos);
+			?>
+			</contenido>
+			<?php 
 			
 			echo $this->miFormulario->division ( "fin" );
 			echo $this->miFormulario->division ( "fin" );
