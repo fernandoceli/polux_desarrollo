@@ -72,7 +72,7 @@ class Formulario {
 		$mostrar = false;
 		
 		if ($rol == "Estudiante") {
-			$acceso = true;
+			// $acceso = true;
 			$mostrar = true;
 			$_REQUEST ["variable"] = $_REQUEST ['usuario'];
 			$_REQUEST ['estudiante'] = $_REQUEST ['usuario'];
@@ -202,6 +202,8 @@ class Formulario {
 		echo $this->miFormulario->division ( "fin" );
 		echo $this->miFormulario->division ( "fin" );
 		?>
+				
+				
 				</td>
 				<td class="table-tittle estilo_tr">Titulo</td>
 				<td class="estilo_tr"><p><?php echo $matrizAnteproyecto[0][3]?></p></td>
@@ -267,6 +269,8 @@ class Formulario {
 		echo $this->miFormulario->division ( "fin" );
 		echo $this->miFormulario->division ( "fin" );
 		?>
+				
+				
 				</td>
 				<td class="estilo_tr">Documentación anexa</td>
 			</tr>
@@ -338,7 +342,7 @@ class Formulario {
 		}
 		
 		// -----------------CONTROL: Botón ----------------------------------------------------------------
-		if ($matrizRevisores == null) {
+		if ($matrizRevisores == null && $acceso) {
 			$esteCampo = 'botonA';
 			$atributos ["id"] = $esteCampo;
 			$atributos ["tabIndex"] = $tab;
@@ -363,6 +367,58 @@ class Formulario {
 		}
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 		
+		// -----------------CONTROL: Botón ----------------------------------------------------------------
+		// if ($modi1) {
+		$esteCampo = 'btnCrearVersion';
+		$atributos ["id"] = $esteCampo;
+		$atributos ["tabIndex"] = $tab;
+		$atributos ["tipo"] = 'boton';
+		// submit: no se coloca si se desea un tipo button genérico
+		$atributos ['submit'] = true;
+		$atributos ["estiloMarco"] = '';
+		$atributos ["estiloBoton"] = 'jqueryui';
+		// verificar: true para verificar el formulario antes de pasarlo al servidor.
+		$atributos ["verificar"] = '';
+		$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+		$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+		$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+		$atributos ['deshabilitado'] = false;
+		// $atributos ['deshabilitado'] = true;
+		$tab ++;
+		
+		// Aplica atributos globales al control
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoBoton ( $atributos );
+		unset ( $atributos );
+		// }
+		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
+		
+		// -----------------CONTROL: Botón ----------------------------------------------------------------
+		
+		$esteCampo = 'btnSolicitarRevision';
+		$atributos ["id"] = $esteCampo;
+		$atributos ["tabIndex"] = $tab;
+		$atributos ["tipo"] = 'boton';
+		// submit: no se coloca si se desea un tipo button genérico
+		$atributos ['submit'] = true;
+		$atributos ["estiloMarco"] = '';
+		$atributos ["estiloBoton"] = 'jqueryui';
+		// verificar: true para verificar el formulario antes de pasarlo al servidor.
+		$atributos ["verificar"] = '';
+		$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+		$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+		$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+		$atributos ['deshabilitado'] = false;
+		// $atributos ['deshabilitado'] = true;
+		$tab ++;
+		
+		// Aplica atributos globales al control
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoBoton ( $atributos );
+		unset ( $atributos );
+		
+		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
+		
 		// ------------------Fin Division para los botones-------------------------
 		echo $this->miFormulario->division ( "fin" );
 		
@@ -373,6 +429,7 @@ class Formulario {
 			<div id="versiones">
 				<h3>Versiones del Documento</h3>
 				<p>
+				
 				
 				<Blockquote>A continuación encontrará las últimas versiones del
 					documento que se hayan cargado al sistema. Para cargar el documento
@@ -388,7 +445,7 @@ class Formulario {
 						<td class="table-tittle estilo_tr">Fecha de subida</td>
 					</tr>
 				<?php
-		for($i = 0; $i < count ( $matrizVersiones ); $i ++) {
+		for($i = count ( $matrizVersiones ) - 1; $i >= 0; $i --) {
 			?>
 				<tr>
 						<td class="estilo_tr">
@@ -403,6 +460,8 @@ class Formulario {
 			
 			echo $this->miFormulario->division ( "fin" );
 			?>		
+						
+						
 						</td>
 						<td class="estilo_tr">
 						<?php
@@ -449,6 +508,7 @@ class Formulario {
 					<h3>Solicitudes de Asignación de Revisor</h3>
 					<p>
 					
+					
 					<Blockquote>A continuación encontrará un resumen de las
 						solicitudes creadas.</Blockquote>
 					</p>
@@ -479,6 +539,8 @@ class Formulario {
 				echo $this->miFormulario->division ( "fin" );
 				
 				?>			
+							
+							
 							</td>
 							<td class="estilo_tr">
 						<?php echo $matrizSolicitudes[$i][0];?>
@@ -496,37 +558,37 @@ class Formulario {
 			</table>
 					<br>
 		<?php
-		echo $this->miFormulario->division ( "fin" );
+			echo $this->miFormulario->division ( "fin" );
 		} else {
 			?>
 		<div id="revisores">
-					<h3>Solicitudes de Asignación de Revisor</h3>
+						<h3>Solicitudes de Asignación de Revisor</h3>
 
-					<table class="table-formulario">
-						<tbody>
-							<tr>
-								<td>
-									<div class="icon-mini-info"></div>
-								</td>
-								<td>
-									<div class="mensaje-ayuda">
-										<div>Aun no existen solicitudes de asignación de revisión
+						<table class="table-formulario">
+							<tbody>
+								<tr>
+									<td>
+										<div class="icon-mini-info"></div>
+									</td>
+									<td>
+										<div class="mensaje-ayuda">
+											<div>Aun no existen solicitudes de asignación de revisión
 									indicadas por el programa curricular.
 									<?php
 			echo $this->miFormulario->division ( "fin" );
 			?>
 							</div>
-										<br> <b>NOTA: </b> Una vez el programa curricular inicie las
-										solicitudes, los revisores tendran un plazo máximo de <span
-											class="resaltado">10 dias calendario</span> para dar
-										respuesta a la solicitud
-								
-								</td>
+											<br> <b>NOTA: </b> Una vez el programa curricular inicie las
+											solicitudes, los revisores tendran un plazo máximo de <span
+												class="resaltado">10 dias calendario</span> para dar
+											respuesta a la solicitud
+									
+									</td>
 
-							</tr>
-						</tbody>
-					</table>
-					<br>
+								</tr>
+							</tbody>
+						</table>
+						<br>
 		<?php
 			echo $this->miFormulario->division ( "fin" );
 		}
@@ -534,36 +596,36 @@ class Formulario {
 		?>
 	
 	<div id="proceso">
-						<h3>Proceso de revisión</h3>
+							<h3>Proceso de revisión</h3>
 			
 
 <?php if($matrizRevisores){ ?>
 
 			<p>
-						
-						
-						<Blockquote>Responsable: Revisores</Blockquote>
-						</p>
+							
+							
+							<Blockquote>Responsable: Revisores</Blockquote>
+							</p>
 
-						<table class="table">
-							<tr>
-								<td class="estilo_tr" colspan="5">Documento Revisado: Versión
-									No. 1</td>
-							</tr>
-							<tr>
-								<td class="table-tittle estilo_tr" colspan="2">Revisor</td>
-								<td class="table-tittle estilo_tr">Fecha de Solicitud</td>
-								<td class="table-tittle estilo_tr">Concepto Respuesta</td>
-								<td class="table-tittle estilo_tr">Fecha Respuesta</td>
-							</tr>
+							<table class="table">
+								<tr>
+									<td class="estilo_tr" colspan="5">Documento Revisado: Versión
+										No. 1</td>
+								</tr>
+								<tr>
+									<td class="table-tittle estilo_tr" colspan="2">Revisor</td>
+									<td class="table-tittle estilo_tr">Fecha de Solicitud</td>
+									<td class="table-tittle estilo_tr">Concepto Respuesta</td>
+									<td class="table-tittle estilo_tr">Fecha Respuesta</td>
+								</tr>
 				<?php
 			for($i = 0; $i < count ( $matrizRevisores ); $i ++) {
 				
 				?>
 				<tr>
-								<td class="estilo_tr">
-									<div class="corner bg-imagen-documento">
-										<div id="documento" class="icon-mini-people">
+									<td class="estilo_tr">
+										<div class="corner bg-imagen-documento">
+											<div id="documento" class="icon-mini-people">
 							<?php
 				echo $this->miFormulario->division ( "fin" );
 				?>
@@ -574,12 +636,11 @@ class Formulario {
 				echo $this->miFormulario->division ( "fin" );
 				?>
 					
-								
-								</td>
-								<td class="estilo_tr">
+									</td>
+									<td class="estilo_tr">
 						<?php echo $matrizRevisores[$i][2];?>
 					</td>
-								<td class="estilo_tr">
+									<td class="estilo_tr">
 						<?php echo $matrizRevisores [$i][0];?>
 					</td>
 				<?php
@@ -631,7 +692,7 @@ class Formulario {
 					$n ++;
 					?>
 					</td>
-								<td class="estilo_tr">
+									<td class="estilo_tr">
 						<?php echo $matrizRevisiones[0][1]?>
 					</td>
 				<?php
@@ -640,7 +701,7 @@ class Formulario {
 						<td class="estilo_tr">
 							<?php echo "--"?>
 						</td>
-								<td class="estilo_tr">
+									<td class="estilo_tr">
 							<?php echo "--"?>
 						</td>
 					<?php
@@ -658,30 +719,30 @@ class Formulario {
 			?>
 			
 			<table class="table-formulario">
-							<tbody>
-								<tr>
-									<td class="">
-										<div class="icon-mini-info"></div>
-									</td>
-									<td>
-										<div class="mensaje-ayuda">
-											<div>
-												Aun no existen procesos de evaluaci&oacute;n iniciados. Para
-												iniciar un proceso de evaluaci&oacute;n es indispensable que
-												solicite revisi&oacute;n de la &uacute;ltima versi&oacute;n
-												del documento del anteproyecto. <br> <br> <b>NOTA:</b> Una
-												vez solicite la revisi&oacute;n, los revisores
-												tendr&aacute;n un plazo m&aacute;ximo de <span
-													class="resaltado">20 d&iacute;as calendario</span> para dar
-												repuesta a la solicitud la c&uacute;al ser&aacute;
-												notificada a los estudiantes a traves del correo
-												electr&oacute;nico.
+								<tbody>
+									<tr>
+										<td class="">
+											<div class="icon-mini-info"></div>
+										</td>
+										<td>
+											<div class="mensaje-ayuda">
+												<div>
+													Aun no existen procesos de evaluaci&oacute;n iniciados.
+													Para iniciar un proceso de evaluaci&oacute;n es
+													indispensable que solicite revisi&oacute;n de la
+													&uacute;ltima versi&oacute;n del documento del
+													anteproyecto. <br> <br> <b>NOTA:</b> Una vez solicite la
+													revisi&oacute;n, los revisores tendr&aacute;n un plazo
+													m&aacute;ximo de <span class="resaltado">20 d&iacute;as
+														calendario</span> para dar repuesta a la solicitud la
+													c&uacute;al ser&aacute; notificada a los estudiantes a
+													traves del correo electr&oacute;nico.
+												</div>
 											</div>
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+										</td>
+									</tr>
+								</tbody>
+							</table>
 			
 			<?php
 		}
@@ -706,35 +767,35 @@ class Formulario {
 		if (! $modi) {
 			?>
 <div class="bg-tablero corner">
-							<h4>Solicitud de modificación</h4>
-							<div class="plugins corner margen-interna">
-								<div class="plugin">
-									<div>
-										<table class="table-formulario">
-											<tbody>
-												<tr>
-													<td>
-														<div class="icon-mini-info"></div>
-													</td>
-													<td>
-														<div class="mensaje-ayuda">
-															<div>
-																No existen procesos de modificaci&oacute;n pendientes.
-																Es indispensable que todos los procesos de
-																revisi&oacute;n finalicen para determinar si es
-																necesario realizar modificaciones al documento. <br> <br>
-																<b>NOTA:</b> Una vez exista una solicitud de
-																modificaci&oacute;n, los estudiantes tendr&aacute;n un
-																plazo m&aacute;ximo de <span class="resaltado">25
-																	d&iacute;as calendario </span> para dar modificar el
-																documento y solicitar nuevamente la revisi&oacute;n por
-																parte de los revisores.
+								<h4>Solicitud de modificación</h4>
+								<div class="plugins corner margen-interna">
+									<div class="plugin">
+										<div>
+											<table class="table-formulario">
+												<tbody>
+													<tr>
+														<td>
+															<div class="icon-mini-info"></div>
+														</td>
+														<td>
+															<div class="mensaje-ayuda">
+																<div>
+																	No existen procesos de modificaci&oacute;n pendientes.
+																	Es indispensable que todos los procesos de
+																	revisi&oacute;n finalicen para determinar si es
+																	necesario realizar modificaciones al documento. <br> <br>
+																	<b>NOTA:</b> Una vez exista una solicitud de
+																	modificaci&oacute;n, los estudiantes tendr&aacute;n un
+																	plazo m&aacute;ximo de <span class="resaltado">25
+																		d&iacute;as calendario </span> para dar modificar el
+																	documento y solicitar nuevamente la revisi&oacute;n por
+																	parte de los revisores.
+																</div>
 															</div>
-														</div>
-													</td>
-												</tr>
-											</tbody>
-										</table>
+														</td>
+													</tr>
+												</tbody>
+											</table>
 
 <?php
 			echo $this->miFormulario->division ( "fin" );
@@ -748,51 +809,51 @@ class Formulario {
 			?>
 
 	<div id="modif">
-											<h4>Solicitud de modificación</h4>
-											<p class="idnt">A continuacion se observa la modificación
-												requerida por el revisor:</p>
-											<table id="proc" class="table">
-												<tr>
-													<td class="estilo_tr tit" colspan="5">Solicitudes de
-														modificación de revisión</td>
-												</tr>
-												<tr>
-													<td class="table-tittle estilo_tr" colspan="2">Revisor</td>
-													<td class="table-tittle estilo_tr">Fecha solicitud</td>
-													<td class="table-tittle estilo_tr">Concepto respuesta</td>
-													<td class="table-tittle estilo_tr">Fecha respuesta</td>
-												</tr>
+												<h4>Proceso de Modificación</h4>
+												<p>
+												
+												
+												<Blockquote>Responsable: Estudiantes</Blockquote>
+												</p>
+												<table id="proc" class="table">
+													<tr>
+														<td class="estilo_tr tit" colspan="5">Documento por modificar Versión No.</td>
+													</tr>
+													<tr>
+														<td class="table-tittle estilo_tr" colspan="2">Estudiante
+															que confirma Modificación</td>
+														<td class="table-tittle estilo_tr">Estado Modificación</td>
+														<td class="table-tittle estilo_tr">Fecha Modificación</td>
+													</tr>
 				<?php
 			// var_dump($matrizRevisiones);
 			for($i = 0; $i < count ( $matrizRevisiones ); $i ++) {
 				if ($matrizRevisiones [$i] [2] == "MODIFICABLE") {
 					?>
 				<tr>
-													<td class="estilo_tr">
-														<div class="corner bg-imagen-documento">
-															<div id="documento" class="icon-mini-people"></div>
-														</div>
-													</td>
-													<td class="estilo_tr">
-						<?php //echo $matrizRevisiones [$i] [3];?>
+														<td class="estilo_tr">
+															<div class="corner bg-imagen-documento">
+																<div id="documento" class="icon-mini-estd"></div>
+															</div>
+														</td>
+														<td class="estilo_tr">
+						<?php echo '---'?>
 					</td>
-													<td class="estilo_tr">
-						<?php //echo $matrizRevisiones [$i] [4];?>
+
+														<td class="estilo_tr">
+						<?php echo 'Pendiente';?>
 					</td>
-													<td class="estilo_tr">
-						<?php echo $matrizRevisiones [$i] [2];?>
-					</td>
-													<td class="estilo_tr">
+														<td class="estilo_tr">
 						<?php //echo $matrizRevisiones [$i] [0];?>
 					</td>
-												</tr>
+													</tr>
 				<?php
 				}
 			}
 			?>
 			
 			</table>
-											<br>
+												<br>
 <?php
 			echo $this->miFormulario->division ( "fin" );
 		}
@@ -821,9 +882,12 @@ class Formulario {
 		$valorCodificado = "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' ); // Frontera mostrar formulario
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
-		$valorCodificado .= "&usuario=" . $_REQUEST ['usuario'];
-		// $valorCodificado .= "&estudiante=" .$_REQUEST ['estudiante'];
+		$valorCodificado .= "&usuario=" . $usuario;
+		if (isset ( $_REQUEST ['variable'] )) {
+			$valorCodificado .= "&estudiante=" . $_REQUEST ['variable'];
+		}
 		$valorCodificado .= "&rol=" . $rol;
+		$valorCodificado .= "&anteproyecto=" . $_REQUEST ['anteproyecto'];
 		$valorCodificado .= "&opcion=asignar";
 		/**
 		 * SARA permite que los nombres de los campos sean dinámicos.
@@ -887,10 +951,7 @@ class Formulario {
 		return true;
 	}
 }
-
 $miFormulario = new Formulario ( $this->lenguaje, $this->miFormulario, $this->sql );
-
 $miFormulario->formulario ();
 $miFormulario->mensaje ();
-
 ?>

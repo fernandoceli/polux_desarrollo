@@ -1,6 +1,6 @@
 <?php
 
-namespace bloquesModelo\consultaInformeFinal;
+namespace bloquesModelo\consultaProyecto;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("../index.php");
@@ -57,12 +57,22 @@ class Funcion {
 	function iniciar_informe() {
 		include_once ($this->ruta . "funcion/iniciar.php");
 	}
+	function asignar() {
+		include_once ($this->ruta . "/funcion/asignar.php");
+	}
+	function sustentacion() {
+		include_once ($this->ruta . "/funcion/sustentacion.php");
+	}
+	
+	function finalizar() {
+		include_once ($this->ruta . "/funcion/finalizar.php");
+	}
 	function action() {
 		$resultado = true;
 		
-		// Aquí se coloca el código que procesará los diferentes formularios que pertenecen al bloque
-		// aunque el código fuente puede ir directamente en este script, para facilitar el mantenimiento
-		// se recomienda que aqui solo sea el punto de entrada para incluir otros scripts que estarán
+		// AquÃ­ se coloca el cÃ³digo que procesarÃ¡ los diferentes formularios que pertenecen al bloque
+		// aunque el cÃ³digo fuente puede ir directamente en este script, para facilitar el mantenimiento
+		// se recomienda que aqui solo sea el punto de entrada para incluir otros scripts que estarÃ¡n
 		// en la carpeta funcion
 		
 		// Importante: Es adecuado que sea una variable llamada opcion o action la que guie el procesamiento:
@@ -73,7 +83,7 @@ class Funcion {
 			$this->iniciar_informe ();
 		} else if (isset ( $_REQUEST ["opcion"] )) {
 			
-		switch ($_REQUEST ["opcion"]) {
+			switch ($_REQUEST ["opcion"]) {
 				
 				case 'mostrar' :
 					$this->mostrar ();
@@ -93,6 +103,14 @@ class Funcion {
 				
 				case 'continuar' :
 					$this->continuar ();
+					break;
+				
+				case 'sustentacion' :
+					$this->sustentacion ();
+					break;
+				
+				case 'finalizar' :
+					$this->finalizar ();
 					break;
 			}
 		} 

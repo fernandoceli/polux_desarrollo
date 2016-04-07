@@ -102,10 +102,11 @@ class Formulario {
 		$atributos ['anchoCaja'] = 60;
 		
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarDocentes" );
-		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		$matrizDocentes = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		$atributos ['matrizItems'] = $matrizItems;
-		
+		if ($matrizDocentes) {
+			$atributos ['matrizItems'] = $matrizDocentes;
+		}
 		// echo $matrizItems[0][0]."-1-2-".$matrizItems[0][1]. "-3-".$matrizItems[0][2];
 		
 		if (isset ( $_REQUEST [$esteCampo] )) {
@@ -116,7 +117,11 @@ class Formulario {
 		
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoCuadroLista ( $atributos );
+		if ($matrizDocentes) {
+			echo $this->miFormulario->campoCuadroLista ( $atributos );
+		} else {
+			echo "**No hay ningun docente registrado.";
+		}
 		
 		// --------------- FIN CONTROL : Cuadro Lista --------------------------------------------------
 		
@@ -143,7 +148,9 @@ class Formulario {
 		
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoBoton ( $atributos );
+		if ($matrizDocentes) {
+			echo $this->miFormulario->campoBoton ( $atributos );
+		}
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 		
 		// ------------------Fin Division para los botones-------------------------

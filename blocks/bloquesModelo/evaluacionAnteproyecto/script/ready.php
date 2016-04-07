@@ -5,15 +5,15 @@ $("#evaluacionAnteproyecto").validationEngine({
 	autoHideDelay: 2000
 });
 
-$('#<?php echo $this->campoSeguro('pregunta1')?>').width(280);
+$('#<?php echo $this->campoSeguro('pregunta1')?>').width(270);
 $('#<?php echo $this->campoSeguro('pregunta1')?>').select2();
-$('#<?php echo $this->campoSeguro('pregunta2')?>').width(280);
+$('#<?php echo $this->campoSeguro('pregunta2')?>').width(270);
 $('#<?php echo $this->campoSeguro('pregunta2')?>').select2();
-$('#<?php echo $this->campoSeguro('pregunta3')?>').width(280);
+$('#<?php echo $this->campoSeguro('pregunta3')?>').width(270);
 $('#<?php echo $this->campoSeguro('pregunta3')?>').select2();
-$('#<?php echo $this->campoSeguro('pregunta4')?>').width(280);
+$('#<?php echo $this->campoSeguro('pregunta4')?>').width(270);
 $('#<?php echo $this->campoSeguro('pregunta4')?>').select2();
-$('#<?php echo $this->campoSeguro('pregunta5')?>').width(280);
+$('#<?php echo $this->campoSeguro('pregunta5')?>').width(270);
 $('#<?php echo $this->campoSeguro('pregunta5')?>').select2();
 
 $('#<?php echo $this->campoSeguro('pregunta21')?>').width(280);
@@ -37,8 +37,7 @@ $('#<?php echo $this->campoSeguro('pregunta35')?>').select2();
 $('#<?php echo $this->campoSeguro('seleccionarConcepto')?>').width(280);
 $('#<?php echo $this->campoSeguro('seleccionarConcepto')?>').select2();
 
-////////////Función que organiza los tabs en la interfaz gráfica//////////////
-$(function() {
-	$("#tabs").tabs();
-}); 
-//////////////////////////////////////////////////////////////////////////////
+
+
+
+

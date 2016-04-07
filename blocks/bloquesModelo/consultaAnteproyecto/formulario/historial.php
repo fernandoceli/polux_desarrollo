@@ -94,12 +94,11 @@ class Formulario {
 		echo $this->miFormulario->campoCuadroTexto ( $atributos );
 		unset ( $atributos );
 		
-		// /////////////////
-		
 		$atributos ['mensaje'] = 'Historial';
 		$atributos ['tamanno'] = 'Enorme';
 		$atributos ['linea'] = 'true';
 		echo $this->miFormulario->campoMensaje ( $atributos );
+		unset ( $atributos );
 		
 		$esteCampo = "marcoDatos2";
 		$atributos ['id'] = $esteCampo;
@@ -115,7 +114,6 @@ class Formulario {
 		if($resultado){
 			echo $this->miFormulario->tablaReporte ( $resultado );
 		}
-		
 		
 		// ------------------Division para los botones-------------------------
 		$atributos ["id"] = "botones";

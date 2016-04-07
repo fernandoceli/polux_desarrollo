@@ -112,13 +112,14 @@ class Formulario {
 		if (isset ( $_REQUEST ['variable'] )) {
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarEstudiante", $_REQUEST ["variable"] );
 			$matrizNombre = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-			$atributos ['mensaje'] = 'Anteproyectos por estudiante - ' . $matrizNombre [0] [0] . " - ";
+			$mensaje = 'Anteproyectos por estudiante - ' . $matrizNombre [0] [0] . " - ";
 		} else {
-			$atributos ['mensaje'] = 'Anteproyectos por estudiante ';
+			$mensaje = 'Anteproyectos por estudiante ';
 		}
-		$atributos ['tamanno'] = 'Enorme';
-		$atributos ['linea'] = 'true';
-		echo $this->miFormulario->campoMensaje ( $atributos );
+		
+		?>
+		<h2><?php echo $mensaje;?></h2>
+		<?php 
 		
 		if ($matrizAnteproyectos && $acceso) {
 			
@@ -143,7 +144,7 @@ class Formulario {
 				
 				$titulo = $matrizAnteproyectos [$i] ['titulo'];
 				if ($titulo == strtoupper ( $titulo )) {
-					$titulo = substr ( $titulo, 0, 40 ) . "...";
+					$titulo = substr ( $titulo, 0, 45 ) . "...";
 				}
 				if (strlen ( $titulo ) > 55) {
 					$titulo = substr ( $titulo, 0, 50 ) . "...";
@@ -227,35 +228,49 @@ class Formulario {
 				</div>
 
 <?
-			}
+			} 
 		} else {
-			$mostrar = false;
-			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
-			?>
-<div class="canvas-contenido">
-					<div class="area-msg corner margen-interna ">
-						<div class="icono-msg info"></div>
-						<div class="content-msg info corner">
-							<div class="title-msg info">Informacion</div>
-							<div style="padding: 5px 0px;">
-								<div>
-									<contenido> No hay ningun anteproyecto registrado para el estudiante <?php if(isset($_REQUEST["variable"])) { echo $_REQUEST["variable"];}?>.
-					<div style="text-align: right"
-										onclick="window.location = 'index.php?data=<?php echo $pag?>';">
-										<input
-											class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
-											type="submit" tabindex="1" value="Ir al inicio" role="button"
-											aria-disabled="false">
-									</div>
-									</contenido>
-								</div>
-							</div>
-						</div>
-						<div class="clearboth"></div>
-					</div>
-				</div>
+  			$mostrar = false;
+  ?>
+  <div class="ui-widget">
+  	<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+  		<p>
+  			<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+  			<strong>Informaci&oacute;n!</strong>
+  			No hay ningún anteproyecto registrado para el estudiante <?php if(isset($_REQUEST["variable"])) { echo $_REQUEST["variable"];}?>.
+  		</p>
+  	</div>
+  </div>
+  <?php
+	  	    // ------------------Division para los botones-------------------------
+		    $atributos ["id"] = "botones";
+		    $atributos ["estilo"] = "marcoBotones";
+		    $atributos ["titulo"] = "Enviar Información";
+		    echo $this->miFormulario->division ( "inicio", $atributos );
+		  	
+			// -----------------CONTROL: Botón ----------------------------------------------------------------
+			$esteCampo = 'botonInicio';
+			$atributos ["id"] = $esteCampo;
+			$atributos ["tabIndex"] = $tab;
+			$atributos ["tipo"] = 'boton';
+			// submit: no se coloca si se desea un tipo button genérico
+			$atributos ['submit'] = true;
+			$atributos ["estiloMarco"] = '';
+			$atributos ["estiloBoton"] = '';
+			// verificar: true para verificar el formulario antes de pasarlo al servidor.
+			$atributos ["verificar"] = '';
+			$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+			$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+			$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+			$tab ++;
+			
+			// Aplica atributos globales al control
+			$atributos = array_merge ( $atributos, $atributosGlobales );
+			echo $this->miFormulario->campoBoton ( $atributos );
+			// -----------------FIN CONTROL: Bot�n -----------------------------------------------------------
 
-<?php
+			// ------------------Fin Division para los botones-------------------------
+			echo $this->miFormulario->division ( "fin" );
 		}
 		
 		// ------------------- SECCION: Paso de variables ------------------------------------------------

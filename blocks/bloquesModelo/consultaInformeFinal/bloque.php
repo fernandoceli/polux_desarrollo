@@ -1,6 +1,6 @@
 <?php
 
-namespace bloquesModelo\consultaInformeFinal;
+namespace bloquesModelo\consultaProyecto;
 
 // Evitar un acceso directo a este archivo
 if (! isset ( $GLOBALS ["autorizado"] )) {

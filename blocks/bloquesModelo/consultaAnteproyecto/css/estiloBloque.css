@@ -152,6 +152,16 @@ body { /*font: 62.5% "Arial", sans-serif*/
 	cursor: pointer;
 }
 
+.icon-mini-estd {
+    background: transparent url(../icons/icon-mini-estd.png) 50% 50%
+ no-repeat;
+    position: relative;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    cursor: pointer;
+}
+
 .bg-imagen-documento {
 	background: #fff;
 	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)
@@ -239,12 +249,23 @@ h4 {
 
 .corner {
 	border-radius: 5px;
-	/*-moz-border-radius: 5; for Firefox */
 }
 
 .semicorner {
 	border-radius: 5px 5px 0 0;
-	/*-moz-border-radius: 5 5 0 0; for Firefox */
+}
+
+.bg-seccion {
+    margin: 10px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)
+ inset;
+    border: 1px solid #ababab;
+}
+
+.seccion {
+    margin: 4px;
+    padding: 10px;
+    background: #DFDFDF url(images/background/gris-degradado-1x300.png) 0 top repeat-x;
 }
 
 .texto-normal {

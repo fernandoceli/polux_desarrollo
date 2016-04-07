@@ -61,6 +61,34 @@ class Sql extends \Sql {
 				// echo ( $cadenaSql );
 				break;
 			
+			case "registrarVersionDoc" :
+				$cadenaSql = "INSERT INTO ";
+				$cadenaSql .= "trabajosdegrado.ant_tdantp ( ";
+				$cadenaSql .= "dantp_vers, ";
+				$cadenaSql .= "dantp_observ, ";
+				$cadenaSql .= "dantp_falm, ";
+				$cadenaSql .= "dantp_usua, ";
+				$cadenaSql .= "dantp_antp, ";
+				$cadenaSql .= "dantp_url, ";
+				$cadenaSql .= "dantp_hash, ";
+				$cadenaSql .= "dantp_bytes, ";
+				$cadenaSql .= "dantp_nombre, ";
+				$cadenaSql .= "dantp_extension) ";
+				$cadenaSql .= "VALUES ( ";
+				$cadenaSql .= "" . $variable ['version'] . ", ";
+				$cadenaSql .= "'" . $variable ['observacion'] . "', ";
+				$cadenaSql .= "'" . $variable ['fecha'] . "', ";
+				$cadenaSql .= "'" . $variable ['usuario'] . "', ";
+				$cadenaSql .= "" . $_REQUEST ['anteproyecto'] . ", ";
+				$cadenaSql .= "'" . $variable ['url'] . "', ";
+				$cadenaSql .= "'" . $variable ['hash'] . "', ";
+				$cadenaSql .= "'" . $variable ['tamano'] . "', ";
+				$cadenaSql .= "'" . $variable ['nombre'] . "', ";
+				$cadenaSql .= "'" . $variable ['tipo'] . "' ";
+				$cadenaSql .= ") ";
+				var_dump ( $cadenaSql );
+				break;
+			
 			case 'registrarSolicitudes' :
 				
 				$fechaActual = date ( 'Y-m-d' );
@@ -91,6 +119,26 @@ class Sql extends \Sql {
 				$cadenaSql .= ") ";
 				$cadenaSql .= " RETURNING slrev_slrev;";
 				echo ($cadenaSql);
+				break;
+			
+			case 'registrarHistorialAsignacion' :
+				
+				$cadenaSql = " INSERT INTO trabajosdegrado.ant_thantp ( ";
+				$cadenaSql .= "hantp_antp, hantp_eantp, hantp_fasig, ";
+				$cadenaSql .= "hantp_obser, hantp_usua) ";
+				$cadenaSql .= " VALUES (";
+				// anteproyecto: buscar valor de la secuencia actual
+				$cadenaSql .= '(SELECT ';
+				$cadenaSql .= 'last_value ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado."ANT_SANTP"), ';
+				
+				$cadenaSql .= "'REVISORES ASIGNADOS', ";
+				$cadenaSql .= "'" . $_REQUEST ['fecha'] . "', ";
+				$cadenaSql .= "'" . $_REQUEST ['observaciones'] . "', ";
+				$cadenaSql .= " '" . $_REQUEST ['usuario'] . "' ";
+				$cadenaSql .= ") ";
+				echo $cadenaSql;
 				break;
 			
 			case 'guardarHistorialSol' :
@@ -134,6 +182,21 @@ class Sql extends \Sql {
 				$cadenaSql .= 'h.hantp_antp =' . $variable;
 				$cadenaSql .= " and (h.hantp_usua=u.id_usuario)";
 				// echo $cadenaSql;
+				break;
+			
+			case 'guardarVersion' :
+				$cadenaSql = 'SELECT ';
+				$cadenaSql .= 'h.hantp_fasig as FECHA,';
+				$cadenaSql .= 'h.hantp_eantp as ESTADO, ';
+				$cadenaSql .= "(u.nombre || ' ' ||u.apellido) AS  USUARIO, ";
+				$cadenaSql .= 'h.hantp_obser as OBSERVACIONES ';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= 'trabajosdegrado.ant_thantp h, ';
+				$cadenaSql .= "public.polux_usuario u ";
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'h.hantp_antp =' . $variable;
+				$cadenaSql .= " and (h.hantp_usua=u.id_usuario)";
+				echo $cadenaSql;
 				break;
 			
 			case 'buscarAnteproyectos' :
@@ -214,6 +277,21 @@ class Sql extends \Sql {
 				$cadenaSql .= 'estantp_antp =' . $_REQUEST ['anteproyecto'];
 				$cadenaSql .= ' and e.estd_us =u.id_usuario';
 				$cadenaSql .= ' and a.estantp_estd=e.estd_estd';
+				// echo $cadenaSql;
+				break;
+			
+			case 'buscarNombresAutores' :
+				$cadenaSql = "SELECT ";
+				$cadenaSql .= "e.estd_estd, ";
+				$cadenaSql .= "(u.nombre || ' ' ||u.apellido) AS  Nombre, ";
+				$cadenaSql .= "e.estd_us ";
+				
+				$cadenaSql .= "FROM ";
+				$cadenaSql .= "trabajosdegrado.ge_testd e, ";
+				$cadenaSql .= "public.polux_usuario u ";
+				$cadenaSql .= "WHERE ";
+				$cadenaSql .= "e.estd_estd='" . $variable . "'";
+				$cadenaSql .= " and e.estd_us =u.id_usuario";
 				// echo $cadenaSql;
 				break;
 			
@@ -366,12 +444,52 @@ class Sql extends \Sql {
 				// echo $cadenaSql;
 				break;
 			
+			case 'buscarDocumento' :
+				$cadenaSql = 'SELECT MAX(dantp_dantp) FROM trabajosdegrado.ant_tdantp ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'dantp_antp=\'' . $variable . '\' ';
+				// var_dump ( $cadenaSql );
+				break;
+			
+			case 'buscarVersionDoc' :
+				$cadenaSql = 'SELECT dantp_vers FROM trabajosdegrado.ant_tdantp ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'dantp_dantp=\'' . $variable . '\' ';
+				// var_dump ( $cadenaSql );
+				break;
+			
 			case "actualizarEstadoProyecto" :
 				$cadenaSql = " UPDATE trabajosdegrado.ant_tantp ";
 				$cadenaSql .= " SET antp_eantp= 'PROYECTO'";
 				$cadenaSql .= " WHERE antp_antp='" . $_REQUEST ['anteproyecto'] . "' ";
 				// echo $cadenaSql;
 				break;
+			
+			case 'buscarPreguntas' :
+				$cadenaSql = "SELECT ";
+				$cadenaSql .= "preg_preg, ";
+				$cadenaSql .= "preg_pregunta ";
+				$cadenaSql .= "FROM ";
+				$cadenaSql .= "trabajosdegrado.ant_tpreg; ";
+				break;
+				
+				/*
+				 case 'guardarSolicitud' :
+				 $cadenaSql = "INSERT INTO ";
+				 $cadenaSql .= "trabajosdegrado.pry_tsrdp ";
+				 $cadenaSql .= "(srdp_esrdp, ";
+				 $cadenaSql .= "srdp_fcrea, ";
+				 $cadenaSql .= "srdp_observ, ";
+				 $cadenaSql .= "srdp_estd, ";
+				 $cadenaSql .= "srdp_proy) ";
+				 $cadenaSql .= "VALUES (";
+				 $cadenaSql .= "'" . $variable ['estado'] . "', ";
+				 $cadenaSql .= "'" . $variable ['fecha'] . "', ";
+				 $cadenaSql .= "'" . $variable ['pregunta1'] . "', ";
+				 $cadenaSql .= "'" . $variable ['estudiante'] . "', ";
+				 $cadenaSql .= "'" . $variable ['proyecto'] . "')";
+				 break;*/
+		
 		}
 		
 		return $cadenaSql;

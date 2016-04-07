@@ -22,8 +22,13 @@ class redireccion {
 			case "evaluar" :
 				
 				$variable = 'pagina=evaluacionProyecto';
-				$variable .= '&usuario=' . $valor['usuario'];
-				$variable .= '&proyecto=' . $valor['proyecto'];
+				$variable .= '&usuario=' . $valor ['usuario'];
+				$variable .= '&proyecto=' . $valor ['proyecto'];
+				break;
+			
+			case "irinicio" :
+				$variable = 'pagina=indexPolux';
+				$variable .= '&usuario=' . $valor ['usuario'];
 				break;
 			
 			default :
@@ -37,13 +42,13 @@ class redireccion {
 		$url = $miConfigurador->configuracion ["host"] . $miConfigurador->configuracion ["site"] . "/index.php?";
 		
 		$enlace = $miConfigurador->configuracion ['enlace'];
-		var_dump ( $variable );
+		//var_dump ( $variable );
 		$variable = $miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
 		$_REQUEST [$enlace] = $enlace . '=' . $variable;
 		$redireccion = $url . $_REQUEST [$enlace];
 		
 		echo "<script>location.replace('" . $redireccion . "')</script>";
-
+		
 		return true;
 	}
 }

@@ -3,6 +3,10 @@ div.campoBoton {
 	display: inline-block;
 }
 
+div.formulario {
+	width: 93.5%;
+}
+
 .mensaje-ayuda {
     width: auto;
     padding: 5px;

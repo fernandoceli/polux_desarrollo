@@ -56,7 +56,7 @@ class Sql extends \Sql {
 				$cadenaSql .= "(Select prof_prof from trabajosdegrado.ge_tprof where prof_us='" . $variable ['usuario'] . "' )";
 				$cadenaSql .= ") ";
 				$cadenaSql .= " RETURNING eval_eval;";
-// 				echo ($cadenaSql);
+				// echo ($cadenaSql);
 				break;
 			
 			case 'registrarRespuestas' :
@@ -242,7 +242,7 @@ class Sql extends \Sql {
 				$cadenaSql .= ') ';
 				break;
 			
-			case 'tipoDoc':
+			case 'tipoDoc' :
 				$cadenaSql = "SELECT tipo_identificacion ";
 				$cadenaSql .= "FROM ";
 				$cadenaSql .= "polux_usuario ";
@@ -263,6 +263,32 @@ class Sql extends \Sql {
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'u.id_usuario=\'' . $variable . '\' ';
 				break;
+			
+			case "actualizarEstadoSolicitud" :
+				
+				$cadenaSql = " UPDATE trabajosdegrado.ant_tslrev ";
+				$cadenaSql .= " SET slrev_eslrev = 'ACEPTADA'";
+				$cadenaSql .= " WHERE slrev_antp=" . $_REQUEST ['ante'] . " ";
+				echo $cadenaSql;
+				break;
+			
+			/*
+			 * case 'guardarSolicitud' :
+			 * $cadenaSql = "INSERT INTO ";
+			 * $cadenaSql .= "trabajosdegrado.pry_tsrdp ";
+			 * $cadenaSql .= "(srdp_esrdp, ";
+			 * $cadenaSql .= "srdp_fcrea, ";
+			 * $cadenaSql .= "srdp_observ, ";
+			 * $cadenaSql .= "srdp_estd, ";
+			 * $cadenaSql .= "srdp_proy) ";
+			 * $cadenaSql .= "VALUES (";
+			 * $cadenaSql .= "'" . $variable ['estado'] . "', ";
+			 * $cadenaSql .= "'" . $variable ['fecha'] . "', ";
+			 * $cadenaSql .= "'" . $variable ['pregunta1'] . "', ";
+			 * $cadenaSql .= "'" . $variable ['estudiante'] . "', ";
+			 * $cadenaSql .= "'" . $variable ['proyecto'] . "')";
+			 * break;
+			 */
 		}
 		
 		return $cadenaSql;

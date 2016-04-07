@@ -49,7 +49,7 @@ class Formulario {
 		
 		$conexion = 'estructura';
 		$esteRecurso = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-
+		
 		$usuario = $this->miSesion->getSesionUsuarioId ();
 		
 		// -------------------------------------------------------------------------------------------------
@@ -94,25 +94,26 @@ class Formulario {
 		}
 		
 		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
-			$docente = $_REQUEST ["variable"];
-			$acceso = true;
+			if (isset ( $_REQUEST ['variable'] )) {
+				$docente = $_REQUEST ["variable"];
+				$acceso = true;
+			}
 		}
 		
 		// Buscar Proyectos asignados al docente y que tengan solicitudes pendientes
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarSolicitudes", $docente );
+		if (isset ( $docente )) {
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarSolicitudes", $docente );
+		} else {
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarSolicitudes", '0' );
+		}
 		$matrizProyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		// var_dump($matrizProyectos);
 		?>
-<br></br>
+		<h2>Solicitudes Pendientes de Revisi贸n de Proyectos</h2>
 <?php
-		
+
 		if ($matrizProyectos) {
-			
-			$atributos ['mensaje'] = 'Solicitudes Pendientes de Revisi贸n de Proyectos';
-			$atributos ['tamanno'] = 'Enorme';
-			$atributos ['linea'] = 'true';
-			echo $this->miFormulario->campoMensaje ( $atributos );
-			
+		
 			for($i = 0; $i < count ( $matrizProyectos ); $i ++) {
 				$proyecto = $matrizProyectos [$i] [0];
 				
@@ -128,65 +129,65 @@ class Formulario {
 	<div class="caja corner">
 		<div class="caja-header">
 			<div class="caja-fecha" style="float: left"><?php echo $matrizProyecto[$i][5]?>
-			<?php 
-			echo $this->miFormulario->division ( "fin" );
-			?>
+			<?php
+				echo $this->miFormulario->division ( "fin" );
+				?>
 			<div class="caja-semaforo-gris" style="float: right">
-			<?php 
-			echo $this->miFormulario->division ( "fin" );
-			?>
+			<?php
+				echo $this->miFormulario->division ( "fin" );
+				?>
 			<div class="caja-semaforo-gris" style="float: right">
-			<?php 
-			echo $this->miFormulario->division ( "fin" );
-			?>
+			<?php
+				echo $this->miFormulario->division ( "fin" );
+				?>
 			<div class="caja-semaforo-verde" style="float: right">
-			<?php 
-			echo $this->miFormulario->division ( "fin" );
-			?>
+			<?php
+				echo $this->miFormulario->division ( "fin" );
+				?>
 			<div class="clearboth">
-				<br></br>
-				<?php 
+								<br></br>
+				<?php
 				echo $this->miFormulario->division ( "fin" );
 				echo $this->miFormulario->division ( "fin" );
 				?>
 		<div>
-			<div class="caja-codigo" style="float: left">
-				<div class="caja-icon-documento">
-				<?php 
+									<div class="caja-codigo" style="float: left">
+										<div class="caja-icon-documento">
+				<?php
 				echo $this->miFormulario->division ( "fin" );
 				?>
 				<p class="caja-numero" id="cajanum<?php echo $i ?>"><?php echo 'No. '. $matrizProyecto[$i][0]?></p>
-			<?php 
-			echo $this->miFormulario->division ( "fin" );
-			?>
+			<?php
+				echo $this->miFormulario->division ( "fin" );
+				?>
 			<div class="caja-info" style="float: left">
-				<table style="border: 0; width: 100%">
-					<tbody>
-						<tr>
-							<td><b>Solicitantes:</b></td>
-							<td><?php echo 'Estudiante' ?></td>
-						</tr>
-						<tr>
-							<td><b>Proyecto:</b></td>
-							<td><?php echo 'No. '.$matrizProyecto[$i][0] ?></td>
-						</tr>
-						<tr>
-							<td><b>Estado:</b></td>
-							<td><?php echo 'PENDIENTE' ?></td>
-						</tr>
-						<tr>
-							<td><b>Dias Restantes:</b></td>
-							<td><?php
+												<table style="border: 0; width: 100%">
+													<tbody>
+														<tr>
+															<td><b>Solicitantes:</b></td>
+															<td><?php echo 'Estudiante' ?></td>
+														</tr>
+														<tr>
+															<td><b>Proyecto:</b></td>
+															<td><?php echo 'No. '.$matrizProyecto[$i][0] ?></td>
+														</tr>
+														<tr>
+															<td><b>Estado:</b></td>
+															<td><?php echo 'PENDIENTE' ?></td>
+														</tr>
+														<tr>
+															<td><b>Dias Restantes:</b></td>
+															<td><?php
 				$hoy = date ( "Y-m-d" );
 				$dias = (strtotime ( $hoy ) - strtotime ( $matrizProyecto [$i] [5] )) / 86400;
 				$dias = abs ( $dias );
 				$dias = floor ( $dias );
 				echo 20 - $dias . "/20";
 				?></td>
-						</tr>
-					</tbody>
-				</table>
-				<p></p>
+														</tr>
+													</tbody>
+												</table>
+												<p></p>
 				<?php
 				echo $this->miFormulario->division ( "fin" );
 				
@@ -222,62 +223,24 @@ class Formulario {
 				echo $this->miFormulario->division ( "fin" );
 			}
 		} else {
-			$mostrar = false;
-			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "canvas-contenido";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "area-msg corner margen-interna";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "icono-msg info";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "content-msg info corner";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "title-msg info";
-			$atributos ['mensaje'] = 'Informacion';
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "";
-			$atributos ['estiloEnLinea'] = "padding: 5px 0px;";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "c";
-			$atributos ['estilo'] = "";
-			$atributos ['mensaje'] = 'No existen anteproyectos actualmente registrados para
-					dirigir.';
-			$atributos ['tipo_etiqueta'] = "contenido";
-			echo $this->miFormulario->div_especifico("inicio", $atributos);
-			unset($atributos);
-			
-			$atributos ['id'] = "d";
-			$atributos ['onclick'] = "window.location = 'index.php?data=" . $pag;
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
+  			$mostrar = false;
+  ?>
+  <div class="ui-widget">
+  	<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+  		<p>
+  			<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+  			<strong>Informaci&oacute;n!</strong>
+  			No existen solicitudes de revisi贸n de proyectos.
+  		</p>
+  	</div>
+  </div>
+  <?php
+	  	    // ------------------Division para los botones-------------------------
+		    $atributos ["id"] = "botones";
+		    $atributos ["estilo"] = "marcoBotones";
+		    $atributos ["titulo"] = "Enviar Informaci贸n";
+		    echo $this->miFormulario->division ( "inicio", $atributos );
+		  	
 			// -----------------CONTROL: Bot贸n ----------------------------------------------------------------
 			$esteCampo = 'botonInicio';
 			$atributos ["id"] = $esteCampo;
@@ -297,26 +260,9 @@ class Formulario {
 			// Aplica atributos globales al control
 			$atributos = array_merge ( $atributos, $atributosGlobales );
 			echo $this->miFormulario->campoBoton ( $atributos );
-			// -----------------FIN CONTROL: Bot贸n -----------------------------------------------------------
-			
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			$atributos ['tipo_etiqueta'] = "contenido";
-			echo $this->miFormulario->div_especifico("fin", $atributos);
-			unset($atributos);
-			
-			echo $this->miFormulario->division ( "fin" );
-			echo $this->miFormulario->division ( "fin" );
-			echo $this->miFormulario->division ( "fin" );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "clearboth";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			echo $this->miFormulario->division ( "fin" );
+			// -----------------FIN CONTROL: Bot髇 -----------------------------------------------------------
+
+			// ------------------Fin Division para los botones-------------------------
 			echo $this->miFormulario->division ( "fin" );
 		}
 		

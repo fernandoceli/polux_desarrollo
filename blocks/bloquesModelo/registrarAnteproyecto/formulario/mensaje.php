@@ -36,7 +36,7 @@ if (!isset($GLOBALS["autorizado"])) {
     
     if ($_REQUEST['mensaje'] == 'confirma') {
         $tipo = 'success';
-        $mensaje =  $this->lenguaje->getCadena('mensajeRegistro') . ".";
+        $mensaje =  $this->lenguaje->getCadena('mensajeRegistro') . " con numero ".$_REQUEST['resul'];
         $boton = "continuar";
 		
         $valorCodificado = "pagina=".$esteBloque['nombre'];

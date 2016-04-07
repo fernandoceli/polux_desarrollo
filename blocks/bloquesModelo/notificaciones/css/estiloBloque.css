@@ -3,6 +3,11 @@ form {
 	width: 100%;
 }
 
+div.formulario {
+	margin-left: 35px !important;
+	width: 90%;
+}
+
 div.campoBoton {
 	display: inline-block;
 }

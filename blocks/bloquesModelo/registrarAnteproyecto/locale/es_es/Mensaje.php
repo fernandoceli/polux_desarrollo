@@ -34,7 +34,7 @@ $this->idioma["botonIngresar"]="Ingresar";
 $this->idioma["botonAgregar"]="Agregar";
 $this->idioma["botonCrear"]="Crear anteproyecto";
 
-$this->idioma["mensajeRegistro"]="Anteproyecto creado";
+$this->idioma["mensajeRegistro"]="Anteproyecto Radicado";
 $this->idioma["mensajeError"]="Error al crear el anteproyecto";
 $this->idioma["continuar"]="Continuar";
 

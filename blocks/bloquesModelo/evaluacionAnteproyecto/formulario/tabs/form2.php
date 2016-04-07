@@ -4,7 +4,6 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
 	exit ();
 }
 
-// use bloquesModelo\evaluacionAnteproyecto\funcion\redireccion;
 class registrarForm {
 	var $miConfigurador;
 	var $lenguaje;
@@ -21,7 +20,7 @@ class registrarForm {
 		
 		$this->miSql = $sql;
 	}
-	function miForm() {
+	function registrarForm() {
 		
 		// Rescatar los datos de este bloque
 		$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
@@ -381,16 +380,14 @@ class registrarForm {
 			$atributos ["id"] = "botones";
 			$atributos ["estilo"] = "marcoBotones";
 			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			{
-				?>
-					<button type="button" id="btn2" class="btn btn-primary btn-lg active">Siguiente</button>
-				<?php
+			
+			?>
+				<button type="button" id="btnAnt1" class="btn btn-primary btn-lg active">Anterior</button>
+				<button type="button" id="btn2" class="btn btn-primary btn-lg active">Siguiente</button>
+			<?php
 				
-			}
 			// ------------------Fin Division para los botones-------------------------
 			echo $this->miFormulario->division ( "fin" );
-			
 			// ------------------- SECCION: Paso de variables ------------------------------------------------
 			
 			/**
@@ -409,6 +406,7 @@ class registrarForm {
 			$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
 			$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 			$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+			$valorCodificado .= "&usuario=" . $_REQUEST ['usuario'];
 			$valorCodificado .= "&opcion=guardarDatos";
 			
 			/**
@@ -436,12 +434,12 @@ class registrarForm {
 		$atributos ['marco'] = true;
 		$atributos ['tipoEtiqueta'] = 'fin';
 		echo $this->miFormulario->formulario ( $atributos );
-		
+		unset ( $atributos );
 		return true;
 	}
 }
 
 $miSeleccionador = new registrarForm ( $this->lenguaje, $this->miFormulario, $this->sql );
 
-$miSeleccionador->miForm ();
+$miSeleccionador->registrarForm ();
 ?>

@@ -13,6 +13,7 @@ $this->idioma["numero"]="Anteproyecto No. ";
 $this->idioma["marcoDatos"]="Datos del Anteproyecto";
 $this->idioma["botonAsignar"]="Asignar revisor";
 $this->idioma["botonHistorico"]="Histórico Anteproyectos";
+$this->idioma ['botonInicio'] = 'Ir a Inicio';
 
 $this->idioma["observaciones"]="Observaciones";
 $this->idioma["acta"]="No. Acta de consejo de asignación de revisores";

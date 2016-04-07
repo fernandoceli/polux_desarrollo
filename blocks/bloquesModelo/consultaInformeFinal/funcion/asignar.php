@@ -19,7 +19,6 @@ class Registrar {
 		$this->miSql = $sql;
 		// $this->miFuncion = $funcion;
 	}
-	
 	function procesarFormulario() {
 		if (isset ( $_REQUEST ['botonCancelar2'] ) && $_REQUEST ['botonCancelar2'] == "true") {
 			redireccion::redireccionar ( 'devolver' );
@@ -40,18 +39,35 @@ class Registrar {
 			
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrar', $_REQUEST );
 			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, 'insertar' );
-
+			
 			if ($resultado) {
-				//modificar el estado del Anteproyecto
-				$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarEstado', $_REQUEST );
+				
+				// obtener codigos por separado
+				$revisores = $_REQUEST ['revisores'];
+				$porciones = explode ( ";", $revisores );
+				for($i = 0; $i < $_REQUEST ['numRevisores']; $i ++) {
+					// guardar solicitudes
+					$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( 'registrarSolicitudes', $porciones [$i] );
+					$matrizSol = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+					var_dump ( $matrizSol );
+				}
+				
+				//modificar el estado del Informe Final
+				$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarEstadoInforme', $_REQUEST );
 				$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, 'insertar' );
+				
+				// guardar historial de las solicitudes de revisión
+				$cadenaSql = $this->miSql->getCadenaSql ( 'guardarHistorialSol', $matrizSol[0][0] );
+				$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, 'insertar' );
+			}
+			
+			if ($resultado) {
 				redireccion::redireccionar ( 'inserto');
 				exit ();
 			} else {
 				redireccion::redireccionar ( 'noInserto' );
 				exit ();
 			}
-			exit();
 			
 		}
 	}

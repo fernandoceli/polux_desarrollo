@@ -1,7 +1,7 @@
 <?php
 
 // namespace bloquesModelo\anteproyectoxEstudiante\funcion;
-use bloquesModelo\anteproyectoxProyecto\Sql;
+use bloquesModelo\proyectoxPrograma\Sql;
 
 include_once ('redireccionar.php');
 

@@ -29,7 +29,7 @@ include_once ("Lenguaje.class.php");
 
 // Esta clase actua como control del bloque en un patron FCE
 
-if (! class_exists ( '\\bloquesModelo\\anteproyectoxProyecto\\Bloque' )) {
+if (! class_exists ( '\\bloquesModelo\\proyectoxPrograma\\Bloque' )) {
 	class Bloque implements \Bloque {
 		var $nombreBloque;
 		var $miFuncion;

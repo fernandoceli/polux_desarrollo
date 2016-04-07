@@ -4,7 +4,6 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
 	exit ();
 }
 
-// use bloquesModelo\evaluacionAnteproyecto\funcion\redireccion;
 class Formulario {
 	var $miConfigurador;
 	var $lenguaje;
@@ -66,7 +65,7 @@ class Formulario {
 		// ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
 		$atributos ['tipoEtiqueta'] = 'inicio';
 		echo $this->miFormulario->formulario ( $atributos );
-		unset ( $atributos );
+		
 		{
 			// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 			
@@ -89,7 +88,7 @@ class Formulario {
 			$pregunta4 = $matrizItems [3] [1];
 			$pregunta5 = $matrizItems [6] [1];
 			
-			?>
+?>
 <h1>Anteproyecto No. <?php echo $_REQUEST['ante']?></h1>
 <?php
 			
@@ -109,10 +108,11 @@ class Formulario {
 			$atributos ['columnas'] = 1;
 			
 			$atributos ['estilo'] = 'jqueryui';
+			$atributos['estiloEnLinea']='text-align: left';
 			$atributos ['validar'] = 'required';
 			
 			$atributos ["etiquetaObligatorio"] = true;
-			$atributos ['anchoEtiqueta'] = 500;
+			$atributos ['anchoEtiqueta'] = 570;
 			
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "opcionesRespuestas2" );
 			$matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
@@ -156,11 +156,13 @@ class Formulario {
 			$atributos ['tamanno'] = 57;
 			$atributos ['maximoTamanno'] = '';
 			$atributos ['anchoEtiqueta'] = 120;
+			$atributos ['filas'] = 2;
+			$atributos ['columnas'] = 80;
 			$tab ++;
 			
 			// Aplica atributos globales al control
 			$atributos = array_merge ( $atributos, $atributosGlobales );
-			echo $this->miFormulario->campoCuadroTexto ( $atributos );
+			echo $this->miFormulario->campoTextArea ( $atributos );
 			unset ( $atributos );
 			// --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
 			
@@ -178,13 +180,12 @@ class Formulario {
 			$atributos ['limitar'] = true;
 			$atributos ['tamanno'] = 1;
 			$atributos ['columnas'] = 1;
-			
-			$atributos ['estiloEnLinea'] = 'text-align: left;';
 			$atributos ['estilo'] = 'jqueryui';
+			$atributos['estiloEnLinea']='text-align: left';
 			$atributos ['validar'] = 'required';
 			
 			$atributos ["etiquetaObligatorio"] = true;
-			$atributos ['anchoEtiqueta'] = 500;
+			$atributos ['anchoEtiqueta'] = 570;
 			
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "opcionesRespuestas2" );
 			$matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
@@ -228,11 +229,13 @@ class Formulario {
 			$atributos ['tamanno'] = 57;
 			$atributos ['maximoTamanno'] = '';
 			$atributos ['anchoEtiqueta'] = 120;
+			$atributos ['filas'] = 2;
+			$atributos ['columnas'] = 80;
 			$tab ++;
 			
 			// Aplica atributos globales al control
 			$atributos = array_merge ( $atributos, $atributosGlobales );
-			echo $this->miFormulario->campoCuadroTexto ( $atributos );
+			echo $this->miFormulario->campoTextArea ( $atributos );
 			unset ( $atributos );
 			// --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
 			
@@ -255,7 +258,7 @@ class Formulario {
 			$atributos ['validar'] = 'required';
 			
 			$atributos ["etiquetaObligatorio"] = true;
-			$atributos ['anchoEtiqueta'] = 500;
+			$atributos ['anchoEtiqueta'] = 570;
 			
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "opcionesRespuestas2" );
 			$matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
@@ -299,11 +302,13 @@ class Formulario {
 			$atributos ['tamanno'] = 57;
 			$atributos ['maximoTamanno'] = '';
 			$atributos ['anchoEtiqueta'] = 120;
+			$atributos ['filas'] = 2;
+			$atributos ['columnas'] = 80;
 			$tab ++;
 			
 			// Aplica atributos globales al control
 			$atributos = array_merge ( $atributos, $atributosGlobales );
-			echo $this->miFormulario->campoCuadroTexto ( $atributos );
+			echo $this->miFormulario->campoTextArea ( $atributos );
 			unset ( $atributos );
 			// --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
 			
@@ -327,7 +332,7 @@ class Formulario {
 			$atributos ['validar'] = 'required';
 			
 			$atributos ["etiquetaObligatorio"] = true;
-			$atributos ['anchoEtiqueta'] = 500;
+			$atributos ['anchoEtiqueta'] = 570;
 			
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "opcionesRespuestas1" );
 			$matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
@@ -371,11 +376,13 @@ class Formulario {
 			$atributos ['tamanno'] = 57;
 			$atributos ['maximoTamanno'] = '';
 			$atributos ['anchoEtiqueta'] = 120;
+			$atributos ['filas'] = 2;
+			$atributos ['columnas'] = 80;
 			$tab ++;
 			
 			// Aplica atributos globales al control
 			$atributos = array_merge ( $atributos, $atributosGlobales );
-			echo $this->miFormulario->campoCuadroTexto ( $atributos );
+			echo $this->miFormulario->campoTextArea ( $atributos );
 			unset ( $atributos );
 			// --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
 			
@@ -399,7 +406,7 @@ class Formulario {
 			$atributos ['validar'] = 'required';
 			
 			$atributos ["etiquetaObligatorio"] = true;
-			$atributos ['anchoEtiqueta'] = 500;
+			$atributos ['anchoEtiqueta'] = 570;
 			
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "opcionesRespuestas1" );
 			$matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
@@ -443,11 +450,13 @@ class Formulario {
 			$atributos ['tamanno'] = 57;
 			$atributos ['maximoTamanno'] = '';
 			$atributos ['anchoEtiqueta'] = 120;
+			$atributos ['filas'] = 2;
+			$atributos ['columnas'] = 80;
 			$tab ++;
 			
 			// Aplica atributos globales al control
 			$atributos = array_merge ( $atributos, $atributosGlobales );
-			echo $this->miFormulario->campoCuadroTexto ( $atributos );
+			echo $this->miFormulario->campoTextArea ( $atributos );
 			unset ( $atributos );
 			// --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
 			
@@ -455,36 +464,11 @@ class Formulario {
 			$atributos ["id"] = "botones";
 			$atributos ["estilo"] = "marcoBotones";
 			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			{
-				
-				?>
-<button type="button" id="btn1" class="btn btn-primary btn-lg active">Siguiente</button>
-<?php
-				
-				// -----------------CONTROL: Botón ----------------------------------------------------------------
-				$esteCampo = 'botonAceptar';
-				$atributos ["id"] = $esteCampo;
-				$atributos ["tabIndex"] = $tab;
-				$atributos ["tipo"] = 'hidden';
-				// submit: no se coloca si se desea un tipo button genérico
-				$atributos ['submit'] = true;
-				$atributos ["estiloMarco"] = '';
-				$atributos ["estiloBoton"] = 'jqueryui';
-				// verificar: true para verificar el formulario antes de pasarlo al servidor.
-				$atributos ["verificar"] = '';
-				$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-				$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-				$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-				$tab ++;
-				
-				// Aplica atributos globales al control
-				$atributos = array_merge ( $atributos, $atributosGlobales );
-				echo $this->miFormulario->campoBoton ( $atributos );
-				// -----------------FIN CONTROL: Botón -----------------------------------------------------------
-			}
 			
-			// -----------------FIN CONTROL: Botón -----------------------------------------------------------
+			?>
+				<button type="button" id="btn1" class="btn btn-primary btn-lg active">Siguiente</button>
+			<?php
+			
 			// ------------------Fin Division para los botones-------------------------
 			echo $this->miFormulario->division ( "fin" );
 			
@@ -517,7 +501,7 @@ class Formulario {
 			 * (b) asociando el tiempo en que se está creando el formulario
 			 */
 			$valorCodificado .= "&campoSeguro=" . $_REQUEST ['tiempo'];
-			// $valorCodificado .= "&tiempo=" . time ();
+			$valorCodificado .= "&tiempo=" . time ();
 			// Paso 2: codificar la cadena resultante
 			$valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $valorCodificado );
 			
@@ -534,6 +518,7 @@ class Formulario {
 		$atributos ['marco'] = true;
 		$atributos ['tipoEtiqueta'] = 'fin';
 		echo $this->miFormulario->formulario ( $atributos );
+		unset ( $atributos );
 		
 		return true;
 	}

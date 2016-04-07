@@ -109,14 +109,16 @@ class Formulario {
 		if (isset ( $_REQUEST ['variable'] )) {
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarDocente", $_REQUEST ["variable"] );
 			$matrizNombre = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-			$atributos ['mensaje'] = 'Anteproyectos dirigidos por ' . $matrizNombre [0] [0] . "";
+			$mensaje = 'Anteproyectos dirigidos por ' . $matrizNombre [0] [0] . "";
 		} else {
-			$atributos ['mensaje'] = 'Anteproyectos dirigidos ';
+			$mensaje = 'Anteproyectos dirigidos ';
 		}
-		$atributos ['tamanno'] = 'Enorme';
-		$atributos ['linea'] = 'true';
-		echo $this->miFormulario->campoMensaje ( $atributos );
-		unset ( $atributos );
+		
+		?>
+		
+		<h2><?php echo $mensaje;?></h2>
+		
+		<?php 
 		
 		if ($matrizAnteproyectos && $acceso) {
 			
@@ -253,52 +255,22 @@ class Formulario {
 				echo $this->miFormulario->division ( "fin" );
 			}
 		} else {
-			$mostrar = false;
-			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "canvas-contenido";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "area-msg corner margen-interna";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "icono-msg info";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "content-msg info corner";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "title-msg info";
-			$atributos ['mensaje'] = 'Informacion';
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "";
-			$atributos ['estiloEnLinea'] = "padding: 5px 0px;";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
 			?>
-			<contenido>
-			No existen anteproyectos actualmente registrados para dirigir.
-			<?php 
+<div class="ui-widget">
+	<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+		<p>
+			<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+			<strong>Informaci&oacute;n!</strong>
+			No existen anteproyectos dirigidos por el docente.
+		</p>
+	</div>
+</div>
+<?php
+			// ------------------Division para los botones-------------------------
+			$atributos ["id"] = "botones";
+			$atributos ["estilo"] = "marcoBotones";
+			$atributos ["titulo"] = "Enviar Información";
+			echo $this->miFormulario->division ( "inicio", $atributos );
 			
 			// -----------------CONTROL: Botón ----------------------------------------------------------------
 			$esteCampo = 'botonInicio';
@@ -319,24 +291,7 @@ class Formulario {
 			// Aplica atributos globales al control
 			$atributos = array_merge ( $atributos, $atributosGlobales );
 			echo $this->miFormulario->campoBoton ( $atributos );
-			// -----------------FIN CONTROL: Botón -----------------------------------------------------------
-			
-			?>
-			</contenido>
-			<?php 
-			
-			echo $this->miFormulario->division ( "fin" );
-			echo $this->miFormulario->division ( "fin" );
-			echo $this->miFormulario->division ( "fin" );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "clearboth";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			echo $this->miFormulario->division ( "fin" );
-			echo $this->miFormulario->division ( "fin" );
+			// -----------------FIN CONTROL: Bot�n -----------------------------------------------------------
 		}
 		
 		// ------------------- SECCION: Paso de variables ------------------------------------------------

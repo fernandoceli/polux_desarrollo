@@ -36,7 +36,6 @@ class Sql extends \Sql {
 			
 			case 'registrar' :
 				$fechaNueva = date ( 'Y-m-d' );
-				$descripcion = "descripcion";
 				
 				$cadenaSql = "INSERT INTO trabajosdegrado.ant_tantp";
 				$cadenaSql .= "(";
@@ -44,7 +43,6 @@ class Sql extends \Sql {
 				$cadenaSql .= "antp_pcur,";
 				$cadenaSql .= "antp_titu,";
 				$cadenaSql .= "antp_fradi,";
-				$cadenaSql .= "antp_descri,";
 				$cadenaSql .= "antp_obser,";
 				$cadenaSql .= "antp_eantp,";
 				$cadenaSql .= "antp_dir_int";
@@ -56,9 +54,8 @@ class Sql extends \Sql {
 				$cadenaSql .= $_REQUEST ['seleccionarProgramaCurricular'] . ", ";
 				$cadenaSql .= "'" . $_REQUEST ['titulo'] . "', ";
 				$cadenaSql .= "'" . $_REQUEST ['fecha'] . "', ";
-				$cadenaSql .= "'" . $descripcion . "', ";
 				$cadenaSql .= "'" . $_REQUEST ['observaciones'] . "', ";
-				$cadenaSql .= "'" . $_REQUEST ['estado'] . "', ";
+				$cadenaSql .= "'RADICADO', ";
 				$cadenaSql .= "'" . $_REQUEST ['seleccionarDirectorInterno'] . "' ";
 				$cadenaSql .= ") ";
 				$cadenaSql .= " RETURNING antp_antp;";
@@ -81,7 +78,7 @@ class Sql extends \Sql {
 					$cadena .= 'FROM ';
 					$cadena .= 'trabajosdegrado."ANT_SANTP") ); ';
 					$cadenaSql = $cadenaSql . $cadena;
-					var_dump ( $cadenaSql );
+// 					var_dump ( $cadenaSql );
 				}
 				
 				break;
@@ -144,7 +141,7 @@ class Sql extends \Sql {
 				$cadenaSql .= 'FROM ';
 				$cadenaSql .= 'trabajosdegrado."ANT_SANTP"), ';
 				
-				$cadenaSql .= "'" . $_REQUEST ['estado'] . "', ";
+				$cadenaSql .= "'RADICADO', ";
 				$cadenaSql .= "'" . $_REQUEST ['fecha'] . "', ";
 				$cadenaSql .= "'" . $_REQUEST ['observaciones'] . "', ";
 				// Usuario que ha iniciado sesión
@@ -172,7 +169,7 @@ class Sql extends \Sql {
 				$cadenaSql .= "public.polux_usuario u, ";
 				$cadenaSql .= "trabajosdegrado.ge_tprof d ";
 				$cadenaSql .= "WHERE ";
-				$cadenaSql .= "d.prof_tpvinc='Planta' ";
+				$cadenaSql .= "trim(d.prof_tpvinc)='Planta' ";
 				$cadenaSql .= "and (d.prof_us=u.id_usuario";
 				$cadenaSql .= ")";
 				// echo $cadenaSql;

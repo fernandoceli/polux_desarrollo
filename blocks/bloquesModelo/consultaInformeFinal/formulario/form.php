@@ -48,11 +48,11 @@ class Formulario {
 		$atributosGlobales ['campoSeguro'] = 'true';
 		$_REQUEST ['tiempo'] = time ();
 		
-		if (! isset ( $_REQUEST ['informe'] )) {
-			if (isset ( $_REQUEST ['numinforme'] )) {
-				$_REQUEST ['informe'] = $_REQUEST ['numinforme'];
-			} elseif (isset ( $_REQUEST ['info'] )) {
-				$_REQUEST ['informe'] = $_REQUEST ['info'];
+		if (! isset ( $_REQUEST ['anteproyecto'] )) {
+			if (isset ( $_REQUEST ['numanteproyecto'] )) {
+				$_REQUEST ['anteproyecto'] = $_REQUEST ['numanteproyecto'];
+			} elseif (isset ( $_REQUEST ['ante'] )) {
+				$_REQUEST ['anteproyecto'] = $_REQUEST ['ante'];
 			}
 		}
 		
@@ -61,12 +61,16 @@ class Formulario {
 		
 		$usuario = $this->miSesion->getSesionUsuarioId ();
 		
+		// saber si es coordinador
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $_REQUEST ['usuario'] );
 		$matrizRol = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		// var_dump($matrizItems);
 		
 		$rol = $matrizRol [0] [0];
 		$acceso = false;
 		$mostrar = false;
+		// echo $rol;
+		// var_dump($_REQUEST);
 		
 		if ($rol == "Estudiante") {
 			$acceso = true;
@@ -75,6 +79,7 @@ class Formulario {
 		}
 		
 		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
+			// $_REQUEST ["variable"] = '321456789';
 			$acceso = true;
 			$mostrar = true;
 		}
@@ -108,7 +113,7 @@ class Formulario {
 		
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
-		// Hidden para informe
+		// Hidden para informe final
 		$esteCampo = 'id';
 		$atributos ["id"] = $esteCampo;
 		$atributos ["tipo"] = "hidden";
@@ -124,20 +129,63 @@ class Formulario {
 		unset ( $atributos );
 		// /////////////////////////////////
 		
+		// Hidden para guardar los revisores
+		// ////////////////Hidden////////////
+		$esteCampo = 'revisores';
+		$atributos ["id"] = $esteCampo;
+		$atributos ["tipo"] = "hidden";
+		$atributos ['estilo'] = '';
+		$atributos ['validar'] = '';
+		$atributos ["obligatorio"] = true;
+		$atributos ['marco'] = true;
+		$atributos ["etiqueta"] = "";
+		
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		unset ( $atributos );
+		// ////////////////////////////////////////
+		
+		// Hidden para guardar el n鷐ero de revisores
+		// ////////////////Hidden////////////
+		$esteCampo = 'numRevisores';
+		$atributos ["id"] = $esteCampo;
+		$atributos ["tipo"] = "hidden";
+		$atributos ['estilo'] = '';
+		$atributos ['validar'] = '';
+		$atributos ["obligatorio"] = true;
+		$atributos ['marco'] = true;
+		$atributos ["etiqueta"] = "";
+		
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		unset ( $atributos );
+		// ////////////////////////////////////////
+		
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarInforme", $_REQUEST ['informe'] );
 		$matrizInformes = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-		
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarNombreDirector", $_REQUEST ['informe'] );
-		$matrizDirector = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		//var_dump($matrizInformes);
 		
 		$id = $_REQUEST ['informe'];
 		
-		$modalidad = $matrizInformes [0] [1];
-		$director = $matrizDirector [0] [0];
+		$director = $matrizInformes [0] [9];
+		$modalidad = $matrizInformes [0] [2];
 		
 		// Buscar tem醫icas asociadas
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarTematicas", $_REQUEST ['informe'] );
 		$matrizTematicas = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		
+		$codTematicas = array ();
+		for($i = 0; $i < count ( $matrizTematicas ); $i ++) {
+			array_push ( $codTematicas, $matrizTematicas [$i] [0] );
+		}
+		
+		// Buscar nombres de las tem醫icas
+		$nomTematicas = array ();
+		for($i = 0; $i < count ( $codTematicas ); $i ++) {
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarNombresTematicas", $codTematicas [$i] );
+			$matrizNomTematicas = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+			array_push ( $nomTematicas, $matrizNomTematicas [0] [0] );
+		}
 		
 		// Buscar estudiantes asociados
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAutores", $_REQUEST ['informe'] );
@@ -145,8 +193,13 @@ class Formulario {
 		
 		$cod = array ();
 		for($i = 0; $i < count ( $matrizAutores ); $i ++) {
-			array_push ( $cod, trim ( $matrizAutores [$i] [0] ) );
+			array_push ( $cod, $matrizAutores [$i] [0] );
 		}
+		
+		// Buscar nombre de director
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarNombresDirector", $director );
+		$matrizDirector = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		$director = $matrizDirector [0] [1];
 		
 		// Buscar nombres de los estudiantes
 		$autores = array ();
@@ -159,657 +212,105 @@ class Formulario {
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarVersiones", $_REQUEST ['informe'] );
 		$matrizVersiones = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRevisor" );
-		$matrizRevisor = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRevisores", $_REQUEST ['informe'] );
+		$matrizRevisores = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		//var_dump($matrizRevisores);
 		
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultaRespuesta", $id );
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarSolicitudes", $_REQUEST ['informe'] );
+		$matrizSolicitudes = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		//var_dump ( $matrizSolicitudes );
+		
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultaRespuesta", $_REQUEST ['informe'] );
 		$matrizRespuesta = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		// var_dump($matrizRespuesta);
 		
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "documentoAnexo", $id );
-		$matrizAnexo = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-		
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "actividadesPendientes", $id );
-		$matrizActividades = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "canvas-contenido";
-		echo $this->miFormulario->division ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "h";
-		$atributos ['estilo'] = "";
-		$atributos ['mensaje'] = 'Informe Final No. ' . $id;
-		$atributos ['tipo_etiqueta'] = "h1";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "izq";
-		$atributos ['estilo'] = "";
-		echo $this->miFormulario->division ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "h";
-		$atributos ['estilo'] = "";
-		$atributos ['mensaje'] = 'Informaci贸n General';
-		$atributos ['tipo_etiqueta'] = "h3";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "documento";
-		$atributos ['estilo'] = "table";
-		$atributos ['tipo_etiqueta'] = "table";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "";
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "col";
-		$atributos ['estilo'] = "";
-		$atributos ['tipo_etiqueta'] = "td";
-		$atributos ['rowspan'] = 7;
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "corner bg-imagen-documento";
-		echo $this->miFormulario->division ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "documento";
-		$atributos ['estilo'] = "icon-max-pdf";
-		echo $this->miFormulario->division ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		echo $this->miFormulario->division ( "fin" );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "codigo-documento";
-		$atributos ['mensaje'] = 'Versi贸n No.1';
-		echo $this->miFormulario->division ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		echo $this->miFormulario->division ( "fin" );
-		
-		echo $this->miFormulario->division ( "fin" );
-		
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "table-tittle estilo_tr";
-		$atributos ['mensaje'] = 'Titulo';
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "estilo_tr";
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "p";
-		$atributos ['estilo'] = "";
-		$atributos ['mensaje'] = $matrizInformes [0] ['info_titu'];
-		$atributos ['tipo_etiqueta'] = "p";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "";
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "table-tittle estilo_tr";
-		$atributos ['mensaje'] = 'Modalidad de Grado';
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "estilo_tr";
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "p";
-		$atributos ['estilo'] = "";
-		$atributos ['mensaje'] = $matrizInformes [0] ['moda_nombre'];
-		$atributos ['tipo_etiqueta'] = "p";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "";
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "table-tittle estilo_tr";
-		$atributos ['mensaje'] = 'Tem谩ticas de Inter茅s';
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "estilo_tr";
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "p";
-		$atributos ['estilo'] = "";
-		$atributos ['tipo_etiqueta'] = "p";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		
-		for($i = 0; $i < count ( $matrizTematicas ); $i ++) {
-			if ($i == 0) {
-				echo $matrizTematicas [$i] [1];
-			} else {
-				echo "<br>";
-				echo $i + 1 . ". " . $matrizTematicas [$i] [1];
-			}
+		?>
+<div class="canvas-contenido">
+
+	<h1>Informe Final No. <?php echo $id?></h1>
+
+	<div id="izq">
+
+		<h3>Informaci贸n General</h3>
+
+		<table id="documento" class="table">
+			<tr>
+				<td id="col" rowspan="7">
+					<div class="corner bg-imagen-documento">
+						<div id="documento" class="icon-max-pdf"></div>
+						<div class="codigo-documento">Versi贸n No.1</div>
+					</div>
+				</td>
+				<td class="table-tittle estilo_tr">Titulo</td>
+				<td class="estilo_tr"><p><?php echo $matrizInformes[0]['info_titu'];?></p></td>
+			</tr>
+
+			<tr>
+				<td class="table-tittle estilo_tr">Modalidad de Grado</td>
+				<td class="estilo_tr"><p><?php echo $modalidad ;?></p></td>
+			</tr>
+
+			<tr>
+				<td class="table-tittle estilo_tr">Tem谩ticas de Inter茅s</td>
+				<td class="estilo_tr"><p><?php
+		for($i = 0; $i < count ( $nomTematicas ); $i ++) {
+			echo $nomTematicas [$i]?><br> <?php
+			
+			;
 		}
-		
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "";
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "table-tittle estilo_tr";
-		$atributos ['mensaje'] = 'Estado';
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "estilo_tr";
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "p";
-		$atributos ['estilo'] = "";
-		$atributos ['mensaje'] = $matrizInformes [0] ['info_einfo'];
-		$atributos ['tipo_etiqueta'] = "p";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['tipo_etiqueta'] = "table";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		echo "<br>";
-		
-		$atributos ['id'] = "h";
-		$atributos ['estilo'] = "";
-		$atributos ['mensaje'] = 'Autores - Directores - Revisores';
-		$atributos ['tipo_etiqueta'] = "h3";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "table";
-		$atributos ['tipo_etiqueta'] = "table";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "";
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "col";
-		$atributos ['estilo'] = "";
-		$atributos ['tipo_etiqueta'] = "td";
-		$atributos ['rowspan'] = 3;
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "corner bg-imagen-documento";
-		echo $this->miFormulario->division ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "documento";
-		$atributos ['estilo'] = "icon-all-people";
-		echo $this->miFormulario->division ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		echo $this->miFormulario->division ( "fin" );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "codigo-documento";
-		$atributos ['mensaje'] = 'Participantes';
-		echo $this->miFormulario->division ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		echo $this->miFormulario->division ( "fin" );
-		
-		echo $this->miFormulario->division ( "fin" );
-		
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "table-tittle estilo_tr";
-		$atributos ['mensaje'] = 'Autores';
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "estilo_tr";
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "p";
-		$atributos ['estilo'] = "";
-		$atributos ['tipo_etiqueta'] = "p";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		
+		?></p></td>
+			</tr>
+
+			<tr>
+				<td class="table-tittle estilo_tr">Estado</td>
+				<td class="estilo_tr"><p class="resaltado"><?php echo $matrizInformes[0]['info_einfo']?></p></td>
+			</tr>
+
+		</table>
+		<br>
+
+		<h3>Autores y Directores</h3>
+
+		<table class="table">
+			<tr>
+				<td class="table-tittle estilo_tr">Autores</td>
+				<td class="estilo_tr"><p><?php
 		for($i = 0; $i < count ( $autores ); $i ++) {
-			if ($i == 0) {
-				echo $i + 1 . ". " . $autores [$i];
-			} else {
-				echo "<br>";
-				echo $i + 1 . ". " . $autores [$i];
-			}
+			echo $autores [$i]?><br> <?php
+			
+			;
 		}
+		?></p></td>
+			</tr>
+
+			<tr>
+				<td class="table-tittle estilo_tr">Directores Internos</td>
+				<td class="estilo_tr"><p><?php echo $director?></p></td>
+			</tr>
+
+		</table>
+
+		<br>
+		<h3>Documentos Anexos</h3>
+		<table id="documento" class="table">
+			<tr>
+				<td id="col">
+					<div class="corner bg-imagen-documento">
+						<div id="documento" class="docs-anexos-icon"></div>
+						<div class="codigo-documento">Anexos</div>
+					</div>
+				</td>
+				<td class="estilo_tr">Documentaci贸n anexa</td>
+			</tr>
+
+		</table>
+		<br>
 		
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "";
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "table-tittle estilo_tr";
-		$atributos ['mensaje'] = 'Directores Internos';
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "estilo_tr";
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "p";
-		$atributos ['estilo'] = "";
-		$atributos ['mensaje'] = $director;
-		$atributos ['tipo_etiqueta'] = "p";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "";
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "table-tittle estilo_tr";
-		$atributos ['mensaje'] = 'Revisores anteproyecto';
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['tipo_etiqueta'] = "table";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		echo "<br>";
-		
-		$atributos ['id'] = "h";
-		$atributos ['estilo'] = "";
-		$atributos ['mensaje'] = 'Informaci&oacute;n Sustentaci&oacute;n';
-		$atributos ['tipo_etiqueta'] = "h3";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "documento";
-		$atributos ['estilo'] = "table";
-		$atributos ['tipo_etiqueta'] = "table";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "";
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "col";
-		$atributos ['estilo'] = "";
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "corner bg-imagen-documento";
-		echo $this->miFormulario->division ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "documento";
-		$atributos ['estilo'] = "icon-check-list";
-		echo $this->miFormulario->division ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		echo $this->miFormulario->division ( "fin" );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "codigo-documento";
-		$atributos ['mensaje'] = 'Sustentaci&oacute;n';
-		echo $this->miFormulario->division ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		echo $this->miFormulario->division ( "fin" );
-		
-		echo $this->miFormulario->division ( "fin" );
-		
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		if (! isset ( $matrizInfoSustentacion )) {
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "estilo_tr";
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['estilo'] = "table-formulario";
-			echo $this->miFormulario->crearTabla3 ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "";
-			$atributos ['tipo_etiqueta'] = "tr";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "";
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "icon-mini-info";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "";
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "mensaje-ayuda";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "b";
-			$atributos ['estilo'] = "";
-			$atributos ['tipo_etiqueta'] = "b";
-			$atributos ['mensaje'] = 'IMPORTANTE: ';
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			echo "A&uacute;n no se programado la
-				sustentaci&oacute;n del informe final. Para ello es
-				indispensable que todos los jurados hayan aprobado el
-				documento para sustentaci&oacute;n.";
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['tipo_etiqueta'] = "tr";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			echo $this->miFormulario->crearTabla3 ( "fin" );
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-		}
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['tipo_etiqueta'] = "table";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		echo "<br>";
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "";
-		$atributos ['mensaje'] = 'Documentos Anexos';
-		$atributos ['tipo_etiqueta'] = "h3";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "documento";
-		$atributos ['estilo'] = "table";
-		$atributos ['tipo_etiqueta'] = "table";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "";
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "col";
-		$atributos ['estilo'] = "";
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "corner bg-imagen-documento";
-		echo $this->miFormulario->division ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "documento";
-		$atributos ['estilo'] = "docs-anexos-icon";
-		echo $this->miFormulario->division ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		echo $this->miFormulario->division ( "fin" );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "codigo-documento";
-		$atributos ['mensaje'] = 'Anexos';
-		echo $this->miFormulario->division ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		echo $this->miFormulario->division ( "fin" );
-		
-		echo $this->miFormulario->division ( "fin" );
-		
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "estilo_tr";
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "";
-		$atributos ['mensaje'] = 'Documentacion anexa';
-		echo $this->miFormulario->division ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		echo $this->miFormulario->division ( "fin" );
-		
-		echo "<br>";
-		
-		if ($matrizAnexo) {
-			for($i = 0; $i < count ( $matrizAnexo ); $i ++) {
-				
-				echo "<br>";
-				
-				$atributos ['id'] = '';
-				$atributos ['estilo'] = "";
-				$atributos ['mensaje'] = $i + 1 . ". " . $matrizAnexo [$i] [0];
-				echo $this->miFormulario->division ( "inicio", $atributos );
-				unset ( $atributos );
-				
-				echo $this->miFormulario->division ( "fin" );
-				
-				$atributos ['id'] = '';
-				$atributos ['estilo'] = "";
-				echo $this->miFormulario->division ( "inicio", $atributos );
-				unset ( $atributos );
-				
-				$atributos ['enlace'] = $matrizAnexo [$i] [1];
-				$atributos ['enlaceTexto'] = $matrizAnexo [$i] [2];
-				$atributos ['download'] = $matrizAnexo [$i] [1];
-				echo $this->miFormulario->enlace ( $atributos );
-				unset ( $atributos );
-				
-				echo $this->miFormulario->division ( "fin" );
-			}
-		}
-		
-		$atributos ['tipo_etiqueta'] = "td";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['tipo_etiqueta'] = "table";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		echo "<br>";
+		<?php
 		
 		$aprob = true;
 		for($i = 0; $i < count ( $matrizRespuesta ); $i ++) {
-			if ($matrizRespuesta [$i] [2] != "APROBADO") {
+			if ($matrizRespuesta [$i] [4] != "APROBADO") {
 				$aprob = false;
 			}
 		}
@@ -818,6 +319,131 @@ class Formulario {
 		$atributos ["id"] = "botones";
 		$atributos ["estilo"] = "marcoBotones";
 		echo $this->miFormulario->division ( "inicio", $atributos );
+		
+		if ($aprob && $mostrar && $matrizInformes [0] ['proy_eproy'] != "INFORME FINAL") {
+			// -----------------CONTROL: Bot贸n ----------------------------------------------------------------
+			$esteCampo = 'botonIniciar';
+			$atributos ["id"] = $esteCampo;
+			$atributos ["tabIndex"] = $tab;
+			$atributos ["tipo"] = 'boton';
+			// submit: no se coloca si se desea un tipo button gen茅rico
+			$atributos ['submit'] = true;
+			$atributos ["estiloMarco"] = '';
+			$atributos ["estiloBoton"] = 'jqueryui';
+			$atributos ['columnas'] = 2;
+			// verificar: true para verificar el formulario antes de pasarlo al servidor.
+			$atributos ["verificar"] = '';
+			$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la funci贸n submit declarada en ready.js
+			$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+			$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+			$tab ++;
+			
+			// Aplica atributos globales al control
+			$atributos = array_merge ( $atributos, $atributosGlobales );
+			echo $this->miFormulario->campoBoton ( $atributos );
+			// -----------------FIN CONTROL: Bot贸n -----------------------------------------------------------
+		}
+		
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarRevisiones2", $_REQUEST['informe'] );
+		$revisiones = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		
+		//buscar si ya se ha programado la sustentaci髇 del inf final
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarSustentaciones", $_REQUEST['informe'] );
+		$sustentacion = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		
+		if ($revisiones[0][4]='LISTO PARA SUSTENTAR' && $sustentacion) {
+			// -----------------CONTROL: Bot贸n ----------------------------------------------------------------
+			$esteCampo = 'btnProgramarSustentacion';
+			$atributos ["id"] = $esteCampo;
+			$atributos ["tabIndex"] = $tab;
+			$atributos ["tipo"] = 'boton';
+			// submit: no se coloca si se desea un tipo button gen茅rico
+			$atributos ['submit'] = true;
+			$atributos ["estiloMarco"] = '';
+			$atributos ["estiloBoton"] = 'jqueryui';
+			$atributos ['columnas'] = 2;
+			// verificar: true para verificar el formulario antes de pasarlo al servidor.
+			$atributos ["verificar"] = '';
+			$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la funci贸n submit declarada en ready.js
+			$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+			$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+			$tab ++;
+				
+			// Aplica atributos globales al control
+			$atributos = array_merge ( $atributos, $atributosGlobales );
+			echo $this->miFormulario->campoBoton ( $atributos );
+			// -----------------FIN CONTROL: Bot贸n -----------------------------------------------------------
+		}
+		
+		if ($sustentacion) {
+			// -----------------CONTROL: Bot贸n ----------------------------------------------------------------
+			$esteCampo = 'btnFinalizar';
+			$atributos ["id"] = $esteCampo;
+			$atributos ["tabIndex"] = $tab;
+			$atributos ["tipo"] = 'boton';
+			// submit: no se coloca si se desea un tipo button gen茅rico
+			$atributos ['submit'] = true;
+			$atributos ["estiloMarco"] = '';
+			$atributos ["estiloBoton"] = 'jqueryui';
+			$atributos ['columnas'] = 2;
+			// verificar: true para verificar el formulario antes de pasarlo al servidor.
+			$atributos ["verificar"] = '';
+			$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la funci贸n submit declarada en ready.js
+			$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+			$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+			$tab ++;
+		
+			// Aplica atributos globales al control
+			$atributos = array_merge ( $atributos, $atributosGlobales );
+			echo $this->miFormulario->campoBoton ( $atributos );
+			// -----------------FIN CONTROL: Bot贸n -----------------------------------------------------------
+		}
+		
+		/*
+		// -----------------CONTROL: Bot髇 ----------------------------------------------------------------
+		$esteCampo = 'botonSolicitar';
+		$atributos ["id"] = $esteCampo;
+		$atributos ["tabIndex"] = $tab;
+		$atributos ["tipo"] = 'boton';
+		// submit: no se coloca si se desea un tipo button gen閞ico
+		$atributos ['submit'] = true;
+		$atributos ["estiloMarco"] = '';
+		$atributos ["estiloBoton"] = 'jqueryui';
+		// verificar: true para verificar el formulario antes de pasarlo al servidor.
+		$atributos ["verificar"] = '';
+		$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la funci髇 submit declarada en ready.js
+		$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+		$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+		$tab ++;
+		
+		// Aplica atributos globales al control
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoBoton ( $atributos );
+		// -----------------FIN CONTROL: Bot髇 -----------------------------------------------------------
+		*/
+		
+		/*
+		// -----------------CONTROL: Bot髇 ----------------------------------------------------------------
+		$esteCampo = 'btnCrearVersion';
+		$atributos ["id"] = $esteCampo;
+		$atributos ["tabIndex"] = $tab;
+		$atributos ["tipo"] = 'boton';
+		// submit: no se coloca si se desea un tipo button gen閞ico
+		$atributos ['submit'] = true;
+		$atributos ["estiloMarco"] = '';
+		$atributos ["estiloBoton"] = 'jqueryui';
+		// verificar: true para verificar el formulario antes de pasarlo al servidor.
+		$atributos ["verificar"] = '';
+		$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la funci髇 submit declarada en ready.js
+		$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+		$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+		$tab ++;
+		
+		// Aplica atributos globales al control
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoBoton ( $atributos );
+		// -----------------FIN CONTROL: Bot髇 -----------------------------------------------------------
+		*/
 		
 		// -----------------CONTROL: Bot髇 ----------------------------------------------------------------
 		$esteCampo = 'botonH';
@@ -840,7 +466,7 @@ class Formulario {
 		echo $this->miFormulario->campoBoton ( $atributos );
 		// -----------------FIN CONTROL: Bot髇 -----------------------------------------------------------
 		
-		if (! $matrizRevisor && ($rol == "Coordinador" || ($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas'))) {
+		if ($matrizRevisores == null) {
 			// -----------------CONTROL: Bot髇 ----------------------------------------------------------------
 			$esteCampo = 'btnAsignarJurados';
 			$atributos ["id"] = $esteCampo;
@@ -863,684 +489,310 @@ class Formulario {
 			// -----------------FIN CONTROL: Bot髇 -----------------------------------------------------------
 		}
 		
-		if (! $matrizRespuesta) {
-			// -----------------CONTROL: Bot髇 ----------------------------------------------------------------
-			$esteCampo = 'botonSolicitar';
-			$atributos ["id"] = $esteCampo;
-			$atributos ["tabIndex"] = $tab;
-			$atributos ["tipo"] = 'boton';
-			// submit: no se coloca si se desea un tipo button gen閞ico
-			$atributos ['submit'] = true;
-			$atributos ["estiloMarco"] = '';
-			$atributos ["estiloBoton"] = 'jqueryui';
-			// verificar: true para verificar el formulario antes de pasarlo al servidor.
-			$atributos ["verificar"] = '';
-			$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la funci髇 submit declarada en ready.js
-			$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-			$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-			$tab ++;
-			
-			// Aplica atributos globales al control
-			$atributos = array_merge ( $atributos, $atributosGlobales );
-			echo $this->miFormulario->campoBoton ( $atributos );
-			// -----------------FIN CONTROL: Bot髇 -----------------------------------------------------------
-		}
-		
 		// ------------------Fin Division para los botones-------------------------
 		echo $this->miFormulario->division ( "fin" );
 		
-		echo $this->miFormulario->division ( "fin" );
-		
-		$atributos ['id'] = "der";
-		$atributos ['estilo'] = "";
-		echo $this->miFormulario->division ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "versiones";
-		$atributos ['estilo'] = "";
-		echo $this->miFormulario->division ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = "h";
-		$atributos ['estilo'] = "";
-		$atributos ['mensaje'] = 'Versiones del Documento';
-		$atributos ['tipo_etiqueta'] = "h4";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = 'p';
-		$atributos ['tipo_etiqueta'] = 'p';
-		$atributos ['estilo'] = 'idnt';
-		$atributos ['mensaje'] = 'A continuaci&oacute;n encontrara las &uacute;ltimas
-					versiones del documento que se hayan cargado al sistema. Para
-					descargar el documento por favor seleccione la versi&oacute;n que
-					desea consultar.';
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = 'vers';
-		$atributos ['estilo'] = 'table';
-		$atributos ['tipo_etiqueta'] = 'table';
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "";
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "estilo_tr tit";
-		$atributos ['tipo_etiqueta'] = "td";
-		$atributos ['colspan'] = 4;
-		$atributos ['mensaje'] = 'Version actual: Version No. ' . count ( $matrizVersiones );
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "";
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "table-tittle estilo_tr";
-		$atributos ['tipo_etiqueta'] = "td";
-		$atributos ['colspan'] = 2;
-		$atributos ['mensaje'] = 'Version';
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "table-tittle estilo_tr";
-		$atributos ['tipo_etiqueta'] = "td";
-		$atributos ['mensaje'] = 'Nombre del documento';
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "table-tittle estilo_tr";
-		$atributos ['tipo_etiqueta'] = "td";
-		$atributos ['mensaje'] = 'Fecha de subida';
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
-		$atributos ['tipo_etiqueta'] = "tr";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
-		
+		?>
+<!-- 		<button type="button" id="btn3">Iniciar proyecto</button> -->
+		<!-- 		<button type="button" id="btn4">Historico anteproyecto</button> -->
+	</div>
+
+	<div id="der">
+		<div id="versiones">
+			<h4>Versiones del Documento</h4>
+			<p class="idnt">A continuaci贸n encontrar谩 las 煤ltimas versiones
+				del documento que se hayan cargado al sistema. Para cargar el
+				documento por favor seleccione la versi贸n que desea descargar.</p>
+			<table id="vers" class="table">
+				<tr>
+					<td class="estilo_tr tit" colspan="4">Versi贸n actual: Versi贸n No. <?php echo count($matrizVersiones);?></td>
+				</tr>
+				<tr>
+					<td class="table-tittle estilo_tr" colspan="2">Versi贸n</td>
+					<td class="table-tittle estilo_tr">Nombre del documento</td>
+					<td class="table-tittle estilo_tr">Fecha de subida</td>
+				</tr>
+				<?php
 		for($i = 0; $i < count ( $matrizVersiones ); $i ++) {
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "";
-			$atributos ['tipo_etiqueta'] = "tr";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "estilo_tr";
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "corner bg-imagen-documento";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "documento";
-			$atributos ['estilo'] = "icon-mini-archivo";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "codigo-documento";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "estilo_tr";
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
+			?>
+				<tr>
+					<td class="estilo_tr">
+						<div class="corner bg-imagen-documento">
+							<div id="documento" class="icon-mini-archivo"></div>
+							<div class="codigo-documento"></div>
+						</div>
+					</td>
+					<td class="estilo_tr">
+						<?php
 			
 			if (strlen ( $matrizVersiones [$i] [0] ) < 10) {
 				echo $matrizVersiones [$i] [0];
 			} else {
 				echo substr ( $matrizVersiones [$i] [0], 10 ) . "...";
 			}
-			
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "estilo_tr";
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['enlace'] = $matrizVersiones [$i] [2];
-			$atributos ['download'] = $matrizVersiones [$i] [1];
-			
+			?>
+					</td>
+					<td class="estilo_tr">
+						<?php
+			// echo $matrizItems5 [$i] [1];
 			$tam = strlen ( $matrizVersiones [$i] [1] );
+			// echo $matrizItems5 [$i] [1];
+			// echo $tam;
 			if ($tam < 30) {
-				$atributos ['enlaceTexto'] = $matrizVersiones [$i] [1];
+				echo "<a href='" . $matrizVersiones [$i] [2] . "' download='" . $matrizVersiones [$i] [1] . "'>" . $matrizVersiones [$i] [1] . "</a>";
 			} else {
 				$nombre = substr ( $matrizVersiones [$i] [1], 0, 12 ) . " .. " . substr ( $matrizVersiones [$i] [1], - 5 );
-				$atributos ['enlaceTexto'] = $nombre;
+				echo "<a href='" . $matrizVersiones [$i] [2] . "' download='" . $matrizVersiones [$i] [1] . "'>" . $nombre . "</a>";
 			}
-			
-			echo $this->miFormulario->enlace ( $atributos );
-			unset ( $atributos );
-			
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "estilo_tr";
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
+			?>
+				</td>
+					<td class="estilo_tr">
+						<?php
 			echo $matrizVersiones [$i] [3];
-			
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['tipo_etiqueta'] = "tr";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
+			?>
+				</td>
+				</tr>
+				<?php
 		}
+		?>
+			</table>
+			<br>
+		</div>
+
 		
-		$atributos ['tipo_etiqueta'] = "table";
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
-		unset ( $atributos );
+		<?php
 		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "separador";
-		$atributos ['mensaje'] = '&nbsp;';
-		echo $this->miFormulario->division ( "inicio", $atributos );
-		echo $this->miFormulario->division ( "fin" );
-		unset ( $atributos );
-		
-		$atributos ['id'] = '';
-		$atributos ['estilo'] = "";
-		echo $this->miFormulario->division ( "inicio", $atributos );
-		unset ( $atributos );
-		
-		echo $this->miFormulario->division ( "fin" );
-		
-		echo "<br>";
-		
-		echo $this->miFormulario->division ( "fin" );
-		
-		if (isset ( $matrizSolsJurados ) && $matrizSolsJurados) {
-		} else {
-			$atributos ['id'] = 'jurados';
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
+		if ($matrizSolicitudes) {
+			?>
+			<div id="revisores">
+			<h3>Solicitudes de Asignaci贸n de Jurados</h3>
+			<p>
 			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "plugins corner margen-interna";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
 			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "plugin";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = 'titulo-tablero-revision';
-			$atributos ['mensaje'] = 'Solicitudes de Asignaci&oacute;n de Jurado';
-			$atributos ['tipo_etiqueta'] = 'span';
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = 'table-formulario';
-			echo $this->miFormulario->crearTabla3 ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "";
-			$atributos ['tipo_etiqueta'] = "tr";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "";
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = 'icon-mini-info';
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "";
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "mensaje-ayuda";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "";
-			$atributos ['mensaje'] = 'Aun no existen solicitudes de asignaci&oacute;n jurado iniciadas
-							por el programa curricular. <br> <br> <b>NOTA:</b> Una vez el
-							programa curricular inicie las solicitudes, los jurados
-							tendr&aacute;n un plazo m&aacute;ximo de <span class="resaltado">10
-								d&iacute;as calendario</span> para dar repuesta a la solicitud.';
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['tipo_etiqueta'] = "tr";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			echo $this->miFormulario->crearTabla3 ( "fin" );
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			echo $this->miFormulario->division ( "fin" );
-		}
-		
-		$fecini = substr ( $matrizRevisor [0] [0], 8 );
-		$fecact = getdate ();
-		
-		if ($matrizRespuesta) {
-			
-			$atributos ['id'] = "proceso";
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "";
-			$atributos ['mensaje'] = 'Proceso de revision (' . count ( $matrizRespuesta ) . '/3)';
-			$atributos ['tipo_etiqueta'] = "h4";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "table2";
-			$atributos ['tipo_etiqueta'] = "table";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "";
-			$atributos ['tipo_etiqueta'] = "tr";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "";
-			$atributos ['tipo_etiqueta'] = "td";
-			$atributos ['mensaje'] = 'Responsable: <strong>Revisores</strong>';
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "izq";
-			$atributos ['tipo_etiqueta'] = "td";
-			$atributos ['mensaje'] = 'Dias restantes ' . ($fecini - $fecact ['mday']) + 20 . '/20';
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['tipo_etiqueta'] = "tr";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['tipo_etiqueta'] = "table";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "proc";
-			$atributos ['estilo'] = "table";
-			$atributos ['tipo_etiqueta'] = "table";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "";
-			$atributos ['tipo_etiqueta'] = "tr";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "estilo_tr tit";
-			$atributos ['tipo_etiqueta'] = "td";
-			$atributos ['colspan'] = 5;
-			$atributos ['mensaje'] = 'Solicitudes de asignacion de revision';
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['tipo_etiqueta'] = "tr";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "";
-			$atributos ['tipo_etiqueta'] = "tr";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "table-tittle estilo_tr";
-			$atributos ['tipo_etiqueta'] = "td";
-			$atributos ['colspan'] = 2;
-			$atributos ['mensaje'] = 'Revisor';
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "table-tittle estilo_tr";
-			$atributos ['tipo_etiqueta'] = "td";
-			$atributos ['mensaje'] = 'Fecha solicitud';
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "table-tittle estilo_tr";
-			$atributos ['tipo_etiqueta'] = "td";
-			$atributos ['mensaje'] = 'Concepto respuesta';
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "table-tittle estilo_tr";
-			$atributos ['tipo_etiqueta'] = "td";
-			$atributos ['mensaje'] = 'Fecha respuesta';
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['tipo_etiqueta'] = "tr";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			for($i = 0; $i < count ( $matrizRespuesta ); $i ++) {
-				
-				$atributos ['id'] = '';
-				$atributos ['estilo'] = "";
-				$atributos ['tipo_etiqueta'] = "tr";
-				echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-				unset ( $atributos );
-				
-				$atributos ['id'] = '';
-				$atributos ['estilo'] = "estilo_tr";
-				$atributos ['tipo_etiqueta'] = "td";
-				echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-				unset ( $atributos );
-				
-				$atributos ['id'] = '';
-				$atributos ['estilo'] = "corner bg-imagen-documento";
-				$atributos ['tipo_etiqueta'] = "td";
-				echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-				unset ( $atributos );
-				
-				$atributos ['id'] = 'documento';
-				$atributos ['estilo'] = "icon-mini-people";
-				$atributos ['tipo_etiqueta'] = "td";
-				echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-				unset ( $atributos );
-				
-				echo $this->miFormulario->division ( "fin" );
-				
-				echo $this->miFormulario->division ( "fin" );
-				
-				$atributos ['tipo_etiqueta'] = "td";
-				echo $this->miFormulario->div_especifico ( "fin", $atributos );
-				unset ( $atributos );
-				
-				$atributos ['id'] = '';
-				$atributos ['estilo'] = "estilo_tr";
-				$atributos ['tipo_etiqueta'] = "td";
-				$atributos ['mensaje'] = $matrizRespuesta [$i] [3];
-				echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-				echo $this->miFormulario->div_especifico ( "fin", $atributos );
-				unset ( $atributos );
-				
-				$atributos ['id'] = '';
-				$atributos ['estilo'] = "estilo_tr";
-				$atributos ['tipo_etiqueta'] = "td";
-				$atributos ['mensaje'] = $matrizRespuesta [$i] [4];
-				echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-				echo $this->miFormulario->div_especifico ( "fin", $atributos );
-				unset ( $atributos );
-				
-				$atributos ['id'] = '';
-				$atributos ['estilo'] = "estilo_tr";
-				$atributos ['estiloEnLinea'] = 'cursor: pointer;';
-				$atributos ['tipo_etiqueta'] = "td";
-				$atributos ['mensaje'] = $matrizRespuesta [$i] [4];
-				echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-				echo $this->miFormulario->div_especifico ( "fin", $atributos );
-				unset ( $atributos );
-				
-				$miPaginaActual = $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
-				
-				$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
-				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
-				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
-				
-				$variable = "pagina=" . "consultaEvaluacionAnteproyecto";
-				$variable .= "&usuario=" . $_REQUEST ['usuario'];
-				$variable .= "&anteproyecto=" . $_REQUEST ['anteproyecto'];
-				$variable .= "&revision=" . $matrizRespuesta [$i] [1];
-				$variable .= "&concepto=" . $matrizRespuesta [$i] [2];
-				$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable, $directorio );
-				
-				unset ( $atributos );
-				
-				$esteCampo = 'verEvaluacion' . $i;
-				$atributos ['id'] = $esteCampo;
-				$atributos ['enlace'] = $variable;
-				$atributos ['tabIndex'] = 1;
-				$atributos ['estilo'] = 'textoSubtitulo';
-				$atributos ['enlaceTexto'] = $matrizRespuesta [0] [2];
-				$atributos ['ancho'] = '10%';
-				$atributos ['alto'] = '10%';
-				$atributos ['redirLugar'] = true;
-				echo $this->miFormulario->enlace ( $atributos );
-				
-				$atributos ['tipo_etiqueta'] = "td";
-				echo $this->miFormulario->div_especifico ( "fin", $atributos );
-				unset ( $atributos );
-				
-				$atributos ['id'] = '';
-				$atributos ['estilo'] = "estilo_tr";
-				$atributos ['tipo_etiqueta'] = "td";
-				$atributos ['mensaje'] = $matrizRespuesta [0] [1];
-				echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-				echo $this->miFormulario->div_especifico ( "fin", $atributos );
-				unset ( $atributos );
-				
-				$atributos ['tipo_etiqueta'] = "tr";
-				echo $this->miFormulario->div_especifico ( "fin", $atributos );
-				unset ( $atributos );
+			<Blockquote>A continuaci贸n encontrar谩 un resumen de las solicitudes
+				creadas.</Blockquote>
+			</p>
+			<table id="vers" class="table">
+				<tr>
+					<td class="estilo_tr" colspan="4">Solicitudes de asignaci贸n de
+						jurados</td>
+				</tr>
+				<tr>
+					<td class="table-tittle estilo_tr" colspan="2">Docente Asignado</td>
+					<td class="table-tittle estilo_tr">Fecha solicitud</td>
+					<td class="table-tittle estilo_tr">Estado</td>
+				</tr>
+				<?php
+			for($i = 0; $i < count ( $matrizSolicitudes ); $i ++) {
+				?>
+				<tr>
+					<td class="estilo_tr">
+						<div class="corner bg-imagen-documento">
+							<div id="documento" class="icon-mini-people"></div>
+							<div class="codigo-documento"></div>
+						</div>
+					</td>
+					<td class="estilo_tr">
+						<?php echo $matrizSolicitudes[$i][8];?>
+					</td>
+					<td class="estilo_tr">
+						<?php echo $matrizSolicitudes [$i][0];?>
+					</td>
+					<td class="estilo_tr">
+						<?php echo $matrizSolicitudes[$i][5]?>
+					</td>
+				</tr>
+				<?php
 			}
-			
-			$atributos ['tipo_etiqueta'] = "table";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			echo "<br>";
-			
-			echo $this->miFormulario->division ( "fin" );
+			?>
+			</table>
+			<br>
+		</div>
+		
+		<?php
 		} else {
+			?>
+		<div id="revisores">
+			<h3>Solicitudes de Asignaci贸n de Revisor</h3>
+
+			<table class="table-formulario">
+				<tbody>
+					<tr>
+						<td>
+							<div class="icon-mini-info"></div>
+						</td>
+						<td>
+							<div class="mensaje-ayuda">
+								<div>Aun no existen solicitudes de asignaci贸n de revisi贸n
+									indicadas por el programa curricular.</div>
+							</div> <br> <b>NOTA: </b> Una vez el programa curricular inicie
+							las solicitudes, los revisores tendran un plazo m谩ximo de <span
+							class="resaltado">10 dias calendario</span> para dar respuesta a
+							la solicitud
+
+						</td>
+
+					</tr>
+				</tbody>
+			</table>
+			<br>
+		</div>
 			
-			$atributos ['id'] = "proceso";
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "plugins corner margen-interna";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "plugin";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "titulo-tablero-revision";
-			$atributos ['mensaje'] = 'Proceso de Revisi&oacute;n';
-			$atributos ['tipo_etiqueta'] = "span";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = 'table-formulario';
-			echo $this->miFormulario->crearTabla3 ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "";
-			$atributos ['tipo_etiqueta'] = "tr";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "";
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "icon-mini-info";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "";
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "mensaje-ayuda";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "";
-			$atributos ['mensaje'] = 'Aun no existen procesos de evaluaci&oacute;n iniciados. Para
-												iniciar un proceso de evaluaci&oacute;n es indispensable que
-												solicite revisi&oacute;n de la &uacute;ltima versi&oacute;n
-												del documento del proyecto. <br> <br> <b>NOTA:</b> Una vez
-												solicite la revisi&oacute;n, los revisores tendr&aacute;n un
-												plazo m&aacute;ximo de <span class="resaltado">20
-													d&iacute;as calendario</span> para dar repuesta a la
-												solicitud la c&uacute;al ser&aacute; notificada a los
-												estudiantes a traves del correo electr&oacute;nico.';
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['tipo_etiqueta'] = "tr";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			echo $this->miFormulario->crearTabla3 ( "fin" );
-			
-			echo $this->miFormulario->division ( "fin" );
-			echo $this->miFormulario->division ( "fin" );
-			echo $this->miFormulario->division ( "fin" );
-			echo $this->miFormulario->division ( "fin" );
+		<?php
 		}
+		
+		?>
+
+	<div id="proceso">
+			<h3>Proceso de revisi贸n</h3>
+			
+
+<?php if($matrizRevisores){ ?>
+
+			<p>
+			
+			
+			<Blockquote>Responsable: Revisores</Blockquote>
+			</p>
+
+			<table class="table">
+				<tr>
+					<td class="estilo_tr" colspan="5">Documento Revisado: Versi贸n No.
+						1</td>
+				</tr>
+				<tr>
+					<td class="table-tittle estilo_tr" colspan="2">Revisor</td>
+					<td class="table-tittle estilo_tr">Fecha de Solicitud</td>
+					<td class="table-tittle estilo_tr">Concepto Respuesta</td>
+					<td class="table-tittle estilo_tr">Fecha Respuesta</td>
+				</tr>
+				<?php
+				
+			for($i = 0; $i < count ( $matrizRevisores ); $i ++) {
+				
+				?>
+				<tr>
+					<td class="estilo_tr">
+						<div class="corner bg-imagen-documento">
+							<div id="documento" class="icon-mini-people"></div>
+							<div class="codigo-documento"></div>
+						</div>
+					</td>
+					<td class="estilo_tr">
+						<?php echo $matrizRevisores[$i][2];?>
+					</td>
+					<td class="estilo_tr">
+						<?php echo $matrizRevisores [$i][0];?>
+					</td>
+				<?php
+				// si el antp fue revisado
+				
+				// buscar evaluaciones del anteproyecto
+				$datos = array (
+						'informe' => $_REQUEST ['informe'],
+						'jurado' => $matrizRevisores [$i] [1] 
+				);
+				$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarRevisiones", $datos );
+				$matrizRevisiones = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+				//var_dump($matrizRevisiones);
+				
+				$n = 0;
+				if ($matrizRevisiones) {
+					
+					// var_dump($matrizRevision);
+					?>
+					<td class="estilo_tr" style="cursor: pointer;">
+						<?php
+					
+					$miPaginaActual = $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
+					
+					$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
+					$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
+					$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+					
+					$variable = "pagina=" . "consultaEvaluacionInforme";
+					$variable .= "&usuario=" . $_REQUEST ['usuario'];
+					$variable .= "&informe=" . $_REQUEST ['informe'];
+					$variable .= "&revision=" . $matrizRevisiones [$n] [0];
+					$variable .= "&concepto=" . $matrizRevisiones [$n] [2];
+					$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable, $directorio );
+					
+					unset ( $atributos );
+					// var_dump($matrizRevision);
+					
+					$esteCampo = 'verEvaluacion' . $i;
+					$atributos ['id'] = $esteCampo;
+					$atributos ['enlace'] = $variable;
+					$atributos ['tabIndex'] = 1;
+					$atributos ['estilo'] = 'textoSubtitulo';
+					$atributos ['enlaceTexto'] = $matrizRevisiones [0] [2];
+					$atributos ['ancho'] = '10%';
+					$atributos ['alto'] = '10%';
+					$atributos ['redirLugar'] = true;
+					echo $this->miFormulario->enlace ( $atributos );
+					$n ++;
+					?>
+					</td>
+					<td class="estilo_tr">
+						<?php echo $matrizRevisiones[0][1]?>
+					</td>
+				<?php
+				} else {
+					?>
+						<td class="estilo_tr">
+							<?php echo "--"?>
+						</td>
+					<td class="estilo_tr">
+							<?php echo "--"?>
+						</td>
+					<?php
+				}
+				?>	
+					
+				</tr>
+				<?php
+			}
+			?>
+			</table>
+			
+	<?php
+		} else {
+			?>
+			
+			<table class="table-formulario">
+				<tbody>
+					<tr>
+						<td class="">
+							<div class="icon-mini-info"></div>
+						</td>
+						<td>
+							<div class="mensaje-ayuda">
+								<div>
+									Aun no existen procesos de evaluaci&oacute;n iniciados. Para
+									iniciar un proceso de evaluaci&oacute;n es indispensable que
+									solicite revisi&oacute;n de la &uacute;ltima versi&oacute;n del
+									documento del anteproyecto. <br> <br> <b>NOTA:</b> Una vez
+									solicite la revisi&oacute;n, los revisores tendr&aacute;n un
+									plazo m&aacute;ximo de <span class="resaltado">20 d&iacute;as
+										calendario</span> para dar repuesta a la solicitud la
+									c&uacute;al ser&aacute; notificada a los estudiantes a traves
+									del correo electr&oacute;nico.
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<?php
+		}
+		?>		
+			<br>
+
+		</div>
+	
+		<?php
+		
 		
 		$modi = false;
 		if ($matrizRespuesta) {
@@ -1551,289 +803,95 @@ class Formulario {
 			}
 		}
 		
+		?>
+		
+		<?php
 		if (! $modi) {
-			
-			$atributos ['id'] = "modif";
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "plugins corner margen-interna";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "plugin";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "titulo-tablero-revision";
-			$atributos ['mensaje'] = 'Solicitud de Modificaci&oacute;n';
-			$atributos ['tipo_etiqueta'] = "span";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['estilo'] = 'table-formulario';
-			echo $this->miFormulario->crearTabla3 ( "inicio", $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "";
-			$atributos ['tipo_etiqueta'] = "tr";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "";
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "icon-mini-info";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "";
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "mensaje-ayuda";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "";
-			$atributos ['mensaje'] = 'No existen procesos de modificaci&oacute;n pendientes. Es
-						indispensable que todos los procesos de revisi&oacute;n finalicen
-						para determinar si es necesario realizar modificaciones al
-						documento. <br> <br> <b>NOTA:</b> Una vez exista una solicitud de
-						modificaci&oacute;n, los estudiantes tendr&aacute;n un plazo
-						m&aacute;ximo de <span class="resaltado">25 d&iacute;as calendario
-						</span> para dar modificar el documento y solicitar nuevamente la
-						revisi&oacute;n por parte de los revisores.';
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['tipo_etiqueta'] = "tr";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			echo $this->miFormulario->crearTabla3 ( "fin" );
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			echo $this->miFormulario->division ( "fin" );
+			?>
+		
+		<div id="modif">
+			<h4>Solicitud de modificaci贸n</h4>
+			<p class="idnt2">
+				No existen procesos de moficiaci贸n pendientes. Es indispensable que
+				todos procesos de revisi贸n finalizen para determinar si es
+				necesario realizar modificaciones al documento. <br> <strong>NOTA: </strong>
+				Una vez exista una solicitud de modificaci贸n, los estudiantes
+				tendr谩n un plazo m谩ximo de 25 dias calendario para modificar el
+				documento y solicitar nuevamente la revisi贸n por parte de los
+				revisores.
+			</p>
+
+		</div>
+		<?php
 		} else {
-			
-			$atributos ['id'] = "modif";
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "";
-			$atributos ['mensaje'] = 'Solicitud de modificacion';
-			$atributos ['tipo_etiqueta'] = "h4";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "idnt";
-			$atributos ['mensaje'] = 'A continuacion se observa la modificacion requerida por el revisor:';
-			$atributos ['tipo_etiqueta'] = "p";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "proc";
-			$atributos ['estilo'] = "table";
-			$atributos ['tipo_etiqueta'] = "table";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['tipo_etiqueta'] = "tr";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['estilo'] = 'estilo_tr tit';
-			$atributos ['colspan'] = 5;
-			$atributos ['mensaje'] = 'Solicitudes de modificacion de revision';
-			$atributos ['tipo_etiqueta'] = "td";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['tipo_etiqueta'] = "tr";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "";
-			$atributos ['estilo'] = "";
-			$atributos ['tipo_etiqueta'] = "tr";
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "table-tittle estilo_tr";
-			$atributos ['tipo_etiqueta'] = "td";
-			$atributos ['colspan'] = 2;
-			$atributos ['mensaje'] = 'Revisor';
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "table-tittle estilo_tr";
-			$atributos ['tipo_etiqueta'] = "td";
-			$atributos ['mensaje'] = 'Fecha solicitud';
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "table-tittle estilo_tr";
-			$atributos ['tipo_etiqueta'] = "td";
-			$atributos ['mensaje'] = 'Concepto respuesta';
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = '';
-			$atributos ['estilo'] = "table-tittle estilo_tr";
-			$atributos ['tipo_etiqueta'] = "td";
-			$atributos ['mensaje'] = 'Fecha respuesta';
-			echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['tipo_etiqueta'] = "tr";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
-			
+			?>
+		<div id="modif">
+			<h4>Solicitud de modificaci贸n</h4>
+			<p class="idnt">A continuacion se observa la modificaci贸n requerida
+				por el revisor:</p>
+			<table id="proc" class="table">
+				<tr>
+					<td class="estilo_tr tit" colspan="5">Solicitudes de modificaci贸n
+						de revisi贸n</td>
+				</tr>
+				<tr>
+					<td class="table-tittle estilo_tr" colspan="2">Revisor</td>
+					<td class="table-tittle estilo_tr">Fecha solicitud</td>
+					<td class="table-tittle estilo_tr">Concepto respuesta</td>
+					<td class="table-tittle estilo_tr">Fecha respuesta</td>
+				</tr>
+				<?php
+			// var_dump($matrizRespuesta);
 			for($i = 0; $i < count ( $matrizRespuesta ); $i ++) {
-				
 				if ($matrizRespuesta [$i] [2] == "MODIFICABLE") {
-					
-					$atributos ['id'] = "";
-					$atributos ['estilo'] = "";
-					$atributos ['tipo_etiqueta'] = "tr";
-					echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-					unset ( $atributos );
-					
-					$atributos ['id'] = "";
-					$atributos ['estilo'] = "estilo_tr";
-					$atributos ['tipo_etiqueta'] = "td";
-					echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-					unset ( $atributos );
-					
-					$atributos ['id'] = "";
-					$atributos ['estilo'] = "corner bg-imagen-documento";
-					echo $this->miFormulario->division ( "inicio", $atributos );
-					unset ( $atributos );
-					
-					$atributos ['id'] = "documento";
-					$atributos ['estilo'] = "icon-mini-people";
-					echo $this->miFormulario->division ( "inicio", $atributos );
-					unset ( $atributos );
-					
-					echo $this->miFormulario->division ( "fin" );
-					
-					$atributos ['tipo_etiqueta'] = "td";
-					echo $this->miFormulario->div_especifico ( "fin", $atributos );
-					unset ( $atributos );
-					
-					$atributos ['id'] = '';
-					$atributos ['estilo'] = "estilo_tr";
-					$atributos ['tipo_etiqueta'] = "td";
-					$atributos ['mensaje'] = $matrizRespuesta [$i] [3];
-					echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-					echo $this->miFormulario->div_especifico ( "fin", $atributos );
-					unset ( $atributos );
-					
-					$atributos ['id'] = '';
-					$atributos ['estilo'] = "estilo_tr";
-					$atributos ['tipo_etiqueta'] = "td";
-					$atributos ['mensaje'] = $matrizRespuesta [$i] [4];
-					echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-					echo $this->miFormulario->div_especifico ( "fin", $atributos );
-					unset ( $atributos );
-					
-					$atributos ['id'] = '';
-					$atributos ['estilo'] = "estilo_tr";
-					$atributos ['tipo_etiqueta'] = "td";
-					$atributos ['mensaje'] = $matrizRespuesta [$i] [2];
-					echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-					echo $this->miFormulario->div_especifico ( "fin", $atributos );
-					unset ( $atributos );
-					
-					$atributos ['id'] = '';
-					$atributos ['estilo'] = "estilo_tr";
-					$atributos ['tipo_etiqueta'] = "td";
-					$atributos ['mensaje'] = $matrizRespuesta [$i] [0];
-					echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-					echo $this->miFormulario->div_especifico ( "fin", $atributos );
-					unset ( $atributos );
-					
-					$atributos ['tipo_etiqueta'] = "tr";
-					echo $this->miFormulario->div_especifico ( "fin", $atributos );
-					unset ( $atributos );
-					
+					?>
+				<tr>
+					<td class="estilo_tr">
+						<div class="corner bg-imagen-documento">
+							<div id="documento" class="icon-mini-people"></div>
+						</div>
+					</td>
+					<td class="estilo_tr">
+						<?php echo $matrizRespuesta [$i] [3];?>
+					</td>
+					<td class="estilo_tr">
+						<?php echo $matrizRespuesta [$i] [4];?>
+					</td>
+					<td class="estilo_tr">
+						<?php echo $matrizRespuesta [$i] [2];?>
+					</td>
+					<td class="estilo_tr">
+						<?php echo $matrizRespuesta [$i] [0];?>
+					</td>
+				</tr>
+				<?php
 				}
 			}
+			?>
 			
-			$atributos ['tipo_etiqueta'] = "table";
-			echo $this->miFormulario->div_especifico ( "fin", $atributos );
-			unset ( $atributos );
 			
-			echo "<br>";
-			
-			echo $this->miFormulario->division ( "fin" );
+			</table>
+			<br>
+		</div>
+		<?php
 		}
-		
-		echo $this->miFormulario->division ( "fin" );
-		echo $this->miFormulario->division ( "fin" );
+		?>
+			</div>
+
+			
+</div>
+
+<?php
+		// /////////////////////
+		// echo $this->miFormulario->tablaReporte ( $matrizItems );
 		
 		// ------------------Division para los botones-------------------------
 		$atributos ["id"] = "botones";
 		$atributos ["estilo"] = "marcoBotones";
 		echo $this->miFormulario->division ( "inicio", $atributos );
 		
+		if (! $matrizSolicitudes) {
+		}
 		// ------------------Fin Division para los botones-------------------------
 		echo $this->miFormulario->division ( "fin" );
 		
@@ -1854,19 +912,17 @@ class Formulario {
 		
 		// Paso 1: crear el listado de variables
 		
-		$valorCodificado = "action=" . $esteBloque ["nombre"]; // Ir pagina Funcionalidad
+		// $valorCodificado = "action=" . $esteBloque ["nombre"]; // Ir pagina Funcionalidad
 		$valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' ); // Frontera mostrar formulario
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&usuario=" . $_REQUEST ['usuario'];
-		$valorCodificado .= "&informe=" . $_REQUEST ['informe'];
 		if (isset ( $_REQUEST ['estudiante'] )) {
 			$valorCodificado .= "&estudiante=" . $_REQUEST ['estudiante'];
 		}
 		$valorCodificado .= "&rol=" . $rol;
-		$valorCodificado .= "&opcion=asignar";
-		
-		// echo $valorCodificado;
+		$valorCodificado .= "&informe=" . $_REQUEST ['informe'];
+		$valorCodificado .= "&opcion=solicitar";
 		/**
 		 * SARA permite que los nombres de los campos sean din谩micos.
 		 * Para ello utiliza la hora en que es creado el formulario para

@@ -49,7 +49,7 @@ class Formulario {
 		
 		$conexion = 'estructura';
 		$esteRecurso = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-
+		
 		$usuario = $this->miSesion->getSesionUsuarioId ();
 		
 		// -------------------------------------------------------------------------------------------------
@@ -101,7 +101,7 @@ class Formulario {
 		$acceso = false;
 		$mostrar = true;
 		
-		if (($rol == "Coordinador") || ($rol == "Docente" ) ) {
+		if (($rol == "Coordinador") || ($rol == "Docente")) {
 			$acceso = true;
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarCodigo", $_REQUEST ["usuario"] );
 			$matrizCodigo = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
@@ -113,15 +113,15 @@ class Formulario {
 		}
 		
 		if (isset ( $_REQUEST ["variable"] )) {
-			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", $_REQUEST ["variable"]);
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", $_REQUEST ["variable"] );
 		} else {
-			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", "0");
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", "0" );
 		}
 		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
 		?>
 
-<h2>Anteproyectos Asignados Para Revision <?php
+<h2>Anteproyectos Asignados Para Revisi贸n <?php
 		if (isset ( $_REQUEST ["variable"] )) {
 			echo " (" . $_REQUEST ["variable"];
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarDocente", $_REQUEST ["variable"] );
@@ -129,101 +129,52 @@ class Formulario {
 			echo " - " . $nombre [0] [0] . ")";
 		}
 		?></h2>
-<br>
 
 <?php
-
+		
 		if ($matrizItems) {
-			echo $this->miFormulario->tablaReporte ( $matrizItems, "tAnteAsignadosRevision");
+			echo $this->miFormulario->tablaReporte ( $matrizItems, "tAnteAsignadosRevision" );
 		} else {
-			$mostrar = false;
-			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "canvas-contenido";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "area-msg corner margen-interna";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "icono-msg info";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "content-msg info corner";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "title-msg info";
-			$atributos ['mensaje'] = 'Informacion';
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "";
-			$atributos ['estiloEnLinea'] = "padding: 5px 0px;";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "c";
-			$atributos ['estilo'] = "";
-			$atributos ['mensaje'] = 'No existen anteproyectos actualmente asignados para
-		revision.';
-			$atributos ['tipo_etiqueta'] = "contenido";
-			echo $this->miFormulario->div_especifico("inicio", $atributos);
-			unset($atributos);
-			
-			$atributos ['id'] = "d";
-			$atributos ['onclick'] = "window.location = 'index.php?data=" . $pag;
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			// -----------------INICIO CONTROL: Bot髇 ------------------------------------------
+  			$mostrar = false;
+  ?>
+  <div class="ui-widget">
+  	<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+  		<p>
+  			<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+  			<strong>Informaci&oacute;n!</strong>
+  			No existen anteproyectos actualmente asignados para revisi贸n.
+  		</p>
+  	</div>
+  </div>
+  <?php
+	  	    // ------------------Division para los botones-------------------------
+		    $atributos ["id"] = "botones";
+		    $atributos ["estilo"] = "marcoBotones";
+		    $atributos ["titulo"] = "Enviar Informaci贸n";
+		    echo $this->miFormulario->division ( "inicio", $atributos );
+		  	
+			// -----------------CONTROL: Bot贸n ----------------------------------------------------------------
 			$esteCampo = 'botonInicio';
-			$atributos ['id'] = $esteCampo;
-			$atributos ['tabIndex'] = $tab;
-			$atributos ['tipo'] = 'submit';
-			$atributos ['tipoSubmit'] = true;
-			$atributos ['estiloBoton'] = 'jqueryui';
-			$atributos ['valor'] = $this->lenguaje->getCadena ( $esteCampo );
+			$atributos ["id"] = $esteCampo;
+			$atributos ["tabIndex"] = $tab;
+			$atributos ["tipo"] = 'boton';
+			// submit: no se coloca si se desea un tipo button gen茅rico
+			$atributos ['submit'] = true;
+			$atributos ["estiloMarco"] = '';
+			$atributos ["estiloBoton"] = '';
+			// verificar: true para verificar el formulario antes de pasarlo al servidor.
+			$atributos ["verificar"] = '';
+			$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la funci贸n submit declarada en ready.js
+			$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
 			$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+			$tab ++;
+			
 			// Aplica atributos globales al control
 			$atributos = array_merge ( $atributos, $atributosGlobales );
 			echo $this->miFormulario->campoBoton ( $atributos );
-			unset ( $atributos );
-			// -----------------FIN CONTROL: Bot髇 ---------------------------------------
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			$atributos ['tipo_etiqueta'] = "contenido";
-			echo $this->miFormulario->div_especifico("fin", $atributos);
-			unset($atributos);
-			
-			echo $this->miFormulario->division ( "fin" );
-			echo $this->miFormulario->division ( "fin" );
-			echo $this->miFormulario->division ( "fin" );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "clearboth";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			echo $this->miFormulario->division ( "fin" );
+			// -----------------FIN CONTROL: Bot髇 -----------------------------------------------------------
+
+			// ------------------Fin Division para los botones-------------------------
 			echo $this->miFormulario->division ( "fin" );
 		}
 		
@@ -232,48 +183,28 @@ class Formulario {
 		$atributos ["estilo"] = "marcoBotones";
 		echo $this->miFormulario->division ( "inicio", $atributos );
 		
-		// -----------------CONTROL: Bot贸n ----------------------------------------------------------------
-		$esteCampo = 'botonAceptar';
-		$atributos ["id"] = $esteCampo;
-		$atributos ["tabIndex"] = $tab;
-		$atributos ["tipo"] = 'boton';
-		// submit: no se coloca si se desea un tipo button gen茅rico
-		$atributos ['submit'] = true;
-		$atributos ["estiloMarco"] = '';
-		$atributos ["estiloBoton"] = 'jqueryui';
-		// verificar: true para verificar el formulario antes de pasarlo al servidor.
-		$atributos ["verificar"] = '';
-		$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la funci贸n submit declarada en ready.js
-		$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-		$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-		$tab ++;
-		
-		// Aplica atributos globales al control
-		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoBoton ( $atributos );
+		if ($matrizItems) {
+				// -----------------CONTROL: Bot贸n ----------------------------------------------------------------
+			$esteCampo = 'botonAceptar';
+			$atributos ["id"] = $esteCampo;
+			$atributos ["tabIndex"] = $tab;
+			$atributos ["tipo"] = 'boton';
+			// submit: no se coloca si se desea un tipo button gen茅rico
+			$atributos ['submit'] = true;
+			$atributos ["estiloMarco"] = '';
+			$atributos ["estiloBoton"] = 'jqueryui';
+			// verificar: true para verificar el formulario antes de pasarlo al servidor.
+			$atributos ["verificar"] = '';
+			$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la funci贸n submit declarada en ready.js
+			$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+			$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+			$tab ++;
+			
+			// Aplica atributos globales al control
+			$atributos = array_merge ( $atributos, $atributosGlobales );
+			echo $this->miFormulario->campoBoton ( $atributos );
 		// -----------------FIN CONTROL: Bot贸n -----------------------------------------------------------
-		
-// 		// -----------------CONTROL: Bot贸n ----------------------------------------------------------------
-// 		$esteCampo = 'botonCancelar';
-// 		$atributos ["id"] = $esteCampo;
-// 		$atributos ["tabIndex"] = $tab;
-// 		$atributos ["tipo"] = 'boton';
-// 		// submit: no se coloca si se desea un tipo button gen茅rico
-// 		$atributos ['submit'] = true;
-// 		$atributos ["estiloMarco"] = '';
-// 		$atributos ["estiloBoton"] = 'jqueryui';
-// 		// verificar: true para verificar el formulario antes de pasarlo al servidor.
-// 		$atributos ["verificar"] = '';
-// 		$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la funci贸n submit declarada en ready.js
-// 		$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-// 		$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-// 		$tab ++;
-		
-// 		// Aplica atributos globales al control
-// 		$atributos = array_merge ( $atributos, $atributosGlobales );
-// 		echo $this->miFormulario->campoBoton ( $atributos );
-// 		// -----------------FIN CONTROL: Bot贸n -----------------------------------------------------------
-		
+		}
 		// ------------------Fin Division para los botones-------------------------
 		echo $this->miFormulario->division ( "fin" );
 		
@@ -296,6 +227,7 @@ class Formulario {
 		
 		$valorCodificado = "action=" . $esteBloque ["nombre"];
 		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
+		$valorCodificado .= "&usuario=" . $usuario;
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&opcion=ver";

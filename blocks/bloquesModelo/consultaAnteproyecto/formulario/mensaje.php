@@ -28,13 +28,11 @@ if (!isset($GLOBALS["autorizado"])) {
     echo $this->miFormulario->formulario($atributos);
     
     
-    
     $atributos["id"] = "divNoEncontroEgresado";
     $atributos["estilo"] = "marcoBotones";
     //$atributos["estiloEnLinea"]="display:none"; 
     echo $this->miFormulario->division("inicio", $atributos);
     
-    var_dump($_REQUEST);
     if ($_REQUEST['mensaje'] == 'confirma') {
         $tipo = 'success';
         $mensaje = $this->lenguaje->getCadena ( 'mensajeRegistro' );

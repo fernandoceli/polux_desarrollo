@@ -83,14 +83,13 @@ class Formulario {
 		echo $this->miFormulario->formulario ( $atributos );
 		
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
-		
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarRol", $usuario );
 		$matrizAnteproyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
 		$rol = $matrizAnteproyectos [0] [0];
+		$acceso = false;
 		
 		if (($rol == 'Administrador General') || ($rol == 'Desarrollo y Pruebas')) {
-			$docente = $_REQUEST ["variable"];
 			$acceso = true;
 		}
 		
@@ -98,24 +97,24 @@ class Formulario {
 			$acceso = true;
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarCodigo", $_REQUEST ["usuario"] );
 			$matrizCodigo = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-			$docente = $matrizCodigo [0] [0];
+			// $docente = $matrizCodigo [0] [0];
+			$_REQUEST ["variable"] = $matrizCodigo [0] [0];
 		}
 		
-		// Buscar Anteproyectos asignados al docente
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarSolicitudes", $docente );
+		if (isset ( $_REQUEST ["variable"] )) {
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarSolicitudes", $_REQUEST ["variable"] );
+		} else {
+			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "consultarSolicitudes", "0" );
+		}
+		
 		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		// var_dump($matrizItems);
 		
 		?>
-<br></br>
+		<h2>Solicitudes Pendientes de Revisi贸n de Anteproyectos</h2>
 <?php
-		
-		if ($matrizItems [0] [0] != "") {
-			
-			$atributos ['mensaje'] = 'Solicitudes Pendientes de Revisi贸n de Anteproyectos';
-			$atributos ['tamanno'] = 'Enorme';
-			$atributos ['linea'] = 'true';
-			echo $this->miFormulario->campoMensaje ( $atributos );
+
+		if ($matrizItems && $acceso) {
 			
 			for($i = 0; $i < count ( $matrizItems ); $i ++) {
 				$anteproyecto = $matrizItems [$i] [4];
@@ -146,69 +145,50 @@ class Formulario {
 	style="float: left">
 	<div class="caja corner">
 		<div class="caja-header">
-			<div class="caja-fecha" style="float: left"><?php echo $matrizItems[$i][8]?>
-				<?php
-				echo $this->miFormulario->division ( "fin" );
-				?>
-				<div class="caja-semaforo-gris" style="float: right">
-				<?php
-				echo $this->miFormulario->division ( "fin" );
-				?>
-				<div class="caja-semaforo-gris" style="float: right">
-				<?php
-				echo $this->miFormulario->division ( "fin" );
-				?>
-				<div class="caja-semaforo-verde" style="float: right">
-				<?php
-				echo $this->miFormulario->division ( "fin" );
-				?>
-				<div class="clearboth">
-								<br></br>
-				<?php
-				echo $this->miFormulario->division ( "fin" );
-				echo $this->miFormulario->division ( "fin" );
-				?>
-			<div>
-									<div class="caja-codigo" style="float: left">
-										<div class="caja-icon-documento">
-					<?php
-				echo $this->miFormulario->division ( "fin" );
-				?>
-					<p class="caja-numero" id="cajanum<?php echo $i ?>"><?php echo 'No. '. $matrizItems[$i][4]?></p>
-				<?php
-				echo $this->miFormulario->division ( "fin" );
-				?>
-				<div class="caja-info" style="float: left">
-												<table style="border: 0; width: 100%">
-													<tbody>
-														<tr>
-															<td><b>Solicitante:</b></td>
-															<td><?php echo $matrizItems[$i][3]; ?></td>
-														</tr>
-														<tr>
-															<td><b>Anteproyecto:</b></td>
-															<td><?php echo 'No. '.$matrizItems[$i][4]; ?></td>
-														</tr>
-														<tr>
-															<td><b>Estado:</b></td>
-															<td><?php echo $matrizItems[$i][6]; ?></td>
-														</tr>
-														<tr>
-															<td><b>Dias Restantes:</b></td>
-															<td><?php
+			<div class="caja-fecha" style="float: left"><?php echo $matrizItems[$i][8]?></div>
+			<div class="caja-semaforo-gris" style="float: right"></div>
+			<div class="caja-semaforo-gris" style="float: right"></div>
+			<div class="caja-semaforo-verde" style="float: right"></div>
+			<div class="clearboth">
+				<br></br>
+			</div>
+		</div>
+		<div>
+			<div class="caja-codigo" style="float: left">
+				<div class="caja-icon-documento"></div>
+				<p class="caja-numero" id="cajanum<?php echo $i ?>"><?php echo 'No. '. $matrizItems[$i][4]?></p>
+			</div>
+			<div class="caja-info" style="float: left">
+				<table style="border: 0; width: 100%">
+					<tbody>
+						<tr>
+							<td><b>Solicitante:</b></td>
+							<td><?php echo $matrizItems[$i][3]; ?></td>
+						</tr>
+						<tr>
+							<td><b>Anteproyecto:</b></td>
+							<td><?php echo 'No. '.$matrizItems[$i][4]; ?></td>
+						</tr>
+						<tr>
+							<td><b>Estado:</b></td>
+							<td><?php echo $matrizItems[$i][6]; ?></td>
+						</tr>
+						<tr>
+							<td><b>Dias Restantes:</b></td>
+							<td><?php
 				$hoy = date ( "Y-m-d" );
 				$dias = (strtotime ( $hoy ) - strtotime ( $matrizItems [$i] [8] )) / 86400;
 				$dias = abs ( $dias );
 				$dias = floor ( $dias );
 				echo 20 - $dias . "/20";
 				?></td>
-														</tr>
-													</tbody>
-												</table>
-												<p></p>
-	
+						</tr>
+					</tbody>
+				</table>
+				<p></p>
+
+			</div>
 				<?php
-				echo $this->miFormulario->division ( "fin" );
 				
 				$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
 				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
@@ -238,68 +218,32 @@ class Formulario {
 				echo $this->miFormulario->enlace ( $atributos );
 				unset ( $atributos );
 				
-				echo $this->miFormulario->division ( "fin" );
-				echo $this->miFormulario->division ( "fin" );
-				echo $this->miFormulario->division ( "fin" );
+				?>
+			</div>
+	</div>
+</div>
 
+<?
 			}
 		} else {
-			$mostrar = false;
-			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "canvas-contenido";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "area-msg corner margen-interna";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "icono-msg info";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "content-msg info corner";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "title-msg info";
-			$atributos ['mensaje'] = 'Informacion';
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "";
-			$atributos ['estiloEnLinea'] = "padding: 5px 0px;";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "c";
-			$atributos ['estilo'] = "";
-			$atributos ['mensaje'] = 'No existen anteproyectos actualmente registrados para
-					dirigir.';
-			$atributos ['tipo_etiqueta'] = "contenido";
-			echo $this->miFormulario->div_especifico("inicio", $atributos);
-			unset($atributos);
-			
-			$atributos ['id'] = "d";
-			$atributos ['onclick'] = "window.location = 'index.php?data=" . $pag;
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
+  			$mostrar = false;
+  ?>
+  <div class="ui-widget">
+  	<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+  		<p>
+  			<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+  			<strong>Informaci&oacute;n!</strong>
+  			No existen anteproyectos actualmente asignados para revisi贸n.
+  		</p>
+  	</div>
+  </div>
+  <?php
+	  	    // ------------------Division para los botones-------------------------
+		    $atributos ["id"] = "botones";
+		    $atributos ["estilo"] = "marcoBotones";
+		    $atributos ["titulo"] = "Enviar Informaci贸n";
+		    echo $this->miFormulario->division ( "inicio", $atributos );
+		  	
 			// -----------------CONTROL: Bot贸n ----------------------------------------------------------------
 			$esteCampo = 'botonInicio';
 			$atributos ["id"] = $esteCampo;
@@ -319,26 +263,9 @@ class Formulario {
 			// Aplica atributos globales al control
 			$atributos = array_merge ( $atributos, $atributosGlobales );
 			echo $this->miFormulario->campoBoton ( $atributos );
-			// -----------------FIN CONTROL: Bot贸n -----------------------------------------------------------
-			
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			$atributos ['tipo_etiqueta'] = "contenido";
-			echo $this->miFormulario->div_especifico("fin", $atributos);
-			unset($atributos);
-			
-			echo $this->miFormulario->division ( "fin" );
-			echo $this->miFormulario->division ( "fin" );
-			echo $this->miFormulario->division ( "fin" );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "clearboth";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			echo $this->miFormulario->division ( "fin" );
+			// -----------------FIN CONTROL: Bot髇 -----------------------------------------------------------
+
+			// ------------------Fin Division para los botones-------------------------
 			echo $this->miFormulario->division ( "fin" );
 		}
 		

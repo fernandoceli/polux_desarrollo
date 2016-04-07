@@ -60,6 +60,16 @@ class Frontera {
 						break;
 					}
 					
+					if (isset ( $_REQUEST ['btnCrearVersion'] ) && $_REQUEST ['btnCrearVersion'] == "true") {
+						include_once ($this->ruta . "/formulario/crearVersion.php");
+						break;
+					}
+					
+					if (isset ( $_REQUEST ['btnSolicitarRevision'] ) && $_REQUEST ['btnSolicitarRevision'] == "true") {
+						include_once ($this->ruta . "/formulario/solicitarRevision.php");
+						break;
+					}
+					
 				case "mensaje" :
 					include_once ($this->ruta . "/formulario/mensaje.php");
 					break;

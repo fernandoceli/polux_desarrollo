@@ -1,3 +1,28 @@
+form div label {
+	text-align: left;
+}
+
+#evaluacionAnteproyecto{
+	width: 100%;
+}
+
+form fieldset legend {
+    width: 100%;
+}
+
+form fieldset {
+    width: 80%;
+}
+
+#tabs{
+	width: 95%;
+	margin-left: 1.5%;
+}
+
+.anchoColumna1 {
+    width: 100%;
+}
+
 div.campoBoton {
 	padding: -1px 30px;
 	display: inline-block;

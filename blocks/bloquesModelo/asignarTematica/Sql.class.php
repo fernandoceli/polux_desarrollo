@@ -125,10 +125,10 @@ class Sql extends \Sql {
 				$cadenaSql .= "JOIN trabajosdegrado.ge_tprof ";
 				$cadenaSql .= "ON id_usuario = prof_us ";
 				$cadenaSql .= "WHERE ";
-				$cadenaSql .= "prof_tpvinc='Planta' ";
+				$cadenaSql .= "trim(prof_tpvinc)='Planta' ";
 				$cadenaSql .= "OR ";
-				$cadenaSql .= "prof_tpvinc='Tco'";
-				// echo $cadenaSql;
+				$cadenaSql .= "trim(prof_tpvinc)='TCO'";
+// 				echo $cadenaSql;
 				break;
 			
 			case 'buscarTematicas' :

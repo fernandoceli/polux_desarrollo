@@ -123,11 +123,16 @@ class Registrar {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarRespuestas', $datos4 );
 			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, 'insertar' );
 			echo $atributos ['cadena_sql'];
+			
+			//actualizar estado de la solicitud de revisión
+			$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarEstadoSolicitud', $_REQUEST );
+			$resul1 = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, 'actualizar' );
+			var_dump($resul1);
+			
 			redireccion::redireccionar ( 'inserto' );
 			exit ();
 			
 		} else {
-			exit();
 			redireccion::redireccionar ( 'noInserto' );
 			exit ();
 		}

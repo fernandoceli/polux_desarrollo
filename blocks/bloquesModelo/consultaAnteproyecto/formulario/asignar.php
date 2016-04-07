@@ -1,6 +1,6 @@
 <?php
 
-namespace bloquesModelo\consutaAnteproyecto\formulario;
+namespace bloquesModelo\consultaAnteproyecto\formulario;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("../index.php");
@@ -87,7 +87,6 @@ class Formulario {
 		// ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
 		$atributos ['tipoEtiqueta'] = 'inicio';
 		echo $this->miFormulario->formulario ( $atributos );
-		unset ($atributos);
 		
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
@@ -140,11 +139,11 @@ class Formulario {
 		unset ( $atributos );
 		// ////////////////////////////////////////
 		
-		$atributos ['mensaje'] = 'Asignar revisores de anteproyecto No. ' . $_REQUEST ['id'];
+		$atributos ['mensaje'] = 'Asignar revisores de anteproyecto No. '.$_REQUEST ['id'];
 		$atributos ['tamanno'] = 'Enorme';
 		$atributos ['linea'] = 'true';
 		echo $this->miFormulario->campoMensaje ( $atributos );
-		unset ($atributos);
+		unset ( $atributos );
 		
 		/*
 		 * $esteCampo = "marcoDatos";
@@ -185,7 +184,6 @@ class Formulario {
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoCuadroTexto ( $atributos );
-		unset ($atributos);
 		
 		// --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
 		
@@ -219,7 +217,6 @@ class Formulario {
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoCuadroTexto ( $atributos );
-		unset ($atributos);
 		
 		// --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
 		
@@ -246,7 +243,6 @@ class Formulario {
 		}
 		$atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
 		$atributos ['deshabilitado'] = false;
-		$atributos ['anchoEtiqueta'] = 400;
 		$atributos ['tamanno'] = 25;
 		$atributos ['maximoTamanno'] = '';
 		$tab ++;
@@ -254,7 +250,6 @@ class Formulario {
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoCuadroTexto ( $atributos );
-		unset ($atributos);
 		// --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
 		
 		// ---------------- CONTROL: Cuadro Lista --------------------------------------------------------
@@ -294,7 +289,6 @@ class Formulario {
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoCuadroLista ( $atributos );
-		unset ($atributos);
 		
 		// --------------- FIN CONTROL : Cuadro Lista --------------------------------------------------
 		
@@ -303,13 +297,9 @@ class Formulario {
 		$atributos ["estilo"] = "marcoBotones";
 		$atributos ["titulo"] = "Enviar Información";
 		echo $this->miFormulario->division ( "inicio", $atributos );
-		unset ($atributos);
 		
 		?>
-<div id="contenedor1">
-<?php
-		echo $this->miFormulario->division ( "fin" );
-		?>
+<div id="contenedor1"></div>
 <button type="button" id="btn1" class="btn btn-primary btn-lg active">Agregar</button>
 <?php
 		
@@ -341,7 +331,6 @@ class Formulario {
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoBoton ( $atributos );
-		unset ($atributos);
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 		
 		// -----------------CONTROL: Botón ----------------------------------------------------------------
@@ -363,7 +352,6 @@ class Formulario {
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoBoton ( $atributos );
-		unset ($atributos);
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 		
 		// ------------------Fin Division para los botones-------------------------

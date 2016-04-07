@@ -10,7 +10,6 @@ class Formulario {
 	var $miConfigurador;
 	var $lenguaje;
 	var $miFormulario;
-	var $miSesion;
 	function __construct($lenguaje, $formulario, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		
@@ -19,10 +18,7 @@ class Formulario {
 		$this->lenguaje = $lenguaje;
 		
 		$this->miFormulario = $formulario;
-		
 		$this->miSql = $sql;
-		
-		$this->miSesion = \Sesion::singleton ();
 	}
 	function formulario() {
 		
@@ -50,109 +46,25 @@ class Formulario {
 		$conexion = 'estructura';
 		$esteRecurso = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
-		$usuario = $this->miSesion->getSesionUsuarioId ();
+		// Buscar tem醫icas asociadas
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarTematicas2", $_REQUEST ['id'] );
+		$matriz = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "bucarDirector", $_REQUEST['id']);
-		$matrizDirector = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-		$director = trim($matrizDirector [0][0]);
-		
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarTematicasInforme", $_REQUEST['id']);
-		$matrizTematicas = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-		
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarNombreDirector", $director );
-		$matrizDirector = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-		
-		// Hidden para anteproyecto
-		$esteCampo = 'director';
-		$atributos ["id"] = $esteCampo;
-		$atributos ["tipo"] = "hidden";
-		$atributos ['estilo'] = '';
-		$atributos ['validar'] = '';
-		$atributos ["obligatorio"] = true;
-		$atributos ['marco'] = true;
-		$atributos ["etiqueta"] = "";
-		$atributos ['valor'] = $matrizDirector[0][0];
-		
-		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoCuadroTexto ( $atributos );
-		unset ( $atributos );
-		// /////////////////////////////////
-		
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarRevisoresAntp", $_REQUEST ['id'] );
-		$matrizRevAntp = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-// 		var_dump($matrizRevAntp);
-		
-		$revisores = array();
-		for ($i = 0; $i < count ($matrizRevAntp); $i++) {
-			$act = array(
-					$matrizRevAntp[$i]['rev_prof'] => $matrizRevAntp[$i]['docente']
-			);
-			array_push($revisores, $act);
+		$codTematicas = array ();
+		for($i = 0; $i < count ( $matriz ); $i ++) {
+			array_push ( $codTematicas, $matriz [$i] [0] );
 		}
+		// var_dump ( $codTematicas );
 		
-// 		var_dump($revisores);
+		$arreglo = array (
+				'informe' => $_REQUEST ['id'],
+				'tematica' => $codTematicas 
+		);
 		
-		$nombres = "";
-		$codigos = "";
-		
-		for ($i = 0; $i < count($revisores); $i++) {
-			foreach ($revisores[$i] AS $codigo => $revisor) {
-				$codigos .= $codigo . ";";
-				$nombres .= $revisor . ";";
-			}
-		}
-		
-// 		var_dump($nombres);
-// 		var_dump($codigos);
-		
-		// Hidden para revisores
-		$esteCampo = 'revisores';
-		$atributos ["id"] = $esteCampo;
-		$atributos ["tipo"] = "hidden";
-		$atributos ['estilo'] = '';
-		$atributos ['validar'] = '';
-		$atributos ["obligatorio"] = true;
-		$atributos ['marco'] = true;
-		$atributos ["etiqueta"] = "";
-		$atributos ['valor'] = $nombres;
-		
-		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoCuadroTexto ( $atributos );
-		unset ( $atributos );
-		// /////////////////////////////////
-		
-		// Hidden para anteproyecto
-		$esteCampo = 'numrevisores';
-		$atributos ["id"] = $esteCampo;
-		$atributos ["tipo"] = "hidden";
-		$atributos ['estilo'] = '';
-		$atributos ['validar'] = '';
-		$atributos ["obligatorio"] = true;
-		$atributos ['marco'] = true;
-		$atributos ["etiqueta"] = "";
-		$atributos ['valor'] = count($nombres);
-		
-		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoCuadroTexto ( $atributos );
-		unset ( $atributos );
-		// /////////////////////////////////
-		
-		// Hidden para anteproyecto
-		$esteCampo = 'codrevisores';
-		$atributos ["id"] = $esteCampo;
-		$atributos ["tipo"] = "hidden";
-		$atributos ['estilo'] = '';
-		$atributos ['validar'] = '';
-		$atributos ["obligatorio"] = true;
-		$atributos ['marco'] = true;
-		$atributos ["etiqueta"] = "";
-		$atributos ['valor'] = $codigos;
-		
-		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoCuadroTexto ( $atributos );
-		unset ( $atributos );
-		// /////////////////////////////////
-		
+		//buscar revisores
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarRevisores", $_REQUEST ['id'] );
+		$matrizRevisores = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		//var_dump($matrizRevisores);
 		// -------------------------------------------------------------------------------------------------
 		
 		// ---------------- SECCION: Par谩metros Generales del Formulario ----------------------------------
@@ -182,16 +94,71 @@ class Formulario {
 		
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
-		$atributos ['id'] = '';
+		// ////////////////Hidden////////////
+		$esteCampo = 'informe';
+		$atributos ["id"] = $esteCampo; // No cambiar este nombre
+		$atributos ["tipo"] = "hidden";
 		$atributos ['estilo'] = '';
-		$atributos ['mensaje'] = 'Asignar jurados de informe final';
-		$atributos ['tipo_etiqueta'] = "h2";
-		echo $this->miFormulario->div_especifico ( "inicio", $atributos );
-		echo $this->miFormulario->div_especifico ( "fin", $atributos );
+		$atributos ['validar'] = ''; // decia required
+		$atributos ["obligatorio"] = true;
+		$atributos ['marco'] = true;
+		$atributos ["etiqueta"] = "";
+		$atributos ['valor'] = $_REQUEST ['id'];
+		
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoCuadroTexto ( $atributos );
 		unset ( $atributos );
 		
+		// /////////////////
+		
+		// Hidden para guardar los revisores
+		// ////////////////Hidden////////////
+		$esteCampo = 'revisores';
+		$atributos ["id"] = $esteCampo;
+		$atributos ["tipo"] = "hidden";
+		$atributos ['estilo'] = '';
+		$atributos ['validar'] = '';
+		$atributos ["obligatorio"] = true;
+		$atributos ['marco'] = true;
+		$atributos ["etiqueta"] = "";
+		
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		unset ( $atributos );
+		// ////////////////////////////////////////
+		
+		// Hidden para guardar el n鷐ero de estudiantes
+		// ////////////////Hidden////////////
+		$esteCampo = 'numRevisores';
+		$atributos ["id"] = $esteCampo;
+		$atributos ["tipo"] = "hidden";
+		$atributos ['estilo'] = '';
+		$atributos ['validar'] = '';
+		$atributos ["obligatorio"] = true;
+		$atributos ['marco'] = true;
+		$atributos ["etiqueta"] = "";
+		
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		unset ( $atributos );
+		// ////////////////////////////////////////
+		
+		$atributos ['mensaje'] = 'Asignar jurados de Informe Final No. '.$_REQUEST ['id'];
+		$atributos ['tamanno'] = 'Enorme';
+		$atributos ['linea'] = 'true';
+		echo $this->miFormulario->campoMensaje ( $atributos );
+		unset ( $atributos );
+		
+		/* $esteCampo = "marcoDatos";
+		  $atributos ['id'] = $esteCampo;
+		  $atributos ["estilo"] = "jqueryui";
+		  $atributos ['tipoEtiqueta'] = 'inicio';
+		  $atributos ["leyenda"] = $this->lenguaje->getCadena ( $esteCampo );
+		  echo $this->miFormulario->marcoAgrupacion ( 'inicio', $atributos );*/
+		 
+		
 		// ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
-		$esteCampo = 'observacion';
+		$esteCampo = 'observaciones';
 		$atributos ['id'] = $esteCampo;
 		$atributos ['nombre'] = $esteCampo;
 		$atributos ['tipo'] = 'text';
@@ -201,10 +168,9 @@ class Formulario {
 		$atributos ['dobleLinea'] = false;
 		$atributos ['obligatorio'] = true;
 		$atributos ['etiquetaObligatorio'] = true;
-		$atributos ['anchoEtiqueta'] = 200;
 		$atributos ['tabIndex'] = $tab;
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-		$atributos ['validar'] = '';
+		$atributos ['validar'] = 'required, maxSize[50]';
 		
 		if (isset ( $_REQUEST [$esteCampo] )) {
 			$atributos ['valor'] = $_REQUEST [$esteCampo];
@@ -213,17 +179,19 @@ class Formulario {
 		}
 		$atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
 		$atributos ['deshabilitado'] = false;
-		$atributos ['tamanno'] = 50;
+		$atributos ['tamanno'] = 60;
 		$atributos ['maximoTamanno'] = '';
+		$atributos ['anchoEtiqueta'] = 400;
 		$tab ++;
 		
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		
 		// --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
 		
 		// ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
-		$esteCampo = 'noacta';
+		$esteCampo = 'acta';
 		$atributos ['id'] = $esteCampo;
 		$atributos ['nombre'] = $esteCampo;
 		$atributos ['tipo'] = 'text';
@@ -233,10 +201,9 @@ class Formulario {
 		$atributos ['dobleLinea'] = false;
 		$atributos ['obligatorio'] = true;
 		$atributos ['etiquetaObligatorio'] = true;
-		$atributos ['anchoEtiqueta'] = 200;
 		$atributos ['tabIndex'] = $tab;
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-		$atributos ['validar'] = '';
+		$atributos ['validar'] = 'required, maxSize[50], custom[onlyNumberSp]';
 		
 		if (isset ( $_REQUEST [$esteCampo] )) {
 			$atributos ['valor'] = $_REQUEST [$esteCampo];
@@ -245,13 +212,15 @@ class Formulario {
 		}
 		$atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
 		$atributos ['deshabilitado'] = false;
-		$atributos ['tamanno'] = 50;
+		$atributos ['tamanno'] = 25;
 		$atributos ['maximoTamanno'] = '';
+		$atributos ['anchoEtiqueta'] = 400;
 		$tab ++;
 		
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		
 		// --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
 		
 		// ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
@@ -268,7 +237,7 @@ class Formulario {
 		$atributos ['tabIndex'] = $tab;
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ['validar'] = 'required, custom[date]';
-		$atributos ['anchoEtiqueta'] = 200;
+		// $atributos ['anchoEtiqueta'] = 380;
 		
 		if (isset ( $_REQUEST [$esteCampo] )) {
 			$atributos ['valor'] = $_REQUEST [$esteCampo];
@@ -287,7 +256,7 @@ class Formulario {
 		// --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
 		
 		// ---------------- CONTROL: Cuadro Lista --------------------------------------------------------
-		$esteCampo = 'seleccionarJurado';
+		$esteCampo = 'revisor';
 		$atributos ['nombre'] = $esteCampo;
 		$atributos ['id'] = $esteCampo;
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
@@ -296,7 +265,7 @@ class Formulario {
 		$atributos ['seleccion'] = - 1;
 		$atributos ['evento'] = '';
 		$atributos ['deshabilitado'] = false;
-		$atributos ['limitar'] = false;
+		$atributos ['limitar'] = true;
 		$atributos ['tamanno'] = 1;
 		$atributos ['columnas'] = 1;
 		
@@ -304,117 +273,57 @@ class Formulario {
 		$atributos ['validar'] = 'required';
 		
 		$atributos ["etiquetaObligatorio"] = true;
-		$atributos ['anchoEtiqueta'] = 280;
+		$atributos ['anchoEtiqueta'] = 400;
+		$atributos ['anchoCaja'] = 60;
 		
-		if (isset ( $_REQUEST [$esteCampo] )) {
-			$atributos ['seleccion'] = $_REQUEST [$esteCampo];
-		} else {
-			$atributos ['seleccion'] = - 1;
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarDocentes", $arreglo );
+		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		
+		if ($matrizItems) {
+			$atributos ['matrizItems'] = $matrizItems;
 		}
 		
-// 		var_dump($matrizTematicas);
+		if (isset ( $_REQUEST [$esteCampo] )) {
+			$atributos ['valor'] = $_REQUEST [$esteCampo];
+		} else {
+			$atributos ['valor'] = '';
+		}
 		
-		$variable = array(
-				"revisores" => $revisores,
-				"tematicas" => $matrizTematicas
-		);
-		
-// 		var_dump($variable);
-		
-		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarDocenteParaJurado", $variable);
-		$matrizPosiblesJurados = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-		
-		$atributos ['matrizItems'] = $matrizPosiblesJurados;
-		
-		$tab ++;
+		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoCuadroLista ( $atributos );
-		unset ( $atributos );
 		
 		// --------------- FIN CONTROL : Cuadro Lista --------------------------------------------------
-		
-// 		$atributos ['id'] = 'btn1';
-// 		$atributos ['estilo'] = 'btn btn-primary btn-lg active';
-// 		$atributos ['valor'] = 'Agregar';
-// 		$atributos ["tabIndex"] = $tab;
-// 		$atributos ["tipo"] = 'boton';
-// 		$atributos ["estiloBoton"] = 'jqueryui';
-// 		$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-// 		$atributos ['noclick'] = true;
-// 		$tab++;
-		
-// 		// Aplica atributos globales al control
-// 		$atributos = array_merge ( $atributos, $atributosGlobales );
-// 		echo $this->miFormulario->campoBoton ( $atributos );
-// 		unset($atributos);
-
-		?>
-		<button type="button" id="btn1" class="btn btn-primary btn-lg active">Agregar</button>
-		<div id="contenedor1" align="center">
-		<?php
-		
-// 		$esteCampo = 'contenedor1';
-// 		$atributos ['id'] = $esteCampo;
-// 		$atributos ['estilo'] = '';
-// 		echo $this->miFormulario->division ( 'inicio', $atributos );
-		echo $this->miFormulario->division ( "fin" );
-		
-		// Hidden para guardar los nombres de las tem醫icas seleccionadas
-		$esteCampo = 'nombresJurados';
-		$atributos ["id"] = $esteCampo;
-		$atributos ["tipo"] = "hidden";
-		$atributos ['estilo'] = '';
-		$atributos ['validar'] = '';
-		$atributos ["obligatorio"] = true;
-		$atributos ['marco'] = true;
-		$atributos ["etiqueta"] = "";
-		
-		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoCuadroTexto ( $atributos );
-		unset ( $atributos );
-		
-		// Hidden para guardar los nombres de las tem醫icas seleccionadas
-		$esteCampo = 'codJurados';
-		$atributos ["id"] = $esteCampo;
-		$atributos ["tipo"] = "hidden";
-		$atributos ['estilo'] = '';
-		$atributos ['validar'] = '';
-		$atributos ["obligatorio"] = true;
-		$atributos ['marco'] = true;
-		$atributos ["etiqueta"] = "";
-		
-		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoCuadroTexto ( $atributos );
-		unset ( $atributos );
-		
-		// Hidden para guardar el n鷐ero de estudiantes
-		$esteCampo = 'numJurados';
-		$atributos ["id"] = $esteCampo;
-		$atributos ["tipo"] = "hidden";
-		$atributos ['estilo'] = '';
-		$atributos ['validar'] = '';
-		$atributos ["obligatorio"] = true;
-		$atributos ['marco'] = true;
-		$atributos ["etiqueta"] = "";
-		
-		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoCuadroTexto ( $atributos );
-		unset ( $atributos );
 		
 		// ------------------Division para los botones-------------------------
 		$atributos ["id"] = "botones";
 		$atributos ["estilo"] = "marcoBotones";
+		$atributos ["titulo"] = "Enviar Informaci贸n";
 		echo $this->miFormulario->division ( "inicio", $atributos );
 		
-		// -----------------CONTROL: Bot贸n ----------------------------------------------------------------
-		$esteCampo = 'botonAceptar';
+?>
+<div id="contenedor1"></div>
+<button type="button" id="btn1" class="btn btn-primary btn-lg active">Agregar</button>
+<?php
+		
+		// ------------------Fin Division para los botones-------------------------
+		echo $this->miFormulario->division ( "fin" );
+		
+		// ------------------Division para los botones-------------------------
+		$atributos ["id"] = "botones";
+		$atributos ["estilo"] = "marcoBotones";
+		$atributos ["titulo"] = "Enviar Informaci贸n";
+		echo $this->miFormulario->division ( "inicio", $atributos );
+		
+		// -----------------CONTROL: Bot髇 ----------------------------------------------------------------
+		$esteCampo = 'botonCrear';
 		$atributos ["id"] = $esteCampo;
 		$atributos ["tabIndex"] = $tab;
 		$atributos ["tipo"] = 'boton';
 		// submit: no se coloca si se desea un tipo button gen茅rico
 		$atributos ['submit'] = true;
 		$atributos ["estiloMarco"] = '';
-		$atributos ["estiloBoton"] = 'jqueryui';
+		$atributos ["estiloBoton"] = '';
 		// verificar: true para verificar el formulario antes de pasarlo al servidor.
 		$atributos ["verificar"] = '';
 		$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la funci贸n submit declarada en ready.js
@@ -428,17 +337,17 @@ class Formulario {
 		// -----------------FIN CONTROL: Bot贸n -----------------------------------------------------------
 		
 		// -----------------CONTROL: Bot贸n ----------------------------------------------------------------
-		$esteCampo = 'botonCancelar';
+		$esteCampo = 'botonCancelar2';
 		$atributos ["id"] = $esteCampo;
 		$atributos ["tabIndex"] = $tab;
 		$atributos ["tipo"] = 'boton';
 		// submit: no se coloca si se desea un tipo button gen茅rico
 		$atributos ['submit'] = true;
 		$atributos ["estiloMarco"] = '';
-		$atributos ["estiloBoton"] = 'jqueryui';
+		$atributos ["estiloBoton"] = '';
 		// verificar: true para verificar el formulario antes de pasarlo al servidor.
 		$atributos ["verificar"] = '';
-		$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la funci贸n submit declarada en ready.js
+		$atributos ["tipoSubmit"] = ''; // Dejar vacio para un submit normal, en este caso se ejecuta la funci贸n submit declarada en ready.js
 		$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
 		$tab ++;
@@ -450,7 +359,7 @@ class Formulario {
 		
 		// ------------------Fin Division para los botones-------------------------
 		echo $this->miFormulario->division ( "fin" );
-		
+		// echo $this->miFormulario->marcoAgrupacion ( 'fin' );
 		// ------------------- SECCION: Paso de variables ------------------------------------------------
 		
 		/**
@@ -473,11 +382,8 @@ class Formulario {
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&usuario=" . $_REQUEST ['usuario'];
-		$valorCodificado .= "&informe=" . $_REQUEST ['informe'];
-		if (isset ( $_REQUEST ['estudiante'] )) {
-			$valorCodificado .= "&estudiante=" . $_REQUEST ['estudiante'];
-		}
-		$valorCodificado .= "&opcion=guardarSolicitud";
+		$valorCodificado .= "&anteproyecto=" . $_REQUEST ['id'];
+		$valorCodificado .= "&opcion=asignar";
 		/**
 		 * SARA permite que los nombres de los campos sean din谩micos.
 		 * Para ello utiliza la hora en que es creado el formulario para

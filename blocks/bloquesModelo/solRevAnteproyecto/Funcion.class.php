@@ -31,7 +31,9 @@ class Funcion {
 		
 		return $resultado;
 	}
-	
+	function irinicio () {
+		include_once ($this->ruta . "/funcion/irinicio.php");
+	}
 	function evaluar() {
 		include_once ($this->ruta . "/funcion/evaluar.php");
 	}
@@ -52,6 +54,9 @@ class Funcion {
 		if (isset ( $_REQUEST ['procesarAjax'] )) {
 			$this->procesarAjax ();
 		} 
+		else if (isset($_REQUEST['botonInicio']) && $_REQUEST['botonInicio']) {
+			$this->irinicio ();
+		}
 		
 		else if (isset ( $_REQUEST ["opcion"] )) {
 			switch ($_REQUEST ["opcion"]) {

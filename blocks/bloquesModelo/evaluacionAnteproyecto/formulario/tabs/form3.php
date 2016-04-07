@@ -4,7 +4,6 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
 	exit ();
 }
 
-// use bloquesModelo\evaluacionAnteproyecto\funcion\redireccion;
 class registrarForm3 {
 	var $miConfigurador;
 	var $lenguaje;
@@ -21,7 +20,7 @@ class registrarForm3 {
 		
 		$this->miSql = $sql;
 	}
-	function miForm() {
+	function registrarForm3() {
 		
 		// Rescatar los datos de este bloque
 		$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
@@ -416,16 +415,15 @@ class registrarForm3 {
 			$atributos ["id"] = "botones";
 			$atributos ["estilo"] = "marcoBotones";
 			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			{
-				?>
-					<button type="button" id="btn3" class="btn btn-primary btn-lg active">Siguiente</button>
-				<?php
-			}
+			
+			?>
+				<button type="button" id="btnAnt2" class="btn btn-primary btn-lg active">Anterior</button>
+				<button type="button" id="btn3" class="btn btn-primary btn-lg active">Siguiente</button>	
+			<?php
 			
 			// ------------------Fin Division para los botones-------------------------
 			echo $this->miFormulario->division ( "fin" );
-			
+					
 			// ------------------- SECCION: Paso de variables ------------------------------------------------
 			
 			/**
@@ -444,6 +442,7 @@ class registrarForm3 {
 			$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
 			$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 			$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+			$valorCodificado .= "&usuario=" . $_REQUEST ['usuario'];
 			$valorCodificado .= "&opcion=guardarDatos";
 			
 			/**
@@ -454,7 +453,7 @@ class registrarForm3 {
 			 * (b) asociando el tiempo en que se está creando el formulario
 			 */
 			$valorCodificado .= "&campoSeguro=" . $_REQUEST ['tiempo'];
-			// $valorCodificado .= "&tiempo=" . time ();
+			$valorCodificado .= "&tiempo=" . time ();
 			// Paso 2: codificar la cadena resultante
 			$valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $valorCodificado );
 			
@@ -471,12 +470,12 @@ class registrarForm3 {
 		$atributos ['marco'] = true;
 		$atributos ['tipoEtiqueta'] = 'fin';
 		echo $this->miFormulario->formulario ( $atributos );
-		
+		unset ( $atributos );
 		return true;
 	}
 }
 
 $miSeleccionador = new registrarForm3 ( $this->lenguaje, $this->miFormulario, $this->sql );
 
-$miSeleccionador->miForm ();
+$miSeleccionador->registrarForm3 ();
 ?>

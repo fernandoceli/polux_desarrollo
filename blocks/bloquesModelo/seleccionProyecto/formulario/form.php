@@ -102,9 +102,11 @@ class Formulario {
 		$atributos ['anchoCaja'] = 60;
 		
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarProgramas" );
-		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+		$matrizProyectos = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		$atributos ['matrizItems'] = $matrizItems;
+		if ($matrizProyectos) {
+			$atributos ['matrizItems'] = $matrizProyectos;
+		}
 		
 		// echo $matrizItems[0][0]."-1-2-".$matrizItems[0][1]. "-3-".$matrizItems[0][2];
 		
@@ -116,8 +118,11 @@ class Formulario {
 		
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoCuadroLista ( $atributos );
-		
+		if ($matrizProyectos) {
+			echo $this->miFormulario->campoCuadroLista ( $atributos );
+		} else {
+			echo "**No hay ningun proyecto curricular registrado.";
+		}
 		// --------------- FIN CONTROL : Cuadro Lista --------------------------------------------------
 		
 		// ------------------Division para los botones-------------------------
@@ -134,6 +139,7 @@ class Formulario {
 		$atributos ['submit'] = true;
 		$atributos ["estiloMarco"] = '';
 		$atributos ["estiloBoton"] = '';
+		
 		// verificar: true para verificar el formulario antes de pasarlo al servidor.
 		$atributos ["verificar"] = '';
 		$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
@@ -143,7 +149,9 @@ class Formulario {
 		
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoBoton ( $atributos );
+		if ($matrizProyectos) {
+			echo $this->miFormulario->campoBoton ( $atributos );
+		}
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 		
 		// ------------------Fin Division para los botones-------------------------

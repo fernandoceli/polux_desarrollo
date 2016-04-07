@@ -1,4 +1,10 @@
 
+.seccionCentralAmpliada {
+    width: 74%;
+    margin-left: 1%;
+  
+}
+
 .bg-home {
     background: #fff url("rompecabezas.jpg") no-repeat scroll 100% 50%;
     height: 350px;

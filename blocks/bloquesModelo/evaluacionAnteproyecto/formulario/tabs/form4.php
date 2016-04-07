@@ -4,7 +4,6 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
 	exit ();
 }
 
-// use bloquesModelo\evaluacionAnteproyecto\funcion\redireccion;
 class registrarForm4 {
 	var $miConfigurador;
 	var $lenguaje;
@@ -21,7 +20,7 @@ class registrarForm4 {
 		
 		$this->miSql = $sql;
 	}
-	function miForm() {
+	function registrarForm4() {
 		
 		// Rescatar los datos de este bloque
 		$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
@@ -38,13 +37,13 @@ class registrarForm4 {
 		$atributosGlobales ['campoSeguro'] = 'true';
 		
 		$_REQUEST ['tiempo'] = time ();
-		$tiempo = $_REQUEST ['tiempo'];
+		// $tiempo = $_REQUEST ['tiempo'];
 		
 		// lineas para conectar base de datos-------------------------------------------------------------------------------------------------
 		$conexion = "estructura";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
-		$seccion ['tiempo'] = $tiempo;
+		// $seccion ['tiempo'] = $tiempo;
 		
 		// ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
 		$esteCampo = $esteBloque ['nombre'];
@@ -59,13 +58,14 @@ class registrarForm4 {
 		// $atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo );
 		// Si no se coloca, entonces toma el valor predeterminado.
 		$atributos ['estilo'] = '';
-		$atributos ['marco'] = false;
+		$atributos ['marco'] = true;
 		$tab = 1;
 		// ---------------- FIN SECCION: de Parámetros Generales del Formulario ----------------------------
 		
 		// ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
 		$atributos ['tipoEtiqueta'] = 'inicio';
 		echo $this->miFormulario->formulario ( $atributos );
+		
 		{
 			
 			// crear hiddens con las respuestas y justificaciones a las preguntas
@@ -132,7 +132,7 @@ class registrarForm4 {
 			// var_dump($matrizItems);
 			$pregunta1 = $matrizItems [15] [1];
 			
-			?>
+?>
 <h1>Anteproyecto No. <?php echo $_REQUEST['ante']?></h1>
 <?php
 			
@@ -160,13 +160,15 @@ class registrarForm4 {
 			$atributos ['deshabilitado'] = false;
 			$atributos ['tamanno'] = 25;
 			$atributos ['maximoTamanno'] = '';
-			$atributos ['anchoEtiqueta'] = 280;
+			$atributos ['anchoEtiqueta'] = 800;
 			$atributos ['anchoCaja'] = 60;
+			$atributos ['filas'] = 3;
+			$atributos ['columnas'] = 80;
 			$tab ++;
 			
 			// Aplica atributos globales al control
 			$atributos = array_merge ( $atributos, $atributosGlobales );
-			echo $this->miFormulario->campoCuadroTexto ( $atributos );
+			echo $this->miFormulario->campoTextArea ( $atributos );
 			unset ( $atributos );
 			// --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
 			
@@ -213,13 +215,16 @@ class registrarForm4 {
 			$atributos ["id"] = "botones";
 			$atributos ["estilo"] = "marcoBotones";
 			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			{
+			
+			?>
+			<button type="button" id="btnAnt3" class="btn btn-primary btn-lg active">Anterior</button>
+			<?php 
+			
 				// -----------------CONTROL: Botón ----------------------------------------------------------------
 				$esteCampo = 'botonAceptar';
 				$atributos ["id"] = $esteCampo;
 				$atributos ["tabIndex"] = $tab;
-				$atributos ["tipo"] = 'boton';
+				$atributos ["tipo"] = '';
 				// submit: no se coloca si se desea un tipo button genérico
 				$atributos ['submit'] = true;
 				$atributos ["estiloMarco"] = '';
@@ -229,20 +234,18 @@ class registrarForm4 {
 				$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
 				$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
 				$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+				$atributos ["onClick"] = '';
 				$tab ++;
 				
 				// Aplica atributos globales al control
 				$atributos = array_merge ( $atributos, $atributosGlobales );
 				echo $this->miFormulario->campoBoton ( $atributos );
+				unset ( $atributos );
 				// -----------------FIN CONTROL: Botón -----------------------------------------------------------
-			}
-			echo $this->miFormulario->division ( 'fin' );
-			
-			echo $this->miFormulario->marcoAgrupacion ( 'fin' );
 			
 			// ------------------Fin Division para los botones-------------------------
 			echo $this->miFormulario->division ( "fin" );
-			
+					
 			// ------------------- SECCION: Paso de variables ------------------------------------------------
 			
 			/**
@@ -264,7 +267,7 @@ class registrarForm4 {
 			$valorCodificado .= "&ante=" . $_REQUEST ['ante'];
 			$valorCodificado .= "&usuario=" . $_REQUEST ['usuario'];
 			$valorCodificado .= "&opcion=guardar";
-// 			echo $valorCodificado;
+			
 			/**
 			 * SARA permite que los nombres de los campos sean dinámicos.
 			 * Para ello utiliza la hora en que es creado el formulario para
@@ -290,12 +293,12 @@ class registrarForm4 {
 		$atributos ['marco'] = true;
 		$atributos ['tipoEtiqueta'] = 'fin';
 		echo $this->miFormulario->formulario ( $atributos );
-		
+		unset ( $atributos );
 		return true;
 	}
 }
 
 $miSeleccionador = new registrarForm4 ( $this->lenguaje, $this->miFormulario, $this->sql );
 
-$miSeleccionador->miForm ();
+$miSeleccionador->registrarForm4 ();
 ?>

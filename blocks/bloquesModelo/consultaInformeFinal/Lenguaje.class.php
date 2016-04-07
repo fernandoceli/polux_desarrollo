@@ -1,6 +1,6 @@
 <?php
 
-namespace bloquesModelo\consultaInformeFinal;
+namespace bloquesModelo\consultaProyecto;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
     include ("../index.php");

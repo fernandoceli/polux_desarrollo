@@ -40,12 +40,12 @@ class redireccion {
 		$url = $miConfigurador->configuracion ["host"] . $miConfigurador->configuracion ["site"] . "/index.php?";
 		
 		$enlace = $miConfigurador->configuracion ['enlace'];
-		var_dump ( $variable );
+		//var_dump ( $variable );
 		$variable = $miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
 		$_REQUEST [$enlace] = $enlace . '=' . $variable;
 		$redireccion = $url . $_REQUEST [$enlace];
 		
-		var_dump($_REQUEST);
+		//var_dump($_REQUEST);
 		
 		echo "<script>location.replace('" . $redireccion . "')</script>";
 // 		echo "entro";

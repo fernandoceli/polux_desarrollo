@@ -35,15 +35,19 @@ $(function() {
 	});
 });
 
-$(document).ready(function(){
-	//numero de solicitudes
-	var dato = $('#<?php echo $this->campoSeguro('antpSolicitudes')?>').val();
-	
-	
-});
+
+//numero de solicitudes
+//var dato = $('#<?php echo $this->campoSeguro('antpSolicitudes')?>').val();
+
+//Función que organiza los tabs en la interfaz gráfica
+$(function() {
+	$("#tabs").tabs();
+}); 
 
 $('#btn1').on('click', function() {
+	
 	$( "#tabs" ).tabs({ active: 1 });
+	
 	var pregunta1 = {id:1, respuesta:$('#<?php echo $this->campoSeguro('pregunta1')?>').val(), justificacion:$('#<?php echo $this->campoSeguro('justificacion1')?>').val()};
 	var pregunta2 = {id:2, respuesta:$('#<?php echo $this->campoSeguro('pregunta2')?>').val(), justificacion:$('#<?php echo $this->campoSeguro('justificacion2')?>').val()};
 	var pregunta3 = {id:3, respuesta:$('#<?php echo $this->campoSeguro('pregunta3')?>').val(), justificacion:$('#<?php echo $this->campoSeguro('justificacion3')?>').val()};
@@ -71,7 +75,10 @@ $('#btn2').on('click', function() {
 	console.log(json2);
 	$('#<?php echo $this->campoSeguro('respForm2')?>').val(json2);
 	 console.log(arreglo2);
-	
+});
+
+$('#btnAnt1').on('click', function() {
+	$( "#tabs" ).tabs({ active: 0 });
 });
 
 $('#btn3').on('click', function() {
@@ -87,6 +94,12 @@ $('#btn3').on('click', function() {
 	console.log(json3);
 	
 	$('#<?php echo $this->campoSeguro('respForm3')?>').val(json3);
-	 
-	
+});
+
+$('#btnAnt2').on('click', function() {
+	$( "#tabs" ).tabs({ active: 1 });
+});
+
+$('#btnAnt3').on('click', function() {
+	$( "#tabs" ).tabs({ active: 2 });
 });

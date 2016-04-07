@@ -75,25 +75,25 @@ class Formulario {
 		// var_dump($_REQUEST);
 		?>
 
+<!-- <div class="pregunta"> -->
+<!-- 	<titulo>Iniciar proyecto de grado</titulo> -->
+<!-- 	<br> -->
+<!-- 	<br> -->
+<!-- 	<contenido>Esta seguro que desea inciar el proyecto de grado?</contenido> -->
+<!-- </div> -->
+
 <div class="canvas-contenido">
 	<div class="area-msg corner margen-interna ">
-		<div class="icono-msg info">
-		<?php
-		echo $this->miFormulario->division ( "fin" );
-		?>
+		<div class="icono-msg info"></div>
 		<div class="content-msg info corner">
-				<div class="title-msg info resaltado">Iniciar proyecto de grado
-			<?php
-		echo $this->miFormulario->division ( "fin" );
-		?>
+			<div class="title-msg info resaltado">Iniciar proyecto de grado</div>
 			<div style="padding: 5px 0px;">
-						<div>
-							<br> <b> Esta seguro que desea inciar el proyecto de grado? </b>
-							<br>
+				<div>
+					<br> <b> Esta seguro que desea inciar el proyecto de grado? </b> <br>
+				</div>
+			</div>
+
 <?php
-		
-		echo $this->miFormulario->division ( "fin" );
-		echo $this->miFormulario->division ( "fin" );
 		
 		// ------------------Division para los botones-------------------------
 		$atributos ["id"] = "botones";
@@ -148,9 +148,9 @@ class Formulario {
 		?>
 		
 		</div>
-						<div class="clearboth"></div>
-					</div>
-				</div>
+		<div class="clearboth"></div>
+	</div>
+</div>
 <?php
 		
 		// ------------------- SECCION: Paso de variables ------------------------------------------------

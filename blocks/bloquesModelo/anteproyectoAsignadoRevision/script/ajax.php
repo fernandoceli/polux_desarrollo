@@ -29,19 +29,6 @@ $urlFinal = $url . $cadena;
 
 <script type='text/javascript'>
 
-// $("#tAnteproyectosEstudiante tr").click( function () {
-// 	//this.style.background = (this.style.background=='') ? 'red' : '';
-// 	//alert(this.cells.item(1).textContent);
-// 	var num = this.cells.item(1).textContent;
-// 	$('#ante').val(num);;
-	<?php
-	// //$numAnt = "<script> document.write(num) </script>";
-	// $dir = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=verAnteproyecto&anteproyecto=" );
-	// 	?>
-// 	alert(window.location.pathname);
-// 	window.location.href= window.location + '&anteproyecto=' + num;
-// });
-
 function seleccionar(table, numero){
 	$.ajax({
 		url: "<?php echo $urlFinal; ?>",
@@ -62,7 +49,7 @@ function seleccionar(table, numero){
 };
 
 $(function () {
-	$("#tAnteproyectosEstudiante tr").click( function () {
+	$("#tAnteAsignadosRevision tr").click( function () {
 		var num = this.cells.item(1).textContent;
 		seleccionar(this, num);
 	});

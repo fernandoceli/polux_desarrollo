@@ -5,5 +5,5 @@ $("#tablaReporte").dataTable({ "class": "dataTable display",
 "sPaginationType": "full_numbers" });
 
 
-$('#<?php echo $this->campoSeguro('autor')?>').width(150);
+$('#<?php echo $this->campoSeguro('autor')?>').width(200);
 $('#<?php echo $this->campoSeguro('autor')?>').select2();

@@ -114,7 +114,7 @@ class Sql extends \Sql {
 				}
 				$cadenaSql .= "and s.slrev_prof_asignado=p.prof_prof ";
 				$cadenaSql .= "and u.id_usuario=s.slrev_usua; ";
-// 				echo $cadenaSql;
+				// echo $cadenaSql;
 				break;
 			
 			case 'buscarAnteproyectos' :
@@ -235,6 +235,20 @@ class Sql extends \Sql {
 				$cadenaSql .= 'WHERE ';
 				$cadenaSql .= 'id_usuario=\'' . $variable . '\' ';
 				// echo $cadenaSql;
+				break;
+			
+			case 'buscarDocumento' :
+				$cadenaSql = 'SELECT MAX(dantp_dantp) FROM trabajosdegrado.ant_tdantp ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'dantp_antp=\'' . $variable . '\' ';
+				// var_dump ( $cadenaSql );
+				break;
+			
+			case 'buscarVersionDoc' :
+				$cadenaSql = 'SELECT dantp_vers FROM trabajosdegrado.ant_tdantp ';
+				$cadenaSql .= 'WHERE ';
+				$cadenaSql .= 'dantp_dantp=\'' . $variable . '\' ';
+				// var_dump ( $cadenaSql );
 				break;
 		}
 		

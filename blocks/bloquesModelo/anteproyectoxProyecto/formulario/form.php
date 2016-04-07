@@ -132,7 +132,6 @@ class Formulario {
 			echo " - " . $nombre [0] [0] . ")";
 		}
 		?></h2>
-<br>
 
 <?php
 		if ($matrizItems && $acceso) {
@@ -165,52 +164,24 @@ class Formulario {
 
 <?php
 		} else {
-			$mostrar = false;
-			$pag = $this->miConfigurador->fabricaConexiones->crypto->codificar ( "pagina=indexPolux" );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "canvas-contenido";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "area-msg corner margen-interna";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "icono-msg info";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "content-msg info corner";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "title-msg info";
-			$atributos ['mensaje'] = 'Informacion';
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
-			
-			$atributos ['id'] = "d";
-			$atributos ['estilo'] = "";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-		
-			?>
-			<contenido>
-			No existen anteproyectos actualmente asignados para	revision.
-			<?php
-			
-			// ------------------Division para los botones-------------------------
-			$atributos ["id"] = "botones";
-			$atributos ["estilo"] = "marcoBotones";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			
+  			$mostrar = false;
+  ?>
+  <div class="ui-widget">
+  	<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+  		<p>
+  			<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+  			<strong>Informaci&oacute;n!</strong>
+  			No existen anteproyectos pertenecientes al programa curricular.
+  		</p>
+  	</div>
+  </div>
+  <?php
+	  	    // ------------------Division para los botones-------------------------
+		    $atributos ["id"] = "botones";
+		    $atributos ["estilo"] = "marcoBotones";
+		    $atributos ["titulo"] = "Enviar Información";
+		    echo $this->miFormulario->division ( "inicio", $atributos );
+		  	
 			// -----------------CONTROL: Botón ----------------------------------------------------------------
 			$esteCampo = 'botonInicio';
 			$atributos ["id"] = $esteCampo;
@@ -231,18 +202,8 @@ class Formulario {
 			$atributos = array_merge ( $atributos, $atributosGlobales );
 			echo $this->miFormulario->campoBoton ( $atributos );
 			// -----------------FIN CONTROL: Bot�n -----------------------------------------------------------
+
 			// ------------------Fin Division para los botones-------------------------
-			echo $this->miFormulario->division ( "fin" );
-			?>
-			</contenido>
-			<?php 
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			echo $this->miFormulario->division ( "fin" );
-			
-			echo $this->miFormulario->division ( "fin" );
-			
 			echo $this->miFormulario->division ( "fin" );
 		}
 		

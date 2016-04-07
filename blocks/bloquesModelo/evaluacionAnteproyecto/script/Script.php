@@ -4,14 +4,9 @@
  * en el arreglo $esteBloque. Esto también aplica para todos los archivos que se incluyan.
  */
 $indice = 0;
-$funcion [$indice ++] = "jquery-1.11.0.min.js";
-$funcion [$indice ++] = "jqueryui.js";
 $funcion [$indice ++] = "jquery.validationEngine.js";
 $funcion [$indice ++] = "jquery.validationEngine-es.js";
-$funcion [$indice ++] = "jquery-te.js";
 $funcion [$indice ++] = "select2.js";
-$funcion[$indice ++]="modernizr.custom.js";
-$funcion[$indice ++]="jquery.dlmenu.js";
 
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion ( "host" );
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion ( "site" );

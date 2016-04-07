@@ -1,6 +1,6 @@
 <?php
 
-namespace bloquesModelo\anteproyectoxProyecto\funcion;
+namespace bloquesModelo\proyectosxPrograma\funcion;
 
 include_once ('redireccionar.php');
 

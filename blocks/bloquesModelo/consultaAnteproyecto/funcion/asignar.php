@@ -61,6 +61,10 @@ class Registrar {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarEstado', $_REQUEST );
 				$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, 'insertar' );
 				
+				//guardar en Historial del Anteproyecto
+				$cadenaSql = $this->miSql->getCadenaSql ( 'registrarHistorialAsignacion', $_REQUEST );
+				$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, 'insertar' );
+				
 				redireccion::redireccionar ( 'inserto');
 				exit ();
 			} else {

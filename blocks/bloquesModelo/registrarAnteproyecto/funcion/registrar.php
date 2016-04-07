@@ -28,6 +28,9 @@ class Registrar {
 		}
 		
 		if (isset ( $_REQUEST ['botonCrear'] ) && $_REQUEST ['botonCrear'] == "true") {
+			
+			echo "Registrando anteproyecto, espere un momento por favor...";
+			
 			$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
 			
 			$rutaBloque = $this->miConfigurador->getVariableConfiguracion ( "raizDocumento" ) . "/blocks/bloquesModelo/";
@@ -121,8 +124,8 @@ class Registrar {
 								$cadenaSql5 = $this->miSql->getCadenaSql ( "registrarTematicas", $codTematicas );
 								$resul3 = $esteRecursoDB->ejecutarAcceso ( $cadenaSql5, 'registrarTematicas', $codTematicas, "registrarAutores" );
 								
-								redireccion::redireccionar ( 'inserto' );
-								exit ();
+// 								redireccion::redireccionar ( 'inserto', $resultado);
+// 								exit ();
 							}
 						} else {
 							$status = "Error al subir el archivo";
@@ -135,7 +138,7 @@ class Registrar {
 						exit ();
 					}
 				}
-				redireccion::redireccionar ( 'inserto' );
+				redireccion::redireccionar ( 'inserto', $resultado);
 				exit ();
 			} else {
 				redireccion::redireccionar ( 'noInserto' );

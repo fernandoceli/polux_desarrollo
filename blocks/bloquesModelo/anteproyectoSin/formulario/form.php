@@ -96,7 +96,7 @@ class Formulario {
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyectos" );
 		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
-		if (($matrizItems [0] [0]) != "") {
+		if ($matrizItems) {
 			echo $this->miFormulario->tablaReporte ( $matrizItems );
 			unset ( $atributos );
 		} else {
@@ -242,7 +242,7 @@ class Formulario {
 		$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' ); // Frontera mostrar formulario
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
-		$valorCodificado.= "&usuario=" . $_REQUEST['usuario'];
+		$valorCodificado .= "&usuario=" . $_REQUEST['usuario'];
 		$valorCodificado .= "&opcion=mostrar";
 		/**
 		 * SARA permite que los nombres de los campos sean dinámicos.

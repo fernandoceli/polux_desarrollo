@@ -110,13 +110,14 @@ class Formulario {
 		if (isset ( $_REQUEST ['variable'] )) {
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarDocente", $_REQUEST ["variable"] );
 			$matrizNombre = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-			$atributos ['mensaje'] = 'Informes finales dirigidos - ' . $matrizNombre [0] [0] . " - " . $_REQUEST ["variable"];
+			$mensaje = 'Informes finales dirigidos - ' . $matrizNombre [0] [0] . " - " . $_REQUEST ["variable"];
 		} else {
-			$atributos ['mensaje'] = 'Informes finales dirigidos ';
+			$mensaje = 'Informes finales dirigidos ';
 		}
-		$atributos ['tamanno'] = 'Enorme';
-		$atributos ['linea'] = 'true';
-		echo $this->miFormulario->campoMensaje ( $atributos );
+		
+		?>
+		<h2><?php echo $mensaje;?></h2>
+		<?php 
 		
 		if ($matrizInformes) {
 			
@@ -215,28 +216,42 @@ class Formulario {
 			}
 		} else {
 			?>
-<div class="canvas-contenido">
-						<div class="area-msg corner margen-interna ">
-							<div class="icono-msg info"></div>
-							<div class="content-msg info corner">
-								<div class="title-msg info">Informacion</div>
-								<div style="padding: 5px 0px;">
-									<div>
-										<contenido> No existen anteproyectos actualmente asignados
-										para revisi�n.
-										<div style="text-align: right">
-											<input class="boton" type="button"
-												onclick="osm_go('inicio/PageBienvenida.do');"
-												value="Ir al inicio">
-										</div>
-										</contenido>
-									</div>
-								</div>
-							</div>
-							<div class="clearboth"></div>
-						</div>
-					</div>
+<div class="ui-widget">
+	<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+		<p>
+			<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+			<strong>Informaci&oacute;n!</strong>
+			No existen informes finales dirigidos por el docente.
+		</p>
+	</div>
+</div>
 <?php
+			// ------------------Division para los botones-------------------------
+			$atributos ["id"] = "botones";
+			$atributos ["estilo"] = "marcoBotones";
+			$atributos ["titulo"] = "Enviar Información";
+			echo $this->miFormulario->division ( "inicio", $atributos );
+			
+			// -----------------CONTROL: Botón ----------------------------------------------------------------
+			$esteCampo = 'botonInicio';
+			$atributos ["id"] = $esteCampo;
+			$atributos ["tabIndex"] = $tab;
+			$atributos ["tipo"] = 'boton';
+			// submit: no se coloca si se desea un tipo button genérico
+			$atributos ['submit'] = true;
+			$atributos ["estiloMarco"] = '';
+			$atributos ["estiloBoton"] = '';
+			// verificar: true para verificar el formulario antes de pasarlo al servidor.
+			$atributos ["verificar"] = '';
+			$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+			$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+			$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+			$tab ++;
+			
+			// Aplica atributos globales al control
+			$atributos = array_merge ( $atributos, $atributosGlobales );
+			echo $this->miFormulario->campoBoton ( $atributos );
+			// -----------------FIN CONTROL: Bot�n -----------------------------------------------------------
 		}
 		
 		// ------------------- SECCION: Paso de variables ------------------------------------------------

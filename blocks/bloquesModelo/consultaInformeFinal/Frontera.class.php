@@ -1,6 +1,6 @@
 <?
 
-namespace bloquesModelo\consultaInformeFinal;
+namespace bloquesModelo\consultaProyecto;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("../index.php");
@@ -43,36 +43,47 @@ class Frontera {
 		// Como se tiene un solo formulario no es necesario un switch para cargarlo:
 		$this->ruta = $this->miConfigurador->getVariableConfiguracion ( "rutaBloque" );
 		
-		if (isset ( $_REQUEST ['botonI'] ) && ($_REQUEST ['botonI'] == 'true')) {
+		if (isset ( $_REQUEST ['botonIniciar'] ) && ($_REQUEST ['botonIniciar'] == 'true')) {
 			include_once ($this->ruta . "/formulario/iniciar.php");
-		} else if (isset ( $_REQUEST ['opcion'] )) {
+		} 
+
+		else if (isset ( $_REQUEST ['opcion'] )) {
+			
 			switch ($_REQUEST ['opcion']) {
-				case "asignar" :
-					include_once ($this->ruta . "/formulario/asignar.php");
+				case "solicitar" :
+					
+					if (isset ( $_REQUEST ['btnCrearVersion'] ) && ($_REQUEST ['btnCrearVersion'] == 'true')) {
+						include_once ($this->ruta . "/formulario/crearVersion.php");
+					}
+					
+					if (isset ( $_REQUEST ['botonSolicitar'] ) && ($_REQUEST ['botonSolicitar'] == 'true')) {
+						include_once ($this->ruta . "/formulario/solicitar.php");
+					}
+					
+					if (isset ( $_REQUEST ['btnAsignarJurados'] ) && ($_REQUEST ['btnAsignarJurados'] == 'true')) {
+						include_once ($this->ruta . "/formulario/asignar.php");
+					}
+					
+					if (isset ( $_REQUEST ['btnProgramarSustentacion'] ) && ($_REQUEST ['btnProgramarSustentacion'] == 'true')) {
+						include_once ($this->ruta . "/formulario/programarSustentacion.php");
+					}
+					
+					if (isset ( $_REQUEST ['btnFinalizar'] ) && ($_REQUEST ['btnFinalizar'] == 'true')) {
+						include_once ($this->ruta . "/formulario/finalizar.php");
+					}
+					
 					break;
+				
 				case "mensaje" :
 					include_once ($this->ruta . "/formulario/mensaje.php");
 					break;
 				case "continuar" :
 					include_once ($this->ruta . "/formulario/form.php");
 					break;
-				case "solicitar":
-					if (isset ( $_REQUEST ['btnCrearVersion'] ) && ($_REQUEST ['btnCrearVersion'] == 'true')) {
-						include_once ($this->ruta . "/formulario/crearVersion.php");
-					}
-						
-					if (isset ( $_REQUEST ['botonSolicitar'] ) && ($_REQUEST ['botonSolicitar'] == 'true')) {
-						include_once ($this->ruta . "/formulario/solicitar.php");
-					}
-						
-					if (isset ( $_REQUEST ['btnAsignarJurados'] ) && ($_REQUEST ['btnAsignarJurados'] == 'true')) {
-						include_once ($this->ruta . "/formulario/asignar.php");
-					}
-					break;
 			}
 		} else {
-	include_once ($this->ruta . "/formulario/form.php");
-}
+			include_once ($this->ruta . "/formulario/form.php");
+		}
 	}
 }
 ?>

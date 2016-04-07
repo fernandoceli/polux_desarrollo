@@ -1,26 +1,42 @@
+#tInfo {
+	display: table;
+	width: 40%;
+	font: 14px arial, helvetica, sans-serif;
+	position: relative;
+	left: 4%;
+}
+
+.table-formulario {
+    border-spacing: 5px;
+    display: table;
+    width: 100%;
+}
+
 div.campoBoton {
 	padding: -1px 30px;
 	display: inline-block;
 }
 
-a {
-	margin: 1em 0; 
-	display: block;
-	color: #CC0000;
+div.formulario {
+	padding: 5px;
 }
 
-.tem {
-	border-style: hidden;
-	background-color: white;
-	color: blue;
-	margin: auto;
-	text-align: right;
+#izq {
+	float: left;
+	border-radius: 5px;
+	border: 2px solid #424242;
+	-webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+	box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.75);
+	width: 48%;
+	margin-top: .5em;
 }
 
-.bg-tablero {
+#versiones, #revisores, #proceso, #modif {
 	float: right;
 	width: 49%;
-	padding: 3px;
+	text-align: justify;
+	font: 14px arial, helvetica, sans-serif;
 	border-radius: 5px;
 	border: 2px solid #424242;
 	-webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
@@ -30,78 +46,6 @@ a {
 	margin-bottom: .5em;
 	margin-left: 1em;
 	margin-right: .5em;
-}
-
-.bg-seccion {
-	margin: 10px 0;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)
-		inset;
-	border: 1px solid #ababab;
-}
-
-.seccion {
-	margin: 4px;
-	padding: 10px;
-	background: #f9f9f9 url(images/background/gris-degradado-1x300.png) 0
-		100% repeat-x;
-}
-
-.icon-mini-info {
-	background: transparent url("images/icons/icon-mini-info.png") no-repeat
-		scroll 50% 50%;
-	cursor: pointer;
-	height: 25px;
-	position: relative;
-	text-align: center;
-	width: 25px;
-}
-
-.icon-all-people {
-	background: transparent url(images/icons/all-people-icon.png) 50% 50%
-		no-repeat;
-	position: relative;
-	width: 100px;
-	height: 100px;
-	text-align: center;
-	margin: 5px 0;
-}
-
-.icon-check-list {
-	background: transparent url(images/icons/check-list-icon.png) 50% 50%
-		no-repeat;
-	position: relative;
-	width: 100px;
-	height: 100px;
-	text-align: center;
-	margin: 5px 0;
-}
-
-div.formulario {
-	padding: 5px;
-}
-
-#izq {
-	float: left;
-	width: 50%;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)
-		inset;
-	border: 1px solid #ababab;
-	border-radius: 5px;
-	background: #f9f9f9 url(images/background/gris-degradado-1x300.png) 0
-		100% repeat-x;
-	margin-top: .5em;
-	margin-bottom: .5em;
-}
-
-#versiones, #jurados, #revisores, #proceso, #modif {
-	float: right;
-	width: 49%;
-	border-radius: 5px;
-	border: 1px solid #ababab;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)
-		inset;
-	margin-top: .5em;
-	margin-bottom: .5em;
 }
 
 #separador {
@@ -116,13 +60,6 @@ div.formulario {
 	margin-right: .5em;
 }
 
-.estilo_tr {
-	border-style: solid;
-	border-color: white;
-	text-align: center;
-	background: #f9f9f9 url(images/background/gris-degradado-1x300.png) 0
-		100% repeat-x;
-}
 
 .tit {
 	text-align: center;
@@ -197,8 +134,7 @@ body { /*font: 62.5% "Arial", sans-serif*/
 }
 
 .bg-imagen-documento {
-	background: #f9f9f9 url(images/background/gris-degradado-1x300.png) 0
-		100% repeat-x;
+	background: #fff;
 	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)
 		inset;
 	border: 1px solid #ababab;
@@ -243,7 +179,7 @@ h2 {
 }
 
 h3 {
-	font: 14px arial, helvetica, sans-serif;
+	font: 15px arial, helvetica, sans-serif;
 	color: #18174D /*#C20000*/;
 	border-bottom: 1px dotted #aaa;
 	margin: 5px 10px;
@@ -280,11 +216,6 @@ h4 {
 
 .margen-externa {
 	margin: 10px 10px;
-}
-
-.corner {
-	border-radius: 5px;
-	/*-moz-border-radius: 5; for Firefox */
 }
 
 .semicorner {
@@ -348,6 +279,12 @@ b {
 
 .idnt2 {
 	margin: 10px 10px 10px 80px;
+}
+
+.estilo_tr {
+	border-style: solid;
+	border-color: white;
+	text-align: center;
 }
 
 .table-tittle {
@@ -501,4 +438,39 @@ tr.table-fila-body:hover {
 	color: #000;
 	font-weight: bold;
 	border-bottom: 1px dotted #777;
+}
+
+.bg-seccion {
+	margin: 10px 0;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)
+		inset;
+	border: 1px solid #ababab;
+}
+
+.corner {
+	border-radius: 5px;
+}
+
+.seccion {
+    margin: 4px;
+    padding: 10px;
+    background: #DFDFDF url(images/background/plugin-1x150.png) 0 top repeat-x;
+}
+
+.margen-interna {
+    padding: 10px 10px;
+}
+
+.seccion-contenido {
+    overflow: hidden;
+}
+
+.icon-mini-info {
+    background: transparent url(images/icons/icon-mini-info.png) 50% 50%
+ no-repeat;
+    position: relative;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    cursor: pointer;
 }

@@ -26,7 +26,7 @@ $valorCodificado = $cripto->codificar ( $valorCodificado );
 $atributos ["id"] = "tabs";
 $atributos ["estilo"] = "";
 echo $this->miFormulario->division ( "inicio", $atributos );
-//unset ( $atributos );
+unset ( $atributos );
 {
 	// -------------------- Listado de Pestañas (Como lista No Ordenada) -------------------------------
 	
@@ -48,14 +48,15 @@ echo $this->miFormulario->division ( "inicio", $atributos );
 	$atributos ["id"] = $esteCampo;
 	$atributos ["estilo"] = "jqueryui";
 	$atributos ['tipoEtiqueta'] = 'inicio';
+	$atributos ['titulo'] = 'titulo prueba';
 	echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
-	unset ( $atributos );
+	
 	{
 		include ($this->ruta . "formulario/tabs/form1.php");
 		// -----------------Fin Division para la pestaña 1-------------------------
 	}
 	echo $this->miFormulario->agrupacion ( 'fin' );
-	
+	unset ( $atributos );
 	
 	// ------------------Division para la pestaña 2-------------------------
 	$esteCampo = "tab2";
@@ -63,12 +64,12 @@ echo $this->miFormulario->division ( "inicio", $atributos );
 	$atributos ["estilo"] = "jqueryui";
 	$atributos ['tipoEtiqueta'] = 'inicio';
 	echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
-	unset ( $atributos );
+	
 	{
 		include ($this->ruta . "formulario/tabs/form2.php");
 	}
 	echo $this->miFormulario->agrupacion ( 'fin' );
-	
+	unset ( $atributos );
 	
 	// ------------------Division para la pestaña 3-------------------------
 	$esteCampo = "tab3";
@@ -76,12 +77,12 @@ echo $this->miFormulario->division ( "inicio", $atributos );
 	$atributos ["estilo"] = "jqueryui";
 	$atributos ['tipoEtiqueta'] = 'inicio';
 	echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
-	unset ( $atributos );
+	
 	{
 		include ($this->ruta . "formulario/tabs/form3.php");
 	}
 	echo $this->miFormulario->agrupacion ( 'fin' );
-	
+	unset ( $atributos );
 	
 	// ------------------Division para la pestaña 4-------------------------
 	$esteCampo = "tab4";
@@ -89,11 +90,12 @@ echo $this->miFormulario->division ( "inicio", $atributos );
 	$atributos ["estilo"] = "jqueryui";
 	$atributos ['tipoEtiqueta'] = 'inicio';
 	echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
-	unset ( $atributos );
+	
 	{
 		include ($this->ruta . "formulario/tabs/form4.php");
 	}
 	echo $this->miFormulario->agrupacion ( 'fin' );
+	unset ( $atributos );
 }
 
 echo $this->miFormulario->division ( "fin" );

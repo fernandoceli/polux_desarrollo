@@ -22,8 +22,8 @@ class redireccion {
 		$url = $miConfigurador->configuracion ["host"] . $miConfigurador->configuracion ["site"] . "/index.php?";
 		
 		$enlace = $miConfigurador->configuracion ['enlace'];
-		var_dump ( $variable );
-		var_dump ( $_REQUEST );
+		//var_dump ( $variable );
+		//var_dump ( $_REQUEST );
 		$variable = $miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
 		$_REQUEST [$enlace] = $enlace . '=' . $variable;
 		$redireccion = $url . $_REQUEST [$enlace];

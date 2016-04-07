@@ -80,6 +80,14 @@ class Formulario {
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAnteproyecto", $_REQUEST ['anteproyecto'] );
 		$matrizItems = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		
+		// Buscar el ultimo documento del anteproyecto
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( 'buscarDocumento', $_REQUEST ['anteproyecto'] );
+		$documentoAnteproyecto = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], 'busqueda' );
+		
+		// Buscar la versi髇 del ultimo documento
+		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( 'buscarVersionDoc', $documentoAnteproyecto [0] [0] );
+		$versionDoc = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], 'busqueda' );
+		
 		
 		//Buscar estudiantes asociados
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "buscarAutores", $_REQUEST['anteproyecto'] );
@@ -98,7 +106,7 @@ class Formulario {
 			$matrizItems4 = $esteRecurso->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 			array_push($autores, $matrizItems4[0][1]);
 		}
-		var_dump($_REQUEST);
+		
 		?>
 
 
@@ -113,7 +121,7 @@ class Formulario {
 			<td id="col" rowspan="7">
 				<div class="corner bg-imagen-documento">
 					<div id="documento" class="icon-max-pdf"></div>
-					<div class="codigo-documento">Versi贸n No.1</div>
+					<div class="codigo-documento">Versi贸n No. <?php echo $versionDoc[0][0]?></div>
 				</div>
 			</td>
 			<td class="table-tittle estilo_tr">Referencia:</td>
@@ -122,7 +130,7 @@ class Formulario {
 
 		<tr>
 			<td class="table-tittle estilo_tr">Documento a evaluar</td>
-			<td class="estilo_tr">Versi贸n No. 1</td>
+			<td class="estilo_tr">Versi贸n No. <?php echo $versionDoc[0][0]?></td>
 		</tr>
 
 		<tr>
@@ -146,7 +154,7 @@ class Formulario {
 
 		<tr>
 			<td class="table-tittle estilo_tr">Fecha Solicitud:</td>
-			<td class="estilo_tr"><?php echo $matrizItems[0][7]?></td>
+			<td class="estilo_tr"><?php echo $matrizItems[0][4]?></td>
 		</tr>
 		
 		<tr>

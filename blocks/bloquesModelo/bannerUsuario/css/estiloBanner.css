@@ -5,6 +5,10 @@
 	text-align: left;
 }
 
+div.campoImagen {
+	width: 0px;
+}
+
 #bannerDatos {
 	border-left: 1px dotted #ababab;
 	padding: 0 0 0 10px;

@@ -49,7 +49,11 @@ class Funcion {
 		
 		if (isset ( $_REQUEST ['procesarAjax'] )) {
 			$this->procesarAjax ();
-		}  else if (isset ( $_REQUEST ["opcion"] )) {
+		}
+		else if (isset($_REQUEST['botonInicio']) && $_REQUEST['botonInicio']) {
+			$this->irinicio ();
+		}
+		else if (isset ( $_REQUEST ["opcion"] )) {
 			switch ($_REQUEST ["opcion"]) {
 				case 'ver' :
 					$this->ver ();

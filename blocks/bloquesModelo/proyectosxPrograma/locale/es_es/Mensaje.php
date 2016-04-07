@@ -8,6 +8,7 @@ $this->idioma ["botonCancelar"] = "Cancelar";
 $this->idioma ["botonCancelar2"]="Cancelar";
 $this->idioma ["noDefinido"] = "No definido";
 $this->idioma ["botonIngresar"] = "Ingresar";
+$this->idioma ['botonInicio'] = 'Ir a Inicio';
 $this->idioma["botonCrear"]="Aceptar";
 $this->idioma["numero"]="Anteproyecto No. ";
 $this->idioma["marcoDatos"]="Datos del Anteproyecto";
@@ -25,8 +26,5 @@ $this->idioma["continuar"]="Continuar";
 $this->idioma["enlaceVer"]="Ver Proyecto";
 
 $this->idioma["infoMensaje"]="No hay proyectos registrados para este programa curricular";
-
-
-$this->idioma ["botonInicio"] = "Ir al inicio";
 
 ?>
