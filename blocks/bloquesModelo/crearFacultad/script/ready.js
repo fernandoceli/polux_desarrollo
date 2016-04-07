@@ -19,13 +19,14 @@ $('#clave').keydown(function(e) {
 
 $(function() {
 	$(document).tooltip({
+		selector: "[data-toggle='tooltip']",
 		position : {
 			my : "left+15 center",
 			at : "right center"
-		}
-	},
-	{ hide: { duration: 800 } }
-	);
+		},
+		hide: { effect: "explode", duration: 10 },
+		placement: "right"
+	});
 });
 
 $(function() {

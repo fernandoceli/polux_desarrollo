@@ -37,8 +37,6 @@ class Sql extends \Sql {
 			 * Clausulas específicas
 			 */
 			case 'insertar' :
-				var_dump ( $_REQUEST );
-				
 				$cadenaSql = 'INSERT INTO trabajosdegrado.ge_tpcur';
 				$cadenaSql .= '(';
 				$cadenaSql .= 'pcur_pcur,';

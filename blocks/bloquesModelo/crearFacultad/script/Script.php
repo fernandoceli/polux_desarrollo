@@ -5,12 +5,10 @@
  */
 
 $indice=0;
+$funcion[$indice++]="jquery.min.js";
+$funcion[$indice++]="bootstrap.min.js";
 $funcion[$indice++]="jquery.validationEngine.js";
 $funcion[$indice++]="jquery.validationEngine-es.js";
-$funcion[$indice++]="jquery.dataTables.js";
-$funcion[$indice++]="jquery.dataTables.min.js";
-$funcion[$indice++]="dataTables.jqueryui.min.js";
-
 
 $rutaBloque=$this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque.=$this->miConfigurador->getVariableConfiguracion("site");

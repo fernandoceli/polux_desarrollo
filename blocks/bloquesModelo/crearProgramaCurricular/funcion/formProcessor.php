@@ -2,8 +2,7 @@
 
 namespace bloquesModelo\crearProgramaCurricular\funcion;
 
-
-include_once('Redireccionador.php');
+include_once('redireccionar.php');
 
 class FormProcessor {
     
@@ -25,11 +24,13 @@ class FormProcessor {
     function procesarFormulario() {    
 
         //Aquí va la lógica de procesamiento
-        
+    	if (isset ( $_REQUEST ['opcion'] ) && $_REQUEST ['opcion'] == 'continuar') {
+    		redireccion::redireccionar ('continuar');
+    	}
         
         //Al final se ejecuta la redirección la cual pasará el control a otra página
-        $variable='cualquierDato';
-        Redireccionador::redireccionar('opcion1',$variable);
+        /*$variable='cualquierDato';
+        Redireccionador::redireccionar('opcion1',$variable);*/
     	        
     }
     

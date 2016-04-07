@@ -20,4 +20,6 @@ $this->idioma["mensajeRegistro"]="Temática creada";
 $this->idioma["mensajeError"]="Error al crear la temática";
 $this->idioma["continuar"]="Continuar";
 
+$this->idioma ['marcoDatos'] = "Información de la Temática";
+
 ?>

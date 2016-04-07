@@ -12,14 +12,16 @@ class redireccion {
 		$miPaginaActual = $miConfigurador->getVariableConfiguracion ( "pagina" );
 		
 		switch ($opcion) {
+			case "regresar" :
+				$variable = "pagina=indexPolux";
+				$variable .= "&usuario=" . $_REQUEST ['usuario'];
+				break;
 			
 			case "inserto" :
-				var_dump($opcion);
 				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=confirma";
 				$variable .= '&usuario=' . $_REQUEST ["usuario"];
-				//$variable .= "&facultad=" . $valor;
 				break;
 			
 			case "noInserto" :
@@ -29,25 +31,24 @@ class redireccion {
 				$variable .= '&usuario=' . $_REQUEST ["usuario"];
 				break;
 			
-			default :
-				$variable = '';
+			case "continuar" :
+				$variable = "pagina=indexPolux";
+				$variable .= "&usuario=" . $_REQUEST ['usuario'];
+				break;
 		}
+		
 		foreach ( $_REQUEST as $clave => $valor ) {
 			unset ( $_REQUEST [$clave] );
 		}
 		
 		$url = $miConfigurador->configuracion ["host"] . $miConfigurador->configuracion ["site"] . "/index.php?";
-		
 		$enlace = $miConfigurador->configuracion ['enlace'];
-		//var_dump($variable);
 		$variable = $miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
 		$_REQUEST [$enlace] = $enlace . '=' . $variable;
 		$redireccion = $url . $_REQUEST [$enlace];
-
-		echo "<script>console.log(" . $redireccion . ")</script>";
-		echo "<script>location.replace('" . $redireccion . "')</script>";
 		
-		return true;
+		echo "<script>location.replace('" . $redireccion . "')</script>";
 	}
 }
+
 ?>

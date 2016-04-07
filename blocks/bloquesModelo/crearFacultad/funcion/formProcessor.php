@@ -24,13 +24,13 @@ class FormProcessor {
     
     function procesarFormulario() {    
 
-        //Aquí va la lógica de procesamiento
+    	if (isset ( $_REQUEST ['opcion'] ) && $_REQUEST ['opcion'] == 'continuar') {
+    		redireccion::redireccionar ('continuar');
+    	}
         
-        
-        //Al final se ejecuta la redirección la cual pasará el control a otra página
+    /*    //Al final se ejecuta la redirección la cual pasará el control a otra página
         $variable='cualquierDato';
-        redireccionar::redireccionar('opcion1',$variable);
-    	        
+        redireccionar::redireccionar('opcion1',$variable);*/
     }
     
     function resetForm(){

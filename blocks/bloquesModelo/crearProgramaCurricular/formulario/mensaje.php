@@ -27,8 +27,6 @@ if (!isset($GLOBALS["autorizado"])) {
     $verificarFormulario = "1";
     echo $this->miFormulario->formulario($atributos);
     
-    
-    
     $atributos["id"] = "divNoEncontroEgresado";
     $atributos["estilo"] = "marcoBotones";
     //$atributos["estiloEnLinea"]="display:none"; 
@@ -37,8 +35,7 @@ if (!isset($GLOBALS["autorizado"])) {
     
     if ($_REQUEST['mensaje'] == 'confirma') {
         $tipo = 'success';
-        $mensaje = $this->lenguaje->getCadena ( 'mensajeRegistro' ). '<br></br>'.
-		'Programa Curricular: ' . $_REQUEST ['programaCurricular'];
+        $mensaje = $this->lenguaje->getCadena ( 'mensajeRegistro' ). '<br>';
         $boton = "continuar";
 		
         $valorCodificado = "pagina=".$esteBloque['nombre'];
@@ -142,11 +139,12 @@ if (!isset($GLOBALS["autorizado"])) {
      * Para ello utiliza la hora en que es creado el formulario para
      * codificar el nombre de cada campo. 
      */
-    //$valorCodificado = "action=" . $esteBloque ["nombre"]; //Ir pagina Funcionalidad
-    $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );//Frontera mostrar formulario
+    $valorCodificado = "action=" . $esteBloque ["nombre"]; //Ir pagina Funcionalidad
+    $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );//Frontera mostrar formulario
     $valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
     $valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
     $valorCodificado .= "&opcion=continuar";
+    $valorCodificado .= "&usuario=" . $_REQUEST ["usuario"];
     
     $valorCodificado .= "&campoSeguro=" . $_REQUEST['tiempo'];
     // Paso 2: codificar la cadena resultante

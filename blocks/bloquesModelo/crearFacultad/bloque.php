@@ -27,6 +27,8 @@ include_once ("Sql.class.php");
 // Mensajes
 include_once ("Lenguaje.class.php");
 
+include_once ('funcion/redireccionar.php');
+use bloquesModelo\crearFacultad\funcion\redireccion;
 // Esta clase actua como control del bloque en un patron FCE
 
 if (! class_exists ( '\\bloquesModelo\\crearFacultad\\Bloque' )) {
@@ -66,10 +68,11 @@ if (! class_exists ( '\\bloquesModelo\\crearFacultad\\Bloque' )) {
         }
         public function bloque() {
             
-            if (isset ( $_REQUEST ['botonCancelar'] ) && $_REQUEST ['botonCancelar'] == "true") {
-                $this->miFuncion->redireccion( "paginaPrincipal" );
-                
-            } else {
+        	if (isset ( $_REQUEST ['botonCancelar'] ) && $_REQUEST ['botonCancelar'] == "true") {
+            	redireccion::redireccionar ( 'regresar' );
+            }
+           
+            else {
                 
                 /**
                  * Injección de dependencias

@@ -1,10 +1,7 @@
 <?php
 $indice=0;
 $estilo[$indice++]="estiloBloque.css";
-$estilo[$indice++]="jquery.dataTables.css";
-$estilo[$indice++]="jquery.dataTables_themeroller.css";
 $estilo[$indice++]="validationEngine.jquery.css";
-$estilo[$indice++]="animate.css";
 
 $rutaBloque=$this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque.=$this->miConfigurador->getVariableConfiguracion("site");

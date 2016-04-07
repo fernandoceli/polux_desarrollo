@@ -14,9 +14,7 @@ class Frontera {
 	var $funcion;
 	var $lenguaje;
 	var $miFormulario;
-	var 
-
-	$miConfigurador;
+	var $miConfigurador;
 	function __construct() {
 		$this->miConfigurador = \Configurador::singleton ();
 	}
@@ -39,6 +37,7 @@ class Frontera {
 		$this->funcion = $funcion;
 	}
 	function html() {
+		
 		$this->ruta = $this->miConfigurador->getVariableConfiguracion ( "rutaBloque" );
 		
 		if (isset ( $_REQUEST ['opcion'] )) {
@@ -48,9 +47,7 @@ class Frontera {
 				case "mensaje" :
 					include_once ($this->ruta . "/formulario/mensaje.php");
 					break;
-				case "continuar" :
-					include_once ($this->ruta . "/formulario/form.php");
-					break;
+				
 			}
 		} else {
 			include_once ($this->ruta . "/formulario/form.php");

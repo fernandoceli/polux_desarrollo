@@ -227,6 +227,18 @@ class Sql extends \Sql {
 				$cadenaSql .= " WHERE  tipo_estado = 1";
 				$cadenaSql .= " ORDER BY tipo_nombre ASC";
 				break;
+				
+			case "tipoVinculacion":
+				$cadenaSql = "SELECT ";
+				$cadenaSql .= "vin_vinc, ";
+				$cadenaSql .= "vin_descri ";
+				$cadenaSql .= "FROM ";
+				$cadenaSql .= "trabajosdegrado.ge_tvinc; ";
+				break;
+		}
+		
+		if (!isset($cadenaSql)) {
+			echo "Error al solicitar la consulta: '" . $tipo . "'";
 		}
 		
 		return $cadenaSql;

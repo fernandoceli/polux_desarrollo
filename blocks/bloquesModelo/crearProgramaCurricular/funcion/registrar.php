@@ -24,7 +24,6 @@ class Registrar {
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'insertar', $_REQUEST );
-		var_dump ( $cadenaSql );
 		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
 		
 		if ($resultado) {

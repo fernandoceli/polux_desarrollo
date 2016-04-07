@@ -86,7 +86,14 @@ class Formulario {
 		$atributos ['linea'] = 'true';
 		echo $this->miFormulario->campoMensaje ( $atributos );
 		unset($atributos);
-		
+
+		$esteCampo = "marcoDatos";
+		$atributos ['id'] = $esteCampo;
+		$atributos ["estilo"] = "jqueryui";
+		$atributos ['tipoEtiqueta'] = 'inicio';
+		$atributos ["leyenda"] = $this->lenguaje->getCadena ( $esteCampo );
+		echo $this->miFormulario->marcoAgrupacion ( 'inicio', $atributos );
+	
 		// ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
 		$esteCampo = 'nombreTematica';
 		$atributos ['id'] = $esteCampo;
@@ -109,9 +116,9 @@ class Formulario {
 		}
 		$atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
 		$atributos ['deshabilitado'] = false;
-		$atributos ['tamanno'] = 25;
+		$atributos ['tamanno'] = 50;
 		$atributos ['maximoTamanno'] = '';
-		$atributos ['anchoEtiqueta'] = 280;
+		$atributos ['anchoEtiqueta'] = 200;
 		$tab ++;
 		
 		// Aplica atributos globales al control
@@ -126,9 +133,8 @@ class Formulario {
 		$atributos ['id'] = $esteCampo;
 		$atributos ['nombre'] = $esteCampo;
 		$atributos ['tipo'] = 'text';
-		$atributos ['estilo'] = 'jqueryui';
+		$atributos ['estilo'] = '';
 		$atributos ['marco'] = true;
-		$atributos ['columnas'] = 1;
 		$atributos ['dobleLinea'] = false;
 		$atributos ['obligatorio'] = true;
 		$atributos ['etiquetaObligatorio'] = true;
@@ -145,16 +151,19 @@ class Formulario {
 		$atributos ['deshabilitado'] = false;
 		$atributos ['tamanno'] = 25;
 		$atributos ['maximoTamanno'] = '';
-		$atributos ['anchoEtiqueta'] = 280;
+		$atributos ['anchoEtiqueta'] = 200;
+		$atributos ['columnas'] = 50;
+		$atributos ['filas'] = 2;
 		$tab ++;
 		
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		echo $this->miFormulario->campoTextArea ( $atributos );
 		unset($atributos);
 		
 		// --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
-		
+
+		echo $this->miFormulario->marcoAgrupacion ( 'fin' );
 		
 		// ------------------Division para los botones-------------------------
 		$atributos ["id"] = "botones";

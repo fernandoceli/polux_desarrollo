@@ -11,5 +11,5 @@ $("#tablaReporte").dataTable({
 	
 });
 
-$('#<?php echo $this->campoSeguro('seleccionar')?>').width(280);
+$('#<?php echo $this->campoSeguro('seleccionar')?>').width(525);
 $('#<?php echo $this->campoSeguro('seleccionar')?>').select2();

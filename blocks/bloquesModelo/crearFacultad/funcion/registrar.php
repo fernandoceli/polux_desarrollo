@@ -20,9 +20,6 @@ class Registrar {
 	
 	function procesarFormulario() {
 		
-		// Aquí va la lógica de procesamiento
-		
-		// Al final se ejecuta la redirección la cual pasará el control a otra página
 		$conexion = "estructura";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
@@ -31,10 +28,10 @@ class Registrar {
 		
 		if ($resultado) {
 			redireccion::redireccionar ( 'inserto');
-			exit ();
+			
 		} else {
 			redireccion::redireccionar ( 'noInserto' );
-			exit ();
+			
 		}
 	}
 	

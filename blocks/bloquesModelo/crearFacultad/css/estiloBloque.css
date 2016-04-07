@@ -1,7 +1,6 @@
 
-form {
-	margin: 0 auto 0 auto;
-	width: 80%;
+textarea {
+    border-radius: 4px;
 }
 
 div.campoBoton {
@@ -13,13 +12,35 @@ div.campoBoton {
 	width: 30%;  
 }
 
-.retraso-1{
-	-webkit-animation-delay: 1s;
-	-moz-animation-delay: 1s;
-	animation-delay: 1s;
+.seccionCentralAmpliada {
+	margin-top: 1%;
+	width: 76.5%;
 }
-.retraso-2{
-	-webkit-animation-delay: 2s;
-	-moz-animation-delay: 2s;
-	animation-delay: 2s;
+
+#crearFacultad{
+	width: 90%;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: 2%;
+}
+
+#marcoDatos{
+    margin-left: 2%;
+    width: 90%;
+}
+
+hr {
+    -webkit-margin-before: 0.5em;
+    -webkit-margin-after: 0.5em;
+    border-style: inset;
+}
+
+legend {
+    font-size: 20px; 
+    margin-bottom: 0px;
+}
+
+.modal-header {
+    background-color: #BE4033;
+    color: #fff;
 }
