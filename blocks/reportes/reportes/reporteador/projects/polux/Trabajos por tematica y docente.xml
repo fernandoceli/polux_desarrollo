@@ -1,0 +1,162 @@
+<?xml version="1.0"?><Report><ReportQuery><Format><ReportTitle>Trabajos de grado por temática y docente</ReportTitle><ReportDescription>Listado de los trabajos de grado filtrados por tematica de interés y docente</ReportDescription><PageSize>.DEFAULT</PageSize><PageOrientation>.DEFAULT</PageOrientation><TopMargin></TopMargin><BottomMargin></BottomMargin><RightMargin></RightMargin><LeftMargin></LeftMargin><pdfFont></pdfFont><pdfFontSize></pdfFontSize><PreExecuteCode>NONE</PreExecuteCode><formBetweenRows>solidline</formBetweenRows><gridDisplay>.DEFAULT</gridDisplay><gridSortable>.DEFAULT</gridSortable><gridSearchable>.DEFAULT</gridSearchable><gridPageable>.DEFAULT</gridPageable><gridPageSize>.DEFAULT</gridPageSize></Format><Datasource><SourceType>database</SourceType><SourceConnection><DatabaseType>mysql</DatabaseType><DatabaseName></DatabaseName><HostName></HostName><ServiceName></ServiceName><UserName></UserName><Password></Password></SourceConnection></Datasource><EntryForm><Query><TableSql></TableSql><WhereSql></WhereSql><GroupSql></GroupSql><RowSelection>all</RowSelection><SQL><QuerySql></QuerySql><SQLRaw>SELECT count(responsabilidad) contar, tematica, responsabilidad FROM
+(
+
+SELECT 
+acono_nom tematica,
+antp_antp numero, 
+antp_titu titulo, 
+prof_prof docente,
+string_agg(estantp_estd || ' - ' || nombre || ' ' || apellido, ', ') autor, 
+'DIRECTOR' AS responsabilidad,
+'ANTEPROYECTO' etapa, 
+antp_eantp estado
+FROM 
+trabajosdegrado.ant_tantp antp, 
+trabajosdegrado.ant_testantp estantp,
+trabajosdegrado.ge_testd,
+polux_usuario,
+trabajosdegrado.ant_tacantp,
+trabajosdegrado.ge_tacono,
+trabajosdegrado.ge_tprof
+WHERE antp_eantp&lt;&gt;'PROYECTO' 
+[AND antp_dir_int IN ( {docente} )]
+AND estantp_antp=antp_antp
+AND estantp_estd=estd_estd
+AND estd_us=id_usuario
+AND acantp_antp=antp_antp
+AND acantp_acono=acono_acono
+AND prof_prof=antp_dir_int
+GROUP BY 1, 2, 4
+
+UNION
+
+SELECT 
+acono_nom tematica,
+antp_antp numero, 
+antp_titu titulo, 
+prof_prof docente,
+string_agg(estantp_estd || ' - ' || nombre || ' ' || apellido, ', ') autor, 
+'REVISOR' AS responsabilidad,
+'ANTEPROYECTO' etapa, 
+antp_eantp estado
+FROM 
+trabajosdegrado.ant_tantp antp, 
+trabajosdegrado.ant_testantp estantp,
+trabajosdegrado.ge_testd,
+polux_usuario,
+trabajosdegrado.ant_trev,
+trabajosdegrado.ant_tacantp,
+trabajosdegrado.ge_tacono,
+trabajosdegrado.ge_tprof
+WHERE antp_eantp&lt;&gt;'PROYECTO' 
+[AND acantp_acono IN ( {tematica} )]
+[AND rev_prof IN ( {docente} )]
+AND estantp_antp=antp_antp
+AND estantp_estd=estd_estd
+AND estd_us=id_usuario
+AND acantp_antp=antp_antp
+AND acantp_acono=acono_acono
+AND rev_antp = antp_antp
+AND prof_prof=rev_prof
+GROUP BY 1, 2, 4
+
+UNION
+
+SELECT 
+acono_nom tematica,
+proy_proy numero, 
+proy_titu titulo, 
+prof_prof docente,
+string_agg(estproy_estd || ' - ' || nombre || ' ' || apellido, ', ') autor, 
+'DIRECTOR' AS responsabilidad,
+'PROYECTO' etapa, 
+proy_eproy estado
+FROM 
+trabajosdegrado.pry_tproy,
+trabajosdegrado.pry_testpry,
+trabajosdegrado.ge_testd,
+polux_usuario,
+trabajosdegrado.pry_tacproy,
+trabajosdegrado.ge_tacono,
+trabajosdegrado.ge_tprof
+WHERE
+proy_eproy&lt;&gt;'INFORME FINAL' 
+[AND acproy_acono IN ( {tematica} )]
+[AND proy_dir_int IN ( {docente} )]
+AND estproy_proy=proy_proy
+AND estproy_estd=estd_estd
+AND estd_us=id_usuario
+AND acproy_proy=proy_proy
+AND acproy_acono=acono_acono
+AND prof_prof=proy_dir_int
+GROUP BY 1, 2, 4
+
+UNION
+
+SELECT 
+acono_nom tematica,
+info_info numero, 
+info_titu titulo, 
+prof_prof docente,
+string_agg(estinfo_est || ' - ' || nombre || ' ' || apellido, ', ') autor, 
+'DIRECTOR' AS responsabilidad,
+'INFORME FINAL' etapa, 
+info_einfo estado
+FROM 
+trabajosdegrado.inf_tinfo,
+trabajosdegrado.inf_testinfo,
+trabajosdegrado.ge_testd,
+polux_usuario,
+trabajosdegrado.inf_tacinfo,
+trabajosdegrado.ge_tacono,
+trabajosdegrado.ge_tprof
+WHERE
+info_einfo&lt;&gt;'FINALIZADO' 
+[AND acinfo_acono IN ( {tematica} )]
+[AND info_dir_int IN ( {docente} )]
+AND estinfo_info=info_info
+AND estinfo_est=estd_estd
+AND estd_us=id_usuario
+AND acinfo_info=info_info
+AND acinfo_acono=acono_acono
+AND prof_prof=info_dir_int
+GROUP BY 1, 2, 4
+
+UNION
+
+SELECT 
+acono_nom tematica,
+info_info numero, 
+info_titu titulo, 
+prof_prof docente,
+string_agg(estinfo_est || ' - ' || nombre || ' ' || apellido, ', ') autor, 
+'JURADO' AS responsabilidad,
+'INFORME FINAL' etapa, 
+info_einfo estado
+FROM 
+trabajosdegrado.inf_tinfo,
+trabajosdegrado.inf_testinfo,
+trabajosdegrado.ge_testd,
+polux_usuario,
+trabajosdegrado.inf_tacinfo,
+trabajosdegrado.ge_tacono,
+trabajosdegrado.ge_tprof,
+trabajosdegrado.inf_tjur
+WHERE
+info_einfo&lt;&gt;'FINALIZADO' 
+[AND acinfo_acono IN ( {tematica} )]
+[AND jur_prof IN ( {docente} )]
+AND estinfo_info=info_info
+AND estinfo_est=estd_estd
+AND estd_us=id_usuario
+AND acinfo_info=info_info
+AND acinfo_acono=acono_acono
+AND prof_prof=jur_prof
+GROUP BY 1, 2, 4
+
+) resultados
+group by  tematica, responsabilidad
+ORDER BY responsabilidad
+</SQLRaw></SQL><QueryColumns><QueryColumn><Name>contar</Name><TableName></TableName><ColumnName>count(responsabilidad)</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>left</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title></column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn><QueryColumn><Name>tematica</Name><TableName></TableName><ColumnName>tematica</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>hide</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>left</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title></column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn><QueryColumn><Name>responsabilidad</Name><TableName></TableName><ColumnName>responsabilidad</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>left</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title></column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn></QueryColumns><OrderColumns></OrderColumns><PreSQLS></PreSQLS></Query><Assignments></Assignments><Criteria><CriteriaItem><Name>tematica</Name><Title>Temática de Interés</Title><QueryTableName></QueryTableName><QueryColumnName>acantp_acono</QueryColumnName><CriteriaType>LOOKUP</CriteriaType><CriteriaDisplay>DROPDOWN</CriteriaDisplay><ExpandDisplay>NOINPUT</ExpandDisplay><ReturnColumn>acono_acono</ReturnColumn><DisplayColumn>acono_nom</DisplayColumn><OverviewColumn>acono_nom</OverviewColumn><MatchColumn>acono_nom</MatchColumn><CriteriaDefaults></CriteriaDefaults><CriteriaList></CriteriaList><Query><TableSql></TableSql><WhereSql></WhereSql><GroupSql></GroupSql><RowSelection></RowSelection><SQLRaw>SELECT acono_acono, acono_nom
+FROM  trabajosdegrado.ge_tacono
+WHERE 1 = 1  </SQLRaw><SQL><QuerySql></QuerySql></SQL><QueryColumns><QueryColumn><Name>acono_acono</Name><TableName></TableName><ColumnName>acono_acono</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><justify>left</justify></Format></QueryColumn><QueryColumn><Name>acono_nom</Name><TableName></TableName><ColumnName>acono_nom</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><justify>left</justify></Format></QueryColumn></QueryColumns><OrderColumns></OrderColumns><Assignments></Assignments></Query><CriteriaLinks></CriteriaLinks></CriteriaItem><CriteriaItem><Name>docente</Name><Title>Docente</Title><QueryTableName></QueryTableName><QueryColumnName></QueryColumnName><CriteriaType>LOOKUP</CriteriaType><CriteriaDisplay>DROPDOWN</CriteriaDisplay><ExpandDisplay>NOINPUT</ExpandDisplay><ReturnColumn>prof_prof</ReturnColumn><DisplayColumn>nombre</DisplayColumn><OverviewColumn>nombre</OverviewColumn><MatchColumn>nombre</MatchColumn><CriteriaDefaults></CriteriaDefaults><CriteriaList></CriteriaList><Query><TableSql></TableSql><WhereSql></WhereSql><GroupSql></GroupSql><RowSelection></RowSelection><SQLRaw>SELECT prof_prof, prof_us, (nombre || ' ' ||apellido) nombre FROM  trabajosdegrado.ge_tprof, public.polux_usuario WHERE prof_us=id_usuario</SQLRaw><SQL><QuerySql></QuerySql></SQL><QueryColumns><QueryColumn><Name>prof_prof</Name><TableName></TableName><ColumnName>prof_prof</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><justify>left</justify></Format></QueryColumn><QueryColumn><Name>prof_us</Name><TableName></TableName><ColumnName>prof_us</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><justify>left</justify></Format></QueryColumn><QueryColumn><Name>nombre</Name><TableName></TableName><ColumnName>(nombre || ' ' ||apellido)</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><justify>left</justify></Format></QueryColumn></QueryColumns><OrderColumns></OrderColumns><Assignments></Assignments></Query><CriteriaLinks></CriteriaLinks></CriteriaItem></Criteria><Output><PageHeaders><PageHeader><LineNumber>1</LineNumber><HeaderText>{REPORT_TITLE}{STYLE border-width: 1 0 1 0; margin: 15px 0px 0px 0px; border-color: #000000; font-size: 18; border-style: solid;padding:5px 0px 5px 0px; height:1cm; background-color: #000000; color: #ffffff; text-align: center}</HeaderText><Format><ColumnStartPDF></ColumnStartPDF><justify>center</justify><ColumnWidthPDF></ColumnWidthPDF><ShowInPDF>yes</ShowInPDF><ShowInHTML>no</ShowInHTML></Format></PageHeader><PageHeader><LineNumber>1</LineNumber><HeaderText>Time: date('Y-m-d H:i:s'){STYLE font-size: 10; text-align: right; font-style: italic;}</HeaderText><Format><ColumnStartPDF></ColumnStartPDF><justify>right</justify><ColumnWidthPDF></ColumnWidthPDF><ShowInPDF>yes</ShowInPDF><ShowInHTML>no</ShowInHTML></Format></PageHeader></PageHeaders><PageFooters><PageFooter><LineNumber>2</LineNumber><FooterText>Page: {PAGE}{STYLE border-width: 1 0 0 0; margin: 40 0 0 0; font-style: italic; }</FooterText><Format><ColumnStartPDF></ColumnStartPDF><justify>center</justify><ColumnWidthPDF></ColumnWidthPDF><ShowInPDF>yes</ShowInPDF><ShowInHTML>no</ShowInHTML></Format></PageFooter></PageFooters><DisplayOrders><DisplayOrder><ColumnName>tematica</ColumnName><OrderNumber>1</OrderNumber></DisplayOrder><DisplayOrder><ColumnName>responsabilidad</ColumnName><OrderNumber>2</OrderNumber></DisplayOrder><DisplayOrder><ColumnName>contar</ColumnName><OrderNumber>3</OrderNumber></DisplayOrder></DisplayOrders><Groups><Group><GroupName>tematica</GroupName><BeforeGroupHeader>blankline</BeforeGroupHeader><AfterGroupHeader>blankline</AfterGroupHeader><BeforeGroupTrailer>blankline</BeforeGroupTrailer><AfterGroupTrailer>blankline</AfterGroupTrailer><GroupHeaders><GroupHeader><GroupHeaderColumn>tematica</GroupHeaderColumn><GroupHeaderCustom></GroupHeaderCustom></GroupHeader></GroupHeaders><GroupTrailers></GroupTrailers></Group><Group><GroupName>responsabilidad</GroupName><BeforeGroupHeader>blankline</BeforeGroupHeader><AfterGroupHeader>blankline</AfterGroupHeader><BeforeGroupTrailer>blankline</BeforeGroupTrailer><AfterGroupTrailer>blankline</AfterGroupTrailer><GroupHeaders></GroupHeaders><GroupTrailers></GroupTrailers></Group></Groups><Graphs><Graph><GraphColumn>tematica</GraphColumn><GraphColor>.DEFAULT</GraphColor><Title>Trabajos de Grado por temática y docente</Title><GraphWidth>.DEFAULT</GraphWidth><GraphHeight>.DEFAULT</GraphHeight><GraphWidthPDF>.DEFAULT</GraphWidthPDF><GraphHeightPDF>.DEFAULT</GraphHeightPDF><XTitle>Set Title</XTitle><YTitle>Set Title</YTitle><GridPosition>.DEFAULT</GridPosition><XGridDisplay>.DEFAULT</XGridDisplay><XGridColor>.DEFAULT</XGridColor><YGridDisplay>.DEFAULT</YGridDisplay><YGridColor>.DEFAULT</YGridColor><XLabelColumn>responsabilidad</XLabelColumn><TitleFont>.DEFAULT</TitleFont><TitleFontStyle>.DEFAULT</TitleFontStyle><TitleFontSize>.DEFAULT</TitleFontSize><TitleColor>.DEFAULT</TitleColor><XTitleFont>.DEFAULT</XTitleFont><XTitleFontStyle>.DEFAULT</XTitleFontStyle><XTitleFontSize>.DEFAULT</XTitleFontSize><XTitleColor>.DEFAULT</XTitleColor><YTitleFont>.DEFAULT</YTitleFont><YTitleFontStyle>.DEFAULT</YTitleFontStyle><YTitleFontSize>.DEFAULT</YTitleFontSize><YTitleColor>.DEFAULT</YTitleColor><XAxisColor>.DEFAULT</XAxisColor><XAxisFont>.DEFAULT</XAxisFont><XAxisFontStyle>.DEFAULT</XAxisFontStyle><XAxisFontSize>.DEFAULT</XAxisFontSize><XAxisFontColor>.DEFAULT</XAxisFontColor><YAxisColor>.DEFAULT</YAxisColor><YAxisFont>.DEFAULT</YAxisFont><YAxisFontStyle>.DEFAULT</YAxisFontStyle><YAxisFontSize>.DEFAULT</YAxisFontSize><YAxisFontColor>.DEFAULT</YAxisFontColor><XTickInterval>.DEFAULT</XTickInterval><YTickInterval>.DEFAULT</YTickInterval><XTickLabelInterval>.DEFAULT</XTickLabelInterval><YTickLabelInterval>.DEFAULT</YTickLabelInterval><MarginColor>.DEFAULT</MarginColor><MarginLeft>.DEFAULT</MarginLeft><MarginRight>.DEFAULT</MarginRight><MarginTop>.DEFAULT</MarginTop><MarginBottom>.DEFAULT</MarginBottom><Plots><Plot><PlotColumn>contar</PlotColumn><PlotType>PIE3D</PlotType><LineColor></LineColor><DataType>number</DataType><Legend></Legend><FillColor></FillColor></Plot></Plots></Graph></Graphs></Output></EntryForm></ReportQuery></Report>

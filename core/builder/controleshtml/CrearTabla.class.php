@@ -4,7 +4,7 @@ require_once ("core/builder/HtmlBase.class.php");
 
 class CrearTabla extends HtmlBase {
 
-    function tablaReporte($datos) {
+    function tablaReporte($datos, $id = "tablaReporte") {
         $this->cadenaHTML = "";
 
         $this->setAtributos($datos);
@@ -25,7 +25,7 @@ class CrearTabla extends HtmlBase {
         foreach ($this->cadenaHTML as $key => $values) {
 
             if (is_array($datos)) {
-                $this->cadenaHTML[$key] = '<table id="tablaReporte"><thead><tr>';
+                $this->cadenaHTML[$key] = '<table id="' . $id . '"><thead><tr>';
                 $this->cadenaHTML[$key].=$encabezadof;
                 $this->cadenaHTML[$key].='</tr></thead><tbody>';
                     foreach ($datos as $nodo => $fila) {

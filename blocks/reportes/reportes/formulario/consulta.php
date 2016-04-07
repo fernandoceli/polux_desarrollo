@@ -53,13 +53,16 @@ class consulta {
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
 		
         $ruta= $this->miConfigurador->getVariableConfiguracion ( "host" ) . $this->miConfigurador->getVariableConfiguracion ( "site" );
-        $reporte='/blocks/reportes/reportes/reporteador/./run.php?';
+        $reporte='/blocks/reportes/reportes/reporteador/run.php?';
         $reporte.="informes=".$_REQUEST['informes'];
         $reporte.="&acceso=".$_REQUEST['acceso'];
         isset($_REQUEST['reporte'])?$reporte.="&reporte=".$_REQUEST['reporte']:'';
+		isset ( $_REQUEST ['tematica']) ? $reporte .= "&tematica=" . $_REQUEST ['tematica'] : '' ;
+        echo $ruta.$reporte;	
+        $prueba="http://localhost/polux_desarrollo/blocks/bloquesModelo/reportes/reportico/run.php?&informes=polux&acceso=admin123&reporte=trabajosxtematica&tematica=246";
         ?>
         <div id="rep">
-            <iframe src="<?php echo $ruta.$reporte;?>" style="width: 100%; height: 100%; border-style: hidden;"></iframe>
+            <iframe src="<?php echo $prueba;?>" style="width: 100%; height: 100%; border-style: hidden;"></iframe>
          </div>
         <?php
  

@@ -193,9 +193,9 @@ class pie {
 
 }
 
-$miSeleccionador = new pie($this->lenguaje, $this->miFormulario);
+$miFormulario = new pie($this->lenguaje, $this->miFormulario);
 
-$miSeleccionador->miForm();
+$miFormulario->miForm();
 ?>
 
 
