@@ -113,8 +113,9 @@ class Select extends HtmlBase {
         } else {
             $this->cadena_html .= "No Data";
         }
-
+        
         return $this->cadena_html;
+        
     }
 
     function armarSelect() {
@@ -176,9 +177,6 @@ class Select extends HtmlBase {
         } else {
             $ancho = 20;
         }
-
-
-
 
         $limitar = $this->atributos ["limitar"];
 
@@ -471,6 +469,7 @@ class Select extends HtmlBase {
         }
 
         $this->cadena_html .= "'";
+        
     }
 
 }

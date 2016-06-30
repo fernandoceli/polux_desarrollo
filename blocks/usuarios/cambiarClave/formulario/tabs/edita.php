@@ -124,7 +124,7 @@ class registrarForm {
 				$atributos ['dobleLinea'] = 0;
 				$atributos ['tabIndex'] = $tab;
 				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-				$atributos ['validar']="required, minSize[5]";
+				$atributos ['validar']="required";
                                 $atributos ['valor'] = $resultadoUsuarios[0]['id_usuario'];
 				//$atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
 				$atributos ['deshabilitado'] = true;
@@ -151,7 +151,7 @@ class registrarForm {
 				$atributos ['dobleLinea'] = 0;
 				$atributos ['tabIndex'] = $tab;
 				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-				$atributos ['validar']="required, minSize[5]";
+				$atributos ['validar']="required";
                                 $atributos ['valor'] = $resultadoUsuarios[0]['nombre'];;
 				//$atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
 				$atributos ['deshabilitado'] = true;
@@ -229,7 +229,7 @@ class registrarForm {
 				$atributos ['dobleLinea'] = 0;
 				$atributos ['tabIndex'] = $tab;
 				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-				$atributos ['validar']="required,minSize[8],maxSize[16],custom[minNumberChars],custom[minLowerAlphaChars]";
+				$atributos ['validar']="required";
                                 $atributos ['valor'] = '';
 				$atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
 				$atributos ['deshabilitado'] = false;
@@ -255,8 +255,8 @@ class registrarForm {
 				$atributos ['dobleLinea'] = 0;
 				$atributos ['tabIndex'] = $tab;
 				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-				$atributos ['validar']="required,minSize[8],maxSize[16],custom[minNumberChars],custom[minLowerAlphaChars], passwordEquals[contrasena]";
-                                $atributos ['valor'] = '';
+				$atributos ['validar']="required";
+                $atributos ['valor'] = '';
 				$atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
 				$atributos ['deshabilitado'] = false;
 				$atributos ['tamanno'] = 60;
@@ -360,7 +360,7 @@ class registrarForm {
 	}
 }
 
-$miFormulario = new registrarForm ( $this->lenguaje, $this->miFormulario, $this->sql );
+$miSeleccionador = new registrarForm ( $this->lenguaje, $this->miFormulario, $this->sql );
 
-$miFormulario->miForm ();
+$miSeleccionador->miForm ();
 ?>

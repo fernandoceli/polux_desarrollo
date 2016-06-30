@@ -1,0 +1,30 @@
+/*-------------------------Banner----------------------------------*/
+
+#banner {
+	position: static;
+	text-align: left;
+}
+
+div.campoImagen {
+	width: 0px;
+}
+
+#bannerDatos {
+	border-left: 1px dotted #ababab;
+	padding: 0 0 0 10px;
+	margin: 20px 0 0 0;
+	text-align:right;
+	float:right;
+	padding: 0px 3px 0px 5px;
+	color: #C20000;
+	background-color: white;
+}
+
+#bannerFecha {
+	padding: 0 0 0 10px;
+	margin: 0 9px 0 0;
+	text-align:right;
+	float:right;
+	padding: 0px 3px 0px 5px;
+	color: #C20000;
+}

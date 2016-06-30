@@ -27,8 +27,8 @@ class Funcion {
 	var $error;
 	var $miRecursoDB;
 	var $crypto;
-	var $miLogger; 
-        // function verificarCampos() {
+	var $miLogger;
+	// function verificarCampos() {
 	// include_once ($this->ruta . "/funcion/verificarCampos.php");
 	// if ($this->error == true) {
 	// return false;
@@ -61,19 +61,14 @@ class Funcion {
 		// en la carpeta funcion
 		
 		// Importante: Es adecuado que sea una variable llamada opcion o action la que guie el procesamiento:
-		if (isset ( $_REQUEST ['procesarAjax'] ))
-                    {
-                        $this->procesarAjax ();
-                    } 
-                elseif (isset ( $_REQUEST ["opcion"] ))
-                    {
-                     switch ($_REQUEST ['opcion'])
-                        {       
-                                case "cambiarClave":
-                                        $this->cambiarClave();
-                                    break;
-                         }
-
+		if (isset ( $_REQUEST ['procesarAjax'] )) {
+			$this->procesarAjax ();
+		} elseif (isset ( $_REQUEST ["opcion"] )) {
+			switch ($_REQUEST ['opcion']) {
+				case "cambiarClave" :
+					$this->cambiarClave ();
+					break;
+			}
 		}
 	}
 	function __construct() {
@@ -85,9 +80,9 @@ class Funcion {
 		
 		$this->miMensaje = \Mensaje::singleton ();
 		
-                $this->miLogger = \logger::singleton();
+		$this->miLogger = \logger::singleton ();
 		
-                $conexion = "aplicativo";
+		$conexion = "aplicativo";
 		$this->miRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
 		if (! $this->miRecursoDB) {
@@ -111,22 +106,17 @@ class Funcion {
 	public function setFormulario($formulario) {
 		$this->formulario = $formulario;
 	}
-        
-        /*Funciones propias*/
-    function cambiarClave() {     
-        
-        $miSesion = \Sesion::singleton();
-        $usuario = $miSesion->getSesionUsuarioId();
-                        
-        include_once($this->ruta . "/funcion/cambiarContrasena.php");
-    }
-    
-    function rescatarSesion() {        
-        $id_usuario=include_once($this->ruta . "/funcion/rescatarSesion.php");
-        return $id_usuario;
-    }
-
-
-
+	
+	/* Funciones propias */
+	function cambiarClave() {
+		$miSesion = \Sesion::singleton ();
+		$usuario = $miSesion->getSesionUsuarioId ();
+		
+		include_once ($this->ruta . "/funcion/cambiarContrasena.php");
+	}
+	function rescatarSesion() {
+		$id_usuario = include_once ($this->ruta . "/funcion/rescatarSesion.php");
+		return $id_usuario;
+	}
 }
 ?>

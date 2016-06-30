@@ -56,10 +56,17 @@ class TextArea  extends HtmlBase{
         $this->mi_cuadro .= "id='" . $this->atributos [self::ID] . "' ";
         $this->mi_cuadro .= $this->atributosGeneralesAreaTexto ();
     
-        if (isset ( $this->atributos [self::ESTILOAREA] ) && $this->atributos [self::ESTILOAREA] != "") {
+    if (isset ( $this->atributos [self::ESTILOAREA] ) && $this->atributos [self::ESTILOAREA] != "") {
             $this->mi_cuadro .= self::HTMLCLASS . "'" . $this->atributos [self::ESTILOAREA] . "' ";
         } else {
-            $this->mi_cuadro .= "class='areaTexto' ";
+            $this->mi_cuadro .= "class='areaTexto ";
+            if (isset ( $this->atributos ["validar"] )) {
+            	$this->mi_cuadro .= " validate[" . $this->atributos ["validar"] . "] '";
+            
+            }else{
+            	$this->mi_cuadro .= "'";
+            }
+    
         }
     
         $this->mi_cuadro .= self::HTMLTABINDEX . "'" . $this->atributos [self::TABINDEX] . "' ";

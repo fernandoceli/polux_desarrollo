@@ -72,7 +72,8 @@ class Sqlmenu extends sql {
                 //$cadena_sql.=" enl.descripcion,";
                 $cadena_sql.=" enl.url_host_enlace,";
                 $cadena_sql.=" enl.pagina_enlace,";
-                $cadena_sql.=" enl.parametros parametros";
+                $cadena_sql.=" enl.parametros parametros,";
+                $cadena_sql.=" enl.posicion posi";
                 $cadena_sql.=" FROM ".$prefijo."menu mn";
                 $cadena_sql.=" INNER JOIN ".$prefijo."grupo_menu gru ";
                 $cadena_sql.="      ON mn.id_menu=gru.id_menu ";
@@ -90,7 +91,7 @@ class Sqlmenu extends sql {
                 $cadena_sql.=" mn.etiqueta,";
                 $cadena_sql.=" gru.posicion,";
                 $cadena_sql.=" gru.etiqueta,";
-                $cadena_sql.=" enl.id_enlace";
+                $cadena_sql.=" enl.posicion";
 //                 echo $cadena_sql;
                 break;
             

@@ -1,0 +1,18 @@
+.estilo{
+	width: 95%;
+    margin-left: 2.5%;
+    background-color: white;
+    padding-top: 5px;
+}
+
+h2 {
+	font: 18px Georgia, "Times New Roman", Times, serif;
+	margin: 15px 20px 15px 25px;
+	padding-bottom: 5px;
+	border-bottom: 1px dotted #ccc;
+	color: #C20000;
+}
+
+#tAnteproyectosPrograma {
+	cursor:pointer;
+}

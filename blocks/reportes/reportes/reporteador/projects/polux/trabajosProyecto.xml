@@ -1,0 +1,70 @@
+<?xml version="1.0"?><Report><ReportQuery><Format><ReportTitle>Trabajos de grado por Proyecto Curricular</ReportTitle><ReportDescription>Listado de los trabajos de grado por proyecto curricular</ReportDescription><PageSize>.DEFAULT</PageSize><PageOrientation>.DEFAULT</PageOrientation><TopMargin></TopMargin><BottomMargin></BottomMargin><RightMargin></RightMargin><LeftMargin></LeftMargin><pdfFont></pdfFont><pdfFontSize></pdfFontSize><PreExecuteCode>NONE</PreExecuteCode><formBetweenRows>solidline</formBetweenRows><gridDisplay>.DEFAULT</gridDisplay><gridSortable>.DEFAULT</gridSortable><gridSearchable>.DEFAULT</gridSearchable><gridPageable>.DEFAULT</gridPageable><gridPageSize>.DEFAULT</gridPageSize></Format><Datasource><SourceType>database</SourceType><SourceConnection><DatabaseType>mysql</DatabaseType><DatabaseName></DatabaseName><HostName></HostName><ServiceName></ServiceName><UserName></UserName><Password></Password></SourceConnection></Datasource><EntryForm><Query><TableSql></TableSql><WhereSql></WhereSql><GroupSql></GroupSql><RowSelection>all</RowSelection><SQL><QuerySql></QuerySql><SQLRaw>SELECT 
+pcur_nom  proyecto,
+antp_antp numero, 
+antp_titu titulo, 
+string_agg(estantp_estd || ' - ' || nombre || ' ' || apellido, ', ') autor, 
+'ANTEPROYECTO' etapa, 
+antp_eantp estado
+FROM 
+trabajosdegrado.ant_tantp antp, 
+trabajosdegrado.ant_testantp estantp,
+trabajosdegrado.ge_testd,
+polux_usuario,
+trabajosdegrado.ge_tpcur
+WHERE antp_eantp&lt;&gt;'PROYECTO' 
+AND estantp_antp=antp_antp
+AND estantp_estd=estd_estd
+AND estd_us=id_usuario
+AND antp_pcur=pcur_pcur
+GROUP BY 1, 2
+
+UNION
+
+SELECT 
+pcur_nom  proyecto,
+proy_proy numero, 
+proy_titu titulo, 
+string_agg(estproy_estd || ' - ' || nombre || ' ' || apellido, ', ') autor, 
+'PROYECTO' etapa, 
+proy_eproy estado
+FROM 
+trabajosdegrado.pry_tproy,
+trabajosdegrado.pry_testpry,
+trabajosdegrado.ge_testd,
+polux_usuario,
+trabajosdegrado.ge_tpcur
+WHERE
+proy_eproy&lt;&gt;'INFORME FINAL' 
+[AND proy_pcur IN ( {proyecto} )]
+AND estproy_proy=proy_proy
+AND estproy_estd=estd_estd
+AND estd_us=id_usuario
+AND pcur_pcur=proy_pcur
+GROUP BY 1, 2
+
+UNION
+
+SELECT 
+pcur_nom  proyecto,
+info_info numero, 
+info_titu titulo, 
+string_agg(estinfo_est || ' - ' || nombre || ' ' || apellido, ', ') autor, 
+'INFORME FINAL' etapa, 
+info_einfo estado
+FROM 
+trabajosdegrado.inf_tinfo,
+trabajosdegrado.inf_testinfo,
+trabajosdegrado.ge_testd,
+polux_usuario,
+trabajosdegrado.ge_tpcur
+WHERE
+info_einfo&lt;&gt;'FINALIZADO' 
+[AND info_pcur IN ( {proyecto} )]
+AND estinfo_info=info_info
+AND estinfo_est=estd_estd
+AND estd_us=id_usuario
+AND pcur_pcur=info_pcur
+GROUP BY 1, 2
+ORDER BY etapa, numero</SQLRaw></SQL><QueryColumns><QueryColumn><Name>proyecto</Name><TableName></TableName><ColumnName>pcur_nom </ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>hide</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>left</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title></column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn><QueryColumn><Name>numero</Name><TableName></TableName><ColumnName>antp_antp</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>left</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title></column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn><QueryColumn><Name>titulo</Name><TableName></TableName><ColumnName>antp_titu</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>left</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title></column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn><QueryColumn><Name>autor</Name><TableName></TableName><ColumnName>string_agg(estantp_estd || ' - ' || nombre || ' ' || apellido, ', ')</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>left</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title></column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn><QueryColumn><Name>etapa</Name><TableName></TableName><ColumnName>'ANTEPROYECTO'</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>hide</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>left</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title></column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn><QueryColumn><Name>estado</Name><TableName></TableName><ColumnName>antp_eantp</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>left</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title></column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn><QueryColumn><Name>total</Name><TableName></TableName><ColumnName></ColumnName><ColumnType></ColumnType><ColumnLength></ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>left</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title></column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn></QueryColumns><OrderColumns></OrderColumns><PreSQLS></PreSQLS></Query><Assignments><Assignment><AssignName>total</AssignName><AssignNameNew></AssignNameNew><Expression>count({etapa})</Expression><Condition></Condition></Assignment></Assignments><Criteria><CriteriaItem><Name>proyecto</Name><Title>Proyecto Curricular</Title><QueryTableName></QueryTableName><QueryColumnName>antp_pcur</QueryColumnName><CriteriaType>LOOKUP</CriteriaType><CriteriaDisplay>DROPDOWN</CriteriaDisplay><ExpandDisplay>NOINPUT</ExpandDisplay><ReturnColumn>pcur_pcur</ReturnColumn><DisplayColumn>pcur_nom</DisplayColumn><OverviewColumn>pcur_nom</OverviewColumn><MatchColumn>pcur_nom</MatchColumn><CriteriaDefaults></CriteriaDefaults><CriteriaList></CriteriaList><Query><TableSql></TableSql><WhereSql></WhereSql><GroupSql></GroupSql><RowSelection></RowSelection><SQLRaw>SELECT pcur_pcur, pcur_nom
+FROM  trabajosdegrado.ge_tpcur
+WHERE 1 = 1  </SQLRaw><SQL><QuerySql></QuerySql></SQL><QueryColumns><QueryColumn><Name>pcur_pcur</Name><TableName></TableName><ColumnName>pcur_pcur</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><justify>left</justify></Format></QueryColumn><QueryColumn><Name>pcur_nom</Name><TableName></TableName><ColumnName>pcur_nom</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><justify>left</justify></Format></QueryColumn></QueryColumns><OrderColumns></OrderColumns><Assignments></Assignments></Query><CriteriaLinks></CriteriaLinks></CriteriaItem></Criteria><Output><PageHeaders><PageHeader><LineNumber>1</LineNumber><HeaderText>{REPORT_TITLE}{STYLE border-width: 1 0 1 0; margin: 15px 0px 0px 0px; border-color: #000000; font-size: 18; border-style: solid;padding:5px 0px 5px 0px; height:1cm; background-color: #000000; color: #ffffff; text-align: center}</HeaderText><Format><ColumnStartPDF></ColumnStartPDF><justify>center</justify><ColumnWidthPDF></ColumnWidthPDF><ShowInPDF>yes</ShowInPDF><ShowInHTML>no</ShowInHTML></Format></PageHeader><PageHeader><LineNumber>1</LineNumber><HeaderText>Time: date('Y-m-d H:i:s'){STYLE font-size: 10; text-align: right; font-style: italic;}</HeaderText><Format><ColumnStartPDF></ColumnStartPDF><justify>right</justify><ColumnWidthPDF></ColumnWidthPDF><ShowInPDF>yes</ShowInPDF><ShowInHTML>no</ShowInHTML></Format></PageHeader></PageHeaders><PageFooters><PageFooter><LineNumber>2</LineNumber><FooterText>Page: {PAGE}{STYLE border-width: 1 0 0 0; margin: 40 0 0 0; font-style: italic; }</FooterText><Format><ColumnStartPDF></ColumnStartPDF><justify>center</justify><ColumnWidthPDF></ColumnWidthPDF><ShowInPDF>yes</ShowInPDF><ShowInHTML>no</ShowInHTML></Format></PageFooter></PageFooters><DisplayOrders><DisplayOrder><ColumnName>etapa</ColumnName><OrderNumber>1</OrderNumber></DisplayOrder><DisplayOrder><ColumnName>proyecto</ColumnName><OrderNumber>2</OrderNumber></DisplayOrder><DisplayOrder><ColumnName>numero</ColumnName><OrderNumber>3</OrderNumber></DisplayOrder><DisplayOrder><ColumnName>titulo</ColumnName><OrderNumber>4</OrderNumber></DisplayOrder><DisplayOrder><ColumnName>autor</ColumnName><OrderNumber>5</OrderNumber></DisplayOrder><DisplayOrder><ColumnName>estado</ColumnName><OrderNumber>6</OrderNumber></DisplayOrder><DisplayOrder><ColumnName>total</ColumnName><OrderNumber>7</OrderNumber></DisplayOrder></DisplayOrders><Groups><Group><GroupName>proyecto</GroupName><BeforeGroupHeader>blankline</BeforeGroupHeader><AfterGroupHeader>blankline</AfterGroupHeader><BeforeGroupTrailer>blankline</BeforeGroupTrailer><AfterGroupTrailer>blankline</AfterGroupTrailer><GroupHeaders><GroupHeader><GroupHeaderColumn>proyecto</GroupHeaderColumn><GroupHeaderCustom></GroupHeaderCustom></GroupHeader></GroupHeaders><GroupTrailers></GroupTrailers></Group><Group><GroupName>etapa</GroupName><BeforeGroupHeader>blankline</BeforeGroupHeader><AfterGroupHeader>blankline</AfterGroupHeader><BeforeGroupTrailer>blankline</BeforeGroupTrailer><AfterGroupTrailer>blankline</AfterGroupTrailer><GroupHeaders><GroupHeader><GroupHeaderColumn>etapa</GroupHeaderColumn><GroupHeaderCustom></GroupHeaderCustom></GroupHeader></GroupHeaders><GroupTrailers><GroupTrailer><GroupTrailerDisplayColumn>estado</GroupTrailerDisplayColumn><GroupTrailerValueColumn>total</GroupTrailerValueColumn><GroupTrailerCustom></GroupTrailerCustom></GroupTrailer></GroupTrailers></Group></Groups><Graphs><Graph><GraphColumn>proyecto</GraphColumn><GraphColor>.DEFAULT</GraphColor><Title>Trabajos de Grado del Proyecto Curricular</Title><GraphWidth>.DEFAULT</GraphWidth><GraphHeight>.DEFAULT</GraphHeight><GraphWidthPDF>.DEFAULT</GraphWidthPDF><GraphHeightPDF>.DEFAULT</GraphHeightPDF><XTitle>Set Title</XTitle><YTitle>Set Title</YTitle><GridPosition>.DEFAULT</GridPosition><XGridDisplay>.DEFAULT</XGridDisplay><XGridColor>.DEFAULT</XGridColor><YGridDisplay>.DEFAULT</YGridDisplay><YGridColor>.DEFAULT</YGridColor><XLabelColumn>etapa</XLabelColumn><TitleFont>.DEFAULT</TitleFont><TitleFontStyle>.DEFAULT</TitleFontStyle><TitleFontSize>.DEFAULT</TitleFontSize><TitleColor>.DEFAULT</TitleColor><XTitleFont>.DEFAULT</XTitleFont><XTitleFontStyle>.DEFAULT</XTitleFontStyle><XTitleFontSize>.DEFAULT</XTitleFontSize><XTitleColor>.DEFAULT</XTitleColor><YTitleFont>.DEFAULT</YTitleFont><YTitleFontStyle>.DEFAULT</YTitleFontStyle><YTitleFontSize>.DEFAULT</YTitleFontSize><YTitleColor>.DEFAULT</YTitleColor><XAxisColor>.DEFAULT</XAxisColor><XAxisFont>.DEFAULT</XAxisFont><XAxisFontStyle>.DEFAULT</XAxisFontStyle><XAxisFontSize>.DEFAULT</XAxisFontSize><XAxisFontColor>.DEFAULT</XAxisFontColor><YAxisColor>.DEFAULT</YAxisColor><YAxisFont>.DEFAULT</YAxisFont><YAxisFontStyle>.DEFAULT</YAxisFontStyle><YAxisFontSize>.DEFAULT</YAxisFontSize><YAxisFontColor>.DEFAULT</YAxisFontColor><XTickInterval>.DEFAULT</XTickInterval><YTickInterval>.DEFAULT</YTickInterval><XTickLabelInterval>.DEFAULT</XTickLabelInterval><YTickLabelInterval>.DEFAULT</YTickLabelInterval><MarginColor>.DEFAULT</MarginColor><MarginLeft>.DEFAULT</MarginLeft><MarginRight>.DEFAULT</MarginRight><MarginTop>.DEFAULT</MarginTop><MarginBottom>100</MarginBottom><Plots><Plot><PlotColumn>total</PlotColumn><PlotType>PIE3D</PlotType><LineColor></LineColor><DataType>number</DataType><Legend>Rented</Legend><FillColor></FillColor></Plot></Plots></Graph></Graphs></Output></EntryForm></ReportQuery></Report>

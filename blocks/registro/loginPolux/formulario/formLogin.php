@@ -38,7 +38,7 @@ class Formulario {
                     <div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 100%; height: 100px; overflow: hidden;">-->
 
         <div id="slider1_container" style="position: absolute; margin: 0 auto; top: 0px; left: 0px; width: 600px; height: 300px;">
-            <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 600px;  height: 300px;
+            <div u="slides" style="cursor: move;  left: 0px; top: 0px; width: 600px;  height: 300px;
                  overflow: hidden;">
                  <?php
 //                for ($i = 2; $i < 20; $i++) {
@@ -53,13 +53,17 @@ class Formulario {
 
 
         </header>
+        
         <section>
+        
             <article id = "fondo_login">
                 <?php
                 $atributosGlobales ['campoSeguro'] = 'false';
                 $_REQUEST ['tiempo'] = time();
 
                 // -------------------------------------------------------------------------------------------------
+                
+                
                 // ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
                 $esteCampo = $esteBloque ['nombre'];
                 $atributos ['id'] = $esteCampo;
@@ -68,7 +72,7 @@ class Formulario {
                  * Nuevo a partir de la versión 1.0.0.2, se utiliza para crear de manera rápida el js asociado a
                  * validationEngine.
                  */
-                $atributos ['validar'] = true;
+                //$atributos ['validar'] = true;
 
                 // Si no se coloca, entonces toma el valor predeterminado 'application/x-www-form-urlencoded'
                 $atributos ['tipoFormulario'] = '';
@@ -181,7 +185,16 @@ class Formulario {
 
                 // ------------------Fin Division para los botones-------------------------
                 echo $this->miFormulario->division("fin");
-
+				
+                /////////////////mensajes de error al iniciar sesión
+                if(isset($_REQUEST['msgIndex'])){
+                ?>
+					<div class="error centrar">
+                		<?php echo ( 'ERROR: '.$_REQUEST['msgIndex'] );?>
+                    </div>
+                <?php } 
+                  
+                
                 // Paso 1: crear el listado de variables
 
                 $valorCodificado = "actionBloque=" . $esteBloque ["nombre"];

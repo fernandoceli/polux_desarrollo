@@ -1,0 +1,30 @@
+
+textarea {
+    border-radius: 4px;
+}
+
+div.campoBoton {
+	display: inline-block;
+}
+
+.estiloMio {
+	margin: 0 auto 0 auto;
+	width: 30%;  
+}
+
+.seccionCentralAmpliada {
+	/*margin-top: 1%;*/
+	width: 74.8%;
+}
+
+#crearProgramaCurricular{
+	width: 90%;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: 2%;
+}
+
+#marcoDatos{
+    margin-left: 2%;
+    width: 90%;
+}

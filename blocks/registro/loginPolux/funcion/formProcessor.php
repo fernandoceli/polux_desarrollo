@@ -93,7 +93,7 @@ class FormProcessor {
                         //            var_dump($log);
                         $_COOKIE["aplicativo"] = $estaSesion;
                         $this->miLogger->log_usuario($log);
-                        //Si estado dif Activo redirecciona a pagina decambio contraseña
+                        //Si estado dif Activo redirecciona a pagina de cambio contraseña
                         if ($registro [0] ['estado'] == 2) {
                             Redireccionador::redireccionar('claves', $registro);
                         } else {
@@ -112,6 +112,15 @@ class FormProcessor {
                         $_SERVER ['REMOTE_ADDR'],
                         $_SERVER ['HTTP_USER_AGENT']
                     );
+                    $enlace = 'pagina=index&';
+                    $enlace .= 'msgIndex=Clave no válida';
+                    $url = $this->miConfigurador->getVariableConfiguracion ( 'host' );
+                    $url .= $this->miConfigurador->getVariableConfiguracion ( 'site' ) . '/index.php?';
+                    $url .= $this->miConfigurador->getVariableConfiguracion ( 'enlace' );
+                    
+                    $enlace = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $enlace, $url );
+                    echo "<script type='text/javascript'> window.location='$enlace';</script>";
+                     
                 }
             } else {
 
@@ -122,6 +131,18 @@ class FormProcessor {
                     $_SERVER ['REMOTE_ADDR'],
                     $_SERVER ['HTTP_USER_AGENT']
                 );
+                
+                ////////////////////////////////////
+                
+                $enlace = 'pagina=index&';
+                $enlace .= 'msgIndex=Usuario no válido';
+                $url = $this->miConfigurador->getVariableConfiguracion ( 'host' );
+                $url .= $this->miConfigurador->getVariableConfiguracion ( 'site' ) . '/index.php?';
+                $url .= $this->miConfigurador->getVariableConfiguracion ( 'enlace' );
+                
+                $enlace = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $enlace, $url );
+                echo "<script type='text/javascript'> window.location='$enlace';</script>";
+                /////////////////////////////////////
             }
         } else {
 
@@ -132,6 +153,16 @@ class FormProcessor {
                 $_SERVER ['REMOTE_ADDR'],
                 $_SERVER ['HTTP_USER_AGENT']
             );
+            
+            $enlace = 'pagina=index&';
+            $enlace .= 'msgIndex=¡¡¡Sesión Expirada!!!';
+            $url = $this->miConfigurador->getVariableConfiguracion ( 'host' );
+            $url .= $this->miConfigurador->getVariableConfiguracion ( 'site' ) . '/index.php?';
+            $url .= $this->miConfigurador->getVariableConfiguracion ( 'enlace' );
+            
+            $enlace = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $enlace, $url );
+            echo "<script type='text/javascript'> window.location='$enlace';</script>";
+             
         }
 
 

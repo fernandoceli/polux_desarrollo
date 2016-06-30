@@ -30,9 +30,10 @@ echo $this->miFormulario->division ( "inicio", $atributos );
 	// -------------------- Listado de Pestañas (Como lista No Ordenada) -------------------------------
 	
 	$items = array (
-			"tabClave" => $this->lenguaje->getCadena ( "tabClave" ),
-			//"tabRegistrarMasivo" => $this->lenguaje->getCadena ( "tabRegistrarMasivo" ) 
-	);
+			"tabClave" => $this->lenguaje->getCadena ( "tabClave" ) 
+	)
+	// "tabRegistrarMasivo" => $this->lenguaje->getCadena ( "tabRegistrarMasivo" )
+	;
 	$atributos ["items"] = $items;
 	$atributos ["estilo"] = "jqueryui";
 	$atributos ["pestañas"] = "true";
@@ -42,29 +43,30 @@ echo $this->miFormulario->division ( "inicio", $atributos );
 	$atributos ["id"] = "tabClave";
 	$atributos ["estilo"] = "";
 	echo $this->miFormulario->division ( "inicio", $atributos );
-	{switch ($_REQUEST ['opcion'])
-                {      case "cambiarClave":
-                                include ($this->ruta . "formulario/tabs/edita.php");
-                                break;
-                }
-
+	{
+		switch ($_REQUEST ['opcion']) {
+			case "cambiarClave" :
+				include ($this->ruta . "formulario/tabs/edita.php");
+				break;
+		}
+		
 		// -----------------Fin Division para la pestaña 1-------------------------
 	}
 	echo $this->miFormulario->division ( "fin" );
 	
 	// ------------------Division para la pestaña 2-------------------------
 	
-        /*
-        $atributos ["id"] = "tabRegistrarMasivo";
-	$atributos ["estilo"] = "";
-	echo $this->miFormulario->division ( "inicio", $atributos );
-	{
-		include ($this->ruta . "formulario/tabs/registro_masivo.php");
-	}*/
+	/*
+	 * $atributos ["id"] = "tabRegistrarMasivo";
+	 * $atributos ["estilo"] = "";
+	 * echo $this->miFormulario->division ( "inicio", $atributos );
+	 * {
+	 * include ($this->ruta . "formulario/tabs/registro_masivo.php");
+	 * }
+	 */
 	
 	// -----------------Fin Division para la pestaña 2-------------------------
 	echo $this->miFormulario->division ( "fin" );
-	
 }
 
 echo $this->miFormulario->division ( "fin" );

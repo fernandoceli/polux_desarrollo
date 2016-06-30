@@ -92,7 +92,6 @@ class SesionSql {
                 $this->cadena_sql [$indice].= " id_usuario='" . $parametro . "' ";
                 $this->cadena_sql [$indice].= " AND perfil.fecha_caduca>=current_date ";
                 $this->cadena_sql [$indice].= " AND perfil.estado=1 ";
-
                 break;
 
             case "verificarRolesUsuario_unico" :

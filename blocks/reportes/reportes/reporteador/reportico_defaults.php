@@ -133,29 +133,29 @@
             // Page Headers for TCPDF driver ( this is the default )
             if ( $reportico->pdf_engine == "tcpdf" )
             {
-                // Create Report Title Page Header on every page of PDF
-                //$reportico->create_page_header("H1", 1, "{REPORT_TITLE}{STYLE border-width: 1 0 1 0; margin: 15px 0px 0px 0px; border-color: #000000; font-size: 18; border-style: solid;padding:5px 0px 5px 0px; height:1cm; background-color: #000000; color: #ffffff; text-align: center}" );
-                $reportico->create_page_header("H1", 1, "{REPORT_TITLE}{STYLE font-size: 15; padding:5px 0px 5px 0px; color: #000000; text-align: center}" );
-                $reportico->set_page_header_attribute("H1", "ShowInHTML", "no" );
-                $reportico->set_page_header_attribute("H1", "ShowInPDF", "yes" );
-                $reportico->set_page_header_attribute("H1", "justify", "center" );
+//                 // Create Report Title Page Header on every page of PDF
+//                 //$reportico->create_page_header("H1", 1, "{REPORT_TITLE}{STYLE border-width: 1 0 1 0; margin: 15px 0px 0px 0px; border-color: #000000; font-size: 18; border-style: solid;padding:5px 0px 5px 0px; height:1cm; background-color: #000000; color: #ffffff; text-align: center}" );
+//                 $reportico->create_page_header("H1", 1, "{REPORT_TITLE}{STYLE font-size: 15; padding:5px 0px 5px 0px; color: #000000; text-align: center}" );
+//                 $reportico->set_page_header_attribute("H1", "ShowInHTML", "no" );
+//                 $reportico->set_page_header_attribute("H1", "ShowInPDF", "yes" );
+//                 $reportico->set_page_header_attribute("H1", "justify", "center" );
 
-                // Create Image on every page of PDF
+//                 // Create Image on every page of PDF
                 
-                $reportico->create_page_header("H2", 1, "{STYLE width: 60; height: 60; margin: 0 0 0 0; background-color: #003333; background-image:images/udNombre.png;}" );
-                $reportico->set_page_header_attribute("H2", "ShowInHTML", "no" );
-                $reportico->set_page_header_attribute("H2", "ShowInPDF", "yes" );
+//                 $reportico->create_page_header("H2", 1, "{STYLE width: 60; height: 60; margin: 0 0 0 0; background-color: #003333; background-image:images/udNombre.png;}" );
+//                 $reportico->set_page_header_attribute("H2", "ShowInHTML", "no" );
+//                 $reportico->set_page_header_attribute("H2", "ShowInPDF", "yes" );
                 
-                // Create Image on every page of PDF
-                $reportico->create_page_header("H3", 1, "Fecha: date('Y-m-d H:i:s'){STYLE font-size: 8; text-align: right; font-style: italic;}" );
-                $reportico->set_page_header_attribute("H3", "ShowInHTML", "no" );
-                $reportico->set_page_header_attribute("H3", "ShowInPDF", "yes" );
-                $reportico->set_page_header_attribute("H3", "justify", "right" );
+//                 // Create Image on every page of PDF
+//                 $reportico->create_page_header("H3", 1, "Fecha: date('Y-m-d H:i:s'){STYLE font-size: 8; text-align: right; font-style: italic;}" );
+//                 $reportico->set_page_header_attribute("H3", "ShowInHTML", "no" );
+//                 $reportico->set_page_header_attribute("H3", "ShowInPDF", "yes" );
+//                 $reportico->set_page_header_attribute("H3", "justify", "right" );
 
-                // Create Page No on bottom of PDF page
-                $reportico->create_page_footer("F1", 2, "Impreso por: Sistema Arka {STYLE border-width: 1 0 0 0; margin: 40 0 0 0; font-size: 8; text-align: left; font-style: italic; }" );
-                $reportico->create_page_footer("F2", 2, "Página: {PAGE}{STYLE border-width: 1 0 0 0; margin: 40 0 0 0; font-style: italic; }" );
-                $reportico->create_page_footer("F3", 2, "Fuente de datos: Sistema Arka {STYLE border-width: 1 0 0 0; margin: 40 0 0 0; font-size: 8; text-align: right; font-style: italic; }" );
+//                 // Create Page No on bottom of PDF page
+//                 $reportico->create_page_footer("F1", 2, "Impreso por: Sistema Pólux {STYLE border-width: 1 0 0 0; margin: 40 0 0 0; font-size: 8; text-align: left; font-style: italic; }" );
+//                // $reportico->create_page_footer("F2", 2, "Página: {PAGE}{STYLE border-width: 1 0 0 0; margin: 40 0 0 0; font-style: italic; }" );
+//                 $reportico->create_page_footer("F3", 2, "Fuente de datos: Sistema Pólux {STYLE border-width: 1 0 0 0; margin: 40 0 0 0; font-size: 8; text-align: right; font-style: italic; }" );
             }
             else   // FPDF page headers
             {
@@ -173,9 +173,9 @@
                 $reportico->set_page_header_attribute("H3", "justify", "right" );
 
                 // Create Page No on bottom of PDF page
-                $reportico->create_page_footer("F1", 1, "Impreso por: Sistema Arka {STYLE font-size: 8; text-align: left; font-style: italic; }" );
-                $reportico->create_page_footer("F2", 1, "Pag: {PAGE}{STYLE border-width: 1 0 0 0; margin: 40 0 0 0; font-style: italic; }" );
-                $reportico->create_page_footer("F3", 1, "Fuente de datos: Sistema Arka {STYLE border-width: 1 0 0 0; margin: 40 0 0 0; font-size: 8; text-align: right; font-style: italic; }" );
+                $reportico->create_page_footer("F1", 1, "Impreso por: Sistema Pólux {STYLE font-size: 8; text-align: left; font-style: italic; }" );
+                //$reportico->create_page_footer("F2", 1, "Pag: {PAGE}{STYLE border-width: 1 0 0 0; margin: 40 0 0 0; font-style: italic; }" );
+                $reportico->create_page_footer("F3", 1, "Fuente de datos: Sistema Pólux {STYLE border-width: 1 0 0 0; margin: 40 0 0 0; font-size: 8; text-align: right; font-style: italic; }" );
 
             }
     }   

@@ -1,0 +1,131 @@
+form {
+	margin: 0 auto 0 auto;
+	width: 100%;
+}
+
+div.formulario {
+	margin-left: 35px !important;
+	width: 100%;
+}
+
+div.campoBoton {
+	display: inline-block;
+}
+
+.estiloMio {
+	margin: 0 auto 0 auto;
+	width: 30%;
+}
+
+.retraso-1 {
+	-webkit-animation-delay: 1s;
+	-moz-animation-delay: 1s;
+	animation-delay: 1s;
+}
+
+.retraso-2 {
+	-webkit-animation-delay: 2s;
+	-moz-animation-delay: 2s;
+	animation-delay: 2s;
+}
+
+/* menu horizontal principal */
+.bg-menu-v {
+	background:#fff;
+	padding:3px;
+	border: 1px solid #ABABAB;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) inset
+
+}
+
+.menu-v {
+	border:1px solid #fff;
+	background: #18174D /*#C20000*/;
+	padding: 5px 15px 10px 15px; 
+	
+}
+
+.resumen{
+	margin:5px;
+	height: 30px;
+	border-bottom: 1px solid #c0c0c0;
+	color: #eee;
+	font-size: 10px;
+}
+
+.resumen:hover{
+	cursor:pointer;
+	font-weight: bold;
+	color:white;
+	
+}
+
+.resumen-titulo{
+	color:inherit;
+	height: 24px;
+	vertical-align: bottom;
+	padding: 10px 0 0 0;
+	font-weight: inherit;
+	font: inherit;
+	font-weight: bold;
+	max-height: 15px;
+	overflow:hidden;
+	max-width: 85%; 
+}
+
+.resumen-total{
+	
+	margin:3px;
+	cursor:pointer;
+	border: 2px solid #ccc;
+	color: white;
+	min-width: 20px;
+	max-width: 20px;
+	height: 19px;
+}
+
+.resumen-total-content{
+	border: 1px solid #aaa;
+	background-color: white;
+	text-align: center;
+	overflow: hidden;
+	color:#000;
+	width: 18px;
+	height: 17px;
+	position: relative;
+	font: 14px "Times New Roman"; 
+	
+	
+}
+
+.sin-resumen{
+	color:white;
+	margin:5px;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.resumenes-titulo{
+	font: 15px arial,helvetica,sans-serif;
+	color:white;
+	margin:0px 5px 10px;
+	font-weight: bold;
+	margin: 5px;
+}
+
+
+.bg-plugins {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #ababab;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+    margin: 10px 0 0 0;
+    padding: 3px;
+}
+.plugins {
+    background: #f9f9f9 url("images/plugin-1x150.png") repeat-x scroll 0 bottom;
+    border: 1px solid #fff;
+    color: #444;
+    padding: 5px 10px;
+}
+.plugin {
+}

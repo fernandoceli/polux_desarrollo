@@ -30,11 +30,11 @@ if (isset ( $_REQUEST ['jquery-validation'] )) {
 }
 if (isset ( $_REQUEST ['bootstrap'] )) {
 	if($_REQUEST ['bootstrap'] != 'true'){
-		$boostrap = explode(".min", $_REQUEST ['bootstrap']);
+		$bootstrap = explode(".min", $_REQUEST ['bootstrap']);
 		if(!strrpos($_REQUEST ['bootstrap'],".min")){
-			$funcion [$indice] = 'bootstrap/bootstrap-'. $boostrap[0] .'-dist/js/bootstrap.js';
+			$funcion [$indice] = 'bootstrap/bootstrap-'. $bootstrap[0] .'-dist/js/bootstrap.js';
 		} else {
-			$funcion [$indice] = 'bootstrap/bootstrap-'. $boostrap[0] .'-dist/js/bootstrap.min.js';
+			$funcion [$indice] = 'bootstrap/bootstrap-'. $bootstrap[0] .'-dist/js/bootstrap.min.js';
 		}		
 	} else {
 		$funcion [$indice] = 'bootstrap/bootstrap-3.3.5-dist/js/bootstrap.min.js';

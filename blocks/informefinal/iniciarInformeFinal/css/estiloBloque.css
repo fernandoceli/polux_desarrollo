@@ -1,0 +1,177 @@
+#iniciarProyecto{
+	margin-top: 1.5em;
+	margin-bottom: 1em;
+	margin-left: 1em;
+	margin-right: .5em;
+}
+
+.table3 {
+    width: auto;
+    padding-top: 10px;
+    padding-right: 40px;
+    padding-bottom: 20px;
+    padding-left: 50px;
+}
+
+.mensaje-ayuda {
+    width: auto;
+    padding: 5px;
+}
+
+.icon-mini-info {
+    background: transparent url("images/icons/icon-mini-info.png") no-repeat scroll 50% 50%;
+    cursor: pointer;
+    height: 25px;
+    position: relative;
+    text-align: center;
+    width: 50px;
+}
+
+
+#tInfo {
+	display: table;
+	font: 14px arial, helvetica, sans-serif;
+	position: relative;
+	left: 7%;
+}
+
+#mensaje {
+	text-align: justify;
+	margin: 0px 15% 20px 20%;
+}
+
+div.campoCuadroTexto {
+	background: #D5D5D5;
+}
+
+#contenido {
+	text-align: justify;
+	font: 14px arial, helvetica, sans-serif;
+	border-radius: 5px;
+	/*border: 2px solid #424242;*/
+	-webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+	box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.75);
+}
+
+h2 {
+	font: 16px arial, helvetica, sans-serif;
+	font-weight: bold;
+	color: #000000 /*#C20000*/;
+	margin: 5px 10px;
+	padding: 2px 0;
+}
+
+h3 {
+	font: 14px arial, helvetica, sans-serif;
+	color: #18174D /*#C20000*/;
+	border-bottom: 1px dotted #aaa;
+	margin: 5px 10px;
+	padding: 2px 0;
+}
+
+.bg-canvas {
+	margin: 10px 0;
+	/* box-shadow:0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) inset; */
+	/* border: 1px solid #ababab; */
+}
+
+.canvas {
+	margin: 10px 0;
+	padding: 0;
+	/* background: #f9f9f9 url(images/background/gris-degradado-1x300.png) 0 100% repeat-x; */
+}
+
+.canvas-titulo {
+	border-bottom: #777 solid 1px;
+	margin: 0 0 10px 0;
+}
+
+.canvas-contenido {
+	overflow: hidden;
+}
+
+.area-msg {
+	border: 1px solid #ababab;
+	position: relative;
+	left: 25px;
+	width: 83%;
+	background: #d4d4d4 url(images/background/gris-degradado-1x100.png) 0 0%
+		repeat-x;
+	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)
+		inset;
+	margin: 10px 0;
+}
+
+.icono-msg {
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	padding-left: 2px;
+}
+
+.icono-msg.error {
+	background: url(images/mensajes/cancel.png) 0 0 no-repeat;
+}
+
+.icono-msg.info {
+	background: url(images/mensajes/alert.png) 0 0 no-repeat;
+}
+
+.icono-msg.ok {
+	background: url(images/mensajes/ok.png) 0 0 no-repeat;
+}
+
+.icono-msg.default {
+	background: url(images/mensajes/alert.png) 0 0 no-repeat;
+}
+
+.content-msg {
+	margin: 5px 5px 5px 60px;
+	border: 1px solid #ccc;
+	padding: 10px 10px;
+	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)
+		inset;
+}
+
+.content-msg.error {
+	background: #F1F1F1;
+	color: #18174D /*#C20000*/;
+}
+
+.content-msg.info {
+	background: #FAFFBD 0 0 repeat-x;
+	color: #444;
+}
+
+.content-msg.ok {
+	background: #F1F1F1;
+	color: #45881D;
+}
+
+.content-msg.default {
+	background: #F1F1F1;
+	color: #444444;
+}
+
+.title-msg.error {
+	font: 16px arial, helvetica, sans-serif;
+	border-bottom: 1px dotted #777;
+}
+
+.title-msg.info {
+	font: 16px arial, helvetica, sans-serif;
+	border-bottom: 1px dotted #777;
+}
+
+.title-msg.ok {
+	font: 16px arial, helvetica, sans-serif;
+	border-bottom: 1px dotted #777;
+}
+
+.title-msg.default {
+	font: 16px arial, helvetica, sans-serif;
+	color: #000;
+	font-weight: bold;
+	border-bottom: 1px dotted #777;
+}

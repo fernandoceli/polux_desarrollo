@@ -1,0 +1,139 @@
+.estilo{
+	width: 95%;
+    margin-left: 2.5%;
+    background-color: white;
+    padding-top: 5px;
+}
+
+div.campoBoton {
+	padding: -1px 30px;
+	display: inline-block;
+}
+
+.estilo_tr {
+	border-style: solid;
+	border-color: white;
+	text-align: center;
+}
+
+.tit {
+	text-align: center;
+	color: red;
+}
+
+
+table.dataTable tbody tr {
+	cursor: pointer;
+}
+
+form {
+	margin: 0 auto 0 auto;
+	width: 90%;
+}
+
+#col {
+	width: 10%;
+}
+
+h2 {
+	font: 18px Georgia, "Times New Roman", Times, serif;
+	margin: 15px 20px 15px 25px;
+	padding-bottom: 5px;
+	border-bottom: 1px dotted #ccc;
+	color: #C20000;
+}
+
+.border-1px-gris {
+	border: 1px solid #ababab;
+}
+
+.resaltado {
+	color: #C20000;
+	font: 16px arial, helvetica, sans-serif;
+}
+
+.destacado {
+	padding: 6px;
+	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)
+		inset;
+	color: #000;
+}
+
+.margen-interna {
+	padding: 10px 10px;
+}
+
+.margen-externa {
+	margin: 10px 10px;
+}
+
+.corner {
+	border-radius: 5px;
+	/*-moz-border-radius: 5; for Firefox */
+}
+
+.semicorner {
+	border-radius: 5px 5px 0 0;
+	/*-moz-border-radius: 5 5 0 0; for Firefox */
+}
+
+.texto-normal {
+	color: #444;
+}
+
+b {
+	color: #000;
+}
+
+.separador {
+	height: 10px;
+}
+
+.clearboth {
+	height: 0px;
+	clear: both;
+}
+
+.izq {
+	text-align: right;
+}
+
+.idnt {
+	margin: 10px 10px 10px 10px;
+}
+
+.idnt2 {
+	margin: 10px 10px 10px 80px;
+}
+
+.table-tittle {
+	background: #18174D /*#C20000*/;
+	color: #f3f3f3;
+	text-align: center;
+	border-collapse: collapse;
+	padding: 10px;
+}
+
+
+.table-tr-par .table-tr-impar {
+	border: none;
+	margin: 0 0 1px;
+}
+
+.table-tr-par {
+	background: rgb(233, 233, 233);
+}
+
+.table-tr-impar {
+	background: white;
+}
+
+.table td {
+	border-right: 1px solid #ababab;
+	padding: 6px 10px;
+}
+
+tr.table-fila-body:hover {
+	cursor: pointer;
+	background: #b5b8cf;
+}

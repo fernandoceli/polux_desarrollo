@@ -68,31 +68,30 @@ class registrarForm {
 		{
 			
 			$miPaginaActual = $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
-				
+			
 			$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
 			$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
 			$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
-                        
-                        $rutaBloque = $this->miConfigurador->getVariableConfiguracion("host");
-                        $rutaBloque.=$this->miConfigurador->getVariableConfiguracion("site") . "/blocks/";
-                        $rutaBloque.= $esteBloque['grupo'] . "/" . $esteBloque['nombre'];
-				
+			
+			$rutaBloque = $this->miConfigurador->getVariableConfiguracion ( "host" );
+			$rutaBloque .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/blocks/";
+			$rutaBloque .= $esteBloque ['grupo'] . "/" . $esteBloque ['nombre'];
+			
 			$variable = "pagina=" . $miPaginaActual;
-
-				
+			
 			// ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
-		        $esteCampo = 'botonRegresar';
-                        $atributos ['id'] = $esteCampo;
-                        $atributos ['enlace'] = $variable;
-                        $atributos ['tabIndex'] = 1;
-                        //$atributos ['enlaceTexto'] = $this->lenguaje->getCadena ( $esteCampo );
-                        $atributos ['estilo'] = 'textoPequenno textoGris';
-                        $atributos ['enlaceImagen'] = $rutaBloque."/images/atras.png";
-                        $atributos ['ancho'] = '30px';
-                        $atributos ['alto'] = '30px';
-                        $atributos ['redirLugar'] = true;
-                        //echo $this->miFormulario->enlace ( $atributos );
-                        unset ( $atributos );
+			$esteCampo = 'botonRegresar';
+			$atributos ['id'] = $esteCampo;
+			$atributos ['enlace'] = $variable;
+			$atributos ['tabIndex'] = 1;
+			// $atributos ['enlaceTexto'] = $this->lenguaje->getCadena ( $esteCampo );
+			$atributos ['estilo'] = 'textoPequenno textoGris';
+			$atributos ['enlaceImagen'] = $rutaBloque . "/images/atras.png";
+			$atributos ['ancho'] = '30px';
+			$atributos ['alto'] = '30px';
+			$atributos ['redirLugar'] = true;
+			// echo $this->miFormulario->enlace ( $atributos );
+			unset ( $atributos );
 			
 			// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 			
@@ -102,53 +101,65 @@ class registrarForm {
 			$atributos ['tipoEtiqueta'] = 'inicio';
 			// $atributos ["leyenda"] = "Regitrar Orden Compra";
 			echo $this->miFormulario->marcoAgrupacion ( 'inicio', $atributos );
-
+			
 			{
-			if (isset ( $_REQUEST ['mensaje'] ))
-                            {
-				
-                            switch ($_REQUEST ['mensaje'])
-                                {   case "confirma":
-                                        $tipo = 'success';
-                                        $mensaje = "Se actualizó correctamente la contraseña del usuario ".$_REQUEST['id_usuario'].".";
-                                        $boton = "";
-                              
-                                        break;
-                                    
-                                    case "error":
-                                        $tipo = 'error';
-                                        $mensaje = "No ha sido posible actualizar la contraseña del usuario ".$_REQUEST['id_usuario'].". Por favor intente mas tarde.";
-                                        $boton = "continuar";
-                                        $variable.="&usuario=".$_REQUEST['id_usuario'];
-                                        break;
-                                    
-
-                                    case "noCoincide":
-                                        $tipo = 'error';
-                                        $mensaje = "Las Nueva contraseña no coincide con la confirmación,  Por favor intente nuevamente.";
-                                        $boton = "continuar";
-                                        $variable.="&usuario=".$_REQUEST['id_usuario'];
-                                        break;                                    
-
-                                    case "noCorrecta":
-                                        $tipo = 'error';
-                                        $mensaje = "Las contraseña actual no es correcta,  Por favor intente nuevamente.";
-                                        $boton = "continuar";
-                                        $variable.="&usuario=".$_REQUEST['id_usuario'];
-                                        break;                                      
-                                    }
-                            // ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
-                            $esteCampo = 'mensaje';
-                            $atributos ['id'] = $esteCampo;
-                            $atributos ['tipo'] = $tipo;
-                            $atributos ['estilo'] = 'textoCentrar';
-                            $atributos ['mensaje'] = $mensaje;
-                            $tab ++;
-                            // Aplica atributos globales al control
-                            $atributos = array_merge ( $atributos, $atributosGlobales );
-                            echo $this->miFormulario->cuadroMensaje ( $atributos );	
-                            }
-                        }
+				if (isset ( $_REQUEST ['mensaje'] )) {
+					
+					switch ($_REQUEST ['mensaje']) {
+						case "confirma" :
+							$tipo = 'success';
+							$mensaje = "Se actualizó correctamente la contraseña del usuario " . $_REQUEST ['id_usuario'] . ".";
+							$boton = "";
+							
+							break;
+						
+						case "error" :
+							$tipo = 'error';
+							$mensaje = "No ha sido posible actualizar la contraseña del usuario " . $_REQUEST ['id_usuario'] . ". Por favor intente mas tarde.";
+							$boton = "continuar";
+							$variable .= "&usuario=" . $_REQUEST ['id_usuario'];
+							break;
+						
+						case "noCoincide" :
+							$tipo = 'error';
+							$mensaje = "Las Nueva contraseña no coincide con la confirmación,  Por favor intente nuevamente.";
+							$boton = "continuar";
+							$variable .= "&usuario=" . $_REQUEST ['id_usuario'];
+							break;
+						
+						case "noCorrecta" :
+							$tipo = 'error';
+							$mensaje = "Las contraseña actual no es correcta,  Por favor intente nuevamente.";
+							$boton = "continuar";
+							$variable .= "&usuario=" . $_REQUEST ['id_usuario'];
+							break;
+						
+						case "errorPass" :
+							$tipo = 'error';
+							$mensaje = "Contraseña invalida,  Por favor intente nuevamente.";
+							$boton = "continuar";
+							$variable .= "&usuario=" . $_REQUEST ['id_usuario'];
+							break;
+						
+						case "malIngreso" :
+							$tipo = 'error';
+							$mensaje = $_REQUEST['error'];
+							$boton = "continuar";
+							$variable .= "&usuario=" . $_REQUEST ['id_usuario'];
+							break;
+					}
+					// ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
+					$esteCampo = 'mensaje';
+					$atributos ['id'] = $esteCampo;
+					$atributos ['tipo'] = $tipo;
+					$atributos ['estilo'] = 'textoCentrar';
+					$atributos ['mensaje'] = $mensaje;
+					$tab ++;
+					// Aplica atributos globales al control
+					$atributos = array_merge ( $atributos, $atributosGlobales );
+					echo $this->miFormulario->cuadroMensaje ( $atributos );
+				}
+			}
 			// ------------------Division para los botones-------------------------
 			$atributos ["id"] = "botones";
 			$atributos ["estilo"] = "marcoBotones";
@@ -156,42 +167,43 @@ class registrarForm {
 			
 			// -----------------CONTROL: Botón ----------------------------------------------------------------
 			/*
-                        $esteCampo = 'botonContinuar';
-			$atributos ["id"] = $esteCampo;
-			$atributos ["tabIndex"] = $tab;
-			$atributos ["tipo"] = 'boton';
-			// submit: no se coloca si se desea un tipo button genérico
-			$atributos ['submit'] = true;
-			$atributos ["estiloMarco"] = '';
-			$atributos ["estiloBoton"] = 'jqueryui';
-			// verificar: true para verificar el formulario antes de pasarlo al servidor.
-			$atributos ["verificar"] = '';
-			$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-			$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-			$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-			$tab ++;
+			 * $esteCampo = 'botonContinuar';
+			 * $atributos ["id"] = $esteCampo;
+			 * $atributos ["tabIndex"] = $tab;
+			 * $atributos ["tipo"] = 'boton';
+			 * // submit: no se coloca si se desea un tipo button genérico
+			 * $atributos ['submit'] = true;
+			 * $atributos ["estiloMarco"] = '';
+			 * $atributos ["estiloBoton"] = 'jqueryui';
+			 * // verificar: true para verificar el formulario antes de pasarlo al servidor.
+			 * $atributos ["verificar"] = '';
+			 * $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+			 * $atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+			 * $atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+			 * $tab ++;
+			 *
+			 * // Aplica atributos globales al control
+			 * $atributos = array_merge ( $atributos, $atributosGlobales );
+			 * //echo $this->miFormulario->campoBoton ( $atributos );
+			 */
 			
-			// Aplica atributos globales al control
-			$atributos = array_merge ( $atributos, $atributosGlobales );
-			//echo $this->miFormulario->campoBoton ( $atributos );
-                        */
-                        
-                        $variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable, $directorio );
-                        
-                        $esteCampo = 'botonContinuar';
+			$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable, $directorio );
+			
+			$esteCampo = 'botonContinuar';
 			$atributos ['id'] = $esteCampo;
 			$atributos ['enlace'] = $variable;
 			$atributos ['tabIndex'] = 1;
 			$atributos ['estilo'] = 'jqueryui';
 			$atributos ['enlaceTexto'] = $this->lenguaje->getCadena ( $esteCampo );
-			//$atributos ['ancho'] = '10%';
-			//$atributos ['alto'] = '10%';
+			// $atributos ['ancho'] = '10%';
+			// $atributos ['alto'] = '10%';
 			$atributos ['redirLugar'] = true;
-                        if(isset($boton) &&  $boton!='')
-                                {echo $this->miFormulario->enlace ( $atributos );}
-                        
-                        unset($atributos);
-                        
+			if (isset ( $boton ) && $boton != '') {
+				echo $this->miFormulario->enlace ( $atributos );
+			}
+			
+			unset ( $atributos );
+			
 			// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 			
 			echo $this->miFormulario->marcoAgrupacion ( 'fin' );
@@ -264,7 +276,7 @@ class registrarForm {
 		echo $this->miFormulario->formulario ( $atributos );
 	}
 }
-$miFormulario = new registrarForm ( $this->lenguaje, $this->miFormulario, $this->sql );
+$miSeleccionador = new registrarForm ( $this->lenguaje, $this->miFormulario, $this->sql );
 
-$miFormulario->miForm ();
+$miSeleccionador->miForm ();
 ?>

@@ -1,0 +1,400 @@
+2016-03-08 12:28:40 ERROR  : ERROR:  null value in column "fecha_fin" violates not-null constraint
+DETALLE:  Failing row contains (4, Calendario Académico 2016-1                                    ...,                                                                 ..., null, 1, 2016-01-01, null, 1).
+2016-03-08 12:28:41 ERROR  : ERROR:  null value in column "fecha_fin" violates not-null constraint
+DETALLE:  Failing row contains (4, Calendario Académico 2016-1                                    ...,                                                                 ..., null, 1, 2016-01-01, null, 1).
+2016-03-08 12:29:09 ERROR  : ERROR:  null value in column "fecha_fin" violates not-null constraint
+DETALLE:  Failing row contains (5,  Franjas adiciones y cancelaciones 2016-1                       ..., null, null, 1, 2016-01-01, null, 1).
+2016-03-08 12:29:10 ERROR  : ERROR:  null value in column "fecha_fin" violates not-null constraint
+DETALLE:  Failing row contains (5,  Franjas adiciones y cancelaciones 2016-1                       ..., null, null, 1, 2016-01-01, null, 1).
+2016-03-09 09:56:18 ERROR  : ERROR:  insert or update on table "noticias" violates foreign key constraint "noticias_id_tipo_fkey"
+DETALLE:  Key (id_tipo)=(1) is not present in table "tipo_noticia".
+2016-03-09 11:02:21 ERROR  : ERROR:  column "id_tipo" does not exist
+LÍNEA 1: ...WEEN fecha_inicio AND fecha_fin ORDER BY id_noticia, id_tipo
+                                                                 ^
+2016-03-09 11:05:11 ERROR  : ERROR:  column "id_" does not exist
+LÍNEA 1: SELECT * FROM general.previsualizacion WHERE id_=1
+                                                      ^
+2016-03-10 14:28:43 ERROR  : ERROR:  date/time field value out of range: "2016-20-03 04:05:26"
+LÍNEA 1: UPDATE general.noticias SET fercha_radicacion='2016-20-03 04...
+                                                       ^
+SUGERENCIA:  Perhaps you need a different "datestyle" setting.
+2016-03-10 14:29:05 ERROR  : ERROR:  date/time field value out of range: "2016-20-03 04:05:26"
+LÍNEA 1: UPDATE general.noticias SET fercha_radicacion='2016-20-03 04...
+                                                       ^
+SUGERENCIA:  Perhaps you need a different "datestyle" setting.
+2016-03-10 14:33:58 ERROR  : ERROR:  date/time field value out of range: "2016-20-03 04:05:26"
+LÍNEA 1: UPDATE general.noticias SET fercha_radicacion='2016-20-03 04...
+                                                       ^
+SUGERENCIA:  Perhaps you need a different "datestyle" setting.
+2016-03-10 14:35:03 ERROR  : ERROR:  date/time field value out of range: "2016-20-03 04:05:26"
+LÍNEA 1: UPDATE general.noticias SET fercha_radicacion='2016-20-03 04...
+                                                       ^
+SUGERENCIA:  Perhaps you need a different "datestyle" setting.
+2016-03-10 14:35:22 ERROR  : ERROR:  date/time field value out of range: "2016-20-03 04:05:26"
+LÍNEA 1: UPDATE general.noticias SET fercha_radicacion='2016-20-03 04...
+                                                       ^
+SUGERENCIA:  Perhaps you need a different "datestyle" setting.
+2016-03-10 14:35:24 ERROR  : ERROR:  date/time field value out of range: "2016-20-03 04:05:26"
+LÍNEA 1: UPDATE general.noticias SET fercha_radicacion='2016-20-03 04...
+                                                       ^
+SUGERENCIA:  Perhaps you need a different "datestyle" setting.
+2016-03-10 14:46:39 ERROR  : ERROR:  date/time field value out of range: "2016-20-03 04:05:26"
+LÍNEA 1: UPDATE general.noticias SET fercha_radicacion='2016-20-03 04...
+                                                       ^
+SUGERENCIA:  Perhaps you need a different "datestyle" setting.
+2016-03-10 14:47:16 ERROR  : ERROR:  date/time field value out of range: "2016-20-03 04:05:26"
+LÍNEA 1: UPDATE general.noticias SET fercha_radicacion='2016-20-03 04...
+                                                       ^
+SUGERENCIA:  Perhaps you need a different "datestyle" setting.
+2016-03-11 16:48:17 ERROR  : ERROR:  column "prev" does not exist
+LÍNEA 1: ...nombre, descripcion, enlace, tipo, anio, periodo, prev, ferc...
+                                                              ^
+2016-03-14 09:50:52 ERROR  : ERROR:  no existe la relación «general.estados»
+2016-03-14 09:51:15 ERROR  : ERROR:  debe ser miembro del rol «postgres»
+2016-03-14 09:52:04 ERROR  : ERROR:  no existe la relación «general.tipo_noticia»
+2016-03-15 09:52:06 ERROR  : ERROR:  date/time field value out of range: "15-03-2016 09:51:45"
+LÍNEA 1: ...o la evaluación de los docentes'::character(200), '15-03-201...
+                                                              ^
+SUGERENCIA:  Perhaps you need a different "datestyle" setting.
+2016-03-15 09:52:38 ERROR  : ERROR:  date/time field value out of range: "15-03-2016 09:51:45"
+LÍNEA 1: ...o la evaluación de los docentes'::character(200), '15-03-201...
+                                                              ^
+SUGERENCIA:  Perhaps you need a different "datestyle" setting.
+2016-03-16 10:53:08 ERROR  : ERROR:  column "notifi_estado" contains null values
+2016-03-16 10:58:15 ERROR  : ERROR:  syntax error at or near "imagen"
+LÍNEA 1: imagen
+         ^
+2016-03-16 15:33:48 ERROR  : ERROR:  invalid input syntax for type timestamp: "201604-16 15:32:39"
+LÍNEA 4: VALUES ('6666', 'Prueba2', 'Texto de prueba', '201604-16 15:...
+                                                       ^
+2016-03-16 15:33:55 ERROR  : ERROR:  null value in column "id_notifi" violates not-null constraint
+DETALLE:  Failing row contains (null, 6666, Prueba2                                                         ..., Texto de prueba                                                 ..., 2016-04-16 15:32:39, 1, 1234, null, null, MSJ                                               ).
+2016-03-17 09:22:16 ERROR  : ERROR:  schema "trabajosdegrado" does not exist
+LÍNEA 1: ...ng_agg(DISTINCT acono_nom, ', ') AS tematica FROM trabajosde...
+                                                              ^
+2016-03-17 09:22:44 ERROR  : ERROR:  la columna «inf_tinfo.info_titu» debe aparecer en la cláusula GROUP BY o ser usada en una función de agregación
+LÍNEA 1: ...y_proy UNION SELECT DISTINCT info_info AS numero, info_titu ...
+                                                              ^
+2016-03-17 09:25:15 ERROR  : ERROR:  la columna «inf_tinfo.info_titu» debe aparecer en la cláusula GROUP BY o ser usada en una función de agregación
+LÍNEA 45: info_titu AS titulo, 
+          ^
+2016-03-17 09:25:58 ERROR  : ERROR:  la columna «inf_tinfo.info_titu» debe aparecer en la cláusula GROUP BY o ser usada en una función de agregación
+LÍNEA 3: info_titu AS titulo, 
+         ^
+2016-03-17 09:51:25 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «polux_bloque_pagina»
+2016-03-17 09:51:48 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «polux_bloque»
+2016-03-17 09:52:12 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «ant_tacantp»
+2016-03-17 09:54:06 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «ant_tacantp»
+2016-03-17 09:55:41 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «ant_tantp»
+2016-03-17 09:58:14 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «ant_tdantp»
+2016-03-17 09:58:40 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «ant_teantp»
+2016-03-17 09:59:36 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «ant_testantp»
+2016-03-17 09:59:46 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «ant_trev»
+2016-03-17 10:00:52 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «ge_tacono»
+2016-03-17 10:01:01 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «ge_tacpro»
+2016-03-17 10:01:05 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «ge_testd»
+2016-03-17 10:01:09 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «ge_tfacu»
+2016-03-17 10:01:12 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «ge_tmoda»
+2016-03-17 10:01:16 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «ge_tpcur»
+2016-03-17 10:01:19 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «ge_tseac»
+2016-03-17 10:01:23 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «ge_tpdfa»
+2016-03-17 10:01:27 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «ge_tpdsa»
+2016-03-17 10:01:30 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «ge_tprof»
+2016-03-17 10:01:34 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «inf_tdain»
+2016-03-17 10:01:47 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «inf_tdinfo»
+2016-03-17 10:01:52 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «inf_teval»
+2016-03-17 10:01:58 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «inf_thinfo»
+2016-03-17 10:02:03 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «inf_tinfo»
+2016-03-17 10:02:08 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «pry_tcpto»
+2016-03-17 10:02:44 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «pry_tdapy»
+2016-03-17 10:02:52 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «pry_tdproy»
+2016-03-17 10:03:04 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «pry_tduracion»
+2016-03-17 10:03:12 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «pry_teapmp»
+2016-03-17 10:03:19 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «pry_teproy»
+2016-03-17 10:03:29 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «pry_tform»
+2016-03-17 10:03:35 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «pry_tgrta»
+2016-03-17 10:03:40 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «pry_thproy»
+2016-03-17 10:03:45 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «pry_tinstancia»
+2016-03-17 10:03:51 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «pry_torta»
+2016-03-17 10:04:00 ERROR  : ERROR:  no se permiten múltiples llaves primarias para la tabla «pry_tpreg»
+2016-03-17 10:04:31 ERROR  : ERROR:  la relación «uq_pry_tdproy_dproy_dproy» ya existe
+2016-03-17 10:04:39 ERROR  : ERROR:  no existe la relación «ant_tdantp»
+2016-03-17 10:04:57 ERROR  : ERROR:  no existe la relación «trabajosdegrado.polux_usuario»
+2016-03-17 10:05:26 ERROR  : ERROR:  no existe la relación «ge_tacono»
+2016-03-17 10:06:08 ERROR  : ERROR:  la restricción «fk_ant_tantp_ant_teantp» para la relación «ant_tantp» ya existe
+2016-03-17 10:06:51 ERROR  : ERROR:  la restricción «fk_ant_tantp_ant_teantp» para la relación «ant_tantp» ya existe
+2016-03-17 10:07:02 ERROR  : ERROR:  la restricción «fk_ant_tantp_ge_tmoda» para la relación «ant_tantp» ya existe
+2016-03-17 10:07:09 ERROR  : ERROR:  la restricción «fk_ant_tantp_ge_tpcur» para la relación «ant_tantp» ya existe
+2016-03-17 10:08:09 ERROR  : ERROR:  no están implementadas las referencias entre bases de datos: «trabajosdegrado.public.polux_usuario»
+2016-03-17 10:08:28 ERROR  : ERROR:  no están implementadas las referencias entre bases de datos: «trabajosdegrado.public.polux_usuario»
+2016-03-17 10:08:43 ERROR  : ERROR:  la restricción «fk_ant_trev_ant_tantp» para la relación «ant_trev» ya existe
+2016-03-17 10:09:13 ERROR  : ERROR:  la restricción «fk_ge_testd_polux_usuario» para la relación «ge_testd» ya existe
+2016-03-17 10:09:20 ERROR  : ERROR:  la restricción «fk_ge_testd_polux_usuario» para la relación «ge_testd» ya existe
+2016-03-17 10:09:25 ERROR  : ERROR:  la restricción «fk_ge_tpcur_ge_tfacu» para la relación «ge_tpcur» ya existe
+2016-03-17 10:09:32 ERROR  : ERROR:  la restricción «fk_ge_tpdfa_polux_usuario» para la relación «ge_tpdfa» ya existe
+2016-03-17 10:09:39 ERROR  : ERROR:  la restricción «fk_ge_tpdsa_ge_tseac» para la relación «ge_tpdsa» ya existe
+2016-03-17 10:09:45 ERROR  : ERROR:  la restricción «fk_ge_tpdsa_polux_usuario» para la relación «ge_tpdsa» ya existe
+2016-03-17 10:09:55 ERROR  : ERROR:  la restricción «fk_ge_tprof_polux_usuario» para la relación «ge_tprof» ya existe
+2016-03-17 10:10:10 ERROR  : ERROR:  la restricción «fk_ge_tseac_ge_tfacu» para la relación «ge_tseac» ya existe
+2016-03-17 10:10:57 ERROR  : ERROR:  no están implementadas las referencias entre bases de datos: «trabajosdegrado.public.polux_usuario»
+2016-03-17 10:11:16 ERROR  : ERROR:  no están implementadas las referencias entre bases de datos: «trabajosdegrado.public.polux_usuario»
+2016-03-17 10:11:32 ERROR  : ERROR:  no están implementadas las referencias entre bases de datos: «trabajosdegrado.public.polux_usuario»
+2016-03-17 10:11:48 ERROR  : ERROR:  no están implementadas las referencias entre bases de datos: «trabajosdegrado.public.polux_usuario»
+2016-03-17 10:12:55 ERROR  : ERROR:  la restricción «fk_pry_tcpto_pry_tinstancia» para la relación «pry_tcpto» ya existe
+2016-03-17 10:13:16 ERROR  : ERROR:  la restricción «fk_pry_tcpto_pry_tinstancia» para la relación «pry_tcpto» ya existe
+2016-03-17 10:13:24 ERROR  : ERROR:  la restricción «fk_pry_tdapy_pry_tproy» para la relación «pry_tdapy» ya existe
+2016-03-17 10:13:30 ERROR  : ERROR:  la restricción «fk_pry_tdapy_pry_ttdapy» para la relación «pry_tdapy» ya existe
+2016-03-17 10:14:05 ERROR  : ERROR:  la restricción «pry_tacproy_acproy_acono_fkey» para la relación «pry_tacproy» ya existe
+2016-03-17 10:14:25 ERROR  : ERROR:  la restricción «pry_testpry_estproy_estd_fkey» para la relación «pry_testpry» ya existe
+2016-03-17 10:19:12 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_bloque_pkey»
+DETALLE:  Ya existe la llave (id_bloque)=(-1).
+2016-03-17 10:23:56 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_rol_subsistema_pk»
+DETALLE:  Ya existe la llave (rol_id, id_subsistema)=(0, 1).
+2016-03-17 10:24:48 ERROR  : ERROR:  inserción o actualización en la tabla «polux_rol_subsistema» viola la llave foránea «polux_subsistema_polux_rol_subsistema_fk»
+DETALLE:  La llave (id_subsistema)=(6) no está presente en la tabla «polux_subsistema».
+2016-03-17 10:26:58 ERROR  : ERROR:  inserción o actualización en la tabla «polux_rol_subsistema» viola la llave foránea «polux_subsistema_polux_rol_subsistema_fk»
+DETALLE:  La llave (id_subsistema)=(6) no está presente en la tabla «polux_subsistema».
+2016-03-17 10:27:03 ERROR  : ERROR:  inserción o actualización en la tabla «polux_rol_subsistema» viola la llave foránea «polux_subsistema_polux_rol_subsistema_fk»
+DETALLE:  La llave (id_subsistema)=(8) no está presente en la tabla «polux_subsistema».
+2016-03-17 10:27:09 ERROR  : ERROR:  inserción o actualización en la tabla «polux_rol_subsistema» viola la llave foránea «polux_subsistema_polux_rol_subsistema_fk»
+DETALLE:  La llave (id_subsistema)=(9) no está presente en la tabla «polux_subsistema».
+2016-03-17 10:28:21 ERROR  : ERROR:  inserción o actualización en la tabla «polux_servicio» viola la llave foránea «polux_subsistema_polux_servicio_fk»
+DETALLE:  La llave (id_subsistema)=(6) no está presente en la tabla «polux_subsistema».
+2016-03-17 10:29:18 ERROR  : ERROR:  inserción o actualización en la tabla «polux_servicio» viola la llave foránea «polux_subsistema_polux_servicio_fk»
+DETALLE:  La llave (id_subsistema)=(8) no está presente en la tabla «polux_subsistema».
+2016-03-17 10:29:59 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_servicio_pk»
+DETALLE:  Ya existe la llave (id_subsistema, rol_id, id_grupo, id_enlace)=(12, 6, 2, 2).
+2016-03-17 10:30:06 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_servicio_pk»
+DETALLE:  Ya existe la llave (id_subsistema, rol_id, id_grupo, id_enlace)=(12, 6, 2, 3).
+2016-03-17 10:30:09 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_servicio_pk»
+DETALLE:  Ya existe la llave (id_subsistema, rol_id, id_grupo, id_enlace)=(12, 6, 3, 4).
+2016-03-17 10:30:13 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_servicio_pk»
+DETALLE:  Ya existe la llave (id_subsistema, rol_id, id_grupo, id_enlace)=(12, 6, 4, 5).
+2016-03-17 10:30:16 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_servicio_pk»
+DETALLE:  Ya existe la llave (id_subsistema, rol_id, id_grupo, id_enlace)=(12, 6, 5, 7).
+2016-03-17 10:30:18 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_servicio_pk»
+DETALLE:  Ya existe la llave (id_subsistema, rol_id, id_grupo, id_enlace)=(12, 6, 7, 6).
+2016-03-17 10:30:21 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_servicio_pk»
+DETALLE:  Ya existe la llave (id_subsistema, rol_id, id_grupo, id_enlace)=(12, 6, 6, 9).
+2016-03-17 10:30:24 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_servicio_pk»
+DETALLE:  Ya existe la llave (id_subsistema, rol_id, id_grupo, id_enlace)=(12, 6, 6, 10).
+2016-03-17 10:30:26 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_servicio_pk»
+DETALLE:  Ya existe la llave (id_subsistema, rol_id, id_grupo, id_enlace)=(12, 6, 7, 8).
+2016-03-17 10:30:28 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_servicio_pk»
+DETALLE:  Ya existe la llave (id_subsistema, rol_id, id_grupo, id_enlace)=(12, 6, 8, 11).
+2016-03-17 10:30:31 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_servicio_pk»
+DETALLE:  Ya existe la llave (id_subsistema, rol_id, id_grupo, id_enlace)=(12, 6, 8, 12).
+2016-03-17 10:30:33 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_servicio_pk»
+DETALLE:  Ya existe la llave (id_subsistema, rol_id, id_grupo, id_enlace)=(12, 6, 8, 13).
+2016-03-17 10:30:35 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_servicio_pk»
+DETALLE:  Ya existe la llave (id_subsistema, rol_id, id_grupo, id_enlace)=(12, 6, 8, 14).
+2016-03-17 10:30:37 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_servicio_pk»
+DETALLE:  Ya existe la llave (id_subsistema, rol_id, id_grupo, id_enlace)=(12, 6, 8, 15).
+2016-03-17 10:30:39 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_servicio_pk»
+DETALLE:  Ya existe la llave (id_subsistema, rol_id, id_grupo, id_enlace)=(12, 6, 8, 16).
+2016-03-17 10:30:41 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_servicio_pk»
+DETALLE:  Ya existe la llave (id_subsistema, rol_id, id_grupo, id_enlace)=(12, 6, 8, 17).
+2016-03-17 10:30:43 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_servicio_pk»
+DETALLE:  Ya existe la llave (id_subsistema, rol_id, id_grupo, id_enlace)=(12, 6, 1, 18).
+2016-03-17 10:30:45 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_servicio_pk»
+DETALLE:  Ya existe la llave (id_subsistema, rol_id, id_grupo, id_enlace)=(12, 6, 9, 19).
+2016-03-17 10:33:19 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_usuario_pkey»
+DETALLE:  Ya existe la llave (id_usuario)=(6666).
+2016-03-17 10:33:27 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_usuario_pkey»
+DETALLE:  Ya existe la llave (id_usuario)=(CC123456789).
+2016-03-17 10:33:37 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_usuario_pkey»
+DETALLE:  Ya existe la llave (id_usuario)=(CC888888).
+2016-03-17 10:33:43 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «polux_usuario_pkey»
+DETALLE:  Ya existe la llave (id_usuario)=(TI987654321).
+2016-03-17 11:02:27 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «pk_ant_tacantp»
+DETALLE:  Ya existe la llave (acantp_acono, acantp_antp)=(1113, 89).
+2016-03-17 11:02:33 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «pk_ant_tacantp»
+DETALLE:  Ya existe la llave (acantp_acono, acantp_antp)=(1117, 90).
+2016-03-17 11:02:39 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «pk_ant_tacantp»
+DETALLE:  Ya existe la llave (acantp_acono, acantp_antp)=(246, 90).
+2016-03-17 11:02:44 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «pk_ant_tacantp»
+DETALLE:  Ya existe la llave (acantp_acono, acantp_antp)=(1112, 91).
+2016-03-17 11:02:48 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «pk_ant_tacantp»
+DETALLE:  Ya existe la llave (acantp_acono, acantp_antp)=(1113, 91).
+2016-03-17 11:02:54 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «pk_ant_tacantp»
+DETALLE:  Ya existe la llave (acantp_acono, acantp_antp)=(1116, 92).
+2016-03-17 11:03:00 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «pk_ant_tacantp»
+DETALLE:  Ya existe la llave (acantp_acono, acantp_antp)=(246, 92).
+2016-03-17 11:03:04 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «pk_ant_tacantp»
+DETALLE:  Ya existe la llave (acantp_acono, acantp_antp)=(1113, 92).
+2016-03-17 11:03:08 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «pk_ant_tacantp»
+DETALLE:  Ya existe la llave (acantp_acono, acantp_antp)=(1113, 92).
+2016-03-17 11:03:11 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «pk_ant_tacantp»
+DETALLE:  Ya existe la llave (acantp_acono, acantp_antp)=(1118, 92).
+2016-03-18 12:02:39 ERROR  : ERROR:  no se puede eliminar tabla general.tipo_noticia porque otros objetos dependen de él
+DETALLE:  restricción «noticias_id_tipo_fkey» en tabla general.noticia depende de tabla general.tipo_noticia
+SUGERENCIA:  Use DROP ... CASCADE para eliminar además los objetos dependientes.
+2016-03-18 12:03:54 ERROR  : ERROR:  debe ser miembro del rol «postgres»
+2016-03-18 12:04:19 ERROR  : ERROR:  no existe la relación «general.tipo_noticia»
+2016-03-18 12:04:30 ERROR  : ERROR:  no existe la relación «general.tipo_noticia»
+2016-03-18 12:04:40 ERROR  : ERROR:  no existe la relación «general.tipo_noticia»
+2016-03-18 12:05:13 ERROR  : ERROR:  debe ser miembro del rol «postgres»
+2016-03-18 12:05:31 ERROR  : ERROR:  debe ser miembro del rol «postgres»
+2016-03-18 12:06:18 ERROR  : ERROR:  no existe la relación «general.tipo_noticia»
+2016-03-18 12:06:49 ERROR  : ERROR:  debe ser miembro del rol «postgres»
+2016-03-18 12:07:11 ERROR  : ERROR:  debe ser miembro del rol «postgres»
+2016-03-18 12:08:00 ERROR  : ERROR:  debe ser miembro del rol «postgres»
+2016-03-18 12:10:38 ERROR  : ERROR:  la relación «noticia» ya existe
+2016-03-28 09:13:09 ERROR  : ERROR:  duplicate key value violates unique constraint "notificacion_pkey"
+DETALLE:  Key (id_notifi)=(7) already exists.
+2016-03-28 09:40:44 ERROR  : ERROR:  relation "uranod_subsistema_sga" does not exist
+2016-03-28 09:45:50 ERROR  : ERROR:  syntax error at or near ")"
+LÍNEA 1: INSERT INTO public.urano_bloque() VALUES ('1'::'inicio      ...
+                                         ^
+2016-03-28 09:45:55 ERROR  : ERROR:  syntax error at or near ")"
+LÍNEA 1: INSERT INTO public.urano_bloque() VALUES ('1'::'inicio      ...
+                                         ^
+2016-03-28 09:46:00 ERROR  : ERROR:  syntax error at or near ")"
+LÍNEA 1: INSERT INTO public.urano_bloque() VALUES ('1'::'inicio      ...
+                                         ^
+2016-03-28 09:46:11 ERROR  : ERROR:  syntax error at or near ")"
+LÍNEA 1: INSERT INTO public.urano_bloque() VALUES ('1'::'inicio      ...
+                                         ^
+2016-03-28 09:46:22 ERROR  : ERROR:  syntax error at or near ")"
+LÍNEA 1: INSERT INTO public.urano_bloque() VALUES ('1'::'inicio      ...
+                                         ^
+2016-03-28 09:46:23 ERROR  : ERROR:  syntax error at or near ")"
+LÍNEA 1: INSERT INTO public.urano_bloque() VALUES ('1'::'inicio      ...
+                                         ^
+2016-03-28 09:46:24 ERROR  : ERROR:  syntax error at or near ")"
+LÍNEA 1: INSERT INTO public.urano_bloque() VALUES ('1'::'inicio      ...
+                                         ^
+2016-03-28 09:46:24 ERROR  : ERROR:  syntax error at or near ")"
+LÍNEA 1: INSERT INTO public.urano_bloque() VALUES ('1'::'inicio      ...
+                                         ^
+2016-03-28 09:46:25 ERROR  : ERROR:  syntax error at or near ")"
+LÍNEA 1: INSERT INTO public.urano_bloque() VALUES ('1'::'inicio      ...
+                                         ^
+2016-03-28 09:46:26 ERROR  : ERROR:  syntax error at or near ")"
+LÍNEA 1: INSERT INTO public.urano_bloque() VALUES ('1'::'inicio      ...
+                                         ^
+2016-03-28 09:46:26 ERROR  : ERROR:  syntax error at or near ")"
+LÍNEA 1: INSERT INTO public.urano_bloque() VALUES ('1'::'inicio      ...
+                                         ^
+2016-03-28 09:46:29 ERROR  : ERROR:  syntax error at or near ")"
+LÍNEA 1: INSERT INTO public.urano_bloque() VALUES ('1'::'inicio      ...
+                                         ^
+2016-03-28 09:46:35 ERROR  : ERROR:  syntax error at or near ")"
+LÍNEA 1: INSERT INTO public.urano_bloque() VALUES ('1'::'inicio      ...
+                                         ^
+2016-03-28 09:46:39 ERROR  : ERROR:  syntax error at or near ")"
+LÍNEA 1: INSERT INTO public.urano_bloque() VALUES ('1'::'inicio      ...
+                                         ^
+2016-03-28 09:47:24 ERROR  : ERROR:  syntax error at or near ")"
+LÍNEA 1: INSERT INTO public.urano_bloque() VALUES ('1'::'inicio      ...
+                                         ^
+2016-03-28 09:47:25 ERROR  : ERROR:  syntax error at or near ")"
+LÍNEA 1: INSERT INTO public.urano_bloque() VALUES ('1'::'inicio      ...
+                                         ^
+2016-03-28 09:47:28 ERROR  : ERROR:  syntax error at or near ")"
+LÍNEA 1: INSERT INTO public.urano_bloque() VALUES ('1'::'inicio      ...
+                                         ^
+2016-03-28 09:48:32 ERROR  : ERROR:  syntax error at or near ")"
+LÍNEA 1: INSERT INTO public.urano_pagina() VALUES ('1'::'index       ...
+                                         ^
+2016-03-28 09:48:40 ERROR  : ERROR:  syntax error at or near ")"
+LÍNEA 1: INSERT INTO public.urano_pagina() VALUES ('1'::'index       ...
+                                         ^
+2016-03-28 09:48:43 ERROR  : ERROR:  syntax error at or near ")"
+LÍNEA 1: INSERT INTO public.urano_pagina() VALUES ('1'::'index       ...
+                                         ^
+2016-03-28 09:50:01 ERROR  : ERROR:  cannot drop schema public because other objects depend on it
+DETALLE:  table urano_bloque depends on schema public
+table urano_bloque_pagina depends on schema public
+table urano_configuracion depends on schema public
+table urano_dbms depends on schema public
+table urano_estilo depends on schema public
+table urano_logger depends on schema public
+table urano_pagina depends on schema public
+table urano_usuario depends on schema public
+table urano_usuario_subsistema depends on schema public
+table urano_subsistema depends on schema public
+table urano_tempformulario depends on schema public
+table urano_valor_sesion depends on schema public
+SUGERENCIA:  Use DROP ... CASCADE to drop the dependent objects too.
+2016-03-28 10:08:08 ERROR  : ERROR:  relation "urano_enlace" does not exist
+2016-03-28 10:10:32 ERROR  : ERROR:  relation "urano_rol" does not exist
+2016-03-28 10:13:18 ERROR  : ERROR:  insert or update on table "uranod_enlace" violates foreign key constraint "uranod_enlace_id_subsistema_sga_fkey"
+DETALLE:  Key (id_subsistema_sga)=(2) is not present in table "uranod_subsistema_sga".
+2016-03-28 10:13:26 ERROR  : ERROR:  insert or update on table "uranod_enlace" violates foreign key constraint "uranod_enlace_id_subsistema_sga_fkey"
+DETALLE:  Key (id_subsistema_sga)=(2) is not present in table "uranod_subsistema_sga".
+2016-03-28 10:17:28 ERROR  : ERROR:  llave duplicada viola restricción de unicidad «urano_enlace_pkey»
+DETALLE:  Ya existe la llave (id_enlace)=(1).
+2016-03-28 10:17:43 ERROR  : ERROR:  null value in column "etiqueta" violates not-null constraint
+DETALLE:  Failing row contains (1, null, null, null, null, null, null, v"20";4;"paz_y_salvo_inventarios_contratistas";"Paz y Salvo de I...).
+2016-03-28 10:17:43 ERROR  : ERROR:  null value in column "etiqueta" violates not-null constraint
+DETALLE:  Failing row contains (2, null, null, null, null, null, null, v"20";4;"paz_y_salvo_inventarios_contratistas";"Paz y Salvo de I...).
+2016-03-28 10:21:45 ERROR  : ERROR:  invalid input syntax for type date: "3"
+LÍNEA 1: ...ONSULTAR'::character varying(100), TRUE::boolean, '3'::date)
+                                                              ^
+2016-03-28 10:21:46 ERROR  : ERROR:  invalid input syntax for type date: "3"
+LÍNEA 1: ...ONSULTAR'::character varying(100), TRUE::boolean, '3'::date)
+                                                              ^
+2016-03-28 10:35:46 ERROR  : ERROR:  relation "public.urano_menu" does not exist
+LÍNEA 1: ...s.funcion_codificador AS funcion_codificador FROM public.ura...
+                                                              ^
+2016-03-28 10:36:37 ERROR  : ERROR:  relation "public.urano_grupo_menu" does not exist
+LÍNEA 17: ...ificador FROM public.uranod_menu AS mn INNER JOIN public.ura...
+                                                               ^
+2016-03-28 10:36:41 ERROR  : ERROR:  relation "public.urano_servicio" does not exist
+LÍNEA 17: ...AND gru.estado=true AND mn.estado=true INNER JOIN public.ura...
+                                                               ^
+2016-03-28 10:36:55 ERROR  : ERROR:  relation "public.urano_enlace" does not exist
+LÍNEA 19: ...gru.id_grupo_menu AND serv.estado=true INNER JOIN public.ura...
+                                                               ^
+2016-03-28 10:37:02 ERROR  : ERROR:  relation "public.urano_subsistema_sga" does not exist
+LÍNEA 20: ... AS enl ON enl.id_enlace=serv.id_enlace LEFT JOIN public.ura...
+                                                               ^
+2016-03-28 10:42:55 ERROR  : ERROR:  syntax error at or near "uranod_subsistema_sga"
+LÍNEA 1: uranod_subsistema_sga
+         ^
+2016-05-02 15:59:58 ERROR  : ERROR:  update o delete en «pry_tproy» viola la llave foránea «fk_pry_thproy_pry_tproy» en la tabla «pry_thproy»
+DETALLE:  La llave (proy_proy)=(2) todavía es referida desde la tabla «pry_thproy».
+2016-05-02 16:28:46 ERROR  : ERROR:  no existe la columna «proyecto»
+LÍNEA 1: ...ntp_fasig, hantp_obser, hantp_usua ) VALUES ( 12, PROYECTO, ...
+                                                              ^
+2016-05-02 16:29:21 ERROR  : ERROR:  no existe la columna «comentarios»
+LÍNEA 1: ...hantp_usua ) VALUES ( 12, 'PROYECTO', 2016-05-02, Comentario...
+                                                              ^
+2016-05-02 16:30:25 ERROR  : ERROR:  no existe la columna «cc27520001»
+LÍNEA 1: ...LUES ( 12, 'PROYECTO', 2016-05-02, 'Comentarios', CC27520001...
+                                                              ^
+2016-05-02 16:31:13 ERROR  : ERROR:  la columna «hantp_fasig» es de tipo date pero la expresión es de tipo integer
+LÍNEA 1: ...antp_obser, hantp_usua ) VALUES ( 12, 'PROYECTO', 2016-05-02...
+                                                              ^
+SUGERENCIA:  Necesitará reescribir la expresión o aplicarle una conversión de tipo.
+2016-05-02 16:38:10 ERROR  : ERROR:  update o delete en «pry_tproy» viola la llave foránea «fk_pry_thproy_pry_tproy» en la tabla «pry_thproy»
+DETALLE:  La llave (proy_proy)=(3) todavía es referida desde la tabla «pry_thproy».
+2016-05-02 16:43:42 ERROR  : ERROR:  update o delete en «pry_tproy» viola la llave foránea «fk_pry_tdapy_pry_tproy» en la tabla «pry_tdapy»
+DETALLE:  La llave (proy_proy)=(4) todavía es referida desde la tabla «pry_tdapy».
+2016-05-02 16:44:33 ERROR  : ERROR:  update o delete en «pry_tproy» viola la llave foránea «pry_tacproy_acproy_proy_fkey» en la tabla «pry_tacproy»
+DETALLE:  La llave (proy_proy)=(4) todavía es referida desde la tabla «pry_tacproy».
+2016-05-02 16:44:49 ERROR  : ERROR:  update o delete en «pry_tproy» viola la llave foránea «pry_testpry_estproy_proy_fkey» en la tabla «pry_testpry»
+DETALLE:  La llave (proy_proy)=(4) todavía es referida desde la tabla «pry_testpry».
+2016-05-03 10:31:57 ERROR  : ERROR:  update o delete en «pry_tproy» viola la llave foránea «fk_pry_tdapy_pry_tproy» en la tabla «pry_tdapy»
+DETALLE:  La llave (proy_proy)=(7) todavía es referida desde la tabla «pry_tdapy».
+2016-05-03 10:32:03 ERROR  : ERROR:  update o delete en «pry_tproy» viola la llave foránea «fk_pry_tdapy_pry_tproy» en la tabla «pry_tdapy»
+DETALLE:  La llave (proy_proy)=(7) todavía es referida desde la tabla «pry_tdapy».
+2016-05-03 10:32:23 ERROR  : ERROR:  update o delete en «pry_tproy» viola la llave foránea «fk_pry_thproy_pry_tproy» en la tabla «pry_thproy»
+DETALLE:  La llave (proy_proy)=(7) todavía es referida desde la tabla «pry_thproy».
+2016-05-03 10:32:42 ERROR  : ERROR:  update o delete en «pry_tproy» viola la llave foránea «pry_testpry_estproy_proy_fkey» en la tabla «pry_testpry»
+DETALLE:  La llave (proy_proy)=(7) todavía es referida desde la tabla «pry_testpry».
+2016-05-03 10:33:16 ERROR  : ERROR:  update o delete en «pry_tproy» viola la llave foránea «pry_testpry_estproy_proy_fkey» en la tabla «pry_testpry»
+DETALLE:  La llave (proy_proy)=(7) todavía es referida desde la tabla «pry_testpry».
+2016-05-03 10:36:56 ERROR  : ERROR:  update o delete en «pry_tproy» viola la llave foránea «fk_pry_tdapy_pry_tproy» en la tabla «pry_tdapy»
+DETALLE:  La llave (proy_proy)=(8) todavía es referida desde la tabla «pry_tdapy».
+2016-05-03 10:37:24 ERROR  : ERROR:  update o delete en «pry_tproy» viola la llave foránea «fk_pry_thproy_pry_tproy» en la tabla «pry_thproy»
+DETALLE:  La llave (proy_proy)=(8) todavía es referida desde la tabla «pry_thproy».
+2016-05-03 10:37:37 ERROR  : ERROR:  update o delete en «pry_tproy» viola la llave foránea «pry_testpry_estproy_proy_fkey» en la tabla «pry_testpry»
+DETALLE:  La llave (proy_proy)=(8) todavía es referida desde la tabla «pry_testpry».
+2016-05-03 10:45:17 ERROR  : ERROR:  update o delete en «pry_tproy» viola la llave foránea «fk_pry_tdapy_pry_tproy» en la tabla «pry_tdapy»
+DETALLE:  La llave (proy_proy)=(9) todavía es referida desde la tabla «pry_tdapy».
+2016-05-03 10:45:55 ERROR  : ERROR:  update o delete en «pry_tproy» viola la llave foránea «fk_pry_tdapy_pry_tproy» en la tabla «pry_tdapy»
+DETALLE:  La llave (proy_proy)=(9) todavía es referida desde la tabla «pry_tdapy».
+2016-05-03 10:52:56 ERROR  : ERROR:  el valor null para la columna «dproy_dproy» viola la restricción not null
+DETALLE:  La fila que falla contiene (null, 1, observacion de prueba, 2016-05-03, CC987654321, 11, http://10.20.0.38/polux/blocks/anteproyecto/registrarAnteproyect..., funcion hash, 538, mini-clock.png, image/png).

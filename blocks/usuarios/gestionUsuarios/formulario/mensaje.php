@@ -399,7 +399,7 @@ class registrarForm {
 		echo $this->miFormulario->formulario ( $atributos );
 	}
 }
-$miFormulario = new registrarForm ( $this->lenguaje, $this->miFormulario, $this->sql );
+$miSeleccionador = new registrarForm ( $this->lenguaje, $this->miFormulario, $this->sql );
 
-$miFormulario->miForm ();
+$miSeleccionador->miForm ();
 ?>

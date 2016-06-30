@@ -1,0 +1,52 @@
+#nota{
+	font-size: 15px;
+    font-weight: normal;
+    font-family: Arial, sans-serif;
+    margin-left: 220px;
+    margin-top: 0px;
+    margin-bottom: 15px;
+}
+
+.ancho {
+    width: 95%;
+    margin-left: 2.4%;
+    height: 100%;
+    background-color: white;
+    padding-top: 5px;
+}
+
+.tem {
+	border-style: hidden;
+	background-color: white;
+	color: blue;
+	margin: auto;
+	text-align: right;
+	width : 50%
+}
+
+div.campoBoton {
+	display: inline-block;
+}
+
+.estiloMio {
+	margin: 0 auto 0 auto;
+	width: 30%;  
+}
+
+.retraso-1{
+	-webkit-animation-delay: 1s;
+	-moz-animation-delay: 1s;
+	animation-delay: 1s;
+}
+.retraso-2{
+	-webkit-animation-delay: 2s;
+	-moz-animation-delay: 2s;
+	animation-delay: 2s;
+}
+
+#asignarTematica{
+	width: 90%;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: 2%;
+}

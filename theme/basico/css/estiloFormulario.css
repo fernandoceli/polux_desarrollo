@@ -406,7 +406,7 @@ div.campoMostrar {
 
 div.campoImagen {
 	float: left;
-	width: 0%;
+	width: 95%;
 	margin: 1px auto 1px auto;
 	border-collapse: collapse;
 	border-width: 0px;
@@ -578,6 +578,10 @@ div.espacioBlanco {
 
 .anchoColumna3 {
 	width: 32% !important;
+}
+
+.anchoColumna4 {
+	width: 62% !important;
 }
 
 .botonEnlace {

@@ -1,0 +1,33 @@
+
+
+div.campoBoton {
+	display: inline-block;
+}
+
+.estiloMio {
+	margin: 0 auto 0 auto;
+	width: 30%;  
+}
+
+.seccionCentralAmpliada {
+	/*margin-top: 1%;*/
+	width: 74.8%;
+}
+
+.retraso-1{
+	-webkit-animation-delay: 1s;
+	-moz-animation-delay: 1s;
+	animation-delay: 1s;
+}
+.retraso-2{
+	-webkit-animation-delay: 2s;
+	-moz-animation-delay: 2s;
+	animation-delay: 2s;
+}
+
+#crearDelegadoSecretaria{
+	width: 90%;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: 2%;
+}

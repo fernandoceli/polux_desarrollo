@@ -45,15 +45,15 @@ class Frontera {
 		
 		if (isset ( $_REQUEST ['opcion'] )) {
 			switch ($_REQUEST ['opcion']) {
-
-                            case "cambiarClave":
-                                include_once($this->ruta . "formulario/nuevo.php");
-                                break;
-
-                            case "mensaje" :
-                                    include_once ($this->ruta . "/formulario/mensaje.php");
-                                    break;                                  
-        		}
+				
+				case "cambiarClave" :
+					include_once ($this->ruta . "formulario/nuevo.php");
+					break;
+				
+				case "mensaje" :
+					include_once ($this->ruta . "/formulario/mensaje.php");
+					break;
+			}
 		} else {
 			$_REQUEST ['opcion'] = "cambiarClave";
 			include_once ($this->ruta . "/formulario/nuevo.php");

@@ -1,0 +1,35 @@
+/*
+==============================================
+= ESTILOS GENERALES PARA PLUGINS
+============================================== 
+ */
+
+
+.bg-plugins {
+	background:#fff;
+	margin:10px 20px 0 0;
+	padding:3px;
+	border: 1px solid #ABABAB;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+	
+}
+
+.plugins {
+	
+	border: 1px solid #fff;
+	/* background:#d4d4d4 url(images/plugin-1x300.png) 0 0 repeat-x; */	
+	background: #f9f9f9 url(images/plugin-1x150.png) 0 bottom repeat-x;
+	padding: 5px 10px;
+	color:#444;
+
+}
+
+.plugin{
+
+}
+
+
+
+
+
+

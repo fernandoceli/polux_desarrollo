@@ -34,3 +34,12 @@ display: table-cell;
 #tablaCandidatos tbody tr{ background: #E0F0FA; }
 .fila-base{ display: none; } /* fila base oculta */
 .eliminar{ cursor: pointer; color: #000; }
+
+.ui-widget {
+    font-size: 0.6em;
+}
+
+.ui-widget-content {
+    border: 1px solid #dddddd;
+    background: #f2f5f7;
+}

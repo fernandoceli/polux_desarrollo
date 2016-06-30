@@ -1,0 +1,85 @@
+<?xml version="1.0"?><Report><ReportQuery><Format><ReportTitle>Nivel de participación  en trabajos de grado</ReportTitle><ReportDescription>Muestra una relación entre los docentes y su aporte como director, revisor y jurado. Para un proyecto curricular.</ReportDescription><PageSize>.DEFAULT</PageSize><PageOrientation>.DEFAULT</PageOrientation><TopMargin></TopMargin><BottomMargin></BottomMargin><RightMargin></RightMargin><LeftMargin></LeftMargin><pdfFont></pdfFont><pdfFontSize></pdfFontSize><PreExecuteCode>NONE</PreExecuteCode><formBetweenRows>solidline</formBetweenRows><gridDisplay>.DEFAULT</gridDisplay><gridSortable>.DEFAULT</gridSortable><gridSearchable>.DEFAULT</gridSearchable><gridPageable>.DEFAULT</gridPageable><gridPageSize>.DEFAULT</gridPageSize></Format><Datasource><SourceType>database</SourceType><SourceConnection><DatabaseType>mysql</DatabaseType><DatabaseName></DatabaseName><HostName></HostName><ServiceName></ServiceName><UserName></UserName><Password></Password></SourceConnection></Datasource><EntryForm><Query><TableSql></TableSql><WhereSql></WhereSql><GroupSql></GroupSql><RowSelection>all</RowSelection><SQL><QuerySql></QuerySql><SQLRaw>SELECT 
+row_number() over () as num, 
+docente,
+COALESCE(director,0) + COALESCE(revisor,0) + COALESCE(jurado,0) AS total, 
+trunc(director/(COALESCE(director,0) + COALESCE(revisor,0) + COALESCE(jurado,0))*100.0, 2) || '%' AS director,
+trunc(revisor/(COALESCE(director,0) + COALESCE(revisor,0) + COALESCE(jurado,0))*100.0, 2) || '%' AS revisor,
+trunc(jurado/(COALESCE(director,0) + COALESCE(revisor,0) + COALESCE(jurado,0))*100.0, 2) || '%' AS jurado
+FROM 
+(
+SELECT 
+CASE WHEN d.docente IS NULL THEN (CASE WHEN r.docente IS NULL THEN j.docente ELSE r.docente END) ELSE d.docente END AS docente, 
+CASE WHEN director IS NULL THEN '0' ELSE director END AS director, 
+CASE WHEN revisor IS NULL THEN '0' ELSE revisor END AS revisor, 
+CASE WHEN jurado IS NULL THEN '0' ELSE jurado END AS jurado 
+FROM 
+(
+SELECT 
+docente, SUM(director) AS director
+FROM 
+(
+SELECT nombre || ' ' || apellido AS docente, count(antp_antp) AS director
+FROM polux_usuario
+JOIN trabajosdegrado.ge_tprof ON id_usuario=prof_us
+JOIN trabajosdegrado.ant_tantp ON prof_prof=antp_dir_int
+WHERE antp_eantp&lt;&gt;'NO APROBADO' AND antp_eantp&lt;&gt;'CANCELADO' AND antp_eantp&lt;&gt;'FINALIZADO' AND antp_eantp&lt;&gt;'PROYECTO'
+GROUP BY id_usuario
+
+UNION 
+
+SELECT nombre || ' ' || apellido AS docente, count(proy_proy) AS director
+FROM polux_usuario
+JOIN trabajosdegrado.ge_tprof ON id_usuario=prof_us
+JOIN trabajosdegrado.pry_tproy ON prof_prof=proy_dir_int
+WHERE 1=1 [AND prof_pcur IN ({proyecto})] 
+AND proy_eproy&lt;&gt;'REPROBADO' AND proy_eproy&lt;&gt;'CANCELADO' AND proy_eproy&lt;&gt;'FINALIZADO' AND proy_eproy&lt;&gt;'INFORME FINAL'
+GROUP BY id_usuario
+
+UNION 
+
+SELECT nombre || ' ' || apellido AS docente, count(info_info) AS director
+FROM polux_usuario
+JOIN trabajosdegrado.ge_tprof ON id_usuario=prof_us
+JOIN trabajosdegrado.inf_tinfo ON prof_prof=info_dir_int
+WHERE 1=1 [AND info_pcur IN ({proyecto})] 
+AND info_einfo&lt;&gt;'CANCELADO'
+GROUP BY id_usuario
+) AS total
+GROUP BY docente
+ORDER BY docente
+) d 
+
+FULL JOIN 
+
+(
+SELECT 
+nombre || ' ' || apellido AS docente, 
+COUNT(rev_antp) AS revisor 
+FROM trabajosdegrado.ge_tprof 
+JOIN polux_usuario ON prof_us=id_usuario 
+JOIN trabajosdegrado.ant_trev ON prof_prof=rev_prof 
+JOIN trabajosdegrado.ant_tacantp ON rev_antp=acantp_antp 
+JOIN trabajosdegrado.ant_tantp ON rev_antp=antp_antp 
+WHERE 1=1 [AND antp_pcur IN ({proyecto})] 
+AND antp_eantp&lt;&gt;'NO APROBADO' AND antp_eantp&lt;&gt;'CANCELADO' AND antp_eantp&lt;&gt;'FINALIZADO' AND antp_eantp&lt;&gt;'PROYECTO'
+GROUP BY docente 
+ORDER BY docente
+) r ON d.docente=r.docente 
+
+FULL JOIN 
+
+(
+SELECT 
+nombre || ' ' || apellido AS docente, 
+COUNT(sljur_prof_asignado) AS jurado 
+FROM trabajosdegrado.ge_tprof 
+JOIN polux_usuario ON prof_us=id_usuario 
+JOIN trabajosdegrado.inf_tsljur ON prof_prof=sljur_prof_asignado 
+JOIN trabajosdegrado.inf_tacinfo ON sljur_info=acinfo_info 
+JOIN trabajosdegrado.inf_tinfo ON acinfo_info=info_info 
+WHERE 1=1 [AND info_pcur IN ({proyecto})]
+AND info_einfo&lt;&gt;'CANCELADO' AND info_einfo&lt;&gt;'FINALIZADO' 
+GROUP BY docente 
+ORDER BY docente) j ON d.docente=j.docente
+) AS total
+ORDER BY docente</SQLRaw></SQL><QueryColumns><QueryColumn><Name>num</Name><TableName></TableName><ColumnName>row_number() over () as</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>left</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title></column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn><QueryColumn><Name>docente</Name><TableName></TableName><ColumnName>docente</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>left</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title>Docente</column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn><QueryColumn><Name>total</Name><TableName></TableName><ColumnName>COALESCE(director,0) + COALESCE(revisor,0) + COALESCE(jurado,0) AS</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>left</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title>Total trabajos de grado</column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn><QueryColumn><Name>director</Name><TableName></TableName><ColumnName>trunc(director/(COALESCE(director,0) + COALESCE(revisor,0) + COALESCE(jurado,0))*100.0, 2) || '%' AS</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>left</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title>Participación como Director</column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn><QueryColumn><Name>revisor</Name><TableName></TableName><ColumnName>trunc(revisor/(COALESCE(director,0) + COALESCE(revisor,0) + COALESCE(jurado,0))*100.0, 2) || '%' AS</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>left</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title>Participación como Revisor</column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn><QueryColumn><Name>jurado</Name><TableName></TableName><ColumnName>trunc(jurado/(COALESCE(director,0) + COALESCE(revisor,0) + COALESCE(jurado,0))*100.0, 2) || '%' AS</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><ColumnStartPDF></ColumnStartPDF><justify>left</justify><ColumnWidthPDF></ColumnWidthPDF><ColumnWidthHTML></ColumnWidthHTML><column_title>Participación como Jurado</column_title><tooltip></tooltip><group_header_label>0</group_header_label><group_header_label_xpos></group_header_label_xpos><group_header_data_xpos></group_header_data_xpos><group_trailer_label>0</group_trailer_label></Format></QueryColumn></QueryColumns><OrderColumns></OrderColumns><PreSQLS></PreSQLS></Query><Assignments></Assignments><Criteria><CriteriaItem><Name>proyecto</Name><Title>Seleccione un proyecto</Title><QueryTableName></QueryTableName><QueryColumnName>antp_pcur</QueryColumnName><CriteriaType>LOOKUP</CriteriaType><CriteriaDisplay>DROPDOWN</CriteriaDisplay><ExpandDisplay>NOINPUT</ExpandDisplay><ReturnColumn>pcur_pcur</ReturnColumn><DisplayColumn>pcur_nom</DisplayColumn><OverviewColumn>pcur_nom</OverviewColumn><MatchColumn>pcur_nom</MatchColumn><CriteriaDefaults></CriteriaDefaults><CriteriaList></CriteriaList><Query><TableSql></TableSql><WhereSql></WhereSql><GroupSql></GroupSql><RowSelection></RowSelection><SQLRaw>SELECT pcur_pcur, pcur_nom FROM trabajosdegrado.ge_tpcur</SQLRaw><SQL><QuerySql></QuerySql></SQL><QueryColumns><QueryColumn><Name>pcur_pcur</Name><TableName></TableName><ColumnName>pcur_pcur</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><justify>left</justify></Format></QueryColumn><QueryColumn><Name>pcur_nom</Name><TableName></TableName><ColumnName>pcur_nom</ColumnName><ColumnType>char</ColumnType><ColumnLength>30</ColumnLength><Format><column_display>show</column_display><content_type>plain</content_type><justify>left</justify></Format></QueryColumn></QueryColumns><OrderColumns></OrderColumns><Assignments></Assignments></Query><CriteriaLinks></CriteriaLinks></CriteriaItem></Criteria><Output><PageHeaders><PageHeader><LineNumber>1</LineNumber><HeaderText>{REPORT_TITLE}{STYLE border-width: 1 0 1 0; margin: 15px 0px 0px 0px; border-color: #000000; font-size: 18; border-style: solid;padding:5px 0px 5px 0px; height:1cm; background-color: #000000; color: #ffffff; text-align: center}</HeaderText><Format><ColumnStartPDF></ColumnStartPDF><justify>center</justify><ColumnWidthPDF></ColumnWidthPDF><ShowInPDF>yes</ShowInPDF><ShowInHTML>no</ShowInHTML></Format></PageHeader><PageHeader><LineNumber>1</LineNumber><HeaderText>Time: date('Y-m-d H:i:s'){STYLE font-size: 10; text-align: right; font-style: italic;}</HeaderText><Format><ColumnStartPDF></ColumnStartPDF><justify>right</justify><ColumnWidthPDF></ColumnWidthPDF><ShowInPDF>yes</ShowInPDF><ShowInHTML>no</ShowInHTML></Format></PageHeader></PageHeaders><PageFooters><PageFooter><LineNumber>2</LineNumber><FooterText>Page: {PAGE}{STYLE border-width: 1 0 0 0; margin: 40 0 0 0; font-style: italic; }</FooterText><Format><ColumnStartPDF></ColumnStartPDF><justify>center</justify><ColumnWidthPDF></ColumnWidthPDF><ShowInPDF>yes</ShowInPDF><ShowInHTML>no</ShowInHTML></Format></PageFooter></PageFooters><DisplayOrders><DisplayOrder><ColumnName>num</ColumnName><OrderNumber>1</OrderNumber></DisplayOrder><DisplayOrder><ColumnName>docente</ColumnName><OrderNumber>2</OrderNumber></DisplayOrder><DisplayOrder><ColumnName>total</ColumnName><OrderNumber>3</OrderNumber></DisplayOrder><DisplayOrder><ColumnName>director</ColumnName><OrderNumber>4</OrderNumber></DisplayOrder><DisplayOrder><ColumnName>revisor</ColumnName><OrderNumber>5</OrderNumber></DisplayOrder><DisplayOrder><ColumnName>jurado</ColumnName><OrderNumber>6</OrderNumber></DisplayOrder></DisplayOrders><Groups></Groups><Graphs></Graphs></Output></EntryForm></ReportQuery></Report>

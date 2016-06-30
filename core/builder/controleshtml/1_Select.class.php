@@ -53,7 +53,7 @@ class Select extends HtmlBase {
 		$this->cadenaHTML .= $this->etiqueta ( $atributos );
 		$this->cadenaHTML .= $this->cuadro_lista ( $atributos );
 		$this->cadenaHTML .= "</div>\n";
-		
+
 		return $this->cadenaHTML;
 	}
 	
